@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   nestapp:
-    image: NearVet-latest
+    image: nearvet-latest
     ports:
       - "3001:3000"
     env_file: 
