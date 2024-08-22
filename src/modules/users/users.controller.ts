@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete, Query, BadRequestException,
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SendEmailDto } from './dto/sendEmail-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -32,6 +33,7 @@ export class UsersController {
       return this.usersService.updateUserService(id, updateUserDto);
     }
 
+
     /*
     // CREAR DAR DE BAJA (AGREGAR FECHA DE BAJA EN endDate)
     @Put('unsubscribe')
@@ -45,4 +47,13 @@ export class UsersController {
     removeUser(@Param('id') id: string) {
       return this.usersService.removeUserService(id);
     }
+    
+    /*
+    @Post('send-email')
+    async sendEmail(@Body() sendEmailDto: SendEmailDto) {
+      await this.usersService.sendEmail(sendEmailDto);
+      return { message: 'Email sent successfully' };
+    }
+    */
+    
 }

@@ -64,6 +64,5 @@ export class UsersRepository {
         await this.usersRepository.save(user);
         const { password, ...userNoPassword } = user;
         return userNoPassword;
-
     }
 }

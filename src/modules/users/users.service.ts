@@ -5,7 +5,7 @@ import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository){}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   getUsersService(page: number, limit: number) {
     return this.usersRepository.getUsersRepository(page, limit);
@@ -34,4 +34,11 @@ export class UsersService {
   unsubscribeUserService(email: string){
     return this.usersRepository.unsubscribeUserRepository(email);
   }
+
+  /*
+  sendEmail(sendEmailDto: SendEmailDto) {
+    return this.usersRepository.notifyUser(sendEmailDto);
+  }
+  */
+  
 }
