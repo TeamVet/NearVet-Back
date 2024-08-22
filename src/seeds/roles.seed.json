@@ -1,0 +1,17 @@
+[
+  {
+    "role": "adminVet"
+  },
+  {
+    "role": "user"
+  },
+  {
+    "role": "veterinarian"
+  },
+  {
+    "role": "master"
+  },
+  {
+    "role": "employee"
+  }
+]
