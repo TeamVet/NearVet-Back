@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
+import { PetsRepository } from './pets.repository';
 
 @Injectable()
 export class PetsService {
-  create(createPetDto: CreatePetDto) {
-    return 'This action adds a new pet';
+  constructor(private readonly petsRepository: PetsRepository){}
+
+  getPetsService() {
+    return this.petsRepository.getPetsRepository();
   }
 
-  findAll() {
-    return `This action returns all pets`;
+  getPetByIdService(id: string) {
+    return this.petsRepository.getPetByIdRepository(id);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pet`;
+  createPetService(createPetDto: CreatePetDto) {
+    return this.petsRepository.createPetRepository(createPetDto);
   }
 
-  update(id: number, updatePetDto: UpdatePetDto) {
-    return `This action updates a #${id} pet`;
+  updatePetService(id: string, updatePetDto: UpdatePetDto) {
+    return this.petsRepository.updatePetRepository(id, updatePetDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pet`;
+  removePetService(id: string) {
+    return this.petsRepository.removePetRepository(id);
   }
+
+  /*
+  getUserPetsByIdService(id: number) {
+    return this.petsRepository.getUserPetsByIdRepository();
+  }
+  */
 }
