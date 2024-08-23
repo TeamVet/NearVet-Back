@@ -9,12 +9,8 @@ import {
 } from '@nestjs/swagger';
 import { CreateUserDto } from '../users/dto/createUser.dto';
 import { LoginUserDto } from './dto/loginUser.dto';
-<<<<<<< HEAD
 import { User } from '../users/entities/user.entity';
-=======
-import { Users } from '../users/entities/user.entity';
 import { SendEmailDto } from '../email/dto/sendEmailUser.dto';
->>>>>>> b19fde0ee26600f76f48c5fac027cd63bac96a70
 
 @ApiTags('Authentication')
 @Controller('authGlobal')
