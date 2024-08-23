@@ -1,103 +1,90 @@
-import { 
-    Column, 
-    Entity,
-    ManyToOne,
-    OneToMany,
-    PrimaryGeneratedColumn
- } from "typeorm";
-import { Provinces } from "./province.entity";
-import { Cities } from "./citie.entity";
-import { Pets } from "src/modules/pets/entities/pet.entity";
-
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Pets } from 'src/modules/pets/entities/pet.entity';
+import { UserRole } from './userRole.entity';
 
 @Entity({
-    name: 'USERS',
+  name: 'USERS',
 })
-export class Users {
+export class User {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({
-        type: 'varchar',
-        length: 50,
-        nullable: false,
-    })
-    name: string;
+  @Column({
+    type: 'varchar',
+    length: 50,
+    nullable: false,
+  })
+  name: string;
 
-    @Column({
-        type: 'varchar',
-        length: 50,
-        nullable: false,
-    })
-    lastName: string;
+  @Column({
+    type: 'varchar',
+    length: 50,
+    nullable: false,
+  })
+  lastName: string;
 
-    @Column({
-        type: 'varchar',
-        length: 50,
-        nullable: false,
-        unique: true,
-    })
-    email: string;
+  @Column({
+    type: 'varchar',
+    length: 50,
+    nullable: true,
+    unique: true,
+  })
+  email: string;
 
-    @Column({
-        type: 'varchar',
-        length: 128,
-        nullable: false,
-    })
-    password: string;
+  @Column({
+    type: 'varchar',
+    length: 128,
+    nullable: false,
+  })
+  password: string;
 
+  @Column({
+    type: 'date',
+    nullable: false,
+  })
+  birthdate: Date;
 
-    @Column({
-        type: 'varchar',
-        length: 50,
-        nullable: false,
-    })
-    birthdate: string;
+  @Column({
+    type: 'date',
+    nullable: false,
+  })
+  startDate: Date;
 
-    @Column({
-        type: 'varchar',
-        length: 50,
-        nullable: false,
-    })
-    startDate: string;
-    
-    @Column({
-        type: 'varchar',
-        length: 50,
-        nullable: false,
-    })
-    endDate: string;
+  @Column({
+    type: 'date',
+    nullable: true,
+  })
+  endDate: Date;
 
-    @Column({
-        type: 'int',
-    })
-    phone: number;
+  @Column({
+    nullable: true,
+  })
+  phone: number;
 
-    @Column({
-        type: 'text',
-    })
-    address: string;
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  address: string;
 
-    @Column({
-        type: 'varchar',
-        length: 10,
-    })
-    zipCode: string;
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  city: string;
 
-    @Column({
-        default: false,
-    })
-    isAdmin: boolean;
+  /* RELACION UNO-A-MUCHOS con pets */
+  @OneToMany(() => Pets, (pet) => pet.user)
+  pets: Pets[];
 
-    /* RELACION MUCHOS-A-UNO CON provinces-users */
-    @ManyToOne(() => Provinces, (province) => province.users)
-    province: Provinces;
+  //RELACION UNO-A-MUCHOS con roles 
+  @ManyToOne(() => UserRole, (role) => role.users)
+  userRole: UserRole;
 
-    /* RELACION MUCHOS-A-UNO CON cities */
-    @ManyToOne(() => Cities, (city) => city.users)
-    city: Cities;
-
-    /* RELACION UNO-A-MUCHOS con pets */
-    @OneToMany(() => Pets, (pet) => pet.user)
-    pets: Pets[]
 }

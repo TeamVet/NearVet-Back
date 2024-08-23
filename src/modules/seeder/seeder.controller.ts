@@ -7,7 +7,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 export class SeederController {
   constructor(private readonly seederService: SeederService) {}
 
-  @Post('pets')
+  /* @Post('pets')
   @ApiOperation({ summary: 'Cargar archivo de mascotas' })
   addPets() {
     return this.seederService.loadPetsData();
@@ -47,5 +47,5 @@ export class SeederController {
   })
   resetData() {
     return this.seederService.resetData();
-  }
+  } */
 }

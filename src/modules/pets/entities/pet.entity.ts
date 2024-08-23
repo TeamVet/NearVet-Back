@@ -6,7 +6,7 @@ import {
  } from "typeorm";
 import { Species } from "./specie.entity";
 import { Races } from "./race.entity";
-import { Users } from "src/modules/users/entities/user.entity";
+import { User } from "src/modules/users/entities/user.entity";
 import { Sexes } from "./sex.entity";
 
 
@@ -55,8 +55,8 @@ export class Pets {
 
 
     /* RELACION MUCHOS-A-UNO CON usuarios */
-    @ManyToOne(() => Users, (user) => user.pets)
-    user: Users;
+    @ManyToOne(() => User, (user) => user.pets)
+    user: User;
 
     /* RELACION MUCHOS-A-UNO CON especie */
     @ManyToOne(() => Species, (specie) => specie.pets)
