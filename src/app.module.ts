@@ -6,7 +6,6 @@ import typeOrmConfig from './config/typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthGlobalModule } from './modules/authGlobal/authGlobal.module';
-import { EmailService } from './services/email/email.service';
 
 @Module({
   imports: [
@@ -32,6 +31,6 @@ import { EmailService } from './services/email/email.service';
     PetsModule,
   ],
   controllers: [],
-  providers: [EmailService],
+  providers: [],
 })
 export class AppModule {}
