@@ -1,40 +1,47 @@
-import { Controller, Get, Post, Body, Param, Delete, Query, BadRequestException, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Query,
+  Put,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { SendEmailDto } from './dto/sendEmail-user.dto';
+import { CreateUserDto } from './dto/createUser.dto';
+import { UpdateUserDto } from './dto/updateUser.dto';
 
 @Controller('users')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) {}
-  
-    @Get()
-    getUsers(@Query('page') page: number = 1 , @Query('limit') limit: number = 5) {
-      return this.usersService.getUsersService(Number(page), Number(limit));
-    }
+  constructor(private readonly usersService: UsersService) {}
 
-    @Get('search')
-    getUsersByEmail(@Query(':email') email: string) {
-      return this.usersService.getUsersByEmailService(email);
-    }
+  @Get()
+  getUsers(@Query('page') page: number = 1, @Query('limit') limit: number = 5) {
+    return this.usersService.getUsersService(Number(page), Number(limit));
+  }
 
-    @Get(':id')
-    getUsersById(@Param('id') id: string) {
-      return this.usersService.getUsersByIdService(id);
-    }
+  @Get('search')
+  getUsersByEmail(@Query(':email') email: string) {
+    return this.usersService.getUsersByEmailService(email);
+  }
 
-    @Post()
-    createUser(@Body() createUserDto: CreateUserDto) {
-      return this.usersService.createUserService(createUserDto);
-    }
+  @Get(':id')
+  getUsersById(@Param('id') id: string) {
+    return this.usersService.getUsersByIdService(id);
+  }
 
-    @Put(':id')
-    updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-      return this.usersService.updateUserService(id, updateUserDto);
-    }
+  @Post()
+  createUser(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.createUserService(createUserDto);
+  }
 
+  @Put(':id')
+  updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.updateUserService(id, updateUserDto);
+  }
 
-    /*
+  /*
     // CREAR DAR DE BAJA (AGREGAR FECHA DE BAJA EN endDate)
     @Put('unsubscribe')
     unsubscribeUser(@Param('email') email: string){
@@ -42,18 +49,17 @@ export class UsersController {
     }
     */
 
-    // CREAR DELETE (borrar de bd)
-    @Delete(':id')
-    removeUser(@Param('id') id: string) {
-      return this.usersService.removeUserService(id);
-    }
-    
-    /*
+  // CREAR DELETE (borrar de bd)
+  @Delete(':id')
+  removeUser(@Param('id') id: string) {
+    return this.usersService.removeUserService(id);
+  }
+
+  /*
     @Post('send-email')
     async sendEmail(@Body() sendEmailDto: SendEmailDto) {
       await this.usersService.sendEmail(sendEmailDto);
       return { message: 'Email sent successfully' };
     }
     */
-    
 }
