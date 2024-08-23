@@ -1,0 +1,62 @@
+[
+  {
+    "name": "John",
+    "lastname": "Doe",
+    "email": "johndoe@example.com",
+    "password": "password123",
+    "birthdate": "1985-05-22",
+    "phone": "+1-555-1234",
+    "address": "123 Maple Street",
+    "city": "Springfield",
+    "province": "Illinois",
+    "zip_code": "62704"
+  },
+  {
+    "name": "Jane",
+    "lastname": "Smith",
+    "email": "janesmith@example.com",
+    "password": "janepass456",
+    "birthdate": "1990-09-10",
+    "phone": "+1-555-5678",
+    "address": "456 Oak Avenue",
+    "city": "Riverside",
+    "province": "California",
+    "zip_code": "92501"
+  },
+  {
+    "name": "Alice",
+    "lastname": "Johnson",
+    "email": "alicejohnson@example.com",
+    "password": "alicepass789",
+    "birthdate": "1993-12-05",
+    "phone": "+1-555-9876",
+    "address": "789 Pine Road",
+    "city": "Boston",
+    "province": "Massachusetts",
+    "zip_code": "02108"
+  },
+  {
+    "name": "Mike",
+    "lastname": "Brown",
+    "email": "mikebrown@example.com",
+    "password": "mikepass321",
+    "birthdate": "1987-04-17",
+    "phone": "+1-555-2468",
+    "address": "246 Elm Street",
+    "city": "Chicago",
+    "province": "Illinois",
+    "zip_code": "60601"
+  },
+  {
+    "name": "Sophia",
+    "lastname": "Wilson",
+    "email": "sophiawilson@example.com",
+    "password": "sophiapass654",
+    "birthdate": "1995-02-28",
+    "phone": "+1-555-1357",
+    "address": "357 Cedar Boulevard",
+    "city": "Miami",
+    "province": "Florida",
+    "zip_code": "33101"
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Buddy",
+    "birthdate": "2019-03-15",
+    "color": "Brown",
+    "breed": "Labrador Retriever",
+    "species": "Dog",
+    "owner": "John Doe",
+    "sex": "Male"
+  },
+  {
+    "name": "Whiskers",
+    "birthdate": "2018-06-25",
+    "color": "Gray",
+    "breed": "Persian",
+    "species": "Cat",
+    "owner": "Jane Smith",
+    "sex": "Female"
+  },
+  {
+    "name": "Coco",
+    "birthdate": "2020-11-05",
+    "color": "White",
+    "breed": "Cockatoo",
+    "species": "Bird",
+    "owner": "Alice Johnson",
+    "sex": "Female"
+  },
+  {
+    "name": "Max",
+    "birthdate": "2021-01-10",
+    "color": "Black and Tan",
+    "breed": "German Shepherd",
+    "species": "Dog",
+    "owner": "Mike Brown",
+    "sex": "Male"
+  },
+  {
+    "name": "Nibbles",
+    "birthdate": "2017-07-22",
+    "color": "White",
+    "breed": "Dwarf Hamster",
+    "species": "Hamster",
+    "owner": "Sophia Wilson",
+    "sex": "Male"
+  }
+]
