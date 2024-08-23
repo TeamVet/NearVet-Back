@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Pets } from 'src/modules/pets/entities/pet.entity';
+import { Pet } from 'src/modules/pets/entities/pet.entity';
 import { UserRole } from './userRole.entity';
 
 @Entity({
@@ -80,8 +80,8 @@ export class User {
   city: string;
 
   /* RELACION UNO-A-MUCHOS con pets */
-  @OneToMany(() => Pets, (pet) => pet.user)
-  pets: Pets[];
+  @OneToMany(() => Pet, (pet) => pet.user)
+  pets: Pet[];
 
   //RELACION UNO-A-MUCHOS con roles 
   @ManyToOne(() => UserRole, (role) => role.users)

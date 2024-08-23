@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEmailDto } from './dto/createEmail.dto';
 import { EmailProvider } from './email.provider';
+import { SendEmailDto } from './dto/sendEmailUser.dto';
 
 @Injectable()
 export class EmailService {
 
   constructor (private readonly emailProvider: EmailProvider){}
-  
-  async sendEmail(createEmailDto: CreateEmailDto) {
-    return await this.emailProvider.sendEmail(createEmailDto);
+
+  async sendEmail(sendEmailDto: SendEmailDto): Promise<string> {
+    return await this.emailProvider.sendEmail(sendEmailDto);
   }
 
 }
