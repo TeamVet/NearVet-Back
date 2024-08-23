@@ -19,20 +19,14 @@ export class UsersRepository {
       skip: start,
     });
     return users.map(
-      ({ password, isAdmin, ...userNoPassword }) => userNoPassword,
+      ({ password, userRole, ...userNoPassword }) => userNoPassword,
     );
   }
 
-  async getUserByEmailRepository(email: string) {
-    const user = await this.usersRepository.findOne({
+  async getUserByEmailRepository(email: string): Promise<Users> {
+    return await this.usersRepository.findOne({
       where: { email },
     });
-    if (!user)
-      throw new NotFoundException(
-        `No se encontro el usuario con el email ${email}`,
-      );
-    const { ...userNoPassword } = user;
-    return userNoPassword;
   }
 
   async getUserByIdRepository(id: string) {
@@ -45,10 +39,9 @@ export class UsersRepository {
     return userNoPassword;
   }
 
-  async createUserRepository(user: Partial<Users>) {
+  async createUserRepository(user: Partial<Users>): Promise<Omit<Users , "password">> {
     const newUser = await this.usersRepository.save(user);
-    const dbUser = await this.usersRepository.findOneBy({ id: newUser.id });
-    const { password, ...userNoPassword } = dbUser;
+    const { password, ...userNoPassword } = newUser;
     return userNoPassword;
   }
 
@@ -66,13 +59,13 @@ export class UsersRepository {
     return userNoPassword;
   }
 
-  async unsubscribeUserRepository(email: string) {
-    const user = await this.usersRepository.findOneBy({ email });
+  async unsubscribeUserRepository(id: string) {
+    const user = await this.usersRepository.findOneBy({ id });
     if (!user)
       throw new NotFoundException(
-        `Usuario con el email ${email} no encontrado`,
+        `Usuario no encontrado`,
       );
-    user.endDate = '00:00:00'; // CORREGIR
+    user.endDate = new Date(); // CORREGIR
     await this.usersRepository.save(user);
     const { password, ...userNoPassword } = user;
     return userNoPassword;

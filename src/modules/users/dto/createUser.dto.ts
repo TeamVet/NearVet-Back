@@ -1,6 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsBoolean,
+  IsDate,
+  IsDateString,
+  IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -9,7 +12,8 @@ import {
   Length,
   Validate,
 } from 'class-validator';
-import { passwordCompare } from 'src/decorators/comparePass.decorator';
+import { Role } from '../../authGlobal/roles/roles.enum';
+import { passwordCompare } from '../../../decorators/comparePass.decorator';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -30,12 +34,12 @@ export class CreateUserDto {
   @Length(1, 50)
   lastName: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Debe ser un email válido',
     example: 'example@gmail.com',
   })
-  @IsString()
-  @IsNotEmpty()
+  @IsEmail()
+  @IsOptional()
   @Length(1, 50)
   email: string;
 
@@ -56,50 +60,63 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({
-    description: 'Repetir la contraseña',
+    description: 'La confirmacion del password es Obligatoria. Debe coincidir con password.',
     example: 'pruEba123&%',
   })
   @IsNotEmpty()
   @Validate(passwordCompare, ['password'])
   passwordConfirm: string;
 
-  @ApiProperty({
-    description: 'La fecha de nacimiento es obligatoria',
-    example: 'Carlos',
+  @ApiPropertyOptional({
+    description: 'La fecha de nacimiento es opcional',
+    example: new Date('01/08/1988'),
   })
-  @IsNotEmpty()
-  birthdate: string;
+  @IsOptional()
+  @IsDateString()
+  birthdate: Date;
 
   @ApiProperty({
     description: 'La fecha de inicio es obligatoria',
-    example: '01-08-2024',
+    example: new Date('01/08/024'),
   })
   @IsNotEmpty()
-  startDate: string;
+  @IsDateString()
+  startDate: Date;
 
   @IsOptional()
-  @IsNotEmpty()
-  endDate?: string;
+  @IsDateString()
+  endDate?: Date;
 
-  @ApiProperty({
-    description: 'El numero de telefono es obligatorio',
-    example: '54 9 123 456 7890',
+  @ApiPropertyOptional({
+    description: 'El numero de telefono es opcional, Ingresar solo numeros',
+    example: '1168775654',
   })
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   phone: number;
 
-  @ApiProperty({
-    description: 'La dirección del domicilio es obligatoria',
+  @ApiPropertyOptional({
+    description: 'La dirección del domicilio es Opcional',
     example: 'Avenida Importante 4000',
   })
   @IsString()
-  @Length(1, 255)
+  @IsOptional()
+  @Length(1, 50)
   address: string;
 
-  @IsBoolean()
-  isAdmin: boolean;
+  @ApiPropertyOptional({
+    description: `El Rol es obligatoria. Sus valores pueden ser: ${Role.AdminVet}, ${Role.User} o ${Role.Veterinarian}`,
+    example: 'user',
+  })
+  @IsEnum(Role)
+  @IsNotEmpty()
+  role: Role;
 
+  @ApiPropertyOptional({
+    description: `La ciudad es Opcional.`,
+    example: 'Example City',
+  })
   @IsOptional()
-  cityId?: string;
+  @IsString()
+  city: string;
 }

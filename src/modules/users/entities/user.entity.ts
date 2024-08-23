@@ -5,7 +5,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Cities } from './citie.entity';
 import { Pets } from 'src/modules/pets/entities/pet.entity';
 import { UserRole } from './userRole.entity';
 
@@ -33,7 +32,7 @@ export class Users {
   @Column({
     type: 'varchar',
     length: 50,
-    nullable: false,
+    nullable: true,
     unique: true,
   })
   email: string;
@@ -46,42 +45,44 @@ export class Users {
   password: string;
 
   @Column({
-    type: 'varchar',
-    length: 50,
+    type: 'date',
     nullable: false,
   })
-  birthdate: string;
-
-  @Column()
-  startDate: string;
-
-  @Column()
-  endDate: string;
+  birthdate: Date;
 
   @Column({
-    type: 'int',
+    type: 'date',
+    nullable: false,
+  })
+  startDate: Date;
+
+  @Column({
+    type: 'date',
+    nullable: true,
+  })
+  endDate: Date;
+
+  @Column({
+    nullable: true,
   })
   phone: number;
 
   @Column({
     type: 'text',
+    nullable: true,
   })
   address: string;
 
   @Column({
-    default: false,
+    type: 'text',
+    nullable: true,
   })
-  isAdmin: boolean;
-
-  /* RELACION MUCHOS-A-UNO CON cities */
-  @ManyToOne(() => Cities, (city) => city.users)
-  city: Cities;
+  city: string;
 
   /* RELACION UNO-A-MUCHOS con pets */
   @OneToMany(() => Pets, (pet) => pet.user)
   pets: Pets[];
 
-   
   //RELACION UNO-A-MUCHOS con roles 
   @ManyToOne(() => UserRole, (role) => role.users)
   userRole: UserRole;
