@@ -38,12 +38,6 @@ export class User {
     @Column({length:50})
     city: string
 
-    @Column({length:50})
-    province: string
-
-    @Column({length:50})
-    zipCode: string
-
     @ManyToMany(() => UserRole, userRole => userRole.users)
     userRoles: UserRole[];
 }

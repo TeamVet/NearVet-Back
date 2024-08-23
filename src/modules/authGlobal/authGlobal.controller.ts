@@ -10,6 +10,11 @@ import { User } from './entities/user.entity';
 export class AuthGlobalController {
   constructor(private readonly authGlobalService: AuthGlobalService) {}
 
+  @Post("enviarEmails")
+  async enviarEmail (@Body() user:CreateUserDto){
+    return await this.authGlobalService.enviarEmail();
+  }
+
   @Post("signin")
   @ApiOperation({ summary: 'Realiza el Login y devuelve el Token de autenicacion'})
   @ApiBody({description:"Las credenciales", type: userCredentialDto})

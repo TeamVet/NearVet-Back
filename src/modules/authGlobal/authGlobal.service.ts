@@ -5,13 +5,20 @@ import { JwtService } from "@nestjs/jwt";
 import { UserRepository } from './user.repository';
 import * as bcrypt from "bcrypt"
 import { User } from './entities/user.entity';
+import { EmailProvider } from '../email/email.provider';
 
 @Injectable()
 export class AuthGlobalService {
   
   constructor (private readonly usersRepository: UserRepository,
+    private readonly emailProvider: EmailProvider,
     private readonly jwtService: JwtService
   ){}
+
+  async enviarEmail () {
+    await this.emailProvider.sendEmail({from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', subjectEmail: "Bienvenido", sendTo: "eze.g.alonso@gmail.com", message: "gracias por crearte una cuenta"});
+    return
+  }
   
   async signup(user: CreateUserDto): Promise<Omit<User, "password">> {
         
@@ -30,6 +37,7 @@ export class AuthGlobalService {
     const userSave: User = await this.usersRepository.create({...createUser, password: passwordHash});
     // quito el password del userSave y lo guardo en sendUser para retornar
     const {password, ...sendUser} = userSave;
+    
     return sendUser;
   }
 
