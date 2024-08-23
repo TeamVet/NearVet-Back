@@ -1,6 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+// import * as cors from 'cors'
+
+// HACER NPM INSTALL CORS
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,7 +23,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig)
   SwaggerModule.setup("doc", app, document)
 
-
+  // app.use(cors())
   await app.listen(3000);
 }
 bootstrap();

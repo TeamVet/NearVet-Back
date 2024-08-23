@@ -13,7 +13,7 @@ import { Pets } from "src/modules/pets/entities/pet.entity";
 @Entity({
     name: 'USERS',
 })
-export class Users {
+export class User {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
