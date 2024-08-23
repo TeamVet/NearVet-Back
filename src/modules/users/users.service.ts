@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/createUser.dto';
+import { UpdateUserDto } from './dto/updateUser.dto';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class UsersService {
   getUsersService(page: number, limit: number) {
     return this.usersRepository.getUsersRepository(page, limit);
   }
-  
+
   getUsersByEmailService(id: string) {
     return this.usersRepository.getUserByEmailRepository(id);
   }
@@ -31,7 +31,7 @@ export class UsersService {
     return this.usersRepository.removeUserRepository(id);
   }
 
-  unsubscribeUserService(email: string){
+  unsubscribeUserService(email: string) {
     return this.usersRepository.unsubscribeUserRepository(email);
   }
 
@@ -40,5 +40,4 @@ export class UsersService {
     return this.usersRepository.notifyUser(sendEmailDto);
   }
   */
-  
 }

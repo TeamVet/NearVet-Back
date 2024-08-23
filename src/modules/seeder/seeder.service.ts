@@ -3,18 +3,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Repository } from 'typeorm';
+import { Users } from '../users/entities/user.entity';
+import { Pets } from '../pets/entities/pet.entity';
 
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    @InjectRepository(Roles)
-    private readonly rolesRepository: Repository<Roles>,
+    @InjectRepository(Users)
+    private readonly userRepository: Repository<Users>,
+    /* @InjectRepository(Roles)
+    private readonly rolesRepository: Repository<Roles>, */
     @InjectRepository(Pets)
     private readonly petsRepository: Repository<Pets>,
-    @InjectRepository(Veterinaries)
-    private readonly veterinariesRepository: Repository<Veterinaries>,
+    /* @InjectRepository(Veterinaries)
+    private readonly veterinariesRepository: Repository<Veterinaries>, */
   ) {}
 
   petsPath = path.join(__dirname, '..', '..', 'src', 'seeds', 'pets.seed.json');
@@ -52,13 +54,13 @@ export class SeederService implements OnModuleInit {
 
   async resetData() {
     await this.userRepository.delete({});
-    await this.rolesRepository.delete({});
+    /* await this.rolesRepository.delete({});
+    await this.veterinariesRepository.delete({}); */
     await this.petsRepository.delete({});
-    await this.veterinariesRepository.delete({});
     return { message: 'Datos reiniciados exitosamente' };
   }
 
-  async loadVeterinariesData() {
+  /* async loadVeterinariesData() {
     for (const item of this.veterinariesdata) {
       let veterinarie = await this.veterinariesRepository.findOne({
         where: { CUIT: item.CUIT },
@@ -69,8 +71,8 @@ export class SeederService implements OnModuleInit {
       }
     }
     return { message: 'Seeder veterinarios agregados' };
-  }
-  async loadUsersData() {
+  } */
+  /* async loadUsersData() {
     for (const item of this.usersdata) {
       let user = await this.userRepository.findOne({
         where: { email: item.email },
@@ -81,8 +83,8 @@ export class SeederService implements OnModuleInit {
       }
     }
     return { message: 'Seeder usuarios agregados' };
-  }
-  async loadRolesData() {
+  } */
+  /* async loadRolesData() {
     for (const item of this.rolesdata) {
       let role = await this.rolesRepository.findOne({
         where: { role: item.role },
@@ -93,8 +95,8 @@ export class SeederService implements OnModuleInit {
       }
     }
     return { message: 'Seeder roles agregados' };
-  }
-  async loadPetsData() {
+  } */
+  /* async loadPetsData() {
     for (const item of this.petsdata) {
       let pet = await this.petsRepository.findOne({
         where: { email: item.email }, // CAMBIAR POR ALGO UNICO DE LA MASCOTA
@@ -105,12 +107,12 @@ export class SeederService implements OnModuleInit {
       }
     }
     return { message: 'Seeder mascotas agregados' };
-  }
+  } */
 
   async onModuleInit() {
-    await this.loadRolesData();
-    await this.loadUsersData();
-    await this.loadVeterinariesData();
-    await this.loadPetsData();
+    //await this.loadRolesData();
+    //await this.loadUsersData();
+    //await this.loadVeterinariesData();
+    //await this.loadPetsData();
   }
 }

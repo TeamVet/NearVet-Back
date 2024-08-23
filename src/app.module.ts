@@ -32,6 +32,6 @@ import { EmailService } from './modules/email/email.service';
       AuthGlobalModule, UsersModule, PetsModule, EmailModule],
 
   controllers: [],
-  providers: [EmailService],
+  providers: [],
 })
 export class AppModule {}
