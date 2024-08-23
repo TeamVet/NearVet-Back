@@ -12,7 +12,7 @@ import {
   Length,
   Validate,
 } from 'class-validator';
-import { Role } from '../../authGlobal/roles/roles.enum';
+import { Role } from '../roles/roles.enum';
 import { passwordCompare } from '../../../decorators/comparePass.decorator';
 
 export class CreateUserDto {
