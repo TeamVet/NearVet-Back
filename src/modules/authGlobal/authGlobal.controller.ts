@@ -10,6 +10,7 @@ import {
 import { CreateUserDto } from '../users/dto/createUser.dto';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { Users } from '../users/entities/user.entity';
+import { SendEmailDto } from '../email/dto/sendEmailUser.dto';
 
 @ApiTags('Authentication')
 @Controller('authGlobal')
@@ -47,5 +48,15 @@ export class AuthGlobalController {
   })
   async signup(@Body() user: CreateUserDto): Promise<Omit<Users, 'password'>> {
     return await this.authGlobalService.signup(user);
+  }
+
+  @Post('sendEmailWelcome')
+  @ApiOperation({ summary: 'Envia un email de bienvenida' })
+  @ApiBody({
+    description: 'Ingrese todos los datos requeridos',
+    type: SendEmailDto,
+  })
+  async sendEmailWelcome(@Body() sendEmail: SendEmailDto): Promise<string> {
+    return await this.authGlobalService.sendEmailWelcome(sendEmail);
   }
 }
