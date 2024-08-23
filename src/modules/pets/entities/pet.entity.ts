@@ -4,17 +4,17 @@ import {
     ManyToOne,
     PrimaryGeneratedColumn
  } from "typeorm";
-import { Species } from "./specie.entity";
-import { Races } from "./race.entity";
+import { Specie } from "./specie.entity";
+import { Race } from "./race.entity";
 import { User } from "src/modules/users/entities/user.entity";
-import { Sexes } from "./sex.entity";
+import { Sex } from "./sex.entity";
 
 
 
 @Entity({
     name: 'PETS',
 })
-export class Pets {
+export class Pet {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -59,15 +59,15 @@ export class Pets {
     user: User;
 
     /* RELACION MUCHOS-A-UNO CON especie */
-    @ManyToOne(() => Species, (specie) => specie.pets)
-    specie: Species;
+    @ManyToOne(() => Specie, (specie) => specie.pets)
+    specie: Specie;
 
     /* RELACION MUCHOS-A-UNO CON raza */
-    @ManyToOne(() => Races, (race) => race.pets)
-    race: Races;
+    @ManyToOne(() => Race, (race) => race.pets)
+    race: Race;
 
     /* RELACION MUCHOS-A-UNO CON sexo */
-    @ManyToOne(() => Sexes, (sex) => sex.pets)
-    sex: Sexes;
+    @ManyToOne(() => Sex, (sex) => sex.pets)
+    sex: Sex;
 
 }

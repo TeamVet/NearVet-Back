@@ -9,7 +9,12 @@ import {
 } from '@nestjs/swagger';
 import { CreateUserDto } from '../users/dto/createUser.dto';
 import { LoginUserDto } from './dto/loginUser.dto';
+<<<<<<< HEAD
 import { User } from '../users/entities/user.entity';
+=======
+import { Users } from '../users/entities/user.entity';
+import { SendEmailDto } from '../email/dto/sendEmailUser.dto';
+>>>>>>> b19fde0ee26600f76f48c5fac027cd63bac96a70
 
 @ApiTags('Authentication')
 @Controller('authGlobal')
@@ -47,5 +52,15 @@ export class AuthGlobalController {
   })
   async signup(@Body() user: CreateUserDto): Promise<Omit<User, 'password'>> {
     return await this.authGlobalService.signup(user);
+  }
+
+  @Post('sendEmailWelcome')
+  @ApiOperation({ summary: 'Envia un email de bienvenida' })
+  @ApiBody({
+    description: 'Ingrese todos los datos requeridos',
+    type: SendEmailDto,
+  })
+  async sendEmailWelcome(@Body() sendEmail: SendEmailDto): Promise<string> {
+    return await this.authGlobalService.sendEmailWelcome(sendEmail);
   }
 }

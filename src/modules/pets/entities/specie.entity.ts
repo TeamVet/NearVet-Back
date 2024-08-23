@@ -1,12 +1,12 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Pets } from "./pet.entity";
-import { Races } from "./race.entity";
+import { Pet } from "./pet.entity";
+import { Race } from "./race.entity";
 
 
 @Entity({
     name: 'SPECIES',
 })
-export class Species {
+export class Specie {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -17,11 +17,11 @@ export class Species {
     specie: string;
 
     /* RELACION UNO-A-MUCHOS CON pets */
-    @OneToMany(() => Pets, (pet) => pet.specie)
-    pets: Pets[];
+    @OneToMany(() => Pet, (pet) => pet.specie)
+    pets: Pet[];
 
     /* RELACION MUCHOS-A-UNO CON races */
-    @ManyToOne(() => Races, (race) => race.specie)
-    race: Races;
+    @ManyToOne(() => Race, (race) => race.specie)
+    race: Race;
     
 }
