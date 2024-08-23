@@ -1,12 +1,12 @@
 import { sendEmail } from '../../services/email/email.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { Users } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { SendEmailDto } from './dto/sendEmail-user.dto';
 
 export class UserRepository {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Users) private userRepository: Repository<Users>,
   ) {}
   notifyUser = async (sendEmailDto: SendEmailDto) => {
     let { to, subject, text, html } = sendEmailDto;
