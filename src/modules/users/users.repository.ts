@@ -1,68 +1,67 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Users } from "./entities/user.entity";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './entities/user.entity';
+import { SendEmailDto } from './dto/sendEmailUser.dto';
+import { sendEmail } from '../../services/email/email.service';
 
 @Injectable()
 export class UsersRepository {
-    constructor (
-      @InjectRepository(Users) private usersRepository: Repository<Users>,
-    ) {}
+  constructor(
+    @InjectRepository(User) private usersRepository: Repository<User>,
+  ) {}
 
-    async getUsersRepository(page: number, limit: number){
-        const start = (page - 1) * limit;
-        const users = await this.usersRepository.find({
-            take: limit,
-            skip: start, 
-        });
-        return users.map(({password, isAdmin, ...userNoPassword}) => userNoPassword);
+  async getUsersRepository(page: number, limit: number) {
+    return await this.usersRepository.find({
+      take: limit,
+      skip: (page - 1) * limit,
+    });
+    
+  }
+
+  async getUserByEmailRepository(email: string): Promise<User> {
+    return await this.usersRepository.findOne({
+      where: { email },
+    });
+  }
+
+  async getUserByIdRepository(id: string) {
+    return await this.usersRepository.findOne({ where: { id } });
+  }
+
+  async createUserRepository(user: Partial<User>): Promise<Omit<User , "password">> {
+    return await this.usersRepository.save(user);
+  }
+
+  async updateUserRepository(id: string, user: Partial<User>) {
+    await this.usersRepository.update(id, user);
+    return await this.usersRepository.findOneBy({ id });
+  }
+
+  async removeUserRepository(id: string) {
+    const user = await this.usersRepository.findOneBy({ id });
+    await this.usersRepository.delete(user);
+    return user;
+  }
+
+  async unsubscribeUserRepository(id: string) {
+    const user = await this.usersRepository.findOneBy({ id });
+    await this.usersRepository.save(user);
+    return user;
+  }
+
+  notifyUser = async (sendEmailDto: SendEmailDto) => {
+    let { to, subject, text, html } = sendEmailDto;
+    try {
+      to = 'user@example.com';
+      subject = 'Welcome!';
+      text = 'Welcome to our service!';
+      html = '<b>Welcome to our service!</b>';
+
+      await sendEmail(to, subject, text, html);
+    } catch (error) {
+      console.error('Error sending email:', error);
     }
-
-    async getUserByEmailRepository(email: string){
-        const user = await this.usersRepository.findOne({
-          where: { email }
-        });
-        if(!user) throw new NotFoundException(`No se encontro el usuario con el email ${email}`);
-        const {password, ...userNoPassword} = user;
-        return userNoPassword;
-    }
-
-    async getUserByIdRepository(id: string){
-        const user = await this.usersRepository.findOne({
-          where: { id }
-        });
-        if(!user) throw new NotFoundException(`No se encontro el usuario con el id ${id}`);
-        const {password, ...userNoPassword} = user;
-        return userNoPassword;
-    }
-
-    async createUserRepository(user: Partial<Users>){
-        const newUser = await this.usersRepository.save(user);
-        const dbUser = await this.usersRepository.findOneBy({ id: newUser.id });
-        const { password, ...userNoPassword } = dbUser;
-        return userNoPassword;
-    }
-
-    async updateUserRepository(id: string, user: Partial<Users>){
-        await this.usersRepository.update(id, user);
-        const updatedUser = await this.usersRepository.findOneBy({ id });
-        const { password, ...userNoPassword } = updatedUser;
-        return userNoPassword;
-      }
-
-    async removeUserRepository(id: string){
-        const user = await this.usersRepository.findOneBy({ id });
-        this.usersRepository.delete(user);
-        const { password, ...userNoPassword } = user;
-        return userNoPassword;
-    }
-
-    async unsubscribeUserRepository(email: string){
-        const user = await this.usersRepository.findOneBy({email});
-        if (!user) throw new NotFoundException(`Usuario con el email ${email} no encontrado`);
-        user.endDate = "00:00:00"  // CORREGIR
-        await this.usersRepository.save(user);
-        const { password, ...userNoPassword } = user;
-        return userNoPassword;
-    }
+  };
 }
