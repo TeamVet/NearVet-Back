@@ -1,18 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { UsersRepository } from './users.repository';
-import { Users } from './entities/user.entity';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  getUsersService(page: number, limit: number) {
-    return this.usersRepository.getUsersRepository(page, limit);
+  async getUsersService(page: number, limit: number) {
+    const users = await this.usersRepository.getUsersRepository(page, limit);
+    return users.map(
+      ({ password, userRole, ...userNoPassword }) => userNoPassword,
+    );
   }
 
-  async getUsersByEmailService(email: string): Promise<Omit<Users, "password">> {
+  async getUsersByEmailService(email: string): Promise<Omit<User, 'password'>> {
     const user = await this.usersRepository.getUserByEmailRepository(email);
     if (!user)
       throw new NotFoundException(
@@ -22,29 +24,43 @@ export class UsersService {
     return userNoPassword;
   }
 
-  getUsersByIdService(id: string) {
-    return this.usersRepository.getUserByIdRepository(id);
+  async getUsersByIdService(id: string) {
+    const user = await this.usersRepository.getUserByIdRepository(id);
+    if (!user)
+      throw new NotFoundException(`No se encontro el usuario con el id ${id}`);
+    const { password, ...userNoPassword } = user;
+    return userNoPassword;
   }
 
-  createUserService(user: Partial<Users>): Promise<Omit<Users , "password">> {
-    return this.usersRepository.createUserRepository(user);
+  async createUserService(
+    user: Partial<User>,
+  ): Promise<Omit<User, 'password'>> {
+    const newUser = await this.usersRepository.createUserRepository(user);
+    return newUser;
   }
 
-  updateUserService(id: string, updateUserDto: UpdateUserDto) {
-    return this.usersRepository.updateUserRepository(id, updateUserDto);
+  async updateUserService(id: string, updateUserDto: UpdateUserDto) {
+    const updatedUser = await this.usersRepository.updateUserRepository(
+      id,
+      updateUserDto,
+    );
+    const { password, ...userNoPassword } = updatedUser;
+    return userNoPassword;
   }
 
-  removeUserService(id: string) {
-    return this.usersRepository.removeUserRepository(id);
+  async removeUserService(id: string) {
+    const user = await this.usersRepository.removeUserRepository(id);
+    const { password, ...userNoPassword } = user;
+    return userNoPassword;
   }
 
-  unsubscribeUserService(id: string) {
-    return this.usersRepository.unsubscribeUserRepository(id);
+  async unsubscribeUserService(id: string) {
+    const user = await this.usersRepository.unsubscribeUserRepository(id);
+    if (!user)
+      throw new NotFoundException(`Usuario para dar de baja no encontrado`);
+    user.endDate = new Date();
+    const { password, ...userNoPassword } = user;
+    return userNoPassword;
   }
 
-  /*
-  sendEmail(sendEmailDto: SendEmailDto) {
-    return this.usersRepository.notifyUser(sendEmailDto);
-  }
-  */
 }

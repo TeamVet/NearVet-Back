@@ -1,4 +1,20 @@
-import { PickType } from '@nestjs/swagger';
-import { CreateUserDto } from '../../users/dto/createUser.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import {IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class LoginUserDto extends PickType (CreateUserDto, ["email", "password"]) {}
+export class LoginUserDto {
+  @ApiProperty({
+    description: 'DNI para iniciar sesion',
+    example: '34678789',
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  DNI: number;
+
+  @ApiProperty({
+    description: 'Contraseña para iniciar sesion',
+    example: 'pruEba123&%',
+  })
+  @IsNotEmpty()
+  @IsString()
+  password: string;
+}

@@ -34,6 +34,14 @@ export class CreateUserDto {
   @Length(1, 50)
   lastName: string;
 
+  @ApiProperty({
+    description: 'El DNI es obligatorio',
+    example: '34576894',
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  DNI: number;
+
   @ApiPropertyOptional({
     description: 'Debe ser un email válido',
     example: 'example@gmail.com',
@@ -41,7 +49,7 @@ export class CreateUserDto {
   @IsEmail()
   @IsOptional()
   @Length(1, 50)
-  email: string;
+  email?: string;
 
   @ApiProperty({
     description:
@@ -60,27 +68,30 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({
-    description: 'La confirmacion del password es Obligatoria. Debe coincidir con password.',
+    description:
+      'La confirmacion del password es Obligatoria. Debe coincidir con password.',
     example: 'pruEba123&%',
   })
   @IsNotEmpty()
+  @IsString()
   @Validate(passwordCompare, ['password'])
   passwordConfirm: string;
 
   @ApiPropertyOptional({
     description: 'La fecha de nacimiento es opcional',
-    example: new Date('01/08/1988'),
+    example: new Date('1/2/1988'),
   })
   @IsOptional()
   @IsDateString()
-  birthdate: Date;
+  @IsDateString()
+  birthdate?: Date;
 
   @ApiProperty({
     description: 'La fecha de inicio es obligatoria',
-    example: new Date('01/08/024'),
+    example: new Date(),
   })
-  @IsNotEmpty()
-  @IsDateString()
+  @IsOptional()
+  @IsString()
   startDate: Date;
 
   @IsOptional()
@@ -93,7 +104,7 @@ export class CreateUserDto {
   })
   @IsNumber()
   @IsOptional()
-  phone: number;
+  phone?: number;
 
   @ApiPropertyOptional({
     description: 'La dirección del domicilio es Opcional',
@@ -102,9 +113,9 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   @Length(1, 50)
-  address: string;
+  address?: string;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: `El Rol es obligatoria. Sus valores pueden ser: ${Role.AdminVet}, ${Role.User} o ${Role.Veterinarian}`,
     example: 'user',
   })
@@ -118,5 +129,5 @@ export class CreateUserDto {
   })
   @IsOptional()
   @IsString()
-  city: string;
+  city?: string;
 }

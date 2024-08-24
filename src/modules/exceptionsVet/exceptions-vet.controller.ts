@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ExceptionsVetService } from './exceptions-vet.service';
 import { CreateExceptionsVetDto } from './dto/create-exceptions-vet.dto';
 import { UpdateExceptionsVetDto } from './dto/update-exceptions-vet.dto';
@@ -23,7 +31,10 @@ export class ExceptionsVetController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExceptionsVetDto: UpdateExceptionsVetDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateExceptionsVetDto: UpdateExceptionsVetDto,
+  ) {
     return this.exceptionsVetService.update(+id, updateExceptionsVetDto);
   }
 

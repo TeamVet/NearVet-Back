@@ -1,27 +1,31 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Pets } from "./pet.entity";
-import { Races } from "./race.entity";
-
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Pet } from './pet.entity';
+import { Race } from './race.entity';
 
 @Entity({
-    name: 'SPECIES',
+  name: 'species',
 })
-export class Species {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+export class Specie {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column({
-        type: 'varchar',
-        length: 50,
-    })
-    specie: string;
+  @Column({
+    type: 'varchar',
+    length: 50,
+  })
+  specie: string;
 
-    /* RELACION UNO-A-MUCHOS CON pets */
-    @OneToMany(() => Pets, (pet) => pet.specie)
-    pets: Pets[];
+  /* RELACION UNO-A-MUCHOS CON pets */
+  @OneToMany(() => Pet, (pet) => pet.specie)
+  pets: Pet[];
 
-    /* RELACION MUCHOS-A-UNO CON races */
-    @ManyToOne(() => Races, (race) => race.specie)
-    race: Races;
-    
+  /* RELACION MUCHOS-A-UNO CON races */
+  @ManyToOne(() => Race, (race) => race.specie)
+  race: Race;
 }
