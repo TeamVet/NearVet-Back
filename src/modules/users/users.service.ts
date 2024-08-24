@@ -58,14 +58,9 @@ export class UsersService {
     const user = await this.usersRepository.unsubscribeUserRepository(id);
     if (!user)
       throw new NotFoundException(`Usuario para dar de baja no encontrado`);
-    user.endDate = new Date().toDateString(); // CORREGIR
+    user.endDate = new Date();
     const { password, ...userNoPassword } = user;
     return userNoPassword;
   }
 
-  /*
-  sendEmail(sendEmailDto: SendEmailDto) {
-    return this.usersRepository.notifyUser(sendEmailDto);
-  }
-  */
 }

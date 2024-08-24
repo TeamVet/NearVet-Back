@@ -38,6 +38,12 @@ export class User {
   email: string;
 
   @Column({
+    nullable: false,
+    unique: true,
+  })
+  DNI: number;
+
+  @Column({
     type: 'varchar',
     length: 128,
     nullable: false,
@@ -45,22 +51,22 @@ export class User {
   password: string;
 
   @Column({
-    type: 'varchar',
-    nullable: false,
-  })
-  birthdate: string;
-
-  @Column({
-    type: 'varchar',
-    nullable: false,
-  })
-  startDate: string;
-
-  @Column({
-    type: 'varchar',
+    type: 'date',
     nullable: true,
   })
-  endDate: string;
+  birthdate: Date;
+
+  @Column({
+    type: 'date',
+    nullable: false,
+  })
+  startDate: Date;
+
+  @Column({
+    type: 'date',
+    nullable: true,
+  })
+  endDate: Date;
 
   @Column({
     nullable: true,

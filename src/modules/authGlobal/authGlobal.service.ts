@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersRepository } from '../users/users.repository';
@@ -8,10 +8,14 @@ import { User } from '../users/entities/user.entity';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { SendEmailDto } from '../email/dto/sendEmailUser.dto';
 import { EmailProvider } from '../email/email.provider';
+import { UserRole } from '../users/entities/userRole.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthGlobalService {
   constructor(
+    @InjectRepository(UserRole) private userRoleRepository: Repository<UserRole>,
     private readonly usersRepository: UsersRepository,
     private readonly emailProvider: EmailProvider,
     private readonly jwtService: JwtService,
@@ -33,13 +37,17 @@ export class AuthGlobalService {
     // hasheo la contraseña
     const passwordHash = await bcrypt.hash(user.password, 10);
     // quito passwordConfrim de user y lo guardo en createUser
-    const { passwordConfirm, ...createUser } = user;
+    const { passwordConfirm, role, ...createUser } = user;
     // creo el usuario en la DB pisando el dato del password con la clave hasheada
+    const userRole: UserRole = await this.userRoleRepository.findOneBy({role:user.role})
+    if (!userRole) new NotFoundException("El rol Asignado no Existe");
     const userSave = await this.usersRepository.createUserRepository({
       ...createUser,
+      userRole,
       password: passwordHash,
     });
     //envio email de bienvenida
+    if (userSave.email) {
     const sendEmailWelcome: SendEmailDto = {
       to: userSave.email,
       subject: `¡Bienvenido ${userSave.name}! - NearVet`,
@@ -50,16 +58,18 @@ export class AuthGlobalService {
       html: `<HTML><BODY><H1>¡Bienvenido ${userSave.name}! - NearVet </H1>`,
     };
     this.emailProvider.sendEmail(sendEmailWelcome);
+  }
     // quito el password del userSave y lo guardo en sendUser para retornar
-    return userSave;
+    const {password, ...sendUser} = userSave
+    return sendUser;
   }
 
-  async signin(
-    userLogin: LoginUserDto,
-  ): Promise<Partial<User> & { token: string }> {
+
+
+  async signin( userLogin: LoginUserDto,): Promise<Omit<User, 'password'> & { token: string }> {
     // comprueba que el usuario exista, sino devuelve un error
-    const userDB = await this.usersRepository.getUserByEmailRepository(
-      userLogin.email,
+    const userDB = await this.usersRepository.getUserByDNIRepository(
+      userLogin.DNI,
     );
     if (!userDB) {
       throw new BadRequestException('Usuario o Clave incorrectos');
@@ -87,7 +97,4 @@ export class AuthGlobalService {
     return { ...sendUser, token: token };
   }
 
-  async sendEmailWelcome(sendEmail: SendEmailDto): Promise<string> {
-    return;
-  }
 }
