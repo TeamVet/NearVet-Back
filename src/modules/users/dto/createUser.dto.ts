@@ -1,6 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsDateString,
   IsEmail,
   IsEnum,
   IsNotEmpty,
@@ -72,19 +71,16 @@ export class CreateUserDto {
     example: '1/2/2024',
   })
   @IsOptional()
-  @IsDateString()
   birthdate: string;
 
   @ApiProperty({
     description: 'La fecha de inicio es obligatoria',
     example: new Date().toLocaleDateString(),
   })
-  @IsNotEmpty()
-  @IsDateString()
-  startDate: string;
+  @IsOptional()
+  startDate?: string;
 
   @IsOptional()
-  @IsDateString()
   endDate?: string;
 
   @ApiPropertyOptional({

@@ -24,8 +24,8 @@ export class EmailProvider {
       html: sendEmailDto.html,
     });
 
-    console.log('Message sent: %s', info.messageId);
-    console.log('este es info', info);
+    /* console.log('Message sent: %s', info.messageId);
+    console.log('este es info', info); */
     return info.messageId;
   }
 }

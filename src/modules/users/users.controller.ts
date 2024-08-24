@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   Param,
   Delete,
@@ -10,7 +9,6 @@ import {
   ParseUUIDPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
@@ -35,14 +33,6 @@ export class UsersController {
   @Get(':id')
   getUsersById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.getUsersByIdService(id);
-  }
-
-  @Post()
-  createUser(
-    @Body() createUserDto: CreateUserDto,
-  ): Promise<Omit<User, 'password'>> {
-    const { passwordConfirm, ...user } = createUserDto;
-    return this.usersService.createUserService(user);
   }
 
   @Put(':id')

@@ -3,7 +3,6 @@ import {
   IsNotEmpty,
   IsString,
   IsUUID,
-  IsDateString,
   Length,
   IsOptional,
 } from 'class-validator';
@@ -23,7 +22,7 @@ export class CreatePetDto {
     example: '01-07-2024',
   })
   @IsNotEmpty()
-  @IsDateString()
+  @IsString()
   birthdate: string;
 
   @ApiProperty({
@@ -31,11 +30,11 @@ export class CreatePetDto {
     example: '01-08-2024',
   })
   @IsNotEmpty()
-  @IsDateString()
+  @IsString()
   startDate: string;
 
   @IsNotEmpty()
-  @IsDateString()
+  @IsString()
   endDate: string;
 
   @ApiProperty({
