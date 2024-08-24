@@ -3,7 +3,7 @@ import { EmailService } from './email.service';
 import { SendEmailDto } from './dto/sendEmailUser.dto';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags("Sends Emails")
+@ApiTags('Sends Emails')
 @Controller('email')
 export class EmailController {
   constructor(private readonly emailService: EmailService) {}
@@ -12,5 +12,4 @@ export class EmailController {
   async sendEmail(@Body() sendEmailDto: SendEmailDto): Promise<string> {
     return this.emailService.sendEmail(sendEmailDto);
   }
-
 }

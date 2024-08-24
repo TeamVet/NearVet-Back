@@ -16,7 +16,10 @@ export class AvailabilityServiceService {
     return `This action returns a #${id} availabilityService`;
   }
 
-  update(id: number, updateAvailabilityServiceDto: UpdateAvailabilityServiceDto) {
+  update(
+    id: number,
+    updateAvailabilityServiceDto: UpdateAvailabilityServiceDto,
+  ) {
     return `This action updates a #${id} availabilityService`;
   }
 

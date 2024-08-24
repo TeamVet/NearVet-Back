@@ -5,7 +5,7 @@ import { PetsRepository } from './pets.repository';
 
 @Injectable()
 export class PetsService {
-  constructor(private readonly petsRepository: PetsRepository){}
+  constructor(private readonly petsRepository: PetsRepository) {}
 
   getPetsService() {
     return this.petsRepository.getPetsRepository();

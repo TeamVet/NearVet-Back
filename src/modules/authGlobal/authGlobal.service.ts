@@ -11,7 +11,6 @@ import { EmailProvider } from '../email/email.provider';
 
 @Injectable()
 export class AuthGlobalService {
-  
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly emailProvider: EmailProvider,
@@ -49,7 +48,7 @@ export class AuthGlobalService {
             Desde NearVet nuestra rpioridad es el cuidado de las mascotas! 
             deseamos que tengas una excelente experiencia con nosotros.`,
       html: `<HTML><BODY><H1>¡Bienvenido ${userSave.name}! - NearVet </H1>`,
-    }
+    };
     this.emailProvider.sendEmail(sendEmailWelcome);
     // quito el password del userSave y lo guardo en sendUser para retornar
     return userSave;
@@ -89,7 +88,6 @@ export class AuthGlobalService {
   }
 
   async sendEmailWelcome(sendEmail: SendEmailDto): Promise<string> {
-
     return;
   }
 }

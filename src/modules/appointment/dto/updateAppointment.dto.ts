@@ -1,2 +1,1 @@
-
-export class UpdateAppointmentDto{}
+export class UpdateAppointmentDto {}
