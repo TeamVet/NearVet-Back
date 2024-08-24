@@ -3,18 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Repository } from 'typeorm';
-import { Users } from '../users/entities/user.entity';
-import { Pets } from '../pets/entities/pet.entity';
+import { User } from '../users/entities/user.entity';
+import { Pet } from '../pets/entities/pet.entity';
 
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
-    @InjectRepository(Users)
-    private readonly userRepository: Repository<Users>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     /* @InjectRepository(Roles)
     private readonly rolesRepository: Repository<Roles>, */
-    @InjectRepository(Pets)
-    private readonly petsRepository: Repository<Pets>,
+    @InjectRepository(Pet)
+    private readonly petsRepository: Repository<Pet>,
     /* @InjectRepository(Veterinaries)
     private readonly veterinariesRepository: Repository<Veterinaries>, */
   ) {}

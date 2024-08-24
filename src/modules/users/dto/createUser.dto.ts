@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsDate,
   IsDateString,
   IsEmail,
   IsEnum,
@@ -67,27 +68,30 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({
-    description: 'La confirmacion del password es Obligatoria. Debe coincidir con password.',
+    description:
+      'La confirmacion del password es Obligatoria. Debe coincidir con password.',
     example: 'pruEba123&%',
   })
   @IsNotEmpty()
+  @IsString()
   @Validate(passwordCompare, ['password'])
   passwordConfirm: string;
 
   @ApiPropertyOptional({
     description: 'La fecha de nacimiento es opcional',
-    example: new Date('01/08/1988'),
+    example: new Date('1/2/1988'),
   })
   @IsOptional()
+  @IsDateString()
   @IsDateString()
   birthdate?: Date;
 
   @ApiProperty({
     description: 'La fecha de inicio es obligatoria',
-    example: new Date('01/08/024'),
+    example: new Date(),
   })
-  @IsNotEmpty()
-  @IsDateString()
+  @IsOptional()
+  @IsString()
   startDate: Date;
 
   @IsOptional()

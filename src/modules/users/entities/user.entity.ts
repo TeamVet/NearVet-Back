@@ -5,13 +5,13 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Pets } from 'src/modules/pets/entities/pet.entity';
+import { Pet } from 'src/modules/pets/entities/pet.entity';
 import { UserRole } from './userRole.entity';
 
 @Entity({
-  name: 'USERS',
+  name: 'users',
 })
-export class Users {
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -86,11 +86,10 @@ export class Users {
   city: string;
 
   /* RELACION UNO-A-MUCHOS con pets */
-  @OneToMany(() => Pets, (pet) => pet.user)
-  pets: Pets[];
+  @OneToMany(() => Pet, (pet) => pet.user)
+  pets: Pet[];
 
-  //RELACION UNO-A-MUCHOS con roles 
+  //RELACION UNO-A-MUCHOS con roles
   @ManyToOne(() => UserRole, (role) => role.users)
   userRole: UserRole;
-
 }

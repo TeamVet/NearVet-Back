@@ -2,80 +2,63 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Users } from './entities/user.entity';
+import { User } from './entities/user.entity';
 import { SendEmailDto } from './dto/sendEmailUser.dto';
 import { sendEmail } from '../../services/email/email.service';
 
 @Injectable()
 export class UsersRepository {
   constructor(
-    @InjectRepository(Users) private usersRepository: Repository<Users>,
+    @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
 
   async getUsersRepository(page: number, limit: number) {
-    const start = (page - 1) * limit;
-    const users = await this.usersRepository.find({
+    return await this.usersRepository.find({
       take: limit,
-      skip: start,
+      skip: (page - 1) * limit,
     });
-    return users.map(
-      ({ password, userRole, ...userNoPassword }) => userNoPassword,
-    );
   }
 
-  async getUserByEmailRepository(email: string): Promise<Users> {
+  async getUserByEmailRepository(email: string): Promise<User> {
     return await this.usersRepository.findOne({
       where: { email },
     });
   }
 
-  async getUserByDNIRepository(DNI: number): Promise<Users> {
+  async getUserByDNIRepository(DNI: number): Promise<User> {
     return await this.usersRepository.findOne({
       where: { DNI },
     });
   }
 
   async getUserByIdRepository(id: string) {
-    const user = await this.usersRepository.findOne({
+    return await this.usersRepository.findOne({ 
       where: { id },
       relations: {userRole:true}
     });
-    if (!user)
-      throw new NotFoundException(`No se encontro el usuario con el id ${id}`);
-    const { password, ...userNoPassword } = user;
-    return userNoPassword;
   }
 
-  async createUserRepository(user: Partial<Users>): Promise<Omit<Users , "password">> {
-    const newUser = await this.usersRepository.save(user);
-    const { password, ...userNoPassword } = newUser;
-    return userNoPassword;
+  async createUserRepository(
+    user: Partial<User>,
+  ): Promise<User> {
+    return await this.usersRepository.save(user);
   }
 
-  async updateUserRepository(id: string, user: Partial<Users>) {
+  async updateUserRepository(id: string, user: Partial<User>) {
     await this.usersRepository.update(id, user);
-    const updatedUser = await this.usersRepository.findOneBy({ id });
-    const { password, ...userNoPassword } = updatedUser;
-    return userNoPassword;
+    return await this.usersRepository.findOneBy({ id });
   }
 
   async removeUserRepository(id: string) {
     const user = await this.usersRepository.findOneBy({ id });
-    this.usersRepository.delete(user);
-    const { password, ...userNoPassword } = user;
-    return userNoPassword;
+    await this.usersRepository.delete(user);
+    return user;
   }
 
   async unsubscribeUserRepository(id: string) {
     const user = await this.usersRepository.findOneBy({ id });
-    if (!user)
-      throw new NotFoundException(
-        `Usuario no encontrado`,
-      );
-    user.endDate = new Date(); // CORREGIR
     await this.usersRepository.save(user);
-    const { password, ...userNoPassword } = user;
-    return userNoPassword;
+    return user;
   }
 
   notifyUser = async (sendEmailDto: SendEmailDto) => {

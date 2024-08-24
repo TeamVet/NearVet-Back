@@ -16,7 +16,10 @@ export class ExeptionVeterinarianService {
     return `This action returns a #${id} exeptionVeterinarian`;
   }
 
-  update(id: number, updateExeptionVeterinarianDto: UpdateExeptionVeterinarianDto) {
+  update(
+    id: number,
+    updateExeptionVeterinarianDto: UpdateExeptionVeterinarianDto,
+  ) {
     return `This action updates a #${id} exeptionVeterinarian`;
   }
 
