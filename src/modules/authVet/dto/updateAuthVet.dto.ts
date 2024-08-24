@@ -1,2 +1,1 @@
-
-export class UpdateAuthVetDto{}
+export class UpdateAuthVetDto {}

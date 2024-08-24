@@ -15,7 +15,7 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 
-@ApiTags("Users")
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -26,7 +26,9 @@ export class UsersController {
   }
 
   @Get('search')
-  getUsersByEmail(@Query(':email') email: string): Promise<Omit<User, "password">> {
+  getUsersByEmail(
+    @Query(':email') email: string,
+  ): Promise<Omit<User, 'password'>> {
     return this.usersService.getUsersByEmailService(email);
   }
 
@@ -36,13 +38,18 @@ export class UsersController {
   }
 
   @Post()
-  createUser(@Body() createUserDto: CreateUserDto): Promise<Omit<User , "password">> {
-    const {passwordConfirm, ...user} = createUserDto
+  createUser(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<Omit<User, 'password'>> {
+    const { passwordConfirm, ...user } = createUserDto;
     return this.usersService.createUserService(user);
   }
 
   @Put(':id')
-  updateUser(@Param('id', ParseUUIDPipe) id: string, @Body() updateUserDto: UpdateUserDto) {
+  updateUser(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return this.usersService.updateUserService(id, updateUserDto);
   }
 

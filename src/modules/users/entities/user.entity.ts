@@ -9,11 +9,11 @@ import { Pet } from 'src/modules/pets/entities/pet.entity';
 import { UserRole } from './userRole.entity';
 
 @Entity({
-  name: 'USERS',
+  name: 'users',
 })
 export class User {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({
     type: 'varchar',
@@ -45,22 +45,22 @@ export class User {
   password: string;
 
   @Column({
-    type: 'date',
+    type: 'varchar',
     nullable: false,
   })
-  birthdate: Date;
+  birthdate: string;
 
   @Column({
-    type: 'date',
+    type: 'varchar',
     nullable: false,
   })
-  startDate: Date;
+  startDate: string;
 
   @Column({
-    type: 'date',
+    type: 'varchar',
     nullable: true,
   })
-  endDate: Date;
+  endDate: string;
 
   @Column({
     nullable: true,
@@ -83,8 +83,7 @@ export class User {
   @OneToMany(() => Pet, (pet) => pet.user)
   pets: Pet[];
 
-  //RELACION UNO-A-MUCHOS con roles 
+  //RELACION UNO-A-MUCHOS con roles
   @ManyToOne(() => UserRole, (role) => role.users)
   userRole: UserRole;
-
 }

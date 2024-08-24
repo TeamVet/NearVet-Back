@@ -9,7 +9,6 @@ import { AuthGlobalModule } from './modules/authGlobal/authGlobal.module';
 import { EmailModule } from './modules/email/email.module';
 import { EmailService } from './modules/email/email.service';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -29,7 +28,11 @@ import { EmailService } from './modules/email/email.service';
       secret: process.env.JWT_SECRET,
     }),
 
-      AuthGlobalModule, UsersModule, PetsModule, EmailModule],
+    AuthGlobalModule,
+    UsersModule,
+    PetsModule,
+    EmailModule,
+  ],
 
   controllers: [],
   providers: [],

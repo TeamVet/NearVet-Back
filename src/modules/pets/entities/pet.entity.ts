@@ -5,7 +5,7 @@ import { User } from 'src/modules/users/entities/user.entity';
 import { Sex } from './sex.entity';
 
 @Entity({
-  name: 'PETS',
+  name: 'pets',
 })
 export class Pet {
   @PrimaryGeneratedColumn('uuid')

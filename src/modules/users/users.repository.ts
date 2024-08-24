@@ -17,7 +17,6 @@ export class UsersRepository {
       take: limit,
       skip: (page - 1) * limit,
     });
-    
   }
 
   async getUserByEmailRepository(email: string): Promise<User> {
@@ -30,7 +29,9 @@ export class UsersRepository {
     return await this.usersRepository.findOne({ where: { id } });
   }
 
-  async createUserRepository(user: Partial<User>): Promise<Omit<User , "password">> {
+  async createUserRepository(
+    user: Partial<User>,
+  ): Promise<Omit<User, 'password'>> {
     return await this.usersRepository.save(user);
   }
 
