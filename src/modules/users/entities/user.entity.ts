@@ -38,6 +38,12 @@ export class Users {
   email: string;
 
   @Column({
+    nullable: false,
+    unique: true,
+  })
+  DNI: number;
+
+  @Column({
     type: 'varchar',
     length: 128,
     nullable: false,
@@ -46,7 +52,7 @@ export class Users {
 
   @Column({
     type: 'date',
-    nullable: false,
+    nullable: true,
   })
   birthdate: Date;
 

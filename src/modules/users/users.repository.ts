@@ -29,9 +29,16 @@ export class UsersRepository {
     });
   }
 
+  async getUserByDNIRepository(DNI: number): Promise<Users> {
+    return await this.usersRepository.findOne({
+      where: { DNI },
+    });
+  }
+
   async getUserByIdRepository(id: string) {
     const user = await this.usersRepository.findOne({
       where: { id },
+      relations: {userRole:true}
     });
     if (!user)
       throw new NotFoundException(`No se encontro el usuario con el id ${id}`);

@@ -24,6 +24,17 @@ async function bootstrap() {
       })
     }
   }))
+
+ /* try { 
+    await app.get(UsersService).preloadUsersSeed()
+    
+    await app.get(CategoryService).preloadCategoriesSeed()
+
+    await app.get(ProductsService).preloadProductsSeed()
+   } catch (e) {
+    throw new InternalServerErrorException("Error al intentar hacer la precarga inicial de Datos");
+  } */
+
   
   //genero el Document Builder donde preconfiguro los datos basicos 
   const swaggerConfig = new DocumentBuilder()
