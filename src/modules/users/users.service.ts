@@ -24,6 +24,14 @@ export class UsersService {
     return userNoPassword;
   }
 
+  async getUsersByDniService(dni: number){
+    const user = await this.usersRepository.getUserByDniRepository(dni);
+    if (!user)
+      throw new NotFoundException(`No se encontro el usuario con el dni ${dni}`);
+    const { password, ...userNoPassword } = user;
+    return userNoPassword;
+  }
+
   async getUsersByIdService(id: string) {
     const user = await this.usersRepository.getUserByIdRepository(id);
     if (!user)

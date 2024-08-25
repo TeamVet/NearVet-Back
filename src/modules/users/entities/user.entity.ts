@@ -45,6 +45,11 @@ export class User {
   password: string;
 
   @Column({
+    nullable: false,
+  })
+  dni: number;
+
+  @Column({
     type: 'varchar',
     nullable: false,
   })

@@ -23,11 +23,18 @@ export class UsersController {
     return this.usersService.getUsersService(Number(page), Number(limit));
   }
 
-  @Get('search')
+  @Get('search-by-email')
   getUsersByEmail(
     @Query(':email') email: string,
   ): Promise<Omit<User, 'password'>> {
     return this.usersService.getUsersByEmailService(email);
+  }
+
+  @Get('search-by-dni')
+  getUsersByDni(
+    @Query(':dni') dni: number,
+  ): Promise<Omit<User, 'password'>> {
+    return this.usersService.getUsersByDniService(dni);
   }
 
   @Get(':id')
