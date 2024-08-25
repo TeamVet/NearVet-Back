@@ -9,24 +9,33 @@ async function bootstrap() {
 
   app.use(cors());
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      // whitelist hace que solo se admitan las propiedades del DTO y ninguna adicional.
-      whitelist: true,
-      // setea la forma en la que voy a mostrar los errores de los DTO
-      exceptionFactory: (errors) => {
-        const cleanErrors = errors.map((error) => {
-          return { property: error.property, constraints: error.constraints };
-        });
-        return new BadRequestException({
-          alert: 'Estos son los errores encontrados',
-          errors: cleanErrors,
-        });
-      },
-    }),
-  );
+  app.useGlobalPipes(new ValidationPipe({
+    // whitelist hace que solo se admitan las propiedades del DTO y ninguna adicional.
+    whitelist:true,
+    // setea la forma en la que voy a mostrar los errores de los DTO
+    exceptionFactory: (errors) => {
+      const cleanErrors = errors.map (error => {
+        return {property: error.property, constraints: error.constraints}
+      })
+      return new BadRequestException ({
+        alert: "Estos son los errores encontrados",
+        errors: cleanErrors
+      })
+    }
+  }))
 
-  //genero el Document Builder donde preconfiguro los datos basicos
+ /* try { 
+    await app.get(UsersService).preloadUsersSeed()
+    
+    await app.get(CategoryService).preloadCategoriesSeed()
+
+    await app.get(ProductsService).preloadProductsSeed()
+   } catch (e) {
+    throw new InternalServerErrorException("Error al intentar hacer la precarga inicial de Datos");
+  } */
+
+  
+  //genero el Document Builder donde preconfiguro los datos basicos 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('NearVet - Veterinarias siempre cerca de tu mascota')
     .setDescription(

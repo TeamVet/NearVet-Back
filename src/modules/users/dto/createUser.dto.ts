@@ -1,5 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsDate,
+  IsDateString,
   IsEmail,
   IsEnum,
   IsNotEmpty,
@@ -32,6 +34,14 @@ export class CreateUserDto {
   @Length(1, 50)
   lastName: string;
 
+  @ApiProperty({
+    description: 'El DNI es obligatorio',
+    example: '34576894',
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  dni: number;
+
   @ApiPropertyOptional({
     description: 'Debe ser un email válido',
     example: 'example@gmail.com',
@@ -39,7 +49,7 @@ export class CreateUserDto {
   @IsEmail()
   @IsOptional()
   @Length(1, 50)
-  email: string;
+  email?: string;
 
   @ApiProperty({
     description:
@@ -63,25 +73,30 @@ export class CreateUserDto {
     example: 'pruEba123&%',
   })
   @IsNotEmpty()
+  @IsString()
   @Validate(passwordCompare, ['password'])
   passwordConfirm: string;
 
   @ApiPropertyOptional({
     description: 'La fecha de nacimiento es opcional',
-    example: '1/2/2024',
+    example: new Date('1/2/1988'),
   })
   @IsOptional()
-  birthdate: string;
+  @IsDateString()
+  @IsDateString()
+  birthdate?: Date;
 
   @ApiProperty({
     description: 'La fecha de inicio es obligatoria',
-    example: new Date().toLocaleDateString(),
+    example: new Date(),
   })
   @IsOptional()
-  startDate?: string;
+  @IsString()
+  startDate: Date;
 
   @IsOptional()
-  endDate?: string;
+  @IsDateString()
+  endDate?: Date;
 
   @ApiPropertyOptional({
     description: 'El numero de telefono es opcional, Ingresar solo numeros',
@@ -89,7 +104,7 @@ export class CreateUserDto {
   })
   @IsNumber()
   @IsOptional()
-  phone: number;
+  phone?: number;
 
   @ApiPropertyOptional({
     description: 'La dirección del domicilio es Opcional',
@@ -98,9 +113,9 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   @Length(1, 50)
-  address: string;
+  address?: string;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: `El Rol es obligatoria. Sus valores pueden ser: ${Role.AdminVet}, ${Role.User} o ${Role.Veterinarian}`,
     example: 'user',
   })
@@ -114,5 +129,5 @@ export class CreateUserDto {
   })
   @IsOptional()
   @IsString()
-  city: string;
+  city?: string;
 }

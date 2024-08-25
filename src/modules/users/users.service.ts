@@ -9,6 +9,10 @@ export class UsersService {
 
   async getUsersService(page: number, limit: number) {
     const users = await this.usersRepository.getUsersRepository(page, limit);
+    if (users.length === 0)
+      throw new NotFoundException(
+        `Por el momento no hay usuarios registrados`,
+      );
     return users.map(
       ({ password, userRole, ...userNoPassword }) => userNoPassword,
     );
@@ -66,14 +70,9 @@ export class UsersService {
     const user = await this.usersRepository.unsubscribeUserRepository(id);
     if (!user)
       throw new NotFoundException(`Usuario para dar de baja no encontrado`);
-    user.endDate = new Date().toDateString(); // CORREGIR
+    user.endDate = new Date();
     const { password, ...userNoPassword } = user;
     return userNoPassword;
   }
 
-  /*
-  sendEmail(sendEmailDto: SendEmailDto) {
-    return this.usersRepository.notifyUser(sendEmailDto);
-  }
-  */
 }
