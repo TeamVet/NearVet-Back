@@ -40,7 +40,7 @@ export class CreateUserDto {
   })
   @IsNotEmpty()
   @IsNumber()
-  DNI: number;
+  dni: number;
 
   @ApiPropertyOptional({
     description: 'Debe ser un email válido',

@@ -9,6 +9,10 @@ export class UsersService {
 
   async getUsersService(page: number, limit: number) {
     const users = await this.usersRepository.getUsersRepository(page, limit);
+    if (users.length === 0)
+      throw new NotFoundException(
+        `Por el momento no hay usuarios registrados`,
+      );
     return users.map(
       ({ password, userRole, ...userNoPassword }) => userNoPassword,
     );
@@ -20,6 +24,14 @@ export class UsersService {
       throw new NotFoundException(
         `No se encontro el usuario con el email ${email}`,
       );
+    const { password, ...userNoPassword } = user;
+    return userNoPassword;
+  }
+
+  async getUsersByDniService(dni: number){
+    const user = await this.usersRepository.getUserByDniRepository(dni);
+    if (!user)
+      throw new NotFoundException(`No se encontro el usuario con el dni ${dni}`);
     const { password, ...userNoPassword } = user;
     return userNoPassword;
   }

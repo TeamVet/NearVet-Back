@@ -25,10 +25,8 @@ export class UsersRepository {
     });
   }
 
-  async getUserByDNIRepository(DNI: number): Promise<User> {
-    return await this.usersRepository.findOne({
-      where: { DNI },
-    });
+  async getUserByDniRepository(dni: number) {
+    return await this.usersRepository.findOne({ where: { dni } });
   }
 
   async getUserByIdRepository(id: string) {

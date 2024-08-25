@@ -41,7 +41,7 @@ export class User {
     nullable: false,
     unique: true,
   })
-  DNI: number;
+  dni: number;
 
   @Column({
     type: 'varchar',

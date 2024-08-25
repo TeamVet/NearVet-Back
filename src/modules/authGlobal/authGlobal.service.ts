@@ -31,7 +31,7 @@ export class AuthGlobalService {
     // Si el paso anterior esta bien, compruebo que las contraseñas sean iguales
     if (user.password !== user.passwordConfirm)
       throw new BadRequestException(
-        'La contraseña y la confirmacion no cohinciden',
+        'La contraseña y la confirmacion no coinciden',
       );
 
     // hasheo la contraseña
@@ -68,8 +68,8 @@ export class AuthGlobalService {
 
   async signin( userLogin: LoginUserDto,): Promise<Omit<User, 'password'> & { token: string }> {
     // comprueba que el usuario exista, sino devuelve un error
-    const userDB = await this.usersRepository.getUserByDNIRepository(
-      userLogin.DNI,
+    const userDB = await this.usersRepository.getUserByDniRepository(
+      userLogin.dni,
     );
     if (!userDB) {
       throw new BadRequestException('Usuario o Clave incorrectos');
