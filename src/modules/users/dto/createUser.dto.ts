@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsArray,
   IsDate,
   IsDateString,
   IsEmail,
@@ -11,9 +12,13 @@ import {
   IsStrongPassword,
   Length,
   Validate,
+  ValidateNested,
 } from 'class-validator';
 import { Role } from '../roles/roles.enum';
 import { passwordCompare } from '../../../decorators/comparePass.decorator';
+import { CreatePetDto } from 'src/modules/pets/dto/create-pet.dto';
+import { Type } from 'class-transformer';
+import { Pet } from 'src/modules/pets/entities/pet.entity';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -130,4 +135,14 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   city?: string;
+
+  @ApiPropertyOptional({
+    description: 'Lista de mascotas asociadas al usuario',
+    type: [CreatePetDto],
+  })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => Pet)
+  @IsOptional()
+  pets?: Pet[];
 }
