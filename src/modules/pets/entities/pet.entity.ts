@@ -34,17 +34,27 @@ export class Pet {
 
   @Column({
     type: 'varchar',
-    length: 50,
-    nullable: false,
+    nullable: true,
   })
   endDate: string;
 
   @Column({
     type: 'varchar',
-    length: 10,
     nullable: false,
   })
   color: string;
+
+  @Column({
+    type: 'int',
+    nullable: false,
+  })
+  dni: number;
+
+  @Column({
+    type: 'varchar',
+    nullable: false,
+  })
+  emailOwner: string;
 
   /* RELACION MUCHOS-A-UNO CON usuarios */
   @ManyToOne(() => User, (user) => user.pets)

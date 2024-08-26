@@ -13,7 +13,7 @@ export class SeederController {
   addUsers() {
     return this.seederService.loadUsersData();
   }
-  /* @Post('pets')
+  @Post('pets')
   @ApiOperation({ summary: 'Cargar archivo de mascotas' })
   addPets() {
     return this.seederService.loadPetsData();
@@ -25,6 +25,7 @@ export class SeederController {
   addRoles() {
     return this.seederService.loadRolesData();
   }
+  /* 
 
 
   @Post('veterinaries')
