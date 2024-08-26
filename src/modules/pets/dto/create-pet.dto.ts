@@ -46,9 +46,8 @@ export class CreatePetDto {
   @Length(1, 10)
   color: string;
 
-  @IsOptional()
   @IsUUID()
-  userId?: string;
+  userId: string;
 
   @IsOptional()
   @IsUUID()

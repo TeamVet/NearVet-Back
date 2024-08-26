@@ -28,6 +28,11 @@ export class PetsController {
     return this.petsService.getPetByIdService(id);
   }
 
+  @Get('user/:id')
+  getPetsByUser(@Param('id') id: string) {
+    return this.petsService.getPetsByUserService(id);
+  }
+
   @Post()
   createPet(@Body() createPetDto: CreatePetDto) {
     return this.petsService.createPetService(createPetDto);
@@ -42,11 +47,4 @@ export class PetsController {
   removePet(@Param('id') id: string) {
     return this.petsService.removePetService(id);
   }
-
-  /*
-  @Get(':id')
-  getUserPetsById(@Param('idUser') id: string) {
-    return this.petsService.getUserPetsByIdService();
-  }
-  */
 }

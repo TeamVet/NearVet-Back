@@ -32,7 +32,10 @@ export class UsersRepository {
   async getUserByIdRepository(id: string) {
     return await this.usersRepository.findOne({ 
       where: { id },
-      relations: {userRole:true}
+      relations: {
+        userRole: true,
+        pets: true,
+      }
     });
   }
 
