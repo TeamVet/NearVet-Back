@@ -21,7 +21,7 @@ export class AuthGlobalService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signup(user: CreateUserDto): Promise<Omit<User, 'password'>> {
+  async signup(user: CreateUserDto ): Promise<Omit<User, 'password'>> {
     // Comprobar que el usuario no este ya creado, sino devuelve un error
     const userDB = await this.usersRepository.getUserByEmailRepository(
       user.email,
@@ -66,7 +66,7 @@ export class AuthGlobalService {
 
 
 
-  async signin( userLogin: LoginUserDto,): Promise<Omit<User, 'password'> & { token: string }> {
+  async signin( userLogin: LoginUserDto ): Promise<Omit<User, 'password'> & { token: string }> {
     // comprueba que el usuario exista, sino devuelve un error
     const userDB = await this.usersRepository.getUserByDniRepository(
       userLogin.dni,
