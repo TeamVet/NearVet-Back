@@ -8,7 +8,7 @@ export class LoginUserDto {
   })
   @IsNotEmpty()
   @IsNumber()
-  DNI: number;
+  dni: number;
 
   @ApiProperty({
     description: 'Contraseña para iniciar sesion',
