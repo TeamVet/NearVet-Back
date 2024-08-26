@@ -7,11 +7,14 @@ import {
   Param,
   Delete,
   Put,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Pets")
 @Controller('pets')
 export class PetsController {
   constructor(private readonly petsService: PetsService) {}
@@ -22,12 +25,12 @@ export class PetsController {
   }
 
   @Get(':id')
-  getPetById(@Param('id') id: string) {
+  getPetById(@Param('id', ParseUUIDPipe) id: string) {
     return this.petsService.getPetByIdService(id);
   }
 
   @Get('user/:id')
-  getPetsByUser(@Param('id') id: string) {
+  getPetsByUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.petsService.getPetsByUserService(id);
   }
 
@@ -37,12 +40,12 @@ export class PetsController {
   }
 
   @Put(':id')
-  updatePet(@Param('id') id: string, @Body() updatePetDto: UpdatePetDto) {
+  updatePet(@Param('id', ParseUUIDPipe) id: string, @Body() updatePetDto: UpdatePetDto) {
     return this.petsService.updatePetService(id, updatePetDto);
   }
 
   @Delete(':id')
-  removePet(@Param('id') id: string) {
+  removePet(@Param('id', ParseUUIDPipe) id: string) {
     return this.petsService.removePetService(id);
   }
 }

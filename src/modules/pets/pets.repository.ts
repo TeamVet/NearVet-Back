@@ -38,7 +38,7 @@ export class PetsRepository {
 
   async createPetRepository(pet: CreatePetDto) {
     const { userId } = pet
-    const user = await this.usersRepository.getUserByIdRepository(userId);
+    const user: User = await this.usersRepository.getUserByIdRepository(userId);
     if (!user) throw new Error(`No se encontro el usuario con el id ${userId} para registrar su mascota`);
     const newPet = this.petsRepository.create({
       ...pet,

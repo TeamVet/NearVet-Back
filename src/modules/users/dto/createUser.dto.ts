@@ -136,13 +136,13 @@ export class CreateUserDto {
   @IsString()
   city?: string;
 
-  @ApiPropertyOptional({
-    description: 'Lista de mascotas asociadas al usuario',
-    type: [CreatePetDto],
-  })
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => Pet)
-  @IsOptional()
-  pets?: Pet[];
+  // @ApiPropertyOptional({
+  //   description: 'Lista de mascotas asociadas al usuario',
+  //   type: [CreatePetDto],
+  // })
+  // @IsArray()
+  // @ValidateNested({ each: true })
+  // @Type(() => Pet)
+  //@IsOptional()
+  /*pets?: Pet[];*/
 }
