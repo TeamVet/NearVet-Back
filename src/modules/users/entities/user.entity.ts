@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -48,7 +49,7 @@ export class User {
     type: 'varchar',
     nullable: false,
   })
-  birthdate: string;
+  birthDate: string;
 
   @Column({
     type: 'varchar',
@@ -79,11 +80,15 @@ export class User {
   })
   city: string;
 
+  @Column({ type: 'text', nullable: true })
+  imgProfile: string;
+
   /* RELACION UNO-A-MUCHOS con pets */
   @OneToMany(() => Pet, (pet) => pet.user)
   pets: Pet[];
 
   //RELACION UNO-A-MUCHOS con roles
   @ManyToOne(() => UserRole, (role) => role.users)
-  userRole: UserRole;
+  @JoinColumn()
+  role: UserRole;
 }

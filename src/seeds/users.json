@@ -1,0 +1,67 @@
+[
+  {
+    "name": "John",
+    "lastName": "Doe",
+    "email": "johndoe@example.com",
+    "password": "prueba123ASD$%",
+    "birthDate": "1985-05-22",
+    "startDate": "1/2/2024",
+    "phone": 15551234,
+    "address": "123 Maple Street",
+    "role": "adminVet",
+    "city": "Springfield",
+    "imgProfile": "no-image.jpg"
+  },
+  {
+    "name": "Jane",
+    "lastName": "Smith",
+    "email": "janesmith@example.com",
+    "password": "prueba123ASD$%",
+    "birthDate": "1990-09-10",
+    "startDate": "1/2/2024",
+    "phone": 15551234,
+    "address": "456 Oak Avenue",
+    "role": "user",
+    "city": "Riverside",
+    "imgProfile": "no-image.jpg"
+  },
+  {
+    "name": "Alice",
+    "lastName": "Johnson",
+    "email": "alicejohnson@example.com",
+    "password": "prueba123ASD$%",
+    "birthDate": "1993-12-05",
+    "startDate": "1/2/2024",
+    "phone": 15551234,
+    "address": "789 Pine Road",
+    "role": "veterinarian",
+    "city": "Boston",
+    "imgProfile": "no-image.jpg"
+  },
+  {
+    "name": "Mike",
+    "lastName": "Brown",
+    "email": "mikebrown@example.com",
+    "password": "prueba123ASD$%",
+    "birthDate": "1987-04-17",
+    "startDate": "1/2/2024",
+    "phone": 15551234,
+    "address": "246 Elm Street",
+    "role": "user",
+    "city": "Chicago",
+    "imgProfile": "no-image.jpg"
+  },
+  {
+    "name": "Sophia",
+    "lastName": "Wilson",
+    "email": "sophiawilson@example.com",
+    "password": "prueba123ASD$%",
+    "birthDate": "1995-02-28",
+    "startDate": "1/2/2024",
+    "phone": 15551234,
+    "address": "357 Cedar Boulevard",
+    "role": "user",
+    "city": "Miami",
+    "imgProfile": "no-image.jpg"
+  }
+]

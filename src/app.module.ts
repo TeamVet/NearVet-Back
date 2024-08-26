@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthGlobalModule } from './modules/authGlobal/authGlobal.module';
 import { EmailModule } from './modules/email/email.module';
 import { EmailService } from './modules/email/email.service';
+import { SeederModule } from './modules/seeder/seeder.module';
 
 @Module({
   imports: [
@@ -27,11 +28,11 @@ import { EmailService } from './modules/email/email.service';
       signOptions: { expiresIn: '1h' },
       secret: process.env.JWT_SECRET,
     }),
-
     AuthGlobalModule,
     UsersModule,
     PetsModule,
     EmailModule,
+    SeederModule,
   ],
 
   controllers: [],

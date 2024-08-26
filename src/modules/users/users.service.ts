@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { UsersRepository } from './users.repository';
@@ -9,9 +10,7 @@ export class UsersService {
 
   async getUsersService(page: number, limit: number) {
     const users = await this.usersRepository.getUsersRepository(page, limit);
-    return users.map(
-      ({ password, userRole, ...userNoPassword }) => userNoPassword,
-    );
+    return users.map(({ password, role, ...userNoPassword }) => userNoPassword);
   }
 
   async getUsersByEmailService(email: string): Promise<Omit<User, 'password'>> {

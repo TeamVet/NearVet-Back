@@ -4,31 +4,43 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
-import { Pet } from '../pets/entities/pet.entity';
+import { UserRole } from '../users/entities/userRole.entity';
+//import { Pet } from '../pets/entities/pet.entity';
 
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    /* @InjectRepository(Roles)
-    private readonly rolesRepository: Repository<Roles>, */
-    @InjectRepository(Pet)
-    private readonly petsRepository: Repository<Pet>,
+    @InjectRepository(UserRole)
+    private readonly rolesRepository: Repository<UserRole>,
+    /* @InjectRepository(Pet)
+    private readonly petsRepository: Repository<Pet>, */
     /* @InjectRepository(Veterinaries)
     private readonly veterinariesRepository: Repository<Veterinaries>, */
   ) {}
 
-  petsPath = path.join(__dirname, '..', '..', 'src', 'seeds', 'pets.seed.json');
+  petsPath = path.join(
+    __dirname,
+    '..',
+    '..',
+    '..',
+    'src',
+    'seeds',
+    'pets.json',
+  );
   petsdata = JSON.parse(fs.readFileSync(this.petsPath, 'utf8'));
+
+  //filePath = path.join(__dirname, '..', '..', 'src', 'data', 'preCarga.json');
 
   rolesPath = path.join(
     __dirname,
     '..',
     '..',
+    '..',
     'src',
     'seeds',
-    'roles.seed.json',
+    'roles.json',
   );
   rolesdata = JSON.parse(fs.readFileSync(this.rolesPath, 'utf8'));
 
@@ -36,14 +48,16 @@ export class SeederService implements OnModuleInit {
     __dirname,
     '..',
     '..',
+    '..',
     'src',
     'seeds',
-    'users.seed.json',
+    'users.json',
   );
   usersdata = JSON.parse(fs.readFileSync(this.usersPath, 'utf8'));
 
   veterinariesPath = path.join(
     __dirname,
+    '..',
     '..',
     '..',
     'src',
@@ -56,7 +70,7 @@ export class SeederService implements OnModuleInit {
     await this.userRepository.delete({});
     /* await this.rolesRepository.delete({});
     await this.veterinariesRepository.delete({}); */
-    await this.petsRepository.delete({});
+    //await this.petsRepository.delete({});
     return { message: 'Datos reiniciados exitosamente' };
   }
 
@@ -72,30 +86,50 @@ export class SeederService implements OnModuleInit {
     }
     return { message: 'Seeder veterinarios agregados' };
   } */
-  /* async loadUsersData() {
+  async loadUsersData() {
     for (const item of this.usersdata) {
       let user = await this.userRepository.findOne({
         where: { email: item.email },
       });
       if (!user) {
-        user = this.userRepository.create(item);
+        const role = await this.rolesRepository.findOne({
+          where: { role: item.role },
+        });
+
+        if (!role) {
+          throw new Error(`Role with name ${item.role} not found`);
+        }
+        //la sintaxis de entrada no es válida para tipo uuid: «user»
+        user = this.userRepository.create({
+          name: item.name,
+          lastName: item.lastName,
+          email: item.email,
+          password: item.password,
+          birthDate: item.birthDate,
+          startDate: item.startDate,
+          phone: item.phone,
+          address: item.address,
+          role: role,
+          city: item.password,
+          imgProfile: item.imgProfile,
+        });
         await this.userRepository.save(user);
       }
     }
     return { message: 'Seeder usuarios agregados' };
-  } */
-  /* async loadRolesData() {
+  }
+  async loadRolesData() {
     for (const item of this.rolesdata) {
       let role = await this.rolesRepository.findOne({
         where: { role: item.role },
       });
       if (!role) {
-        role = this.userRepository.create(item);
-        await this.userRepository.save(role);
+        role = this.rolesRepository.create({ role: item.role });
+        await this.rolesRepository.save(role);
       }
     }
     return { message: 'Seeder roles agregados' };
-  } */
+  }
   /* async loadPetsData() {
     for (const item of this.petsdata) {
       let pet = await this.petsRepository.findOne({
@@ -110,7 +144,7 @@ export class SeederService implements OnModuleInit {
   } */
 
   async onModuleInit() {
-    //await this.loadRolesData();
+    await this.loadRolesData();
     //await this.loadUsersData();
     //await this.loadVeterinariesData();
     //await this.loadPetsData();

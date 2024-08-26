@@ -1,7 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsEmail,
-  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -12,6 +11,7 @@ import {
 } from 'class-validator';
 import { Role } from '../roles/roles.enum';
 import { passwordCompare } from '../../../decorators/comparePass.decorator';
+import { UserRole } from '../entities/userRole.entity';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -71,7 +71,7 @@ export class CreateUserDto {
     example: '1/2/2024',
   })
   @IsOptional()
-  birthdate: string;
+  birthDate: string;
 
   @ApiProperty({
     description: 'La fecha de inicio es obligatoria',
@@ -104,9 +104,8 @@ export class CreateUserDto {
     description: `El Rol es obligatoria. Sus valores pueden ser: ${Role.AdminVet}, ${Role.User} o ${Role.Veterinarian}`,
     example: 'user',
   })
-  @IsEnum(Role)
   @IsNotEmpty()
-  role: Role;
+  role: UserRole;
 
   @ApiPropertyOptional({
     description: `La ciudad es Opcional.`,
@@ -115,4 +114,12 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   city: string;
+
+  @ApiPropertyOptional({
+    description: `La imagen de perfil es Opcional.`,
+    example: 'image.jpg',
+  })
+  @IsOptional()
+  @IsString()
+  imgProfile: string;
 }
