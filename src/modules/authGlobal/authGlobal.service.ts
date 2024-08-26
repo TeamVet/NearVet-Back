@@ -23,16 +23,15 @@ export class AuthGlobalService {
 
   async signup(user: CreateUserDto ): Promise<Omit<User, 'password'>> {
     // Comprobar que el usuario no este ya creado, sino devuelve un error
-    const userDB = await this.usersRepository.getUserByEmailRepository(
+    let userDB = await this.usersRepository.getUserByEmailRepository(
       user.email,
     );
-    if (userDB) throw new BadRequestException('Este usuario ya ha sido creado');
+    if (userDB) throw new BadRequestException(`El usuario con el email ${userDB.email} ya existe`);
 
-    // Si el paso anterior esta bien, compruebo que las contraseñas sean iguales
-    if (user.password !== user.passwordConfirm)
-      throw new BadRequestException(
-        'La contraseña y la confirmacion no coinciden',
-      );
+    userDB = await this.usersRepository.getUserByDniRepository(
+      user.dni,
+    );
+    if (userDB) throw new BadRequestException(`El usuario con el DNI ${userDB.dni} ya existe`);
 
     // hasheo la contraseña
     const passwordHash = await bcrypt.hash(user.password, 10);
