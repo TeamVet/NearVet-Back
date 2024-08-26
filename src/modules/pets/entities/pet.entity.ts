@@ -33,10 +33,12 @@ export class Pet {
   @Column({type: 'decimal', precision: 10, scale: 2, nullable: true})
   weightCurrent: Number;
 
-  @Column({type: 'varchar', nullable: false,
-    default: `https://us.123rf.com/450wm/findriyani/findriyani2301/findriyani230100821/197733705-ilustraci%C3%B3n-de-vector-de-logotipo-de-silueta-de-tienda-de-mascotas.jpg?ver=6`,
+  @Column({
+    type: 'varchar',
+    nullable: false,
+    default: "https://img.freepik.com/vector-gratis/ilustracion-silueta-perro-gato-diseno-plano_23-2150369464.jpg?size=338&ext=jpg&ga=GA1.1.933601817.1722556800&semt=ais_hybrid",
   })
-  image: string;
+  imgProfile: string;
 
   /* RELACION MUCHOS-A-UNO CON usuarios */
   @ManyToOne(() => User, (user) => user.pets)

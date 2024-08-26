@@ -6,6 +6,7 @@ import { Pet } from './entities/pet.entity';
 import { PetsRepository } from './pets.repository';
 import { UsersModule } from '../users/users.module';
 import { UsersRepository } from '../users/users.repository';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { UsersRepository } from '../users/users.repository';
     UsersModule
   ],
   controllers: [PetsController],
-  providers: [PetsService, PetsRepository],
+  providers: [PetsService, PetsRepository, CloudinaryService],
 })
 export class PetsModule {}

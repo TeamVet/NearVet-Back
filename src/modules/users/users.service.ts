@@ -1,11 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { UsersRepository } from './users.repository';
 import { User } from './entities/user.entity';
+import { CloudinaryService } from '../../cloudinary/cloudinary.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  
+  constructor(private readonly usersRepository: UsersRepository,
+    private readonly cloudinaryService: CloudinaryService
+  ) {}
 
   async getUsersService(page: number, limit: number) {
     const users = await this.usersRepository.getUsersRepository(page, limit);
@@ -73,6 +77,14 @@ export class UsersService {
     user.endDate = new Date();
     const { password, ...userNoPassword } = user;
     return userNoPassword;
+  }
+
+  async uploadImgProfileService(id: string, file: Express.Multer.File) {
+    const user = await this.usersRepository.getUserByIdRepository(id);
+    if (!user) throw new BadRequestException("El usuario que desea actualizar no existe")
+    const imgUpload = await this.cloudinaryService.uploadImage(file);
+    await this.usersRepository.updateUserRepository(id, {imgProfile: imgUpload.secure_url})  
+    return await this.usersRepository.getUserByIdRepository(id);
   }
 
 }

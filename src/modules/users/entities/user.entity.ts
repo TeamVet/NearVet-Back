@@ -14,7 +14,6 @@ import { ApiProperty } from '@nestjs/swagger';
 })
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  @ApiProperty()
   id: string;
 
   @Column({
@@ -22,7 +21,6 @@ export class User {
     length: 50,
     nullable: false,
   })
-  @ApiProperty()
   name: string;
 
   @Column({
@@ -30,7 +28,6 @@ export class User {
     length: 50,
     nullable: false,
   })
-  @ApiProperty()
   lastName: string;
 
   @Column({
@@ -39,14 +36,19 @@ export class User {
     nullable: true,
     unique: true,
   })
-  @ApiProperty()
   email: string;
+
+  @Column({
+    type: 'varchar',
+    nullable: false,
+    default: "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg",
+  })
+  imgProfile: string;
 
   @Column({
     nullable: false,
     unique: true,
   })
-  @ApiProperty()
   dni: number;
 
   @Column({
@@ -54,57 +56,48 @@ export class User {
     length: 128,
     nullable: false,
   })
-  @ApiProperty()
   password: string;
 
   @Column({
     type: 'date',
     nullable: true,
   })
-  @ApiProperty()
   birthdate: Date;
 
   @Column({
     type: 'date',
     nullable: false,
   })
-  @ApiProperty()
   startDate: Date;
 
   @Column({
     type: 'date',
     nullable: true,
   })
-  @ApiProperty()
   endDate: Date;
 
   @Column({
     nullable: true,
   })
-  @ApiProperty()
   phone: number;
 
   @Column({
     type: 'text',
     nullable: true,
   })
-  @ApiProperty()
   address: string;
 
   @Column({
     type: 'text',
     nullable: true,
   })
-  @ApiProperty()
   city: string;
 
   /* RELACION UNO-A-MUCHOS con pets */
-  @ApiProperty()
   @OneToMany(() => Pet, (pet) => pet.user)
   pets: Pet[];
 
   //RELACION UNO-A-MUCHOS con roles
-  @ApiProperty()
   @ManyToOne(() => UserRole, (role) => role.users)
   userRole: UserRole;
 }
