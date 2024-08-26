@@ -7,8 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthGlobalModule } from './modules/authGlobal/authGlobal.module';
 import { EmailModule } from './modules/email/email.module';
-import { EmailService } from './modules/email/email.service';
 import { SeederModule } from './modules/seeder/seeder.module';
+import { CloudinaryConfig } from './config/cloudinary';
+import { CloudinaryService } from './cloudinary/cloudinary.service';
 
 @Module({
   imports: [
@@ -36,6 +37,6 @@ import { SeederModule } from './modules/seeder/seeder.module';
   ],
 
   controllers: [],
-  providers: [],
+  providers: [CloudinaryConfig, CloudinaryService],
 })
 export class AppModule {}

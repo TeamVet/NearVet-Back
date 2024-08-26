@@ -40,6 +40,20 @@ export class User {
 
   @Column({
     type: 'varchar',
+    nullable: false,
+    default:
+      'https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg',
+  })
+  imgProfile: string;
+
+  @Column({
+    nullable: false,
+    unique: true,
+  })
+  dni: number;
+
+  @Column({
+    type: 'varchar',
     length: 128,
     nullable: false,
   })
@@ -58,10 +72,10 @@ export class User {
   startDate: string;
 
   @Column({
-    type: 'varchar',
+    type: 'date',
     nullable: true,
   })
-  endDate: string;
+  endDate: Date;
 
   @Column({
     nullable: true,
@@ -79,9 +93,6 @@ export class User {
     nullable: true,
   })
   city: string;
-
-  @Column({ type: 'text', nullable: true })
-  imgProfile: string;
 
   /* RELACION UNO-A-MUCHOS con pets */
   @OneToMany(() => Pet, (pet) => pet.user)

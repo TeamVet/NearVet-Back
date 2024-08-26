@@ -25,13 +25,23 @@ export class UsersRepository {
     });
   }
 
+  async getUserByDniRepository(dni: number) {
+    return await this.usersRepository.findOne({ where: { dni } });
+  }
+
   async getUserByIdRepository(id: string) {
-    return await this.usersRepository.findOne({ where: { id } });
+    return await this.usersRepository.findOne({ 
+      where: { id },
+      relations: {
+        userRole: true,
+        pets: true,
+      }
+    });
   }
 
   async createUserRepository(
     user: Partial<User>,
-  ): Promise<Omit<User, 'password'>> {
+  ): Promise<User> {
     return await this.usersRepository.save(user);
   }
 

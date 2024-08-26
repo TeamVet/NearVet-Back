@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersRepository } from '../users/users.repository';
@@ -8,10 +12,15 @@ import { User } from '../users/entities/user.entity';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { SendEmailDto } from '../email/dto/sendEmailUser.dto';
 import { EmailProvider } from '../email/email.provider';
+import { UserRole } from '../users/entities/userRole.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthGlobalService {
   constructor(
+    @InjectRepository(UserRole)
+    private userRoleRepository: Repository<UserRole>,
     private readonly usersRepository: UsersRepository,
     private readonly emailProvider: EmailProvider,
     private readonly jwtService: JwtService,
@@ -19,41 +28,50 @@ export class AuthGlobalService {
 
   async signup(user: CreateUserDto): Promise<Omit<User, 'password'>> {
     // Comprobar que el usuario no este ya creado, sino devuelve un error
-    const userDB = await this.usersRepository.getUserByEmailRepository(
-      user.email,
-    );
-    if (userDB) throw new BadRequestException('Este usuario ya ha sido creado');
+    const userDB = await this.usersRepository.getUserByDniRepository(user.dni);
+    if (userDB)
+      throw new BadRequestException(
+        `El usuario con el DNI ${userDB.dni} ya existe`,
+      );
 
     // hasheo la contraseña
     const passwordHash = await bcrypt.hash(user.password, 10);
     // quito passwordConfrim de user y lo guardo en createUser
-    const { passwordConfirm, ...createUser } = user;
+    const { passwordConfirm, role, ...createUser } = user;
     // creo el usuario en la DB pisando el dato del password con la clave hasheada
+    const userRole: UserRole = await this.userRoleRepository.findOneBy({
+      role: user.role, //VERIFICAR
+    });
+    if (!userRole) new NotFoundException('El rol Asignado no Existe');
     const userSave = await this.usersRepository.createUserRepository({
       ...createUser,
+      userRole, //VERIFICAR
       password: passwordHash,
     });
     //envio email de bienvenida
-    const sendEmailWelcome: SendEmailDto = {
-      to: userSave.email,
-      subject: `¡Bienvenido ${userSave.name}! - NearVet`,
-      text: `¡Bienvenido ${userSave.name}!
+    if (userSave.email) {
+      const sendEmailWelcome: SendEmailDto = {
+        to: userSave.email,
+        subject: `¡Bienvenido ${userSave.name}! - NearVet`,
+        text: `¡Bienvenido ${userSave.name}!
             Nos alegra que estes con nosotros. 
             Desde NearVet nuestra rpioridad es el cuidado de las mascotas! 
             deseamos que tengas una excelente experiencia con nosotros.`,
-      html: `<HTML><BODY><H1>¡Bienvenido ${userSave.name}! - NearVet </H1>`,
-    };
-    this.emailProvider.sendEmail(sendEmailWelcome);
+        html: `<HTML><BODY><H1>¡Bienvenido ${userSave.name}! - NearVet </H1>`,
+      };
+      this.emailProvider.sendEmail(sendEmailWelcome);
+    }
     // quito el password del userSave y lo guardo en sendUser para retornar
-    return userSave;
+    const { password, ...sendUser } = userSave;
+    return sendUser;
   }
 
   async signin(
     userLogin: LoginUserDto,
-  ): Promise<Partial<User> & { token: string }> {
+  ): Promise<Omit<User, 'password'> & { token: string }> {
     // comprueba que el usuario exista, sino devuelve un error
-    const userDB = await this.usersRepository.getUserByEmailRepository(
-      userLogin.email,
+    const userDB = await this.usersRepository.getUserByDniRepository(
+      userLogin.dni,
     );
     if (!userDB) {
       throw new BadRequestException('Usuario o Clave incorrectos');
@@ -79,9 +97,5 @@ export class AuthGlobalService {
     const token = this.jwtService.sign(userPayload);
     const { password, ...sendUser } = userDB;
     return { ...sendUser, token: token };
-  }
-
-  async sendEmailWelcome(sendEmail: SendEmailDto): Promise<string> {
-    return;
   }
 }
