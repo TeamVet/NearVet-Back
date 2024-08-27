@@ -162,7 +162,7 @@ export class SeederService implements OnModuleInit {
  
           let raceDB: Race = await this.raceRepository.findOneBy({race});
           if (!raceDB) {raceDB = await this.raceRepository.save({race, specie: specieDB});}
-          console.log("especie: ", specie, "   Raza: ", race);
+          
         const date = new Date().toLocaleDateString();
         await this.petsRepository.save({
           name,
