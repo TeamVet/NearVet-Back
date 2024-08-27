@@ -100,5 +100,5 @@ export class User {
 
   //RELACION UNO-A-MUCHOS con roles
   @ManyToOne(() => UserRole, (role) => role.users)
-  role: UserRole;
+  role: UserRole; 
 }
