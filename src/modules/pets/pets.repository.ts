@@ -7,6 +7,7 @@ import { UsersRepository } from '../users/users.repository';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { Sex } from './entities/sex.entity';
 import { Specie } from './entities/specie.entity';
+import { Race } from './entities/race.entity';
 
 @Injectable()
 export class PetsRepository {
@@ -15,6 +16,7 @@ export class PetsRepository {
     @InjectRepository(Pet) private readonly petsRepository: Repository<Pet>,
     @InjectRepository(Sex) private readonly sexRepository: Repository<Sex>,
     @InjectRepository(Specie) private readonly specieRepository: Repository<Specie>,
+    @InjectRepository(Race) private readonly raceRepository: Repository<Race>,
     private usersRepository: UsersRepository,
   ) {}
 
@@ -54,15 +56,26 @@ export class PetsRepository {
   }
 
   async createPetRepository(pet: CreatePetDto) {
-    const { userId } = pet;
+    const { userId, sexId, specieId, raceId } = pet;
+
     const user: User = await this.usersRepository.getUserByIdRepository(userId);
-    if (!user)
-      throw new Error(
-        `No se encontro el usuario con el id ${userId} para registrar su mascota`,
-      );
+    if (!user) {throw new NotFoundException(`No se encontro el usuario con el id ${userId} para registrar su mascota`);}
+
+    const sex: Sex = await this.sexRepository.findOneBy({id: sexId});
+    if (!sex) {throw new NotFoundException(`No se encontro el sexo con el id ${sexId} para registrar su mascota`);}
+      
+    const specie: Specie = await this.specieRepository.findOneBy({id: specieId});
+    if (!specie) throw new NotFoundException( `No se encontro la especie con el id ${specieId} para registrar su mascota` );
+    
+    const race: Race = await this.raceRepository.findOneBy({id: raceId});
+    if (!race) {throw new NotFoundException(`No se encontro el sexo con el id ${raceId} para registrar su mascota`);}
+
     const newPet = this.petsRepository.create({
       ...pet,
       user,
+      sex,
+      specie,
+      race,
     });
     const savedPet = await this.petsRepository.save(newPet);
     savedPet.user.password = 'oculto';
