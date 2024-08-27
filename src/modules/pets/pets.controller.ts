@@ -23,6 +23,8 @@ import { AuthGuard } from '../authGlobal/guards/Auth.guard';
 import { RolesGuard } from '../users/roles/roles.guard';
 import { Roles } from '../users/roles/roles.decorator';
 import { Role } from '../users/roles/roles.enum';
+import { Specie } from './entities/specie.entity';
+import { Sex } from './entities/sex.entity';
 
 @ApiTags('Pets')
 @Controller('pets')
@@ -35,6 +37,16 @@ export class PetsController {
   @UseGuards(AuthGuard, RolesGuard)
   getPets() {
     return this.petsService.getPetsService();
+  }
+
+  @Get("SpecieAndRaces")
+  getPetSpeciesandRaces(): Promise <Specie[]> {
+    return this.petsService.getPetSpeciesandRacesService();
+  }
+
+  @Get("Sex")
+  getPetSex(): Promise <Sex[]> {
+    return this.petsService.getPetsSexService();
   }
 
   @Get(':id')

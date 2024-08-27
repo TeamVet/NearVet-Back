@@ -5,13 +5,25 @@ import { Pet } from './entities/pet.entity';
 import { User } from '../users/entities/user.entity';
 import { UsersRepository } from '../users/users.repository';
 import { CreatePetDto } from './dto/create-pet.dto';
+import { Sex } from './entities/sex.entity';
+import { Specie } from './entities/specie.entity';
 
 @Injectable()
 export class PetsRepository {
+  
   constructor(
     @InjectRepository(Pet) private readonly petsRepository: Repository<Pet>,
+    @InjectRepository(Sex) private readonly sexRepository: Repository<Sex>,
+    @InjectRepository(Specie) private readonly specieRepository: Repository<Specie>,
     private usersRepository: UsersRepository,
   ) {}
+
+  async getPetsSexService(): Promise<Sex[]> {
+    return await this.sexRepository.find();
+  }
+  async getPetSpeciesandRacesRepository(): Promise <Specie[]> {
+    return await this.specieRepository.find({relations: {races:true}});
+  }
 
   async getPetsRepository() {
     const pets = await this.petsRepository.find({relations: {race:true, specie:true, sex:true}});
