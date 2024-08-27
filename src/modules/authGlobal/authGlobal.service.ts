@@ -39,7 +39,8 @@ export class AuthGlobalService {
     const { passwordConfirm, role, ...createUser } = user;
     // creo el usuario en la DB pisando el dato del password con la clave hasheada
     const userRole: UserRole = await this.userRoleRepository.findOneBy({role:user.role})
-    if (!userRole) new NotFoundException("El rol Asignado no Existe");
+    console.log ("userRole: ", userRole)
+    if (!userRole) throw new NotFoundException("El rol Asignado no Existe");
     const userSave = await this.usersRepository.createUserRepository({
       ...createUser,
       userRole,
@@ -89,6 +90,8 @@ export class AuthGlobalService {
       email: userDB.email,
       roles: userDB.userRole,
     };
+
+    console.log("user payload ",userPayload)
 
     // creo el token, quito el password de userDB y lo guardo en sendUser y retorno el user con el token
     const token = this.jwtService.sign(userPayload);
