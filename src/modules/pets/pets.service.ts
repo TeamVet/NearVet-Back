@@ -4,12 +4,14 @@ import { UpdatePetDto } from './dto/update-pet.dto';
 import { PetsRepository } from './pets.repository';
 import { UsersRepository } from '../users/users.repository';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { Specie } from './entities/specie.entity';
+import { Sex } from './entities/sex.entity';
 
 @Injectable()
 export class PetsService {
+  
   constructor(
     private readonly petsRepository: PetsRepository,
-    private readonly usersRepository: UsersRepository,
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
@@ -23,6 +25,14 @@ export class PetsService {
 
   async getPetsByUserService(id: string) {
     return this.petsRepository.getPetsByUserRepository(id);
+  }
+
+  getPetSpeciesandRacesService(): Promise <Specie[]> {
+    return this.petsRepository.getPetSpeciesandRacesRepository();
+  }
+
+  getPetsSexService(): Promise <Sex[]> {
+    return this.petsRepository.getPetsSexService();
   }
 
   async createPetService(createPetDto: CreatePetDto) {
