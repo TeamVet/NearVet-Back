@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthGlobalModule } from './modules/authGlobal/authGlobal.module';
 import { EmailModule } from './modules/email/email.module';
+import { SeederModule } from './modules/seeder/seeder.module';
 import { CloudinaryConfig } from './config/cloudinary';
 import { CloudinaryService } from './cloudinary/cloudinary.service';
 
@@ -28,18 +29,14 @@ import { CloudinaryService } from './cloudinary/cloudinary.service';
       signOptions: { expiresIn: '1h' },
       secret: process.env.JWT_SECRET,
     }),
-
     AuthGlobalModule,
     UsersModule,
     PetsModule,
     EmailModule,
+    SeederModule,
   ],
 
   controllers: [],
-  providers: [
-    CloudinaryConfig,
-    CloudinaryService
-  ],
+  providers: [CloudinaryConfig, CloudinaryService],
 })
-
 export class AppModule {}
