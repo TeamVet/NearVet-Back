@@ -80,19 +80,20 @@ export class CreateUserDto {
     example: new Date('1/2/1988'),
   })
   @IsOptional()
-  birthDate: string;
+  @IsDateString()
+  birthDate?: Date;
 
   @ApiProperty({
     description: 'La fecha de inicio es obligatoria',
-    example: new Date().toLocaleDateString(),
+    example: new Date(),
   })
   @IsOptional()
-  @IsString()
-  startDate: string;
+  @IsDateString()
+  startDate: Date;
 
   @IsOptional()
   @IsDateString()
-  endDate?: string;
+  endDate?: Date;
 
   @ApiPropertyOptional({
     description: 'El numero de telefono es opcional, Ingresar solo numeros',
@@ -132,7 +133,7 @@ export class CreateUserDto {
   })
   @IsOptional()
   @IsString()
-  imgProfile: string;
+  imgProfile?: string;
 
   // @ApiPropertyOptional({
   //   description: 'Lista de mascotas asociadas al usuario',

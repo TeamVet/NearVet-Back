@@ -19,8 +19,6 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class AuthGlobalService {
   constructor(
-    @InjectRepository(UserRole)
-    private readonly userRoleRepository: Repository<UserRole>,
     private readonly usersRepository: UsersRepository,
     private readonly emailProvider: EmailProvider,
     private readonly jwtService: JwtService,
@@ -39,13 +37,11 @@ export class AuthGlobalService {
     // quito passwordConfrim de user y lo guardo en createUser
     const { passwordConfirm, role, ...createUser } = user;
     // creo el usuario en la DB pisando el dato del password con la clave hasheada
-    const userRole: UserRole = await this.userRoleRepository.findOneBy({
-      role: role, //VERIFICAR
-    });
-    if (!userRole) new NotFoundException('El rol Asignado no Existe');
+    const userRole: UserRole = await this.usersRepository.getRolesUsersByRoleRepository(role);
+    if (!userRole) throw new NotFoundException('El rol Asignado no Existe');
     const userSave = await this.usersRepository.createUserRepository({
       ...createUser,
-      role: userRole, //VERIFICAR
+      role: userRole,
       password: passwordHash,
     });
     //envio email de bienvenida
@@ -62,6 +58,7 @@ export class AuthGlobalService {
       this.emailProvider.sendEmail(sendEmailWelcome);
     }
     // quito el password del userSave y lo guardo en sendUser para retornar
+    
     const { password, ...sendUser } = userSave;
     return sendUser;
   }
@@ -90,8 +87,11 @@ export class AuthGlobalService {
     const userPayload = {
       id: userDB.id,
       email: userDB.email,
-      roles: userDB.role,
+      dni: userDB.dni,
+      roles: userDB.role.role,
     };
+
+    console.log("user payload ",userPayload)
 
     // creo el token, quito el password de userDB y lo guardo en sendUser y retorno el user con el token
     const token = this.jwtService.sign(userPayload);

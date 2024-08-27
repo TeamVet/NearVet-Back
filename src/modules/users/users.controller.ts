@@ -18,6 +18,7 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Role } from './roles/roles.enum';
 
 @ApiTags('Users')
 @Controller('users')
@@ -27,6 +28,16 @@ export class UsersController {
   @Get()
   getUsers(@Query('page') page: number = 1, @Query('limit') limit: number = 5) {
     return this.usersService.getUsersService(Number(page), Number(limit));
+  }
+
+  @Get("userRoles")
+  getRolesUsers() {
+    return this.usersService.getRolesUsersService();
+  }
+
+  @Get("userRoles/:role")
+  getRolesUsersByRole(@Param("role") role:Role) {
+    return this.usersService.getRolesUsersByRoleService(role);
   }
 
   @Get('search-by-email')

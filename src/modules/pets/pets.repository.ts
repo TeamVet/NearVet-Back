@@ -21,7 +21,9 @@ export class PetsRepository {
   }
 
   async getPetByIdRepository(id: string) {
-    const pet = await this.petsRepository.findOneBy({ id });
+    const pet = await this.petsRepository.findOne({ 
+      where: {id},
+      relations: {specie: true, race: true}});
     if (!pet)
       throw new NotFoundException(`Mascota con el ID ${id} no encontrada`);
     return pet;
