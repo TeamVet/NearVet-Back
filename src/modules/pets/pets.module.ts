@@ -9,10 +9,11 @@ import { UsersRepository } from '../users/users.repository';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Sex } from './entities/sex.entity';
 import { Specie } from './entities/specie.entity';
+import { Race } from './entities/race.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Pet, Sex, Specie]),
+    TypeOrmModule.forFeature([Pet, Sex, Specie, Race]),
     UsersModule
   ],
   controllers: [PetsController],
