@@ -117,7 +117,7 @@ export class CreateUserDto {
     example: 'user',
   })
   @IsNotEmpty()
-  role: Role;
+  rol: Role;
 
   @ApiPropertyOptional({
     description: `La ciudad es Opcional.`,

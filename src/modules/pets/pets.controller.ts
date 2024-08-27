@@ -12,12 +12,17 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   FileTypeValidator,
+  UseGuards,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
-import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from '../authGlobal/guards/Auth.guard';
+import { RolesGuard } from '../users/roles/roles.guard';
+import { Roles } from '../users/roles/roles.decorator';
+import { Role } from '../users/roles/roles.enum';
 
 @ApiTags('Pets')
 @Controller('pets')
@@ -25,26 +30,41 @@ export class PetsController {
   constructor(private readonly petsService: PetsService) {}
 
   @Get()
+  @ApiBearerAuth()
+  @Roles(Role.AdminVet)
+  @UseGuards(AuthGuard, RolesGuard)
   getPets() {
     return this.petsService.getPetsService();
   }
 
   @Get(':id')
+  @ApiBearerAuth()
+  @Roles(Role.AdminVet, Role.User)
+  @UseGuards(AuthGuard, RolesGuard)
   getPetById(@Param('id', ParseUUIDPipe) id: string) {
     return this.petsService.getPetByIdService(id);
   }
 
   @Get('user/:id')
+  @ApiBearerAuth()
+  @Roles(Role.AdminVet, Role.User, Role.Veterinarian)
+  @UseGuards(AuthGuard, RolesGuard)
   getPetsByUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.petsService.getPetsByUserService(id);
   }
 
   @Post()
+  @ApiBearerAuth()
+  @Roles(Role.AdminVet, Role.User)
+  @UseGuards(AuthGuard, RolesGuard)
   createPet(@Body() createPetDto: CreatePetDto) {
     return this.petsService.createPetService(createPetDto);
   }
 
   @Put(':id')
+  @ApiBearerAuth()
+  @Roles(Role.AdminVet, Role.User)
+  @UseGuards(AuthGuard, RolesGuard)
   updatePet(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updatePetDto: UpdatePetDto,
@@ -53,11 +73,17 @@ export class PetsController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @Roles(Role.AdminVet, Role.User)
+  @UseGuards(AuthGuard, RolesGuard)
   removePet(@Param('id', ParseUUIDPipe) id: string) {
     return this.petsService.removePetService(id);
   }
 
   @Put('imgProfile/:id')
+  @ApiBearerAuth()
+  @Roles(Role.AdminVet, Role.User)
+  @UseGuards(AuthGuard, RolesGuard)
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({

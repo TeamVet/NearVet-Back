@@ -12,13 +12,16 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   FileTypeValidator,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/updateUser.dto';
-import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Role } from './roles/roles.enum';
+import { AuthGuard } from '../authGlobal/guards/Auth.guard';
+import { RolesGuard } from './roles/roles.guard';
 
 @ApiTags('Users')
 @Controller('users')
@@ -41,6 +44,8 @@ export class UsersController {
   }
 
   @Get('search-by-email')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   getUsersByEmail(
     @Query('email') email: string,
   ): Promise<Omit<User, 'password'>> {
@@ -48,16 +53,22 @@ export class UsersController {
   }
 
   @Get('search-by-dni')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   getUsersByDni(@Query('dni') dni: number): Promise<Omit<User, 'password'>> {
     return this.usersService.getUsersByDniService(dni);
   }
 
   @Get(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   getUsersById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.getUsersByIdService(id);
   }
 
   @Put(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   updateUser(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -75,11 +86,15 @@ export class UsersController {
 
   // CREAR DELETE (borrar de bd)
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   removeUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.removeUserService(id);
   }
 
   @Put('imgProfile/:id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({
