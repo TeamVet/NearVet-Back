@@ -76,7 +76,7 @@ export class CreatePetDto {
 
   @ApiPropertyOptional({
     description: 'El id de la especie no es obligatorio',
-    example: '21131006-7eae-47f8-93c2-1264c6be49cb',
+    example: 'b139b26e-0282-45b3-8c96-00158a5f9644',
   })
   @IsOptional()
   @IsUUID()
@@ -84,7 +84,7 @@ export class CreatePetDto {
 
   @ApiPropertyOptional({
     description: 'El id de la raza no es obligatorio',
-    example: '21131006-7eae-47f8-93c2-1264c6be49cb',
+    example: 'c38ad062-8b9f-432f-8f82-a3e660956643',
   })
   @IsOptional()
   @IsUUID()
@@ -92,16 +92,13 @@ export class CreatePetDto {
 
   @ApiPropertyOptional({
     description: 'El id del sexo no es obligatorio',
-    example: '21131006-7eae-47f8-93c2-1264c6be49cb',
+    example: '1',
   })
   @IsOptional()
-  @IsUUID()
-  sexId?: string;
+  @IsNumber()
+  sexId?: number;
 
-  @ApiPropertyOptional({
-    description: 'El id de la condicion reproductiva no es obligatorio',
-    example: '21131006-7eae-47f8-93c2-1264c6be49cb',
-  })
+  @ApiHideProperty()
   @IsOptional()
   @IsUUID()
   repConditionId?: string;
