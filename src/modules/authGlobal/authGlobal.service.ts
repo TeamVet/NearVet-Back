@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersRepository } from '../users/users.repository';
@@ -15,57 +19,56 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class AuthGlobalService {
   constructor(
-    @InjectRepository(UserRole) private userRoleRepository: Repository<UserRole>,
+    @InjectRepository(UserRole)
+    private readonly userRoleRepository: Repository<UserRole>,
     private readonly usersRepository: UsersRepository,
     private readonly emailProvider: EmailProvider,
     private readonly jwtService: JwtService,
   ) {}
 
-  async signup(user: CreateUserDto ): Promise<Omit<User, 'password'>> {
+  async signup(user: CreateUserDto): Promise<Omit<User, 'password'>> {
     // Comprobar que el usuario no este ya creado, sino devuelve un error
-    let userDB = await this.usersRepository.getUserByEmailRepository(
-      user.email,
-    );
-    if (userDB) throw new BadRequestException(`El usuario con el email ${userDB.email} ya existe`);
-
-    userDB = await this.usersRepository.getUserByDniRepository(
-      user.dni,
-    );
-    if (userDB) throw new BadRequestException(`El usuario con el DNI ${userDB.dni} ya existe`);
+    const userDB = await this.usersRepository.getUserByDniRepository(user.dni);
+    if (userDB)
+      throw new BadRequestException(
+        `El usuario con el DNI ${userDB.dni} ya existe`,
+      );
 
     // hasheo la contraseña
     const passwordHash = await bcrypt.hash(user.password, 10);
     // quito passwordConfrim de user y lo guardo en createUser
     const { passwordConfirm, role, ...createUser } = user;
     // creo el usuario en la DB pisando el dato del password con la clave hasheada
-    const userRole: UserRole = await this.userRoleRepository.findOneBy({role:user.role})
-    if (!userRole) new NotFoundException("El rol Asignado no Existe");
+    const userRole: UserRole = await this.userRoleRepository.findOneBy({
+      role: role, //VERIFICAR
+    });
+    if (!userRole) new NotFoundException('El rol Asignado no Existe');
     const userSave = await this.usersRepository.createUserRepository({
       ...createUser,
-      userRole,
+      role: userRole, //VERIFICAR
       password: passwordHash,
     });
     //envio email de bienvenida
     if (userSave.email) {
-    const sendEmailWelcome: SendEmailDto = {
-      to: userSave.email,
-      subject: `¡Bienvenido ${userSave.name}! - NearVet`,
-      text: `¡Bienvenido ${userSave.name}!
+      const sendEmailWelcome: SendEmailDto = {
+        to: userSave.email,
+        subject: `¡Bienvenido ${userSave.name}! - NearVet`,
+        text: `¡Bienvenido ${userSave.name}!
             Nos alegra que estes con nosotros. 
             Desde NearVet nuestra rpioridad es el cuidado de las mascotas! 
             deseamos que tengas una excelente experiencia con nosotros.`,
-      html: `<HTML><BODY><H1>¡Bienvenido ${userSave.name}! - NearVet </H1>`,
-    };
-    this.emailProvider.sendEmail(sendEmailWelcome);
-  }
+        html: `<HTML><BODY><H1>¡Bienvenido ${userSave.name}! - NearVet </H1>`,
+      };
+      this.emailProvider.sendEmail(sendEmailWelcome);
+    }
     // quito el password del userSave y lo guardo en sendUser para retornar
-    const {password, ...sendUser} = userSave
+    const { password, ...sendUser } = userSave;
     return sendUser;
   }
 
-
-
-  async signin( userLogin: LoginUserDto ): Promise<Omit<User, 'password'> & { token: string }> {
+  async signin(
+    userLogin: LoginUserDto,
+  ): Promise<Omit<User, 'password'> & { token: string }> {
     // comprueba que el usuario exista, sino devuelve un error
     const userDB = await this.usersRepository.getUserByDniRepository(
       userLogin.dni,
@@ -87,7 +90,7 @@ export class AuthGlobalService {
     const userPayload = {
       id: userDB.id,
       email: userDB.email,
-      roles: userDB.userRole,
+      roles: userDB.role,
     };
 
     // creo el token, quito el password de userDB y lo guardo en sendUser y retorno el user con el token
@@ -95,5 +98,4 @@ export class AuthGlobalService {
     const { password, ...sendUser } = userDB;
     return { ...sendUser, token: token };
   }
-
 }

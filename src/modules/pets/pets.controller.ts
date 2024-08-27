@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   Put,
@@ -20,7 +19,7 @@ import { UpdatePetDto } from './dto/update-pet.dto';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@ApiTags("Pets")
+@ApiTags('Pets')
 @Controller('pets')
 export class PetsController {
   constructor(private readonly petsService: PetsService) {}
@@ -46,7 +45,10 @@ export class PetsController {
   }
 
   @Put(':id')
-  updatePet(@Param('id', ParseUUIDPipe) id: string, @Body() updatePetDto: UpdatePetDto) {
+  updatePet(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updatePetDto: UpdatePetDto,
+  ) {
     return this.petsService.updatePetService(id, updatePetDto);
   }
 
@@ -56,32 +58,38 @@ export class PetsController {
   }
 
   @Put('imgProfile/:id')
-  @UseInterceptors(FileInterceptor("file"))
+  @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
-  @ApiBody({ description: `Debe subir el Archivo de Imagen`, schema: {
-    type: 'object',
-    properties: {
-      file: {
-        type: 'string',
-        format: 'binary',
+  @ApiBody({
+    description: `Debe subir el Archivo de Imagen`,
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
       },
     },
-  },})
-    async uploadImgProfile(@Param("id", ParseUUIDPipe) id:string, @UploadedFile(
+  })
+  async uploadImgProfile(
+    @Param('id', ParseUUIDPipe) id: string,
+    @UploadedFile(
       new ParseFilePipe({
         validators: [
-            new MaxFileSizeValidator ({
-                maxSize: 200000,
-                message: "El Archivo debe ser menor a 200Kb",
-            }),
-            new FileTypeValidator({
-                fileType: /(.jpg|.jpeg|.png|.webp)$/,
-            })
-          ]
-        })
-    ) file: Express.Multer.File) {
-      console.log("File", file)
-      return await this.petsService.uploadImgProfileService(id, file);
-      
-    }
+          new MaxFileSizeValidator({
+            maxSize: 200000,
+            message: 'El Archivo debe ser menor a 200Kb',
+          }),
+          new FileTypeValidator({
+            fileType: /(.jpg|.jpeg|.png|.webp)$/,
+          }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    console.log('File', file);
+    return await this.petsService.uploadImgProfileService(id, file);
+  }
 }

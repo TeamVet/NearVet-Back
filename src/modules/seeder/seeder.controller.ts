@@ -1,13 +1,19 @@
 import { Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { SeederService } from './seeder.service';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('seeder')
 @Controller('seeder')
 export class SeederController {
   constructor(private readonly seederService: SeederService) {}
 
-  /* @Post('pets')
+  @Post('user')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Cargar archivo de usuarios' })
+  addUsers() {
+    return this.seederService.loadUsersData();
+  }
+  @Post('pets')
   @ApiOperation({ summary: 'Cargar archivo de mascotas' })
   addPets() {
     return this.seederService.loadPetsData();
@@ -19,13 +25,8 @@ export class SeederController {
   addRoles() {
     return this.seederService.loadRolesData();
   }
+  /* 
 
-  @Post('user')
-  @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'Cargar archivo de usuarios' })
-  addUsers() {
-    return this.seederService.loadUsersData();
-  }
 
   @Post('veterinaries')
   @HttpCode(HttpStatus.CREATED)

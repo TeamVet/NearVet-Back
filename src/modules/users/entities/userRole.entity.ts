@@ -1,15 +1,15 @@
 import { User } from './user.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { v4 as uuid } from 'uuid';
+import { Role } from '../roles/roles.enum';
 
 @Entity({ name: 'roles' })
 export class UserRole {
   @PrimaryGeneratedColumn('uuid')
-  id: string = uuid();
+  id: string;
 
   @Column({ length: 50, nullable: false })
-  role: string;
+  role: Role;
 
-  @OneToMany(() => User, (user) => user.userRole)
+  @OneToMany(() => User, (user) => user.role)
   users: User[];
 }

@@ -1,10 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsArray,
-  IsDate,
   IsDateString,
   IsEmail,
-  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -12,13 +9,9 @@ import {
   IsStrongPassword,
   Length,
   Validate,
-  ValidateNested,
 } from 'class-validator';
 import { Role } from '../roles/roles.enum';
 import { passwordCompare } from '../../../decorators/comparePass.decorator';
-import { CreatePetDto } from 'src/modules/pets/dto/create-pet.dto';
-import { Type } from 'class-transformer';
-import { Pet } from 'src/modules/pets/entities/pet.entity';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -87,21 +80,19 @@ export class CreateUserDto {
     example: new Date('1/2/1988'),
   })
   @IsOptional()
-  @IsDateString()
-  @IsDateString()
-  birthdate?: Date;
+  birthDate: string;
 
   @ApiProperty({
     description: 'La fecha de inicio es obligatoria',
-    example: new Date(),
+    example: new Date().toLocaleDateString(),
   })
   @IsOptional()
   @IsString()
-  startDate: Date;
+  startDate: string;
 
   @IsOptional()
   @IsDateString()
-  endDate?: Date;
+  endDate?: string;
 
   @ApiPropertyOptional({
     description: 'El numero de telefono es opcional, Ingresar solo numeros',
@@ -124,7 +115,6 @@ export class CreateUserDto {
     description: `El Rol es obligatoria. Sus valores pueden ser: ${Role.AdminVet}, ${Role.User} o ${Role.Veterinarian}`,
     example: 'user',
   })
-  @IsEnum(Role)
   @IsNotEmpty()
   role: Role;
 
@@ -135,6 +125,14 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   city?: string;
+
+  @ApiPropertyOptional({
+    description: `La imagen de perfil es Opcional.`,
+    example: 'image.jpg',
+  })
+  @IsOptional()
+  @IsString()
+  imgProfile: string;
 
   // @ApiPropertyOptional({
   //   description: 'Lista de mascotas asociadas al usuario',
