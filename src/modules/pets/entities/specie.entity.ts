@@ -13,7 +13,7 @@ import { Race } from './race.entity';
 })
 export class Specie {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string 
 
   @Column({
     type: 'varchar',
@@ -25,7 +25,7 @@ export class Specie {
   @OneToMany(() => Pet, (pet) => pet.specie)
   pets: Pet[];
 
-  /* RELACION MUCHOS-A-UNO CON races */
-  @ManyToOne(() => Race, (race) => race.specie)
-  race: Race;
+  /* RELACION UNO-A-MUCHOS CON race */
+  @OneToMany(() => Race, (race) => race.specie)
+  races: Race[];
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Pet } from './pet.entity';
 import { Specie } from './specie.entity';
 
@@ -19,7 +19,7 @@ export class Race {
   @OneToMany(() => Pet, (pet) => pet.specie)
   pets: Pet[];
 
-  /* RELACION UNO-A-MUCHOS CON species */
-  @OneToMany(() => Specie, (specie) => specie.race)
-  specie: Specie[];
+  /* RELACION MUCHOS-A-UNO CON species */
+  @ManyToOne(() => Specie, (specie) => specie.races)
+  specie: Specie;
 }

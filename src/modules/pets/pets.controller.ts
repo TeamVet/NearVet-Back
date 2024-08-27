@@ -31,7 +31,7 @@ export class PetsController {
 
   @Get()
   @ApiBearerAuth()
-  @Roles(Role.AdminVet)
+  @Roles(Role.AdminVet, Role.User)
   @UseGuards(AuthGuard, RolesGuard)
   getPets() {
     return this.petsService.getPetsService();

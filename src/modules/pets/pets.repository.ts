@@ -14,7 +14,7 @@ export class PetsRepository {
   ) {}
 
   async getPetsRepository() {
-    const pets = await this.petsRepository.find();
+    const pets = await this.petsRepository.find({relations: {race:true, specie:true, sex:true}});
     if (pets.length === 0)
       throw new NotFoundException(`Por el momento no hay mascotas registradas`);
     return pets;
@@ -23,7 +23,7 @@ export class PetsRepository {
   async getPetByIdRepository(id: string) {
     const pet = await this.petsRepository.findOne({ 
       where: {id},
-      relations: {specie: true, race: true}});
+      relations: {specie: true, race: true, sex:true}});
     if (!pet)
       throw new NotFoundException(`Mascota con el ID ${id} no encontrada`);
     return pet;
