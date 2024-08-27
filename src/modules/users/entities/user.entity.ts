@@ -60,22 +60,22 @@ export class User {
   password: string;
 
   @Column({
-    type: 'varchar',
-    nullable: false,
-  })
-  birthDate: string;
-
-  @Column({
-    type: 'varchar',
-    nullable: false,
-  })
-  startDate: string;
-
-  @Column({
-    type: 'varchar',
+    type: 'date',
     nullable: true,
   })
-  endDate: string;
+  birthDate: Date;
+
+  @Column({
+    type: 'date',
+    nullable: false,
+  })
+  startDate: Date;
+
+  @Column({
+    type: 'date',
+    nullable: true,
+  })
+  endDate: Date;
 
   @Column({
     nullable: true,
@@ -100,6 +100,5 @@ export class User {
 
   //RELACION UNO-A-MUCHOS con roles
   @ManyToOne(() => UserRole, (role) => role.users)
-  @JoinColumn()
   role: UserRole;
 }

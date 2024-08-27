@@ -4,7 +4,7 @@ import {IsNotEmpty, IsNumber, IsString } from 'class-validator';
 export class LoginUserDto {
   @ApiProperty({
     description: 'DNI para iniciar sesion',
-    example: '34678789',
+    example: '34576894',
   })
   @IsNotEmpty()
   @IsNumber()

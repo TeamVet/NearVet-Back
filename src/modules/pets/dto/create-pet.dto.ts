@@ -6,6 +6,7 @@ import {
   Length,
   IsOptional,
   IsNumber,
+  IsDateString,
 } from 'class-validator';
 
 export class CreatePetDto {
@@ -20,17 +21,20 @@ export class CreatePetDto {
     example: new Date('01-07-2024'),
   })
   @IsOptional()
-  birthdate?: string;
+  @IsDateString()
+  birthdate?: Date;
 
   @ApiProperty({
     description: 'La fecha de ingreso en el sistema es obligatoria',
     example: new Date('01-08-2024'),
   })
   @IsNotEmpty()
-  startDate: string;
+  @IsDateString()
+  startDate: Date;
 
   @IsOptional()
-  endDate?: string;
+  @IsDateString()
+  endDate?: Date;
 
   @ApiProperty({
     description: 'El color es obligatorio',

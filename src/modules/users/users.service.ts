@@ -8,9 +8,11 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 import { UsersRepository } from './users.repository';
 import { User } from './entities/user.entity';
 import { CloudinaryService } from '../../cloudinary/cloudinary.service';
+import { Role } from './roles/roles.enum';
 
 @Injectable()
 export class UsersService {
+  
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly cloudinaryService: CloudinaryService,
@@ -21,6 +23,14 @@ export class UsersService {
     if (users.length === 0)
       throw new NotFoundException(`Por el momento no hay usuarios registrados`);
     return users.map(({ password, role, ...userNoPassword }) => userNoPassword);
+  }
+
+  async getRolesUsersService() {
+    return await this.usersRepository.getRolesUsersRepository();
+  }
+
+  async getRolesUsersByRoleService(role: Role) {
+    return await this.usersRepository.getRolesUsersByRoleRepository(role);
   }
 
   async getUsersByEmailService(email: string): Promise<Omit<User, 'password'>> {
@@ -77,7 +87,7 @@ export class UsersService {
     const user = await this.usersRepository.unsubscribeUserRepository(id);
     if (!user)
       throw new NotFoundException(`Usuario para dar de baja no encontrado`);
-    user.endDate = new Date().toLocaleDateString();
+    user.endDate = new Date();
     const { password, ...userNoPassword } = user;
     return userNoPassword;
   }

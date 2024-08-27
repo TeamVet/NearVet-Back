@@ -5,11 +5,15 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { SendEmailDto } from './dto/sendEmailUser.dto';
 import { sendEmail } from '../../services/email/email.service';
+import { UserRole } from './entities/userRole.entity';
+import { Role } from './roles/roles.enum';
 
 @Injectable()
 export class UsersRepository {
+  
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(UserRole) private userRoleRepository: Repository<UserRole>,
   ) {}
 
   async getUsersRepository(page: number, limit: number) {
@@ -19,6 +23,14 @@ export class UsersRepository {
     });
   }
 
+  async getRolesUsersRepository() {
+    return await this.userRoleRepository.find();
+  }
+
+  async getRolesUsersByRoleRepository(role:Role) {
+    return await this.userRoleRepository.findOneBy({ role });
+  }
+
   async getUserByEmailRepository(email: string): Promise<User> {
     return await this.usersRepository.findOne({
       where: { email },
@@ -26,7 +38,11 @@ export class UsersRepository {
   }
 
   async getUserByDniRepository(dni: number) {
-    return await this.usersRepository.findOne({ where: { dni } });
+    return await this.usersRepository.findOne({ where: { dni },
+      relations: {
+        role: true,
+        pets: true,
+      } });
   }
 
   async getUserByIdRepository(id: string) {
