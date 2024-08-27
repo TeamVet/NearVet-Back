@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsDateString,
   IsEmail,
@@ -127,10 +127,7 @@ export class CreateUserDto {
   @IsString()
   city?: string;
 
-  @ApiPropertyOptional({
-    description: `La imagen de perfil es Opcional.`,
-    example: 'image.jpg',
-  })
+  @ApiHideProperty()
   @IsOptional()
   @IsString()
   imgProfile?: string;

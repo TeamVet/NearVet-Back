@@ -8,6 +8,8 @@ import { UserRole } from '../users/entities/userRole.entity';
 import { Pet } from '../pets/entities/pet.entity';
 import * as bcrypt from 'bcrypt';
 import { Sex } from '../pets/entities/sex.entity';
+import { Specie } from '../pets/entities/specie.entity';
+import { Race } from '../pets/entities/race.entity';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -19,6 +21,10 @@ export class SeederService implements OnModuleInit {
     private readonly petsRepository: Repository<Pet>,
     @InjectRepository(Sex)
     private readonly sexRepository: Repository<Sex>,
+    @InjectRepository(Race)
+    private readonly raceRepository: Repository<Race>,
+    @InjectRepository(Specie)
+    private readonly specieRepository: Repository<Specie>,
     /* @InjectRepository(Veterinaries)
     private readonly veterinariesRepository: Repository<Veterinaries>, */
   ) {}
@@ -123,6 +129,7 @@ export class SeederService implements OnModuleInit {
     }
     return { message: 'Seeder usuarios agregados' };
   }
+
   async loadRolesData() {
     for (const item of this.rolesdata) {
       let role = await this.rolesRepository.findOne({
@@ -135,40 +142,38 @@ export class SeederService implements OnModuleInit {
     }
     return { message: 'Seeder roles agregados' };
   }
+
+
   async loadPetsData() {
     for (const item of this.petsdata) {
       let pet = await this.petsRepository.findOne({
-        where: { dni: item.dni }, // CAMBIAR POR ALGO UNICO DE LA MASCOTA
+        where: { name: item.name }, // CAMBIAR POR ALGO UNICO DE LA MASCOTA
       });
       if (!pet) {
-        const user = await this.userRepository.findOne({
-          where: { email: item.emailOwner },
-        });
+          const user = await this.userRepository.findOne({where: { email: item.emailOwner }});
 
-        if (!user) {
-          throw new Error(
-            `Dueño de la mascota con email: ${item.emailOwner} no encontrado`,
-          );
-        }
-        const { birthdate, color, dni, emailOwner, name, sex, race, specie } =
-          item;
-        const sexDB = await this.sexRepository.findOne({
-          where: { sex: sex },
-        });
+          if (!user) {throw new Error(`Dueño de la mascota con email: ${item.emailOwner} no encontrado`);}
+          
+          const { birthdate, color, name, sex, race, specie } = item;
+          const sexDB = await this.sexRepository.findOneBy({sex});
+
+          let specieDB: Specie = await this.specieRepository.findOneBy({specie});
+          if (!specieDB) {specieDB = await this.specieRepository.save({specie});}
+ 
+          let raceDB: Race = await this.raceRepository.findOneBy({race});
+          if (!raceDB) {raceDB = await this.raceRepository.save({race, specie: specieDB});}
+          console.log("especie: ", specie, "   Raza: ", race);
         const date = new Date().toLocaleDateString();
-        pet = this.petsRepository.create({
-          birthdate,
-          color,
-          dni,
-          emailOwner,
+        await this.petsRepository.save({
           name,
-          race,
-          sex: sexDB,
-          specie,
-          user,
+          birthdate,
           startDate: date,
+          color,
+          user,
+          specie: specieDB,
+          race: raceDB,
+          sex: sexDB
         });
-        await this.petsRepository.save(pet);
       }
     }
     return { message: 'Seeder mascotas agregados' };

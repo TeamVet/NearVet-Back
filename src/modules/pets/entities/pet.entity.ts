@@ -33,23 +33,11 @@ export class Pet {
   })
   color: string;
 
-  @Column({
-    type: 'int',
-    nullable: false,
-  })
-  dni: number;
-
   @Column({ type: 'varchar', nullable: true })
   observation: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
   weightCurrent: number;
-
-  @Column({
-    type: 'varchar',
-    nullable: false,
-  })
-  emailOwner: string;
 
   @Column({
     default:

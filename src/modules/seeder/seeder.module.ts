@@ -6,9 +6,11 @@ import { User } from '../users/entities/user.entity';
 import { Pet } from '../pets/entities/pet.entity';
 import { UserRole } from '../users/entities/userRole.entity';
 import { Sex } from '../pets/entities/sex.entity';
+import { Race } from '../pets/entities/race.entity';
+import { Specie } from '../pets/entities/specie.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Pet, UserRole, Sex])],
+  imports: [TypeOrmModule.forFeature([User, Pet, UserRole, Sex, Race, Specie])],
   controllers: [SeederController],
   providers: [SeederService],
 })
