@@ -1,7 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsArray,
-  IsDate,
   IsDateString,
   IsEmail,
   IsNotEmpty,
@@ -11,17 +9,9 @@ import {
   IsStrongPassword,
   Length,
   Validate,
-  ValidateNested,
 } from 'class-validator';
 import { Role } from '../roles/roles.enum';
 import { passwordCompare } from '../../../decorators/comparePass.decorator';
-<<<<<<< HEAD
-import { UserRole } from '../entities/userRole.entity';
-=======
-import { CreatePetDto } from 'src/modules/pets/dto/create-pet.dto';
-import { Type } from 'class-transformer';
-import { Pet } from 'src/modules/pets/entities/pet.entity';
->>>>>>> 01797b1de1c17447920d66874302a992b54ed724
 
 export class CreateUserDto {
   @ApiProperty({
@@ -90,25 +80,19 @@ export class CreateUserDto {
     example: new Date('1/2/1988'),
   })
   @IsOptional()
-<<<<<<< HEAD
   birthDate: string;
-=======
-  @IsDateString()
-  @IsDateString()
-  birthdate?: Date;
->>>>>>> 01797b1de1c17447920d66874302a992b54ed724
 
   @ApiProperty({
     description: 'La fecha de inicio es obligatoria',
-    example: new Date(),
+    example: new Date().toLocaleDateString(),
   })
   @IsOptional()
   @IsString()
-  startDate: Date;
+  startDate: string;
 
   @IsOptional()
   @IsDateString()
-  endDate?: Date;
+  endDate?: string;
 
   @ApiPropertyOptional({
     description: 'El numero de telefono es opcional, Ingresar solo numeros',
@@ -132,7 +116,7 @@ export class CreateUserDto {
     example: 'user',
   })
   @IsNotEmpty()
-  role: UserRole;
+  role: Role;
 
   @ApiPropertyOptional({
     description: `La ciudad es Opcional.`,
@@ -140,8 +124,7 @@ export class CreateUserDto {
   })
   @IsOptional()
   @IsString()
-<<<<<<< HEAD
-  city: string;
+  city?: string;
 
   @ApiPropertyOptional({
     description: `La imagen de perfil es Opcional.`,
@@ -150,8 +133,6 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   imgProfile: string;
-=======
-  city?: string;
 
   // @ApiPropertyOptional({
   //   description: 'Lista de mascotas asociadas al usuario',
@@ -162,5 +143,4 @@ export class CreateUserDto {
   // @Type(() => Pet)
   //@IsOptional()
   /*pets?: Pet[];*/
->>>>>>> 01797b1de1c17447920d66874302a992b54ed724
 }

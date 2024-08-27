@@ -10,7 +10,8 @@
     "address": "123 Maple Street",
     "role": "adminVet",
     "city": "Springfield",
-    "imgProfile": "no-image.jpg"
+    "imgProfile": "no-image.jpg",
+    "dni": 123456789
   },
   {
     "name": "Jane",
@@ -23,7 +24,8 @@
     "address": "456 Oak Avenue",
     "role": "user",
     "city": "Riverside",
-    "imgProfile": "no-image.jpg"
+    "imgProfile": "no-image.jpg",
+    "dni": 234567891
   },
   {
     "name": "Alice",
@@ -36,7 +38,8 @@
     "address": "789 Pine Road",
     "role": "veterinarian",
     "city": "Boston",
-    "imgProfile": "no-image.jpg"
+    "imgProfile": "no-image.jpg",
+    "dni": 345678912
   },
   {
     "name": "Mike",
@@ -49,7 +52,8 @@
     "address": "246 Elm Street",
     "role": "user",
     "city": "Chicago",
-    "imgProfile": "no-image.jpg"
+    "imgProfile": "no-image.jpg",
+    "dni": 456789123
   },
   {
     "name": "Sophia",
@@ -62,6 +66,7 @@
     "address": "357 Cedar Boulevard",
     "role": "user",
     "city": "Miami",
-    "imgProfile": "no-image.jpg"
+    "imgProfile": "no-image.jpg",
+    "dni": 567891234
   }
 ]

@@ -108,14 +108,15 @@ export class SeederService implements OnModuleInit {
           name: item.name,
           lastName: item.lastName,
           email: item.email,
+          imgProfile: item.imgProfile,
+          dni: item.dni,
           password: passwordHash,
           birthDate: item.birthDate,
           startDate: item.startDate,
           phone: item.phone,
           address: item.address,
+          city: item.city,
           role: role,
-          city: item.password,
-          imgProfile: item.imgProfile,
         });
         await this.userRepository.save(user);
       }

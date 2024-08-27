@@ -72,10 +72,10 @@ export class User {
   startDate: string;
 
   @Column({
-    type: 'date',
+    type: 'varchar',
     nullable: true,
   })
-  endDate: Date;
+  endDate: string;
 
   @Column({
     nullable: true,

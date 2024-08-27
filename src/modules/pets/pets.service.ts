@@ -7,7 +7,6 @@ import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class PetsService {
-
   constructor(
     private readonly petsRepository: PetsRepository,
     private readonly usersRepository: UsersRepository,
@@ -40,9 +39,14 @@ export class PetsService {
 
   async uploadImgProfileService(id: string, file: Express.Multer.File) {
     const pet = await this.petsRepository.getPetByIdRepository(id);
-    if (!pet) throw new BadRequestException("La mascota que desea actualizar no existe")
+    if (!pet)
+      throw new BadRequestException(
+        'La mascota que desea actualizar no existe',
+      );
     const imgUpload = await this.cloudinaryService.uploadImage(file);
-    await this.petsRepository.updatePetRepository(id, {imgProfile: imgUpload.secure_url})  
+    await this.petsRepository.updatePetRepository(id, {
+      imgProfile: imgUpload.secure_url,
+    });
     return await this.petsRepository.getPetByIdRepository(id);
   }
 }

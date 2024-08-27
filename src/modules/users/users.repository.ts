@@ -30,18 +30,16 @@ export class UsersRepository {
   }
 
   async getUserByIdRepository(id: string) {
-    return await this.usersRepository.findOne({ 
+    return await this.usersRepository.findOne({
       where: { id },
       relations: {
-        userRole: true,
+        role: true,
         pets: true,
-      }
+      },
     });
   }
 
-  async createUserRepository(
-    user: Partial<User>,
-  ): Promise<User> {
+  async createUserRepository(user: Partial<User>): Promise<User> {
     return await this.usersRepository.save(user);
   }
 

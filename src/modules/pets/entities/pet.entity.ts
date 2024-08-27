@@ -15,11 +15,11 @@ export class Pet {
   @Column({ type: 'varchar', length: 50, nullable: false })
   name: string;
 
-  @Column({ type: 'date', nullable: true })
-  birthdate: Date;
+  @Column({ type: 'varchar', nullable: true })
+  birthdate: string;
 
-  @Column({ type: 'date', nullable: false })
-  startDate: Date;
+  @Column({ type: 'varchar', nullable: false })
+  startDate: string;
 
   @Column({
     type: 'varchar',

@@ -20,7 +20,7 @@ import { Repository } from 'typeorm';
 export class AuthGlobalService {
   constructor(
     @InjectRepository(UserRole)
-    private userRoleRepository: Repository<UserRole>,
+    private readonly userRoleRepository: Repository<UserRole>,
     private readonly usersRepository: UsersRepository,
     private readonly emailProvider: EmailProvider,
     private readonly jwtService: JwtService,
@@ -40,12 +40,12 @@ export class AuthGlobalService {
     const { passwordConfirm, role, ...createUser } = user;
     // creo el usuario en la DB pisando el dato del password con la clave hasheada
     const userRole: UserRole = await this.userRoleRepository.findOneBy({
-      role: user.role, //VERIFICAR
+      role: role, //VERIFICAR
     });
     if (!userRole) new NotFoundException('El rol Asignado no Existe');
     const userSave = await this.usersRepository.createUserRepository({
       ...createUser,
-      userRole, //VERIFICAR
+      role: userRole, //VERIFICAR
       password: passwordHash,
     });
     //envio email de bienvenida
