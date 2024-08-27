@@ -54,7 +54,7 @@ export class AuthGlobalController {
           El usuario ya existe / Si las contrseñas no son iguales: 
           La contraseña y su confirmacion no cohinciden`,
   })
-  async signup(@Body() user: CreateUserDto): Promise<Omit<User, 'password'>> {
+  async signup(@Body() user: CreateUserDto): Promise<Omit<User, 'password' | 'role'>> {
     return await this.authGlobalService.signup(user);
   }
 }
