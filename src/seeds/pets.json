@@ -6,7 +6,9 @@
     "breed": "Labrador Retriever",
     "species": "Dog",
     "owner": "John Doe",
-    "sex": "Male"
+    "sex": "Male",
+    "dni": 123456789,
+    "emailOwner": "johndoe@example.com"
   },
   {
     "name": "Whiskers",
@@ -15,7 +17,9 @@
     "breed": "Persian",
     "species": "Cat",
     "owner": "Jane Smith",
-    "sex": "Female"
+    "sex": "Female",
+    "dni": 987654321,
+    "emailOwner": "janesmith@example.com"
   },
   {
     "name": "Coco",
@@ -24,7 +28,9 @@
     "breed": "Cockatoo",
     "species": "Bird",
     "owner": "Alice Johnson",
-    "sex": "Female"
+    "sex": "Female",
+    "dni": 234567891,
+    "emailOwner": "alicejohnson@example.com"
   },
   {
     "name": "Max",
@@ -33,7 +39,9 @@
     "breed": "German Shepherd",
     "species": "Dog",
     "owner": "Mike Brown",
-    "sex": "Male"
+    "sex": "Male",
+    "dni": 345678912,
+    "emailOwner": "mikebrown@example.com"
   },
   {
     "name": "Nibbles",
@@ -42,6 +50,8 @@
     "breed": "Dwarf Hamster",
     "species": "Hamster",
     "owner": "Sophia Wilson",
-    "sex": "Male"
+    "sex": "Male",
+    "dni": 456789123,
+    "emailOwner": "sophiawilson@example.com"
   }
 ]

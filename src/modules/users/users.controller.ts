@@ -7,7 +7,6 @@ import {
   Query,
   Put,
   ParseUUIDPipe,
-  Post,
   UseInterceptors,
   UploadedFile,
   ParseFilePipe,
@@ -19,7 +18,7 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
-
+import { Role } from './roles/roles.enum';
 
 @ApiTags('Users')
 @Controller('users')
@@ -31,6 +30,16 @@ export class UsersController {
     return this.usersService.getUsersService(Number(page), Number(limit));
   }
 
+  @Get("userRoles")
+  getRolesUsers() {
+    return this.usersService.getRolesUsersService();
+  }
+
+  @Get("userRoles/:role")
+  getRolesUsersByRole(@Param("role") role:Role) {
+    return this.usersService.getRolesUsersByRoleService(role);
+  }
+
   @Get('search-by-email')
   getUsersByEmail(
     @Query('email') email: string,
@@ -39,9 +48,7 @@ export class UsersController {
   }
 
   @Get('search-by-dni')
-  getUsersByDni(
-    @Query('dni') dni: number,
-  ): Promise<Omit<User, 'password'>> {
+  getUsersByDni(@Query('dni') dni: number): Promise<Omit<User, 'password'>> {
     return this.usersService.getUsersByDniService(dni);
   }
 
@@ -72,35 +79,39 @@ export class UsersController {
     return this.usersService.removeUserService(id);
   }
 
-  
   @Put('imgProfile/:id')
-  @UseInterceptors(FileInterceptor("file"))
+  @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
-  @ApiBody({ description: `Debe subir el Archivo de Imagen`, schema: {
-    type: 'object',
-    properties: {
-      file: {
-        type: 'string',
-        format: 'binary',
+  @ApiBody({
+    description: `Debe subir el Archivo de Imagen`,
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
       },
     },
-  },})
-    async uploadImgProfile(@Param("id", ParseUUIDPipe) id:string, @UploadedFile(
+  })
+  async uploadImgProfile(
+    @Param('id', ParseUUIDPipe) id: string,
+    @UploadedFile(
       new ParseFilePipe({
         validators: [
-            new MaxFileSizeValidator ({
-                maxSize: 200000,
-                message: "El Archivo debe ser menor a 200Kb",
-            }),
-            new FileTypeValidator({
-                fileType: /(.jpg|.jpeg|.png|.webp)$/,
-            })
-          ]
-        })
-    ) file: Express.Multer.File) {
-      console.log("File", file)
-      return await this.usersService.uploadImgProfileService(id, file);
-      
-    }
+          new MaxFileSizeValidator({
+            maxSize: 200000,
+            message: 'El Archivo debe ser menor a 200Kb',
+          }),
+          new FileTypeValidator({
+            fileType: /(.jpg|.jpeg|.png|.webp)$/,
+          }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    console.log('File', file);
+    return await this.usersService.uploadImgProfileService(id, file);
+  }
 }
- 

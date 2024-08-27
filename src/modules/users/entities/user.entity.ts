@@ -1,13 +1,13 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Pet } from 'src/modules/pets/entities/pet.entity';
 import { UserRole } from './userRole.entity';
-import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({
   name: 'users',
@@ -41,7 +41,8 @@ export class User {
   @Column({
     type: 'varchar',
     nullable: false,
-    default: "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg",
+    default:
+      'https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg',
   })
   imgProfile: string;
 
@@ -62,7 +63,7 @@ export class User {
     type: 'date',
     nullable: true,
   })
-  birthdate: Date;
+  birthDate: Date;
 
   @Column({
     type: 'date',
@@ -99,5 +100,5 @@ export class User {
 
   //RELACION UNO-A-MUCHOS con roles
   @ManyToOne(() => UserRole, (role) => role.users)
-  userRole: UserRole;
+  role: UserRole;
 }

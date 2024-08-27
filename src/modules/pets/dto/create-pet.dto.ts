@@ -5,12 +5,12 @@ import {
   IsUUID,
   Length,
   IsOptional,
-  IsDateString,
   IsNumber,
+  IsDateString,
 } from 'class-validator';
 
 export class CreatePetDto {
-  @ApiProperty({description: 'El nombre es obligatorio', example: 'Firulais'})
+  @ApiProperty({ description: 'El nombre es obligatorio', example: 'Firulais' })
   @IsNotEmpty()
   @IsString()
   @Length(1, 50)
@@ -45,45 +45,66 @@ export class CreatePetDto {
   @Length(1, 10)
   color: string;
 
-  @ApiPropertyOptional({description: 'El peso actual no es obligatorio', example: 8.5})
+  @ApiPropertyOptional({
+    description: 'El peso actual no es obligatorio',
+    example: 8.5,
+  })
   @IsOptional()
   @IsNumber()
-  weightCurrent?: Number;
+  weightCurrent?: number;
 
-  @ApiPropertyOptional({description: 'La Observacion no es obligatoria', example: "Suele ser un perro agresivo"})
+  @ApiPropertyOptional({
+    description: 'La Observacion no es obligatoria',
+    example: 'Suele ser un perro agresivo',
+  })
   @IsOptional()
   @IsString()
   observation?: string;
 
-  @ApiPropertyOptional({description: 'La imagen no es obligatorio, Es un enlace', example: "https://www.perritos.com/foto.jpg"})
+  @ApiPropertyOptional({
+    description: 'La imagen no es obligatorio, Es un enlace',
+    example: 'https://www.perritos.com/foto.jpg',
+  })
   @IsOptional()
   @IsString()
   image?: string;
 
   @ApiProperty({
-    description: "Este es el ID del usuario dueño de la mascota",
-    example: "21131006-7eae-47f8-93c2-1264c6be49cb"
+    description: 'Este es el ID del usuario dueño de la mascota',
+    example: '21131006-7eae-47f8-93c2-1264c6be49cb',
   })
   @IsNotEmpty()
   @IsUUID()
   userId: string;
 
-  @ApiPropertyOptional({description: 'El id de la especie no es obligatorio', example: "21131006-7eae-47f8-93c2-1264c6be49cb"})
+  @ApiPropertyOptional({
+    description: 'El id de la especie no es obligatorio',
+    example: '21131006-7eae-47f8-93c2-1264c6be49cb',
+  })
   @IsOptional()
   @IsUUID()
   specieId?: string;
 
-  @ApiPropertyOptional({description: 'El id de la raza no es obligatorio', example: "21131006-7eae-47f8-93c2-1264c6be49cb"})
+  @ApiPropertyOptional({
+    description: 'El id de la raza no es obligatorio',
+    example: '21131006-7eae-47f8-93c2-1264c6be49cb',
+  })
   @IsOptional()
   @IsUUID()
   raceId?: string;
 
-  @ApiPropertyOptional({description: 'El id del sexo no es obligatorio', example: "21131006-7eae-47f8-93c2-1264c6be49cb"})
+  @ApiPropertyOptional({
+    description: 'El id del sexo no es obligatorio',
+    example: '21131006-7eae-47f8-93c2-1264c6be49cb',
+  })
   @IsOptional()
   @IsUUID()
   sexId?: string;
 
-  @ApiPropertyOptional({description: 'El id de la condicion reproductiva no es obligatorio', example: "21131006-7eae-47f8-93c2-1264c6be49cb"})
+  @ApiPropertyOptional({
+    description: 'El id de la condicion reproductiva no es obligatorio',
+    example: '21131006-7eae-47f8-93c2-1264c6be49cb',
+  })
   @IsOptional()
   @IsUUID()
   repConditionId?: string;

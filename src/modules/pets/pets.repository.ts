@@ -9,8 +9,8 @@ import { CreatePetDto } from './dto/create-pet.dto';
 @Injectable()
 export class PetsRepository {
   constructor(
-    @InjectRepository(Pet) private petsRepository: Repository<Pet>,
-    private usersRepository: UsersRepository
+    @InjectRepository(Pet) private readonly petsRepository: Repository<Pet>,
+    private usersRepository: UsersRepository,
   ) {}
 
   async getPetsRepository() {
@@ -21,31 +21,39 @@ export class PetsRepository {
   }
 
   async getPetByIdRepository(id: string) {
-    const pet = await this.petsRepository.findOneBy({ id });
+    const pet = await this.petsRepository.findOne({ 
+      where: {id},
+      relations: {specie: true, race: true}});
     if (!pet)
       throw new NotFoundException(`Mascota con el ID ${id} no encontrada`);
     return pet;
   }
 
-  async getPetsByUserRepository(id: string){
+  async getPetsByUserRepository(id: string) {
     const user = await this.usersRepository.getUserByIdRepository(id);
-    if (!user) throw new NotFoundException(`No se encontro el usuario con el id ${id} para obtener sus mascotas`);
-    return { 
+    if (!user)
+      throw new NotFoundException(
+        `No se encontro el usuario con el id ${id} para obtener sus mascotas`,
+      );
+    return {
       id,
-      pets: user.pets 
+      pets: user.pets,
     };
   }
 
   async createPetRepository(pet: CreatePetDto) {
-    const { userId } = pet
+    const { userId } = pet;
     const user: User = await this.usersRepository.getUserByIdRepository(userId);
-    if (!user) throw new Error(`No se encontro el usuario con el id ${userId} para registrar su mascota`);
+    if (!user)
+      throw new Error(
+        `No se encontro el usuario con el id ${userId} para registrar su mascota`,
+      );
     const newPet = this.petsRepository.create({
       ...pet,
-      user
+      user,
     });
     const savedPet = await this.petsRepository.save(newPet);
-    savedPet.user.password = "oculto";
+    savedPet.user.password = 'oculto';
     return savedPet;
   }
 

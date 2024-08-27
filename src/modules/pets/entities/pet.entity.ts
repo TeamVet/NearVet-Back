@@ -1,4 +1,4 @@
-import { Column, Entity, EntitySchema, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Specie } from './specie.entity';
 import { Race } from './race.entity';
 import { User } from 'src/modules/users/entities/user.entity';
@@ -9,34 +9,51 @@ import { RepCondition } from './repCondition.entity';
   name: 'pets',
 })
 export class Pet {
-  @PrimaryGeneratedColumn('uuid') 
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({type: 'varchar', length: 50, nullable: false}) 
+  @Column({ type: 'varchar', length: 50, nullable: false })
   name: string;
 
-  @Column({type: 'date', nullable: true}) 
+  @Column({ type: 'date', nullable: true })
   birthdate: Date;
 
-  @Column({ type: 'date', nullable: false}) 
+  @Column({ type: 'date', nullable: false })
   startDate: Date;
 
-  @Column({type: 'date',nullable: true})
+  @Column({
+    type: 'date',
+    nullable: true,
+  })
   endDate: Date;
-
-  @Column({type: 'varchar', length: 10, nullable: false})
-  color: string;
-
-  @Column({type: 'varchar', nullable: true})
-  observation: string;
-
-  @Column({type: 'decimal', precision: 10, scale: 2, nullable: true})
-  weightCurrent: Number;
 
   @Column({
     type: 'varchar',
     nullable: false,
-    default: "https://img.freepik.com/vector-gratis/ilustracion-silueta-perro-gato-diseno-plano_23-2150369464.jpg?size=338&ext=jpg&ga=GA1.1.933601817.1722556800&semt=ais_hybrid",
+  })
+  color: string;
+
+  @Column({
+    type: 'int',
+    nullable: false,
+  })
+  dni: number;
+
+  @Column({ type: 'varchar', nullable: true })
+  observation: string;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  weightCurrent: number;
+
+  @Column({
+    type: 'varchar',
+    nullable: false,
+  })
+  emailOwner: string;
+
+  @Column({
+    default:
+      'https://img.freepik.com/vector-gratis/ilustracion-silueta-perro-gato-diseno-plano_23-2150369464.jpg?size=338&ext=jpg&ga=GA1.1.933601817.1722556800&semt=ais_hybrid',
   })
   imgProfile: string;
 
