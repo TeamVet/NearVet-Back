@@ -10,7 +10,7 @@
     "address": "123 Maple Street",
     "role": "adminVet",
     "city": "Springfield",
-    "imgProfile": "no-image.jpg",
+    "imgProfile": "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg",
     "dni": 123456789
   },
   {
@@ -24,7 +24,7 @@
     "address": "456 Oak Avenue",
     "role": "user",
     "city": "Riverside",
-    "imgProfile": "no-image.jpg",
+    "imgProfile": "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg",
     "dni": 234567891
   },
   {
@@ -38,7 +38,7 @@
     "address": "789 Pine Road",
     "role": "veterinarian",
     "city": "Boston",
-    "imgProfile": "no-image.jpg",
+    "imgProfile": "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg",
     "dni": 345678912
   },
   {
@@ -52,7 +52,7 @@
     "address": "246 Elm Street",
     "role": "user",
     "city": "Chicago",
-    "imgProfile": "no-image.jpg",
+    "imgProfile": "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg",
     "dni": 456789123
   },
   {
@@ -66,7 +66,7 @@
     "address": "357 Cedar Boulevard",
     "role": "user",
     "city": "Miami",
-    "imgProfile": "no-image.jpg",
+    "imgProfile": "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg",
     "dni": 567891234
   }
 ]

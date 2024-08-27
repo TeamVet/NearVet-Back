@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsString,
@@ -61,10 +61,7 @@ export class CreatePetDto {
   @IsString()
   observation?: string;
 
-  @ApiPropertyOptional({
-    description: 'La imagen no es obligatorio, Es un enlace',
-    example: 'https://www.perritos.com/foto.jpg',
-  })
+  @ApiHideProperty()
   @IsOptional()
   @IsString()
   image?: string;
