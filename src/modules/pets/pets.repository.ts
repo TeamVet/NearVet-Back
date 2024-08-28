@@ -12,6 +12,7 @@ import { Race } from './entities/race.entity';
 @Injectable()
 export class PetsRepository {
   
+  
   constructor(
     @InjectRepository(Pet) private readonly petsRepository: Repository<Pet>,
     @InjectRepository(Sex) private readonly sexRepository: Repository<Sex>,
@@ -25,6 +26,18 @@ export class PetsRepository {
   }
   async getPetSpeciesandRacesRepository(): Promise <Specie[]> {
     return await this.specieRepository.find({relations: {races:true}});
+  }
+
+  async getPetSpeciesRepository(): Promise<Specie[]> {
+    return await this.specieRepository.find();
+  }
+  
+  async getPetRacesRepository(specie: string): Promise<Race[]> {
+      const specieDB: Specie = await this.specieRepository.findOne({
+      where: {specie},
+      relations: {races:true}
+    })
+    return specieDB.races;
   }
 
   async getPetsRepository() {
