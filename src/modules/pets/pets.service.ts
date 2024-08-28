@@ -6,10 +6,11 @@ import { UsersRepository } from '../users/users.repository';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Specie } from './entities/specie.entity';
 import { Sex } from './entities/sex.entity';
+import { Race } from './entities/race.entity';
 
 @Injectable()
 export class PetsService {
-  
+    
   constructor(
     private readonly petsRepository: PetsRepository,
     private readonly cloudinaryService: CloudinaryService,
@@ -24,7 +25,15 @@ export class PetsService {
   }
 
   async getPetsByUserService(id: string) {
-    return this.petsRepository.getPetsByUserRepository(id);
+    return await this.petsRepository.getPetsByUserRepository(id);
+  }
+
+  async getPetRacesService(specie: string): Promise<Race[]> {
+    return await this.petsRepository.getPetRacesRepository(specie);
+  }
+
+  async getPetSpeciesService(): Promise<Specie[]> {
+    return await this.petsRepository.getPetSpeciesRepository();
   }
 
   getPetSpeciesandRacesService(): Promise <Specie[]> {

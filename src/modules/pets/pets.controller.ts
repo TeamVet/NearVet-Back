@@ -25,6 +25,7 @@ import { Roles } from '../users/roles/roles.decorator';
 import { Role } from '../users/roles/roles.enum';
 import { Specie } from './entities/specie.entity';
 import { Sex } from './entities/sex.entity';
+import { Race } from './entities/race.entity';
 
 @ApiTags('Pets')
 @Controller('pets')
@@ -42,6 +43,16 @@ export class PetsController {
   @Get("SpecieAndRaces")
   getPetSpeciesandRaces(): Promise <Specie[]> {
     return this.petsService.getPetSpeciesandRacesService();
+  }
+
+  @Get("Species")
+  getPetSpecies(): Promise <Specie[]> {
+    return this.petsService.getPetSpeciesService();
+  }
+
+  @Get("Races/:Specie")
+  getPetRaces(@Param("Specie") specie: string): Promise <Race[]> {
+    return this.petsService.getPetRacesService(specie);
   }
 
   @Get("Sex")
