@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Pet } from 'src/modules/pets/entities/pet.entity';
 import { UserRole } from './userRole.entity';
+import { Vet } from 'src/modules/vets/entities/vet.entity';
 import { Veterinarian } from 'src/modules/veterinarian/entities/veterinarian.entity';
 
 @Entity({
@@ -107,4 +108,7 @@ export class User {
   //RELACION UNO-A-UNO con Veterinarian
   @OneToOne(() => Veterinarian, (veterinarian) => veterinarian.user)
   veterinarian: Veterinarian;
+
+  @OneToMany(() => Vet, (vet) => vet.user)
+  vet: Vet[];
 }

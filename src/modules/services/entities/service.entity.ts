@@ -1,6 +1,7 @@
 import { Veterinarian } from 'src/modules/veterinarian/entities/veterinarian.entity';
 import { CategoryService } from '../../categoryServices/entities/categoryService.entity';
 import {Column, Entity, JoinColumn, ManyToOne, OneToMany,PrimaryGeneratedColumn} from 'typeorm';
+import { AvailabilityService } from '../../availabilityService/entities/availability-service.entity';
   
   @Entity({name: 'services'})
   export class Service {
@@ -33,8 +34,10 @@ import {Column, Entity, JoinColumn, ManyToOne, OneToMany,PrimaryGeneratedColumn}
     @ManyToOne(() => CategoryService, (categoryService) => categoryService.services)
     @JoinColumn({ name: 'categoryServiceId' })
     categoryService: CategoryService[];
-
     @Column({type: 'uuid',nullable: true})
     categoryServiceId: string;
+
+    @OneToMany(() => AvailabilityService, (availabilityService) => availabilityService.service)
+    availabilityService: AvailabilityService[];
   }
   
