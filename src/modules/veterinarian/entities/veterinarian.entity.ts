@@ -1,46 +1,32 @@
-import { Service } from "src/modules/services/entities/service.entity";
-import { User } from "src/modules/users/entities/user.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-
-@Entity({
-    name: 'veterinarians',
-})
-export class Veterinarian {
+import { User } from 'src/modules/users/entities/user.entity';
+import { CategoryService } from '../../categoryServices/entities/categoryService.entity';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany,OneToOne,PrimaryGeneratedColumn} from 'typeorm';
+import { Service } from 'src/modules/services/entities/service.entity';
+  
+  @Entity({name: 'veterinarians'})
+  export class Veterinarian {
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    id: string 
+  
+    @Column({type: 'int', nullable:false})
+    licence: number;
 
-    @Column({
-        type: 'varchar',
-        length: 50,
-        nullable: false,
-    })
-    name: string;
+    @Column({type: 'varchar',length: 50, nullable:false})
+    specialty: string;
 
-    @Column({
-        type: 'text',
-        nullable: true,
-    })
-    license: string;
-
-    @Column({
-        type: 'varchar',
-        nullable: false,
-        default:
-          'https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg',
-    })
-    imgLicense: string;
-
-    @Column({
-        type: 'text',
-        nullable: true,
-    })
+    @Column({type: 'varchar'})
     description: string;
+  
+    /* RELACION UNO-A-UNO CON User */
+    @OneToOne(() => User, (user) => user.veterinarian)
+    @JoinColumn({ name: 'userId' })
+    user: User;
 
-    // RELACION UNO-A-MUCHOS CON users
-    @OneToMany(() => User, (user) => user.veterinarian)
-    user: User[]; 
+    @Column({type: 'uuid',nullable: true})
+    userId: string;
 
-    // RELACION UNO-A-MUCHOS con service
+    /* RELACION UNO-A-MUCHOS CON service */
     @OneToMany(() => Service, (service) => service.veterinarian)
-    service: Service[]; 
-}
+    services: Service[];
+  }
+  

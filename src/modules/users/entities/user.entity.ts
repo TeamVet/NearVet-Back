@@ -4,6 +4,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Pet } from 'src/modules/pets/entities/pet.entity';
@@ -104,11 +105,10 @@ export class User {
   @ManyToOne(() => UserRole, (role) => role.users)
   role: UserRole; 
 
-  // RELACION UNO-A-MUCHOS con vets
+  //RELACION UNO-A-UNO con Veterinarian
+  @OneToOne(() => Veterinarian, (veterinarian) => veterinarian.user)
+  veterinarian: Veterinarian;
+
   @OneToMany(() => Vet, (vet) => vet.user)
   vet: Vet[];
-
-  // RELACION MUCHOS-A-UNO CON veterinarians
-  @ManyToOne(() => Veterinarian, (veterinarian) => veterinarian.user)
-  veterinarian: UserRole; 
 }

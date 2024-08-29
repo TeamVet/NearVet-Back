@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-import { SendEmailDto } from './dto/sendEmailUser.dto';
+import { SendEmailDto } from './dto/createEmail.dto';
 
 @Injectable()
 export class EmailProvider {
-  transporter = nodemailer.createTransport({
+  private transporter = nodemailer.createTransport({
     service: 'gmail',
     /*host: "smtp.ethereal.email",
         port: 587,
@@ -15,9 +15,11 @@ export class EmailProvider {
     },
   });
 
+  private emailOficial = 'teamhvet@gmail.com';
+
   async sendEmail(sendEmailDto: SendEmailDto): Promise<string> {
     const info = await this.transporter.sendMail({
-      from: 'teamhvet@gmail.com', // sender address
+      from: this.emailOficial, // sender address
       to: sendEmailDto.to, // list of receivers
       subject: sendEmailDto.subject,
       text: sendEmailDto.text,

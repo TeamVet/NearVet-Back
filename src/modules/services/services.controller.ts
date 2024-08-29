@@ -13,6 +13,7 @@ import { UpdateServiceDto } from './dto/update-service.dto';
 
 @Controller('services')
 export class ServicesController {
+
   constructor(private readonly servicesService: ServicesService) {}
 
   @Post()
@@ -38,5 +39,10 @@ export class ServicesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.servicesService.remove(+id);
+  }
+
+  @Post()
+  async preloadServices() {
+    return await this.servicesService.preloadServices();
   }
 }

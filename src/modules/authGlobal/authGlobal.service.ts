@@ -10,7 +10,7 @@ import { UsersRepository } from '../users/users.repository';
 import { CreateUserDto } from '../users/dto/createUser.dto';
 import { User } from '../users/entities/user.entity';
 import { LoginUserDto } from './dto/loginUser.dto';
-import { SendEmailDto } from '../email/dto/sendEmailUser.dto';
+import { SendEmailDto } from '../email/dto/createEmail.dto';
 import { EmailProvider } from '../email/email.provider';
 import { UserRole } from '../users/entities/userRole.entity';
 

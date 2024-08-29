@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { EmailService } from './email.service';
-import { SendEmailDto } from './dto/sendEmailUser.dto';
+import { SendEmailDto } from './dto/createEmail.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Sends Emails')

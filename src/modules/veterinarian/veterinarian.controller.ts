@@ -42,4 +42,9 @@ export class VeterinarianController {
   remove(@Param('id') id: string) {
     return this.veterinarianService.remove(+id);
   }
+ 
+  @Post()
+  async preloadVeterinarian() {
+    return this.veterinarianService.preloadVeterinarian();
+  }
 }
