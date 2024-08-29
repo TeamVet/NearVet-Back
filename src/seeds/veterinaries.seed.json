@@ -7,41 +7,5 @@
     "city": "Los Angeles",
     "province": "California",
     "zip_code": "90001"
-  },
-  {
-    "name": "Dr. Robert Martinez",
-    "nameCompany": "Pet Care Center",
-    "CUIT": "30-87654321-7",
-    "address": "456 Elm Avenue",
-    "city": "New York",
-    "province": "New York",
-    "zip_code": "10001"
-  },
-  {
-    "name": "Dr. Sarah Thompson",
-    "nameCompany": "Paws and Claws Veterinary Hospital",
-    "CUIT": "30-11223344-5",
-    "address": "789 Oak Road",
-    "city": "Chicago",
-    "province": "Illinois",
-    "zip_code": "60601"
-  },
-  {
-    "name": "Dr. Michael Rodriguez",
-    "nameCompany": "Happy Tails Animal Clinic",
-    "CUIT": "30-99887766-3",
-    "address": "101 Pine Street",
-    "city": "Miami",
-    "province": "Florida",
-    "zip_code": "33101"
-  },
-  {
-    "name": "Dr. Laura Clark",
-    "nameCompany": "Furry Friends Veterinary Services",
-    "CUIT": "30-55443322-1",
-    "address": "202 Birch Lane",
-    "city": "San Francisco",
-    "province": "California",
-    "zip_code": "94101"
   }
 ]

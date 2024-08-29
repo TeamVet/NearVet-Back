@@ -10,6 +10,9 @@ import { EmailModule } from './modules/email/email.module';
 import { SeederModule } from './modules/seeder/seeder.module';
 import { CloudinaryConfig } from './config/cloudinary';
 import { CloudinaryService } from './cloudinary/cloudinary.service';
+import { CategoryServicesModule } from './modules/categoryServices/categoryServices.module';
+import { ServicesModule } from './modules/services/services.module';
+import { VeterinarianModule } from './modules/veterinarian/veterinarian.module';
 
 @Module({
   imports: [
@@ -34,6 +37,9 @@ import { CloudinaryService } from './cloudinary/cloudinary.service';
     PetsModule,
     EmailModule,
     SeederModule,
+    CategoryServicesModule,
+    ServicesModule,
+    VeterinarianModule
   ],
 
   controllers: [],

@@ -40,11 +40,8 @@ export class PetsRepository {
     return specieDB.races;
   }
 
-  async getPetsRepository() {
-    const pets = await this.petsRepository.find({relations: {race:true, specie:true, sex:true}});
-    if (pets.length === 0)
-      throw new NotFoundException(`Por el momento no hay mascotas registradas`);
-    return pets;
+  async getPetsRepository(): Promise<Pet[]> {
+    return  await this.petsRepository.find({relations: {race:true, specie:true, sex:true}});;
   }
 
   async getPetByIdRepository(id: string) {
