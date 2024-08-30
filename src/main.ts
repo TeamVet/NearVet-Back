@@ -6,13 +6,10 @@ import { BadRequestException, InternalServerErrorException, ValidationPipe } fro
 import { CategoryServicesService } from './modules/categoryServices/categoryServices.service';
 import { VeterinarianService } from './modules/veterinarian/veterinarian.service';
 import { ServicesService } from './modules/services/services.service';
-import { auth } from 'express-openid-connect';
-import {config as auth0Config} from "./config/auth0"
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(cors());
-  app.use(auth(auth0Config))
   app.useGlobalPipes(
     new ValidationPipe({
       // whitelist hace que solo se admitan las propiedades del DTO y ninguna adicional.
