@@ -1,0 +1,83 @@
+[
+    {
+      "service": "Castración",
+      "category": "Veterinaria",
+      "description": "Se quitan los organios internos reproductivos de la mascota",
+      "sendMessage": "Debemos tener los siguientes recaudos: 12 Hs de ayuno de alimento y liquidos antes del horario de la castración. en caso contrario la mascota corre riesgo de muerte",
+      "price": 10000,
+      "licenceVet": 19876,
+      "durationMin": 20
+    },
+    {
+      "service": "Rayos X",
+      "category": "Veterinaria",
+      "description": "Se Realizan Placas para ver la estructura osea",
+      "sendMessage": "Debemos tener los siguientes recaudos: Que la mascota no tenga nada metalico",
+      "price": 9000,
+      "licenceVet": 19876,
+      "durationMin": 20
+    },
+    {
+      "service": "Laboratorio",
+      "category": "Veterinaria",
+      "description": "Se quitan los organios internos reproductivos de la mascota",
+      "sendMessage": "Debemos tener los siguientes recaudos: 12 Hs de ayuno de alimento y liquidos antes del horario de la castración. en caso contrario la mascota corre riesgo de muerte",
+      "price": 15000,
+      "licenceVet": 19876,
+      "durationMin": 20
+    },
+    {
+      "service": "Ecografia",
+      "category": "Veterinaria",
+      "description": "Se quitan los organios internos reproductivos de la mascota",
+      "sendMessage": "Debemos tener los siguientes recaudos: 12 Hs de ayuno de alimento y liquidos antes del horario de la castración. en caso contrario la mascota corre riesgo de muerte",
+      "price": 12000,
+      "licenceVet": 10788,
+      "durationMin": 20
+    },
+    {
+      "service": "Cirugía",
+      "category": "Veterinaria",
+      "description": "Se quitan los organios internos reproductivos de la mascota",
+      "sendMesasge": "Debemos tener los siguientes recaudos: 12 Hs de ayuno de alimento y liquidos antes del horario de la castración. en caso contrario la mascota corre riesgo de muerte",
+      "price": 20000,
+      "licenceVet": 10788,
+      "durationMin": 20
+    },
+    {
+      "service": "Cardeologia",
+      "category": "Veterinaria",
+      "description": "Se quitan los organios internos reproductivos de la mascota",
+      "sendMessage": "Debemos tener los siguientes recaudos: 12 Hs de ayuno de alimento y liquidos antes del horario de la castración. en caso contrario la mascota corre riesgo de muerte",
+      "price": 10000,
+      "licenceVet": 10788,
+      "durationMin": 20
+    },
+    {
+      "service": "Eutanacia",
+      "category": "Veterinaria",
+      "description": "Se quitan los organios internos reproductivos de la mascota",
+      "sendMessage": "Debemos tener los siguientes recaudos: 12 Hs de ayuno de alimento y liquidos antes del horario de la castración. en caso contrario la mascota corre riesgo de muerte",
+      "price": 25000,
+      "licenceVet": 9876,
+      "durationMin": 20
+    },
+    {
+      "service": "Vacunacion",
+      "category": "Veterinaria",
+      "description": "Se quitan los organios internos reproductivos de la mascota",
+      "sendMessage": "Debemos tener los siguientes recaudos: 12 Hs de ayuno de alimento y liquidos antes del horario de la castración. en caso contrario la mascota corre riesgo de muerte",
+      "price": 7000,
+      "licenceVet": 9876,
+      "durationMin": 20
+    },
+    {
+      "service": "Desparacitacion",
+      "category": "Veterinaria",
+      "description": "Se quitan los organios internos reproductivos de la mascota",
+      "sendMessage": "Debemos tener los siguientes recaudos: 12 Hs de ayuno de alimento y liquidos antes del horario de la castración. en caso contrario la mascota corre riesgo de muerte",
+      "price": 9000,
+      "licenceVet": 9876,
+      "durationMin": 20
+    }
+  ]
