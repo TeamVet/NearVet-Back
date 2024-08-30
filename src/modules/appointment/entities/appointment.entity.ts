@@ -1,13 +1,7 @@
 import { Pet } from 'src/modules/pets/entities/pet.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { StatesAppointment } from './statesAppointment.entity';
-import { Service } from 'src/modules/services/entities/service.entity';
+//import { Service } from 'src/modules/services/entities/service.entity';
 
 @Entity({
   name: 'appointments',
@@ -19,13 +13,13 @@ export class Appointment {
   @Column({ type: 'date' })
   date: Date;
 
-  @Column({ type: 'date' })
-  time: Date;
+  @Column({ type: 'varchar', length: 5 })
+  time: string;
 
   @Column({ type: 'varchar' })
   messageUser: string;
 
-  @Column({ type: 'number' })
+  @Column({ type: 'int' })
   price: number;
 
   /* RELACION MUCHOS-A-UNO CON mascotas */
@@ -38,8 +32,9 @@ export class Appointment {
   @JoinColumn({ name: 'stateAppointment_id' })
   state: StatesAppointment;
 
-  /* RELACION MUCHOS-A-UNO CON services */
+  /* RELACION MUCHOS-A-UNO CON services 
   @ManyToOne(() => Service, (service) => service.id)
   @JoinColumn({ name: 'service_id' })
   service: Service;
+  */
 }

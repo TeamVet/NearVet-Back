@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Service } from './service.entity';
 
 @Entity({
@@ -14,23 +8,24 @@ export class AvailabilityService {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'number' })
+  @Column({ type: 'int' })
   dia: number;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'date' })
   startHour: Date;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'date' })
   endHour: Date;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'date' })
   startHour2: Date;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'date' })
   endHour2: Date;
 
-  /* RELACION MUCHOS-A-UNO CON services */
-  @ManyToOne(() => Service, (service) => service.id)
+  /* RELACION MUCHOS-A-UNO CON services 
+  @ManyToOne(() => Service, (service) => service.id) //CAMBIAR LUEGO DE TENER LA ENTIDAD Service
   @JoinColumn({ name: 'service_id' })
   service: Service;
+  */
 }

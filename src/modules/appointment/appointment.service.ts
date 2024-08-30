@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAppointmentDto } from './dto/createAppointment.dto';
-import { UpdateAppointmentDto } from './dto/updateAppointment.dto';
+import { CreateAppointmentDto, EditAppointmentDto } from './dto/appointment.dto';
+import { AppointmentRepository } from './appointment.repository';
+import { PetsRepository } from '../pets/pets.repository';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AppointmentService {
-  create(createAppointmentDto: CreateAppointmentDto) {
-    return 'This action adds a new appointment';
+  constructor(
+    private readonly appointmentRepository: AppointmentRepository,
+    private readonly petsRepository: PetsRepository,
+    private readonly userService: UsersService,
+  ) {}
+
+  async getAppointmentsService() {
+    return this.appointmentRepository.getAppointments();
   }
 
-  findAll() {
-    return `This action returns all appointment`;
+  async getAppointmentByIdService(idAppointment: string) {
+    return this.appointmentRepository.getAppointmentById(idAppointment);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} appointment`;
+  async getAppointmentsByUserIdService(idUser: string) {
+    const user = await this.userService.getUsersByIdService(idUser);
+    return this.appointmentRepository.getAppointmentsByUserId(user);
   }
 
-  update(id: number, updateAppointmentDto: UpdateAppointmentDto) {
-    return `This action updates a #${id} appointment`;
+  async createAppointmentService(createAppointmentDto: CreateAppointmentDto, idPet: string) {
+    await this.petsRepository.getPetByIdRepository(idPet);
+    return this.appointmentRepository.createAppointment(createAppointmentDto, idPet);
+  }
+  async editAppointmentService(editAppointment: EditAppointmentDto, idPet: string) {
+    await this.petsRepository.getPetByIdRepository(idPet);
+    return this.appointmentRepository.editAppointment(editAppointment, idPet);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} appointment`;
+  async cancelAppointmentService(idAppointment: string) {
+    await this.appointmentRepository.getAppointmentById(idAppointment);
+    return this.appointmentRepository.cancelAppointment(idAppointment);
   }
 }
