@@ -60,19 +60,4 @@ export class AuthGlobalController {
     return await this.authGlobalService.signup(user);
   }
 
-  @Get("auth0/signup")
-  async auth0Signup (@Req() req: Request, @Body() extraData= {dni: 33444555, password: "", passwordConfirm: "" }) {
-    console.log(req.oidc.user.given_name)
-    const user: CreateUserDto = {
-        name: req.oidc.user.given_name,
-        lastName: req.oidc.user.family_name,
-        email: req.oidc.user.email,
-        password: extraData.password,
-        passwordConfirm: extraData.password,
-        startDate: new Date(),
-        dni: extraData.dni,
-        rol: Role.User
-    }  
-    return req.oidc.user;
-  }
 }
