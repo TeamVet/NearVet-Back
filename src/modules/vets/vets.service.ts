@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateVetDto } from './dto/create-vet.dto';
 import { UpdateVetDto } from './dto/update-vet.dto';
+import { VetsRepository } from './vets.repository';
 
 @Injectable()
 export class VetsService {
-  create(createVetDto: CreateVetDto) {
-    return 'This action adds a new vet';
+
+  constructor(
+    private readonly vetsRepository: VetsRepository
+  ) {}
+
+  getAllVeterinaryService() {
+    return this.vetsRepository.getAllVeterinariesRepository();
   }
 
-  findAll() {
-    return `This action returns all vets`;
+  getVeterinaryByIdService(id: string) {
+    return this.vetsRepository.getVeterinaryByIdRepository();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} vet`;
+  createVeterinaryService(createVetDto: CreateVetDto) {
+    return this.vetsRepository.createVeterinaryRepository();
   }
 
-  update(id: number, updateVetDto: UpdateVetDto) {
-    return `This action updates a #${id} vet`;
+  updateVeterinaryService(id: string, updateVetDto: UpdateVetDto) {
+    return this.vetsRepository.updateVeterinaryRepository();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} vet`;
+  removeVeterinaryService(id: string) {
+    return this.vetsRepository.removeVeterinaryRepository();
   }
 }

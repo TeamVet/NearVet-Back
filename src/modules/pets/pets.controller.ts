@@ -13,11 +13,12 @@ import {
   MaxFileSizeValidator,
   FileTypeValidator,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '../authGlobal/guards/Auth.guard';
 import { RolesGuard } from '../users/roles/roles.guard';
@@ -25,6 +26,8 @@ import { Roles } from '../users/roles/roles.decorator';
 import { Role } from '../users/roles/roles.enum';
 import { Specie } from './entities/specie.entity';
 import { Sex } from './entities/sex.entity';
+import { Race } from './entities/race.entity';
+import { Pet } from './entities/pet.entity';
 
 @ApiTags('Pets')
 @Controller('pets')
@@ -32,16 +35,37 @@ export class PetsController {
   constructor(private readonly petsService: PetsService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Devuelve todas las mascotas',
+                  description: `Este endpiont retorna una array de objetos tipo Pets con todos 
+                                los datos de la entidad y sus relaciones si las tiene`,})
+  @ApiNotFoundResponse({ description:"Por el momento no hay mascotas registradas"})
+  @HttpCode(200)
   @ApiBearerAuth()
   @Roles(Role.AdminVet, Role.User)
   @UseGuards(AuthGuard, RolesGuard)
-  getPets() {
+  getPets(): Promise<Pet[]> {
     return this.petsService.getPetsService();
   }
 
   @Get("SpecieAndRaces")
+  @ApiOperation({ summary: 'Retorna las Especies con las razas asociadas',
+                  description: `Este endpiont retorna una array de objetos tipo Specie con id, Specie, y Races.
+                                Donde Races es un array con todas las razas asociadas a esa especie
+                                conteniendo id y race por cada raza`,})
+  @ApiNotFoundResponse({ description:"Por el momento no hay mascotas registradas"})
+  @HttpCode(200)
   getPetSpeciesandRaces(): Promise <Specie[]> {
     return this.petsService.getPetSpeciesandRacesService();
+  }
+
+  @Get("Species")
+  getPetSpecies(): Promise <Specie[]> {
+    return this.petsService.getPetSpeciesService();
+  }
+
+  @Get("Races/:Specie")
+  getPetRaces(@Param("Specie") specie: string): Promise <Race[]> {
+    return this.petsService.getPetRacesService(specie);
   }
 
   @Get("Sex")

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { PetsRepository } from './pets.repository';
@@ -6,17 +6,22 @@ import { UsersRepository } from '../users/users.repository';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Specie } from './entities/specie.entity';
 import { Sex } from './entities/sex.entity';
+import { Race } from './entities/race.entity';
+import { Pet } from './entities/pet.entity';
 
 @Injectable()
 export class PetsService {
-  
+    
   constructor(
     private readonly petsRepository: PetsRepository,
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  async getPetsService() {
-    return this.petsRepository.getPetsRepository();
+  async getPetsService(): Promise<Pet[]> {
+    const pets: Pet[] = await this.petsRepository.getPetsRepository();
+    if (pets.length === 0)
+      throw new NotFoundException(`Por el momento no hay mascotas registradas`);
+    return pets;
   }
 
   async getPetByIdService(id: string) {
@@ -24,7 +29,15 @@ export class PetsService {
   }
 
   async getPetsByUserService(id: string) {
-    return this.petsRepository.getPetsByUserRepository(id);
+    return await this.petsRepository.getPetsByUserRepository(id);
+  }
+
+  async getPetRacesService(specie: string): Promise<Race[]> {
+    return await this.petsRepository.getPetRacesRepository(specie);
+  }
+
+  async getPetSpeciesService(): Promise<Specie[]> {
+    return await this.petsRepository.getPetSpeciesRepository();
   }
 
   getPetSpeciesandRacesService(): Promise <Specie[]> {

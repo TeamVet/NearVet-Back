@@ -1,9 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Specie } from './specie.entity';
 import { Race } from './race.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { Sex } from './sex.entity';
 import { RepCondition } from './repCondition.entity';
+import { Appointment } from 'src/modules/appointment/entities/appointment.entity';
 
 @Entity({
   name: 'pets',
@@ -64,4 +65,8 @@ export class Pet {
   /* RELACION MUCHOS-A-UNO CON Condicion Reproductiva */
   @ManyToOne(() => RepCondition, (repCondition) => repCondition.pets)
   repCondition: RepCondition;
+
+  // RELACION UNO-A-MUCHOS con appointments
+  @OneToMany(() => Appointment, (appointment) => appointment.pet)
+  appointments: Appointment[];
 }

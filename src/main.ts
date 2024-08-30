@@ -1,14 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as cors from 'cors';
-import { BadRequestException, ValidationPipe } from '@nestjs/common';
-
+import cors from 'cors';
+import { BadRequestException, InternalServerErrorException, ValidationPipe } from '@nestjs/common';
+import { CategoryServicesService } from './modules/categoryServices/categoryServices.service';
+import { VeterinarianService } from './modules/veterinarian/veterinarian.service';
+import { ServicesService } from './modules/services/services.service';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(cors());
-
   app.useGlobalPipes(
     new ValidationPipe({
       // whitelist hace que solo se admitan las propiedades del DTO y ninguna adicional.
@@ -26,15 +27,11 @@ async function bootstrap() {
     }),
   );
 
-  /* try { 
-    await app.get(UsersService).preloadUsersSeed()
-    
-    await app.get(CategoryService).preloadCategoriesSeed()
 
-    await app.get(ProductsService).preloadProductsSeed()
-   } catch (e) {
-    throw new InternalServerErrorException("Error al intentar hacer la precarga inicial de Datos");
-  } */
+      await app.get(CategoryServicesService).preloadCategoryService()
+      await app.get(VeterinarianService).preloadVeterinarian()
+      await app.get(ServicesService).preloadServices()
+
 
   //genero el Document Builder donde preconfiguro los datos basicos
   const swaggerConfig = new DocumentBuilder()

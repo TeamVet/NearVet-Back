@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AuthGlobalService } from './authGlobal.service';
 import { AuthGlobalController } from './authGlobal.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,4 +12,5 @@ import { UserRole } from '../users/entities/userRole.entity';
   controllers: [AuthGlobalController],
   providers: [AuthGlobalService, UsersRepository, EmailProvider],
 })
-export class AuthGlobalModule {}
+export class AuthGlobalModule {
+}

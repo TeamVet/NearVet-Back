@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, Req, Get } from '@nestjs/common';
 import { AuthGlobalService } from './authGlobal.service';
 import {
   ApiBadRequestResponse,
@@ -10,6 +10,8 @@ import {
 import { CreateUserDto } from '../users/dto/createUser.dto';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { User } from '../users/entities/user.entity';
+import { Request } from 'express';
+import { Role } from '../users/roles/roles.enum';
 
 @ApiTags('Authentication')
 @Controller('authGlobal')
@@ -57,4 +59,5 @@ export class AuthGlobalController {
   async signup(@Body() user: CreateUserDto): Promise<Omit<User, 'password' | 'role'>> {
     return await this.authGlobalService.signup(user);
   }
+
 }

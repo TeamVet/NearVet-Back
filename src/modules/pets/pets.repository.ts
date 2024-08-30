@@ -12,6 +12,7 @@ import { Race } from './entities/race.entity';
 @Injectable()
 export class PetsRepository {
   
+  
   constructor(
     @InjectRepository(Pet) private readonly petsRepository: Repository<Pet>,
     @InjectRepository(Sex) private readonly sexRepository: Repository<Sex>,
@@ -27,11 +28,20 @@ export class PetsRepository {
     return await this.specieRepository.find({relations: {races:true}});
   }
 
-  async getPetsRepository() {
-    const pets = await this.petsRepository.find({relations: {race:true, specie:true, sex:true}});
-    if (pets.length === 0)
-      throw new NotFoundException(`Por el momento no hay mascotas registradas`);
-    return pets;
+  async getPetSpeciesRepository(): Promise<Specie[]> {
+    return await this.specieRepository.find();
+  }
+  
+  async getPetRacesRepository(specie: string): Promise<Race[]> {
+      const specieDB: Specie = await this.specieRepository.findOne({
+      where: {specie},
+      relations: {races:true}
+    })
+    return specieDB.races;
+  }
+
+  async getPetsRepository(): Promise<Pet[]> {
+    return  await this.petsRepository.find({relations: {race:true, specie:true, sex:true}});;
   }
 
   async getPetByIdRepository(id: string) {
