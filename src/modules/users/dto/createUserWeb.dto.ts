@@ -1,20 +1,18 @@
-import { ApiHideProperty, ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsDateString,
   IsEmail,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsString,
   IsStrongPassword,
   Length,
   Validate,
 } from 'class-validator';
-import { Role } from '../roles/roles.enum';
 import { passwordCompare } from '../../../decorators/comparePass.decorator';
 
-export class CreateUserDto {
-  @ApiProperty({
+export class CreateUserWebDto {
+  @ApiPropertyOptional({
     description: 'El nombre es obligatorio',
     example: 'Carlos',
   })
@@ -23,14 +21,14 @@ export class CreateUserDto {
   @Length(1, 50)
   name: string;
 
-  @ApiProperty({
-    description: 'El apellido es obligatorio',
-    example: 'Mendoza',
-  })
-  @IsNotEmpty()
-  @IsString()
-  @Length(1, 50)
-  lastName: string;
+  // @ApiProperty({
+  //   description: 'El apellido es obligatorio',
+  //   example: 'Mendoza',
+  // })
+  // @IsNotEmpty()
+  // @IsString()
+  // @Length(1, 50)
+  // lastName: string;
 
   @ApiProperty({
     description: 'El DNI es obligatorio',
@@ -45,9 +43,9 @@ export class CreateUserDto {
     example: 'example@gmail.com',
   })
   @IsEmail()
-  @IsOptional()
+  @IsNotEmpty()
   @Length(1, 50)
-  email?: string;
+  email: string;
 
   @ApiProperty({
     description:
@@ -75,62 +73,62 @@ export class CreateUserDto {
   @Validate(passwordCompare, ['password'])
   passwordConfirm: string;
 
-  @ApiPropertyOptional({
-    description: 'La fecha de nacimiento es opcional',
-    example: new Date('1/2/1988'),
-  })
-  @IsOptional()
-  @IsDateString()
-  birthDate?: Date;
+  // @ApiPropertyOptional({
+  //   description: 'La fecha de nacimiento es opcional',
+  //   example: new Date('1/2/1988'),
+  // })
+  // @IsOptional()
+  // @IsDateString()
+  // birthDate?: Date;
 
   @ApiProperty({
     description: 'La fecha de inicio es obligatoria',
     example: new Date(),
   })
-  @IsOptional()
+  @IsNotEmpty()
   @IsDateString()
   startDate: Date;
 
-  @IsOptional()
-  @IsDateString()
-  endDate?: Date;
+  // @IsOptional()
+  // @IsDateString()
+  // endDate?: Date;
 
-  @ApiPropertyOptional({
-    description: 'El numero de telefono es opcional, Ingresar solo numeros',
-    example: '1168775654',
-  })
-  @IsNumber()
-  @IsOptional()
-  phone?: number;
+  // @ApiPropertyOptional({
+  //   description: 'El numero de telefono es opcional, Ingresar solo numeros',
+  //   example: '1168775654',
+  // })
+  // @IsNumber()
+  // @IsOptional()
+  // phone?: number;
 
-  @ApiPropertyOptional({
-    description: 'La dirección del domicilio es Opcional',
-    example: 'Avenida Importante 4000',
-  })
-  @IsString()
-  @IsOptional()
-  @Length(1, 50)
-  address?: string;
+  // @ApiPropertyOptional({
+  //   description: 'La dirección del domicilio es Opcional',
+  //   example: 'Avenida Importante 4000',
+  // })
+  // @IsString()
+  // @IsOptional()
+  // @Length(1, 50)
+  // address?: string;
 
-  @ApiProperty({
-    description: `El Rol es obligatoria. Sus valores pueden ser: ${Role.AdminVet}, ${Role.User} o ${Role.Veterinarian}`,
-    example: 'user',
-  })
-  @IsNotEmpty()
-  rol: Role;
+  // @ApiProperty({
+  //   description: `El Rol es obligatoria. Sus valores pueden ser: ${Role.AdminVet}, ${Role.User} o ${Role.Veterinarian}`,
+  //   example: 'user',
+  // })
+  // @IsNotEmpty()
+  // rol: Role;
 
-  @ApiPropertyOptional({
-    description: `La ciudad es Opcional.`,
-    example: 'Example City',
-  })
-  @IsOptional()
-  @IsString()
-  city?: string;
+  // @ApiPropertyOptional({
+  //   description: `La ciudad es Opcional.`,
+  //   example: 'Example City',
+  // })
+  // @IsOptional()
+  // @IsString()
+  // city?: string;
 
-  @ApiHideProperty()
-  @IsOptional()
-  @IsString()
-  imgProfile?: string;
+  // @ApiHideProperty()
+  // @IsOptional()
+  // @IsString()
+  // imgProfile?: string;
 
   // @ApiPropertyOptional({
   //   description: 'Lista de mascotas asociadas al usuario',

@@ -22,14 +22,14 @@ export class User {
   @Column({
     type: 'varchar',
     length: 50,
-    nullable: false,
+    nullable: true,
   })
   name: string;
 
   @Column({
     type: 'varchar',
     length: 50,
-    nullable: false,
+    nullable: true,
   })
   lastName: string;
 
@@ -50,7 +50,7 @@ export class User {
   imgProfile: string;
 
   @Column({
-    nullable: false,
+    nullable: true,
     unique: true,
   })
   dni: number;
@@ -86,13 +86,13 @@ export class User {
   phone: number;
 
   @Column({
-    type: 'text',
+    type: 'varchar',
     nullable: true,
   })
   address: string;
 
   @Column({
-    type: 'text',
+    type: 'varchar',
     nullable: true,
   })
   city: string;
@@ -103,7 +103,14 @@ export class User {
 
   //RELACION UNO-A-MUCHOS con roles
   @ManyToOne(() => UserRole, (role) => role.users)
+  @JoinColumn({name:"roleId"})
   role: UserRole; 
+
+  @Column({
+    type: 'varchar',
+    nullable: false,
+  })
+  roleId: string;
 
   //RELACION UNO-A-UNO con Veterinarian
   @OneToOne(() => Veterinarian, (veterinarian) => veterinarian.user)
