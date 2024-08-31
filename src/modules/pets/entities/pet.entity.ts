@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Specie } from './specie.entity';
 import { Race } from './race.entity';
 import { User } from 'src/modules/users/entities/user.entity';
@@ -48,23 +48,38 @@ export class Pet {
 
   /* RELACION MUCHOS-A-UNO CON usuarios */
   @ManyToOne(() => User, (user) => user.pets)
+  @JoinColumn({name:"userId"})
   user: User;
+  @Column({nullable:true})
+  userId: string;
 
   /* RELACION MUCHOS-A-UNO CON especie */
   @ManyToOne(() => Specie, (specie) => specie.pets)
+  @JoinColumn({name:"specieId"})
   specie: Specie;
+  @Column({nullable:true})
+  specieId: string;
 
   /* RELACION MUCHOS-A-UNO CON raza */
   @ManyToOne(() => Race, (race) => race.pets)
+  @JoinColumn({name:"raceId"})
   race: Race;
+  @Column({nullable:true})
+  raceId: string;
 
   /* RELACION MUCHOS-A-UNO CON sexo */
   @ManyToOne(() => Sex, (sex) => sex.pets)
+  @JoinColumn({name:"sexId"})
   sex: Sex;
+  @Column({nullable:true})
+  sexId: string;
 
   /* RELACION MUCHOS-A-UNO CON Condicion Reproductiva */
   @ManyToOne(() => RepCondition, (repCondition) => repCondition.pets)
+  @JoinColumn({name:"repConditionId"})
   repCondition: RepCondition;
+  @Column({nullable:true})
+  repConditionId: string;
 
   // RELACION UNO-A-MUCHOS con appointments
   @OneToMany(() => Appointment, (appointment) => appointment.pet)

@@ -3,11 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pet } from './entities/pet.entity';
 import { User } from '../users/entities/user.entity';
-import { UsersRepository } from '../users/users.repository';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { Sex } from './entities/sex.entity';
 import { Specie } from './entities/specie.entity';
 import { Race } from './entities/race.entity';
+import { UsersRepository } from '../users/users.repository';
 
 @Injectable()
 export class PetsRepository {
@@ -16,7 +16,7 @@ export class PetsRepository {
     @InjectRepository(Sex) private readonly sexRepository: Repository<Sex>,
     @InjectRepository(Specie) private readonly specieRepository: Repository<Specie>,
     @InjectRepository(Race) private readonly raceRepository: Repository<Race>,
-    private usersRepository: UsersRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   async getPetsSexService(): Promise<Sex[]> {
@@ -39,7 +39,7 @@ export class PetsRepository {
   }
 
   async getPetsRepository(): Promise<Pet[]> {
-    return await this.petsRepository.find({ relations: { race: true, specie: true, sex: true } });
+    return await this.petsRepository.find({ relations: { race: true, specie: true, sex: true, repCondition: true } });
   }
 
   async getPetByIdRepository(id: string) {
@@ -89,7 +89,6 @@ export class PetsRepository {
       race,
     });
     const savedPet = await this.petsRepository.save(newPet);
-    savedPet.user.password = 'oculto';
     return savedPet;
   }
 
