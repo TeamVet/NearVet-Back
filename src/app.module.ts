@@ -13,6 +13,7 @@ import { CloudinaryService } from './cloudinary/cloudinary.service';
 import { CategoryServicesModule } from './modules/categoryServices/categoryServices.module';
 import { ServicesModule } from './modules/services/services.module';
 import { VeterinarianModule } from './modules/veterinarian/veterinarian.module';
+import { AppointmentModule } from './modules/appointment/appointment.module';
 
 @Module({
   imports: [
@@ -22,8 +23,7 @@ import { VeterinarianModule } from './modules/veterinarian/veterinarian.module';
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) =>
-        configService.get('typeorm'),
+      useFactory: (configService: ConfigService) => configService.get('typeorm'),
     }),
 
     // modulo para generar los token
@@ -33,13 +33,14 @@ import { VeterinarianModule } from './modules/veterinarian/veterinarian.module';
       secret: process.env.JWT_SECRET,
     }),
     AuthGlobalModule,
+    AppointmentModule,
     UsersModule,
     PetsModule,
     EmailModule,
     SeederModule,
     CategoryServicesModule,
     ServicesModule,
-    VeterinarianModule
+    VeterinarianModule,
   ],
 
   controllers: [],
