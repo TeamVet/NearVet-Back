@@ -5,8 +5,8 @@ import { Pet } from './pet.entity';
   name: 'sexes',
 })
 export class Sex {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column({
     type: 'varchar',

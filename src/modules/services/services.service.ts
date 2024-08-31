@@ -1,6 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { CreateServiceDto } from './dto/create-service.dto';
-import { UpdateServiceDto } from './dto/update-service.dto';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import preloadServices from "../../seeds/services.json"
 import { Service } from './entities/service.entity';
 import { ServiceRepository } from './service.repository';
@@ -9,7 +7,7 @@ import { VeterinarianRepository } from '../veterinarian/veterinarian.repository'
 import { CategoryService } from '../categoryServices/entities/categoryService.entity';
 import { CategoryServiceRepository } from '../categoryServices/categoryServices.repository';
 
-@Injectable()
+@Injectable() 
 export class ServicesService {
 
   constructor (private readonly serviceRepository: ServiceRepository,
@@ -17,24 +15,46 @@ export class ServicesService {
         private readonly catServiceRepository: CategoryServiceRepository
   ){}
   
-  create(createServiceDto: CreateServiceDto) {
-    return 'This action adds a new service';
+  async getServices(): Promise<Service[]> {
+    const services: Service[] = await this.serviceRepository.getServices();
+    if (services.length==0) throw new NotFoundException("No hay ninguna servicio cargado");
+    return services;
   }
 
-  findAll() {
-    return `This action returns all services`;
+  async getServiceById(id: string): Promise<Service> {
+    const catServ: Service = await this.serviceRepository.getServiceById(id);
+    if (!catServ) {throw new NotFoundException("El servicio buscado no existe")}
+    return catServ;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} service`;
+  async getServiceByCategory(category: string): Promise<Service[]> {
+    const services: Service[] = await this.serviceRepository.getServicesByCategory(category);
+    if (services.length==0) {throw new NotFoundException(`La categoria de saervicio no tiene servicios asociados`)}
+    return services;
+  }
+  
+  async getServiceByVeterinairan(veterinarianId: string): Promise<Service[]> {
+    const services: Service[] = await this.serviceRepository.getServicesByVeterinarian(veterinarianId);
+    if (services.length==0) {throw new NotFoundException(`el Veterinario no tiene servicios asociados`)}
+    return services;
   }
 
-  update(id: number, updateServiceDto: UpdateServiceDto) {
-    return `This action updates a #${id} service`;
+  async createService(createService: Partial<Service>): Promise<Service> {
+    const serviceCreated: Service = await this.serviceRepository.createService(createService);
+    if (!serviceCreated) {throw new InternalServerErrorException(`La creacion del servicio no pudo concretarse`)}
+    return serviceCreated
+  } 
+
+  async updateService(id: string, service: Partial<Service>): Promise<string> {
+    const serviceUpdate = await this.serviceRepository.updateService(id, service);
+    if (serviceUpdate.affected !== 1) throw new NotFoundException(`El servicio que intenta actualizar no existe`)
+    return id;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} service`;
+  async removeService(id: string): Promise<string> {
+    const serviceRemove = await this.serviceRepository.removeService(id)
+    if (serviceRemove.affected !== 1) throw new NotFoundException(`El servicio que intenta eliminar no existe`)
+    return id;
   }
 
   async preloadServices() {

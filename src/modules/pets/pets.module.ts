@@ -13,8 +13,7 @@ import { Race } from './entities/race.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Pet, Sex, Specie, Race]),
-    UsersModule
+    TypeOrmModule.forFeature([Pet, Sex, Specie, Race])
   ],
   controllers: [PetsController],
   providers: [PetsService, PetsRepository, CloudinaryService],
