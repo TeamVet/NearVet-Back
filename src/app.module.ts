@@ -13,6 +13,7 @@ import { CloudinaryService } from './cloudinary/cloudinary.service';
 import { CategoryServicesModule } from './modules/categoryServices/categoryServices.module';
 import { ServicesModule } from './modules/services/services.module';
 import { VeterinarianModule } from './modules/veterinarian/veterinarian.module';
+import { VetsModule } from './modules/vets/vets.module';
 
 @Module({
   imports: [
@@ -39,7 +40,8 @@ import { VeterinarianModule } from './modules/veterinarian/veterinarian.module';
     SeederModule,
     CategoryServicesModule,
     ServicesModule,
-    VeterinarianModule
+    VeterinarianModule,
+    VetsModule
   ],
 
   controllers: [],
