@@ -51,16 +51,12 @@ export class PetsRepository {
     return pet;
   }
 
-  async getPetsByUserRepository(id: string) {
-    const user = await this.usersRepository.getUserByIdRepository(id);
-    if (!user) throw new NotFoundException(`No se encontro el usuario con el id ${id} para obtener sus mascotas`);
-    return {
-      id,
-      pets: user.pets,
-    };
+  async getPetsByUserRepository(id: string): Promise<Pet[]> {
+    const pets = await this.petsRepository.find({where: {userId: id}, relations: {sex:true, race:true, specie:true, repCondition:true}});
+    return pets
   }
 
-  async createPetRepository(pet: CreatePetDto) {
+  async createPetRepository(pet: Partial<Pet>) {
     const { userId, sexId, specieId, raceId } = pet;
 
     const user: User = await this.usersRepository.getUserByIdRepository(userId);
