@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pet } from './entities/pet.entity';
 import { User } from '../users/entities/user.entity';
-import { UsersRepository } from '../users/users.repository';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { Sex } from './entities/sex.entity';
 import { Specie } from './entities/specie.entity';
@@ -18,7 +17,6 @@ export class PetsRepository {
     @InjectRepository(Sex) private readonly sexRepository: Repository<Sex>,
     @InjectRepository(Specie) private readonly specieRepository: Repository<Specie>,
     @InjectRepository(Race) private readonly raceRepository: Repository<Race>,
-    private usersRepository: UsersRepository,
   ) {}
 
   async getPetsSexService(): Promise<Sex[]> {
@@ -41,7 +39,7 @@ export class PetsRepository {
   }
 
   async getPetsRepository(): Promise<Pet[]> {
-    return  await this.petsRepository.find({relations: {race:true, specie:true, sex:true}});;
+    return  await this.petsRepository.find({relations: {race:true, specie:true, sex:true, repCondition:true}});
   }
 
   async getPetByIdRepository(id: string) {
@@ -54,41 +52,14 @@ export class PetsRepository {
   }
 
   async getPetsByUserRepository(id: string) {
-    const user = await this.usersRepository.getUserByIdRepository(id);
-    if (!user)
-      throw new NotFoundException(
-        `No se encontro el usuario con el id ${id} para obtener sus mascotas`,
-      );
-    return {
-      id,
-      pets: user.pets,
-    };
+    const pets = await this.petsRepository.findOne({where: {userId: id}, relations: {sex:true, race:true, specie:true, repCondition:true}});
+    return pets
   }
 
-  async createPetRepository(pet: CreatePetDto) {
-    const { userId, sexId, specieId, raceId } = pet;
-
-    const user: User = await this.usersRepository.getUserByIdRepository(userId);
-    if (!user) {throw new NotFoundException(`No se encontro el usuario con el id ${userId} para registrar su mascota`);}
-
-    const sex: Sex = await this.sexRepository.findOneBy({id: sexId});
-    if (!sex) {throw new NotFoundException(`No se encontro el sexo con el id ${sexId} para registrar su mascota`);}
-      
-    const specie: Specie = await this.specieRepository.findOneBy({id: specieId});
-    if (!specie) throw new NotFoundException( `No se encontro la especie con el id ${specieId} para registrar su mascota` );
-    
-    const race: Race = await this.raceRepository.findOneBy({id: raceId});
-    if (!race) {throw new NotFoundException(`No se encontro el sexo con el id ${raceId} para registrar su mascota`);}
-
-    const newPet = this.petsRepository.create({
-      ...pet,
-      user,
-      sex,
-      specie,
-      race,
-    });
+  async createPetRepository(pet: Partial<Pet>) {
+  
+    const newPet: Pet = this.petsRepository.create(pet);
     const savedPet = await this.petsRepository.save(newPet);
-    savedPet.user.password = 'oculto';
     return savedPet;
   }
 
