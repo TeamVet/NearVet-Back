@@ -8,9 +8,10 @@ import { UserRole } from '../users/entities/userRole.entity';
 import { Sex } from '../pets/entities/sex.entity';
 import { Race } from '../pets/entities/race.entity';
 import { Specie } from '../pets/entities/specie.entity';
+import { StatesAppointment } from '../appointment/entities/statesAppointment.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Pet, UserRole, Sex, Race, Specie])],
+  imports: [TypeOrmModule.forFeature([User, Pet, UserRole, Sex, Race, Specie, StatesAppointment])],
   controllers: [SeederController],
   providers: [SeederService],
 })

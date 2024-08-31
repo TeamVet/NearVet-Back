@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { Sex } from '../pets/entities/sex.entity';
 import { Specie } from '../pets/entities/specie.entity';
 import { Race } from '../pets/entities/race.entity';
+import { StatesAppointment } from '../appointment/entities/statesAppointment.entity';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -25,56 +26,27 @@ export class SeederService implements OnModuleInit {
     private readonly raceRepository: Repository<Race>,
     @InjectRepository(Specie)
     private readonly specieRepository: Repository<Specie>,
-    /* @InjectRepository(Veterinaries)
-    private readonly veterinariesRepository: Repository<Veterinaries>, */
+    @InjectRepository(StatesAppointment)
+    private readonly statesAppointmentsRepository: Repository<StatesAppointment>,
   ) {}
 
-  petsPath = path.join(
-    __dirname,
-    '..',
-    '..',
-    '..',
-    'src',
-    'seeds',
-    'pets.json',
-  );
+  petsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'pets.json');
   petsdata = JSON.parse(fs.readFileSync(this.petsPath, 'utf8'));
 
   sexPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'sex.json');
   sexdata = JSON.parse(fs.readFileSync(this.sexPath, 'utf8'));
 
-  rolesPath = path.join(
-    __dirname,
-    '..',
-    '..',
-    '..',
-    'src',
-    'seeds',
-    'roles.json',
-  );
+  rolesPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'roles.json');
   rolesdata = JSON.parse(fs.readFileSync(this.rolesPath, 'utf8'));
 
-  usersPath = path.join(
-    __dirname,
-    '..',
-    '..',
-    '..',
-    'src',
-    'seeds',
-    'users.json',
-  );
+  usersPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'users.json');
   usersdata = JSON.parse(fs.readFileSync(this.usersPath, 'utf8'));
 
-  veterinariesPath = path.join(
-    __dirname,
-    '..',
-    '..',
-    '..',
-    'src',
-    'seeds',
-    'veterinaries.seed.json',
-  );
+  veterinariesPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'veterinaries.seed.json');
   veterinariesdata = JSON.parse(fs.readFileSync(this.veterinariesPath, 'utf8'));
+
+  statesAppointmentsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'statesAppointments.json');
+  statesAppointmentsdata = JSON.parse(fs.readFileSync(this.statesAppointmentsPath, 'utf8'));
 
   async resetData() {
     await this.userRepository.delete({});
@@ -143,26 +115,31 @@ export class SeederService implements OnModuleInit {
     return { message: 'Seeder roles agregados' };
   }
 
-
   async loadPetsData() {
     for (const item of this.petsdata) {
-      let pet = await this.petsRepository.findOne({
+      const pet = await this.petsRepository.findOne({
         where: { name: item.name }, // CAMBIAR POR ALGO UNICO DE LA MASCOTA
       });
       if (!pet) {
-          const user = await this.userRepository.findOne({where: { email: item.emailOwner }});
+        const user = await this.userRepository.findOne({ where: { email: item.emailOwner } });
 
-          if (!user) {throw new Error(`Dueño de la mascota con email: ${item.emailOwner} no encontrado`);}
-          
-          const { birthdate, color, name, sex, race, specie } = item;
-          const sexDB = await this.sexRepository.findOneBy({sex});
+        if (!user) {
+          throw new Error(`Dueño de la mascota con email: ${item.emailOwner} no encontrado`);
+        }
 
-          let specieDB: Specie = await this.specieRepository.findOneBy({specie});
-          if (!specieDB) {specieDB = await this.specieRepository.save({specie});}
- 
-          let raceDB: Race = await this.raceRepository.findOneBy({race});
-          if (!raceDB) {raceDB = await this.raceRepository.save({race, specie: specieDB});}
-          
+        const { birthdate, color, name, sex, race, specie } = item;
+        const sexDB = await this.sexRepository.findOneBy({ sex });
+
+        let specieDB: Specie = await this.specieRepository.findOneBy({ specie });
+        if (!specieDB) {
+          specieDB = await this.specieRepository.save({ specie });
+        }
+
+        let raceDB: Race = await this.raceRepository.findOneBy({ race });
+        if (!raceDB) {
+          raceDB = await this.raceRepository.save({ race, specie: specieDB });
+        }
+
         const date = new Date().toLocaleDateString();
         await this.petsRepository.save({
           name,
@@ -172,7 +149,7 @@ export class SeederService implements OnModuleInit {
           user,
           specie: specieDB,
           race: raceDB,
-          sex: sexDB
+          sex: sexDB,
         });
       }
     }
@@ -192,11 +169,22 @@ export class SeederService implements OnModuleInit {
     return { message: 'Seeder sexos agregados' };
   }
 
+  async loadStatesAppointments() {
+    for (const item of this.statesAppointmentsdata) {
+      let stateAppointment = await this.statesAppointmentsRepository.findOne({
+        where: { state: item.state },
+      });
+      if (!stateAppointment) {
+        stateAppointment = this.statesAppointmentsRepository.create({ state: item.state });
+        await this.statesAppointmentsRepository.save(stateAppointment);
+      }
+    }
+  }
   async onModuleInit() {
     await this.loadRolesData();
     await this.loadSexData();
     await this.loadUsersData();
     await this.loadPetsData();
-    //await this.loadVeterinariesData();
+    await this.loadStatesAppointments();
   }
 }

@@ -12,6 +12,6 @@ import { CloudinaryService } from '../../cloudinary/cloudinary.service';
   imports: [TypeOrmModule.forFeature([User, UserRole])],
   controllers: [UsersController],
   providers: [UsersService, UsersRepository, CloudinaryService],
-  exports: [UsersRepository],
+  exports: [UsersRepository, UsersService],
 })
 export class UsersModule {}
