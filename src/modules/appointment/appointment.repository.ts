@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Appointment } from './entities/appointment.entity';
 import { In, Repository } from 'typeorm';
 import { StatesAppointment } from './entities/statesAppointment.entity';
-import { UsersRepository } from '../users/users.repository';
 import { User } from '../users/entities/user.entity';
 
 @Injectable()
@@ -12,13 +11,13 @@ export class AppointmentRepository {
   constructor(
     @InjectRepository(Appointment)
     private readonly appointmentRepository: Repository<Appointment>,
+    @InjectRepository(StatesAppointment)
     private readonly statesAppointmentRepository: Repository<StatesAppointment>,
-    private readonly userRepository: UsersRepository,
   ) {}
 
-  async getAppointments() {
+  async getAppointments(page: number, limit: number) {
     //await this.appointmentRepository.find({ relations: { pet: true, service: true, state: true } });
-    await this.appointmentRepository.find({ relations: { pet: true, state: true } });
+    return this.appointmentRepository.find({ take: limit, skip: (page - 1) * limit, relations: { pet: true, state: true } });
   }
 
   async getAppointmentById(idAppointment: string) {
@@ -42,12 +41,10 @@ export class AppointmentRepository {
     return appointments;
   }
 
-  async createAppointment(createAppointmentDto: CreateAppointmentDto, idPet: string) {
-    if (idPet) {
-      const newAppointment = this.appointmentRepository.create(createAppointmentDto);
-      await this.appointmentRepository.save(newAppointment);
-    }
-    return 'Turno creado';
+  async createAppointment(createAppointmentDto: CreateAppointmentDto) {
+    const newAppointment = this.appointmentRepository.create(createAppointmentDto);
+    await this.appointmentRepository.save(newAppointment);
+    return newAppointment;
   }
 
   async editAppointment(editAppointmentDto: EditAppointmentDto, idPet: string) {

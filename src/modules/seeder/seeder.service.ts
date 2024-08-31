@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { Sex } from '../pets/entities/sex.entity';
 import { Specie } from '../pets/entities/specie.entity';
 import { Race } from '../pets/entities/race.entity';
+import { StatesAppointment } from '../appointment/entities/statesAppointment.entity';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -25,8 +26,8 @@ export class SeederService implements OnModuleInit {
     private readonly raceRepository: Repository<Race>,
     @InjectRepository(Specie)
     private readonly specieRepository: Repository<Specie>,
-    /* @InjectRepository(Veterinaries)
-    private readonly veterinariesRepository: Repository<Veterinaries>, */
+    @InjectRepository(StatesAppointment)
+    private readonly statesAppointmentsRepository: Repository<StatesAppointment>,
   ) {}
 
   petsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'pets.json');
@@ -43,6 +44,9 @@ export class SeederService implements OnModuleInit {
 
   veterinariesPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'veterinaries.seed.json');
   veterinariesdata = JSON.parse(fs.readFileSync(this.veterinariesPath, 'utf8'));
+
+  statesAppointmentsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'statesAppointments.json');
+  statesAppointmentsdata = JSON.parse(fs.readFileSync(this.statesAppointmentsPath, 'utf8'));
 
   async resetData() {
     await this.userRepository.delete({});
@@ -165,11 +169,22 @@ export class SeederService implements OnModuleInit {
     return { message: 'Seeder sexos agregados' };
   }
 
+  async loadStatesAppointments() {
+    for (const item of this.statesAppointmentsdata) {
+      let stateAppointment = await this.statesAppointmentsRepository.findOne({
+        where: { state: item.state },
+      });
+      if (!stateAppointment) {
+        stateAppointment = this.statesAppointmentsRepository.create({ state: item.state });
+        await this.statesAppointmentsRepository.save(stateAppointment);
+      }
+    }
+  }
   async onModuleInit() {
     await this.loadRolesData();
     await this.loadSexData();
     await this.loadUsersData();
     await this.loadPetsData();
-    //await this.loadVeterinariesData();
+    await this.loadStatesAppointments();
   }
 }

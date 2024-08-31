@@ -1,10 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDate, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, Matches } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, Matches } from 'class-validator';
 
 export class CreateAppointmentDto {
-  @ApiProperty({ description: 'Fecha en la que se solicita el turno', example: new Date('2024-01-10') })
+  @ApiProperty({ description: 'Fecha en la que se solicita el turno', example: '2024-01-10' })
   @IsNotEmpty()
-  @IsDate()
+  @Transform(({ value }) => value.split('T')[0]) // Esto convierte la fecha a 'YYYY-MM-DD'
   date: Date;
 
   @ApiProperty({ description: 'Hora en la que se solicita el turno', example: '08:30' })
@@ -23,19 +24,16 @@ export class CreateAppointmentDto {
   @IsNumber()
   price: number;
 
-  @ApiProperty({ description: 'Mascota a sacar turno', example: 'Firulais' })
+  @ApiProperty({ description: 'Mascota a sacar turno', example: '091bed00-c361-44bc-ade3-dd628353cf55' })
   @IsNotEmpty()
-  @IsObject()
-  pet: object;
+  pet: { id: string };
 
   @ApiProperty({ description: 'Servicio a sacar turno', example: 'PerroService' })
   @IsNotEmpty()
-  @IsObject()
-  service: object;
+  service: { service: string };
 
-  @ApiPropertyOptional({ description: 'Estado del turno', example: 'Pendiente' })
+  @ApiPropertyOptional({ description: 'Estado del turno', example: '15fb8542-2511-462f-a549-bdbb030e01f4' })
   @IsNotEmpty()
-  @IsObject()
   @IsOptional()
   state?: object;
 }
@@ -43,7 +41,6 @@ export class CreateAppointmentDto {
 export class EditAppointmentDto {
   @ApiPropertyOptional({ description: 'Fecha en la que se solicita el turno', example: new Date('2024-01-11') })
   @IsNotEmpty()
-  @IsDate()
   @IsOptional()
   date?: Date;
 
@@ -62,13 +59,11 @@ export class EditAppointmentDto {
 
   @ApiPropertyOptional({ description: 'Editar mascota a sacar turno', example: 'Pichichen' })
   @IsNotEmpty()
-  @IsObject()
   @IsOptional()
   pet?: object;
 
   @ApiPropertyOptional({ description: 'Cambiar el servicio a sacar turno', example: 'PerroService2' })
   @IsNotEmpty()
-  @IsObject()
   @IsOptional()
-  service?: object;
+  service?: { service: string };
 }

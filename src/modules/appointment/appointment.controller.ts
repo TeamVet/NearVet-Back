@@ -1,20 +1,22 @@
-import { Controller, Post, Body, Param, Put, Get } from '@nestjs/common';
+import { Controller, Post, Body, Param, Put, Get, Query } from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { CreateAppointmentDto, EditAppointmentDto } from './dto/appointment.dto';
-import { ApiBadRequestResponse, ApiBody, ApiInternalServerErrorResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBody, ApiInternalServerErrorResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
-@Controller('appointment')
+@ApiTags('Appointments')
+@Controller('appointments')
 export class AppointmentController {
   constructor(private readonly appointmentService: AppointmentService) {}
 
-  @ApiTags('Appointments')
-  @Get('')
+  @Get()
   @ApiOperation({
     summary: 'Muestra todos los turnos',
     description: 'Esta ruta muestra todos los turnos de todas las mascotas',
   })
-  getAppoinment() {
-    return this.appointmentService.getAppointmentsService();
+  @ApiQuery({ name: 'page', required: false, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, example: 5 })
+  getAppoinment(@Query('page') page: number = 1, @Query('limit') limit: number = 5) {
+    return this.appointmentService.getAppointmentsService(Number(page), Number(limit));
   }
 
   @Get('/:idAppoinment')
@@ -62,8 +64,8 @@ export class AppointmentController {
   @ApiBadRequestResponse({
     description: 'Faltan datos para la creacion del turno',
   })
-  createAppointment(@Body() createAppointmentDto: CreateAppointmentDto, idPet: string) {
-    return this.appointmentService.createAppointmentService(createAppointmentDto, idPet);
+  createAppointment(@Body() createAppointmentDto: CreateAppointmentDto) {
+    return this.appointmentService.createAppointmentService(createAppointmentDto);
   }
 
   @Put('edit/:idPet')

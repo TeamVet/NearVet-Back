@@ -3,6 +3,7 @@ import { CreateAppointmentDto, EditAppointmentDto } from './dto/appointment.dto'
 import { AppointmentRepository } from './appointment.repository';
 import { PetsRepository } from '../pets/pets.repository';
 import { UsersService } from '../users/users.service';
+import { Appointment } from './entities/appointment.entity';
 
 @Injectable()
 export class AppointmentService {
@@ -12,8 +13,8 @@ export class AppointmentService {
     private readonly userService: UsersService,
   ) {}
 
-  async getAppointmentsService() {
-    return this.appointmentRepository.getAppointments();
+  async getAppointmentsService(page: number, limit: number): Promise<Appointment[]> {
+    return this.appointmentRepository.getAppointments(page, limit);
   }
 
   async getAppointmentByIdService(idAppointment: string) {
@@ -25,9 +26,9 @@ export class AppointmentService {
     return this.appointmentRepository.getAppointmentsByUserId(user);
   }
 
-  async createAppointmentService(createAppointmentDto: CreateAppointmentDto, idPet: string) {
-    await this.petsRepository.getPetByIdRepository(idPet);
-    return this.appointmentRepository.createAppointment(createAppointmentDto, idPet);
+  async createAppointmentService(createAppointmentDto: CreateAppointmentDto) {
+    await this.petsRepository.getPetByIdRepository(createAppointmentDto.pet.id);
+    return this.appointmentRepository.createAppointment(createAppointmentDto);
   }
   async editAppointmentService(editAppointment: EditAppointmentDto, idPet: string) {
     await this.petsRepository.getPetByIdRepository(idPet);

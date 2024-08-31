@@ -28,7 +28,7 @@ export class Appointment {
   pet: Pet;
 
   /* RELACION MUCHOS-A-UNO CON estado de turnos */
-  @ManyToOne(() => StatesAppointment, (stateName) => stateName.state)
+  @ManyToOne(() => StatesAppointment, (stateName) => stateName.id)
   @JoinColumn({ name: 'stateAppointment_id' })
   state: StatesAppointment;
 
