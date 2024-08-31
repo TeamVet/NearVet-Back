@@ -1,8 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { CreatePetDto } from './dto/create-pet.dto';
-import { UpdatePetDto } from './dto/update-pet.dto';
 import { PetsRepository } from './pets.repository';
-import { UsersRepository } from '../users/users.repository';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Specie } from './entities/specie.entity';
 import { Sex } from './entities/sex.entity';
@@ -28,7 +25,7 @@ export class PetsService {
     return this.petsRepository.getPetByIdRepository(id);
   }
 
-  async getPetsByUserService(id: string) {
+  async getPetsByUserService(id: string): Promise<Pet[]> {
     return await this.petsRepository.getPetsByUserRepository(id);
   }
 
@@ -39,7 +36,7 @@ export class PetsService {
   async getPetSpeciesService(): Promise<Specie[]> {
     return await this.petsRepository.getPetSpeciesRepository();
   }
-
+ 
   getPetSpeciesandRacesService(): Promise <Specie[]> {
     return this.petsRepository.getPetSpeciesandRacesRepository();
   }
@@ -48,11 +45,11 @@ export class PetsService {
     return this.petsRepository.getPetsSexService();
   }
 
-  async createPetService(createPetDto: CreatePetDto) {
+  async createPetService(createPetDto: Partial<Pet>) {
     return this.petsRepository.createPetRepository(createPetDto);
   }
 
-  async updatePetService(id: string, updatePetDto: UpdatePetDto) {
+  async updatePetService(id: string, updatePetDto: Partial<Pet>) {
     return this.petsRepository.updatePetRepository(id, updatePetDto);
   }
 

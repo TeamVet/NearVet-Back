@@ -57,7 +57,7 @@ export class CreatePetDto {
     description: 'La Observacion no es obligatoria',
     example: 'Suele ser un perro agresivo',
   })
-  @IsOptional()
+  @IsOptional() 
   @IsString()
   observation?: string;
 
@@ -92,11 +92,11 @@ export class CreatePetDto {
 
   @ApiPropertyOptional({
     description: 'El id del sexo no es obligatorio',
-    example: '1',
+    example: '9e060c6d-81d0-4700-8d7d-6a66a139ecc4',
   })
   @IsOptional()
-  @IsNumber()
-  sexId?: number;
+  @IsString()
+  sexId?: string;
 
   @ApiHideProperty()
   @IsOptional()

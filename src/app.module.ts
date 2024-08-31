@@ -14,6 +14,7 @@ import { CategoryServicesModule } from './modules/categoryServices/categoryServi
 import { ServicesModule } from './modules/services/services.module';
 import { VeterinarianModule } from './modules/veterinarian/veterinarian.module';
 import { VetsModule } from './modules/vets/vets.module';
+import { AppointmentModule } from './modules/appointment/appointment.module';
 
 @Module({
   imports: [
@@ -23,8 +24,7 @@ import { VetsModule } from './modules/vets/vets.module';
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) =>
-        configService.get('typeorm'),
+      useFactory: (configService: ConfigService) => configService.get('typeorm'),
     }),
 
     // modulo para generar los token
@@ -34,6 +34,7 @@ import { VetsModule } from './modules/vets/vets.module';
       secret: process.env.JWT_SECRET,
     }),
     AuthGlobalModule,
+    AppointmentModule,
     UsersModule,
     PetsModule,
     EmailModule,
