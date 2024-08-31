@@ -25,7 +25,7 @@ export class PetsService {
     return this.petsRepository.getPetByIdRepository(id);
   }
 
-  async getPetsByUserService(id: string) {
+  async getPetsByUserService(id: string): Promise<Pet[]> {
     return await this.petsRepository.getPetsByUserRepository(id);
   }
 

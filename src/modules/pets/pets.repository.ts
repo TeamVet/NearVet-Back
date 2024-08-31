@@ -51,8 +51,8 @@ export class PetsRepository {
     return pet;
   }
 
-  async getPetsByUserRepository(id: string) {
-    const pets = await this.petsRepository.findOne({where: {userId: id}, relations: {sex:true, race:true, specie:true, repCondition:true}});
+  async getPetsByUserRepository(id: string): Promise<Pet[]> {
+    const pets = await this.petsRepository.find({where: {userId: id}, relations: {sex:true, race:true, specie:true, repCondition:true}});
     return pets
   }
 
