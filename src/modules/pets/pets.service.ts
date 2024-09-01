@@ -5,10 +5,10 @@ import { Specie } from './entities/specie.entity';
 import { Sex } from './entities/sex.entity';
 import { Race } from './entities/race.entity';
 import { Pet } from './entities/pet.entity';
+import { CreatePetDto } from './dto/create-pet.dto';
 
 @Injectable()
 export class PetsService {
-    
   constructor(
     private readonly petsRepository: PetsRepository,
     private readonly cloudinaryService: CloudinaryService,
@@ -16,8 +16,7 @@ export class PetsService {
 
   async getPetsService(): Promise<Pet[]> {
     const pets: Pet[] = await this.petsRepository.getPetsRepository();
-    if (pets.length === 0)
-      throw new NotFoundException(`Por el momento no hay mascotas registradas`);
+    if (pets.length === 0) throw new NotFoundException(`Por el momento no hay mascotas registradas`);
     return pets;
   }
 
@@ -36,16 +35,16 @@ export class PetsService {
   async getPetSpeciesService(): Promise<Specie[]> {
     return await this.petsRepository.getPetSpeciesRepository();
   }
- 
-  getPetSpeciesandRacesService(): Promise <Specie[]> {
+
+  getPetSpeciesandRacesService(): Promise<Specie[]> {
     return this.petsRepository.getPetSpeciesandRacesRepository();
   }
 
-  getPetsSexService(): Promise <Sex[]> {
+  getPetsSexService(): Promise<Sex[]> {
     return this.petsRepository.getPetsSexService();
   }
 
-  async createPetService(createPetDto: Partial<Pet>) {
+  async createPetService(createPetDto: CreatePetDto) {
     return this.petsRepository.createPetRepository(createPetDto);
   }
 
@@ -59,10 +58,7 @@ export class PetsService {
 
   async uploadImgProfileService(id: string, file: Express.Multer.File) {
     const pet = await this.petsRepository.getPetByIdRepository(id);
-    if (!pet)
-      throw new BadRequestException(
-        'La mascota que desea actualizar no existe',
-      );
+    if (!pet) throw new BadRequestException('La mascota que desea actualizar no existe');
     const imgUpload = await this.cloudinaryService.uploadImage(file);
     await this.petsRepository.updatePetRepository(id, {
       imgProfile: imgUpload.secure_url,

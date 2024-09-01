@@ -24,22 +24,17 @@ export class CreateAppointmentDto {
   @IsNumber()
   price: number;
 
-  @ApiProperty({ description: 'Mascota a sacar turno', example: '091bed00-c361-44bc-ade3-dd628353cf55' })
+  @ApiProperty({ description: 'Mascota a sacar turno', example: '4418276c-ef71-4e7a-bb80-a52458996a06' })
   @IsNotEmpty()
-  pet: { id: string };
+  pet_id: { id: string };
 
-  @ApiProperty({ description: 'Servicio a sacar turno', example: 'PerroService' })
+  @ApiProperty({ description: 'Servicio a sacar turno', example: '83c47570-47ee-4fe7-8b7e-a8416947b58a' })
   @IsNotEmpty()
-  service: { service: string };
-
-  @ApiPropertyOptional({ description: 'Estado del turno', example: '15fb8542-2511-462f-a549-bdbb030e01f4' })
-  @IsNotEmpty()
-  @IsOptional()
-  state?: object;
+  service_id: { id: string };
 }
 
 export class EditAppointmentDto {
-  @ApiPropertyOptional({ description: 'Fecha en la que se solicita el turno', example: new Date('2024-01-11') })
+  @ApiPropertyOptional({ description: 'Fecha en la que se solicita el turno', example: '2024-01-11' })
   @IsNotEmpty()
   @IsOptional()
   date?: Date;
@@ -57,13 +52,8 @@ export class EditAppointmentDto {
   @IsOptional()
   messageUser?: string;
 
-  @ApiPropertyOptional({ description: 'Editar mascota a sacar turno', example: 'Pichichen' })
+  @ApiPropertyOptional({ description: 'Cambiar el servicio a sacar turno', example: '07bdc58c-a922-4237-a57d-99d1fc188fc1' })
   @IsNotEmpty()
   @IsOptional()
-  pet?: object;
-
-  @ApiPropertyOptional({ description: 'Cambiar el servicio a sacar turno', example: 'PerroService2' })
-  @IsNotEmpty()
-  @IsOptional()
-  service?: { service: string };
+  service?: { id: string };
 }

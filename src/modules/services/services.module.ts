@@ -10,8 +10,9 @@ import { CategoryService } from '../categoryServices/entities/categoryService.en
 import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Service, CategoryService, Veterinarian])],
+  imports: [TypeOrmModule.forFeature([Service, CategoryService, Veterinarian])],
   controllers: [ServicesController],
   providers: [ServicesService, ServiceRepository, CategoryServiceRepository, VeterinarianRepository],
+  exports: [ServiceRepository],
 })
-export class ServicesModule {} 
+export class ServicesModule {}
