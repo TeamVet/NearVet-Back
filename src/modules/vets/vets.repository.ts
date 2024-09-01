@@ -1,28 +1,33 @@
 import { Injectable } from "@nestjs/common";
+import { Repository } from "typeorm";
+import { Vet } from "./entities/vet.entity";
+import { CreateVetDto } from "./dto/create-vet.dto";
+import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable()
 export class VetsRepository {
     constructor(
-        private readonly vetsRepository
+        @InjectRepository(Vet) private readonly vetsRepository: Repository<Vet>
     ) {}
 
     async getAllVeterinariesRepository(){
-       // logica con la base de datos
+        return await this.vetsRepository.find();
     }
 
-    async getVeterinaryByIdRepository(){
-        // logica con la base de datos
+    async getVeterinaryByIdRepository(id: string): Promise<Vet>{
+        return await this.vetsRepository.findOne({ where: { id } });
     }
 
-    async createVeterinaryRepository(){
-        // logica con la base de datos
+    async createVeterinaryRepository(veterinary: CreateVetDto): Promise<Vet>{
+        return await this.vetsRepository.save(veterinary);
     }
 
-    async updateVeterinaryRepository(){
-        // logica con la base de datos
-    }
+    async updateVeterinaryRepository(id: string, veterinary: Partial<Vet>): Promise<Vet> {
+        await this.vetsRepository.update(id, veterinary);
+        return this.getVeterinaryByIdRepository(id);
+      }
 
-    async removeVeterinaryRepository(){
-        // logica con la base de datos
+    async removeVeterinaryRepository(id: string): Promise<void> {
+        await this.vetsRepository.delete(id); 
     }
 }
