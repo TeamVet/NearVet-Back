@@ -13,9 +13,17 @@ export class Vet {
         length: 50,
         nullable: false,
     })
+    name: string;
+
+    @Column({
+        type: 'varchar',
+        length: 50,
+        nullable: false,
+    })
     nameCompany: string;
 
     @Column({
+        type: 'bigint',
         nullable: false,
         unique: true,
     })
@@ -36,14 +44,10 @@ export class Vet {
     @Column({
         type: 'date',
         nullable: false,
+        default: () => 'CURRENT_DATE',
     })
     startDate: Date;
     
-      @Column({
-        type: 'date',
-        nullable: true,
-    })
-    endDate: Date;
 
     @Column({
         type: 'varchar',
