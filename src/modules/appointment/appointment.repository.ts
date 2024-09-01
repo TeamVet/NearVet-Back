@@ -49,11 +49,12 @@ export class AppointmentRepository {
   }
 
   async createAppointment(createAppointmentDto: CreateAppointmentDto) {
-    const pet = await this.petsRepository.getPetByIdRepository(createAppointmentDto.pet_id.id);
+    const pet = await this.petsRepository.getPetByIdRepository(String(createAppointmentDto.pet_id));
     const state = await this.statesAppointmentRepository.findOne({
       where: { state: 'Pendiente' },
     });
-    const service = await this.serviceRepository.getServiceById(createAppointmentDto.service_id.id);
+    const service = await this.serviceRepository.getServiceById(String(createAppointmentDto.service_id));
+
     const newAppointment = this.appointmentRepository.create({
       ...createAppointmentDto,
       state,
@@ -71,6 +72,14 @@ export class AppointmentRepository {
       service,
     });
     return appointment;
+  }
+
+  async finishAppointment(idAppoinment: string) {
+    const finishService = await this.statesAppointmentRepository.findOne({ where: { state: 'Finalizado' } });
+    await this.appointmentRepository.update(idAppoinment, {
+      state: finishService,
+    });
+    return 'Turno finalizado';
   }
 
   async cancelAppointment(idAppointment: string) {
