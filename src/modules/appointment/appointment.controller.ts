@@ -68,7 +68,7 @@ export class AppointmentController {
     return this.appointmentService.createAppointmentService(createAppointmentDto);
   }
 
-  @Put('edit/:idPet')
+  @Put('edit/:idAppointment')
   @ApiOperation({
     summary: 'Edita turno',
     description: 'Esta ruta edita un turno de la mascota...',
@@ -83,8 +83,8 @@ export class AppointmentController {
   @ApiBadRequestResponse({
     description: 'algunos datos son incorrectos',
   })
-  editAppointment(@Param('idPet') idPet: string, @Body() editAppointmentDto: EditAppointmentDto) {
-    return this.appointmentService.editAppointmentService(editAppointmentDto, idPet);
+  editAppointment(@Param('idAppointment') idAppointment: string, @Body() editAppointmentDto: EditAppointmentDto) {
+    return this.appointmentService.editAppointmentService(editAppointmentDto, idAppointment);
   }
   @Put('cancel/:idAppointment')
   @ApiOperation({

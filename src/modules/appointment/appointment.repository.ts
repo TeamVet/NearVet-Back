@@ -5,6 +5,8 @@ import { Appointment } from './entities/appointment.entity';
 import { In, Repository } from 'typeorm';
 import { StatesAppointment } from './entities/statesAppointment.entity';
 import { User } from '../users/entities/user.entity';
+import { PetsRepository } from '../pets/pets.repository';
+import { ServiceRepository } from '../services/service.repository';
 
 @Injectable()
 export class AppointmentRepository {
@@ -13,6 +15,8 @@ export class AppointmentRepository {
     private readonly appointmentRepository: Repository<Appointment>,
     @InjectRepository(StatesAppointment)
     private readonly statesAppointmentRepository: Repository<StatesAppointment>,
+    private readonly petsRepository: PetsRepository,
+    private readonly serviceRepository: ServiceRepository,
   ) {}
 
   async getAppointments(page: number, limit: number) {
@@ -21,7 +25,10 @@ export class AppointmentRepository {
   }
 
   async getAppointmentById(idAppointment: string) {
-    const appointment = await this.appointmentRepository.findOneBy({ id: idAppointment });
+    const appointment = await this.appointmentRepository.findOne({
+      where: { id: idAppointment },
+      relations: { pet: true, state: true, service: true },
+    });
 
     if (!appointment) throw new NotFoundException('Turno no encontrado');
     return appointment;
@@ -42,16 +49,28 @@ export class AppointmentRepository {
   }
 
   async createAppointment(createAppointmentDto: CreateAppointmentDto) {
-    const newAppointment = this.appointmentRepository.create(createAppointmentDto);
+    const pet = await this.petsRepository.getPetByIdRepository(createAppointmentDto.pet_id.id);
+    const state = await this.statesAppointmentRepository.findOne({
+      where: { state: 'Pendiente' },
+    });
+    const service = await this.serviceRepository.getServiceById(createAppointmentDto.service_id.id);
+    const newAppointment = this.appointmentRepository.create({
+      ...createAppointmentDto,
+      state,
+      pet,
+      service,
+    });
     await this.appointmentRepository.save(newAppointment);
     return newAppointment;
   }
 
-  async editAppointment(editAppointmentDto: EditAppointmentDto, idPet: string) {
-    if (idPet) {
-      await this.appointmentRepository.update(idPet, editAppointmentDto);
-    }
-    return 'Turno editado';
+  async editAppointment(editAppointmentDto: EditAppointmentDto, appointment: Appointment) {
+    const service = await this.serviceRepository.getServiceById(String(editAppointmentDto.service));
+    await this.appointmentRepository.update(appointment.id, {
+      ...editAppointmentDto,
+      service,
+    });
+    return appointment;
   }
 
   async cancelAppointment(idAppointment: string) {
