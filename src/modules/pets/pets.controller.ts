@@ -85,7 +85,7 @@ export class PetsController {
   @ApiBearerAuth()
   @Roles(Role.AdminVet, Role.User, Role.Veterinarian)
   @UseGuards(AuthGuard, RolesGuard)
-  getPetsByUser(@Param('id', ParseUUIDPipe) id: string) {
+  getPetsByUser(@Param('id', ParseUUIDPipe) id: string): Promise<Pet[]> {
     return this.petsService.getPetsByUserService(id);
   }
 
