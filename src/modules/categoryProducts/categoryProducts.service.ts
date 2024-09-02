@@ -5,7 +5,7 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class CategoryProductsService {
-
+ 
   constructor (private categoryProductRepository: CategoryProductsRepository){}
 
   async getCategoryProducts(page:number, limit:number): Promise<CategoryProduct[]> {
