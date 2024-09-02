@@ -11,7 +11,7 @@ export class TypeServiceController {
   create(@Body() createTypeServiceDto: CreateTypeServiceDto) {
     return this.typeServiceService.create(createTypeServiceDto);
   }
-
+    
   @Get()
   findAll() {
     return this.typeServiceService.findAll();

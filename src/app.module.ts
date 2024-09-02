@@ -18,6 +18,7 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
 import { TreatmentModule } from './modules/treatment/treatment.module';
 import { ClinicalExaminationModule } from './modules/clinical-examination/clinical-examination.module';
 import { ProductsModule } from './modules/products/products.module';
+import { CategoryProductsModule } from './modules/categoryProducts/categoryProducts.module';
 
 @Module({
   imports: [
@@ -48,8 +49,8 @@ import { ProductsModule } from './modules/products/products.module';
     VetsModule,
     TreatmentModule,
     ClinicalExaminationModule,
-    ProductsModule
-  
+    ProductsModule,
+    CategoryProductsModule
   ],
 
   controllers: [],
