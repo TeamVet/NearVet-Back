@@ -102,5 +102,5 @@ export class UpdateUserDto {
   })
   @IsOptional()
   @IsString()
-  city: string;
+  city: string; 
 }
