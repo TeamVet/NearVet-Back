@@ -25,6 +25,14 @@ export class SeederController {
   addRoles() {
     return this.seederService.loadRolesData();
   }
+
+  @Post('preloadInitial')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Precarga Inicial de toda la Base de Datos' })
+  preloadInitial() {
+    return this.seederService.preloadInitial();
+  }
+
   /* 
 
 

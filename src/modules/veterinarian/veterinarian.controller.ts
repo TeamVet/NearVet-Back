@@ -88,11 +88,4 @@ export class VeterinarianController {
     return this.veterinarianService.remove(id);
   }
  
-  @Post()
-  @ApiOperation({
-    summary: 'Realiza una carga de datos masiva en la tabla de Veterinarios',
-    description: `Este endpoint ingresa veterianrios de prueba para usar la aplicacion`})
-  async preloadVeterinarian() {
-    return this.veterinarianService.preloadVeterinarian();
-  }
 }

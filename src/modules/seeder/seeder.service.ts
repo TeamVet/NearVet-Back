@@ -2,6 +2,9 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
+import preloadVeterinarian from '../../seeds/veterinarian.json';
+import preloadServices from "../../seeds/services.json"
+import preloadCatSer from  "../../seeds/categoryService.json"
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { UserRole } from '../users/entities/userRole.entity';
@@ -11,6 +14,9 @@ import { Sex } from '../pets/entities/sex.entity';
 import { Specie } from '../pets/entities/specie.entity';
 import { Race } from '../pets/entities/race.entity';
 import { StatesAppointment } from '../appointment/entities/statesAppointment.entity';
+import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
+import { Service } from '../services/entities/service.entity';
+import { CategoryService } from '../categoryServices/entities/categoryService.entity';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -28,6 +34,12 @@ export class SeederService implements OnModuleInit {
     private readonly specieRepository: Repository<Specie>,
     @InjectRepository(StatesAppointment)
     private readonly statesAppointmentsRepository: Repository<StatesAppointment>,
+    @InjectRepository(Veterinarian)
+    private readonly veterinarianRepository: Repository<Veterinarian>,
+    @InjectRepository(Service)
+    private readonly serviceRepository: Repository<Service>,
+    @InjectRepository(CategoryService)
+    private readonly categoryServiceRepository: Repository<CategoryService>,
   ) {}
 
   petsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'pets.json');
@@ -140,17 +152,7 @@ export class SeederService implements OnModuleInit {
           raceDB = await this.raceRepository.save({ race, specie: specieDB });
         }
 
-<<<<<<< HEAD
-          let specieDB: Specie = await this.specieRepository.findOneBy({specie});
-          if (!specieDB) {specieDB = await this.specieRepository.save({specie});}
- 
-          let raceDB: Race = await this.raceRepository.findOneBy({race});
-          if (!raceDB) {raceDB = await this.raceRepository.save({race, specie: specieDB});}
-          
-        const date = new Date().toISOString();
-=======
         const date = new Date().toLocaleDateString();
->>>>>>> 95976c2448c572908e23b861b390180f1f4b41ba
         await this.petsRepository.save({
           name,
           birthdate,
@@ -190,11 +192,60 @@ export class SeederService implements OnModuleInit {
       }
     }
   }
-  async onModuleInit() {
+
+  async loadVeterinarian(): Promise<void> {
+    for (const vet of preloadVeterinarian) {
+      const vetExist: Veterinarian = await this.veterinarianRepository.findOneBy({licence: vet.licence});
+
+      if (!vetExist) {
+        const user: User = await this.userRepository.findOneBy({dni: vet.dni});
+        if (!user) {
+          const { dni, ...veterinarian } = vet;
+          await this.veterinarianRepository.save({ ...veterinarian, user });
+        }
+      }
+    }
+    console.log("Veterinarios Cargados Con Exito")
+  }
+
+  async loadServices() {
+    for (const service of preloadServices) {
+       const serviceExist: Service = await this.serviceRepository.findOneBy({service: service.service});
+ 
+       if (!serviceExist) {
+         const veterinarian: Veterinarian = await this.veterinarianRepository.findOneBy({licence: service.licenceVet});
+         const categoryService: CategoryService = await this.categoryServiceRepository.findOneBy({categoryService: service.category})
+         if (veterinarian && categoryService) { 
+           const {licenceVet, category, ...createService} = service
+           await this.serviceRepository.save({...createService, veterinarian});
+         }
+       }
+     }
+     console.log("Servicios Cargados Con Exito")
+   }
+
+   async loadCategoryService(): Promise<void> {
+    for (const category of preloadCatSer) {
+      const {categoryService} = category;
+      const categoryExist: CategoryService = await this.categoryServiceRepository.findOneBy({categoryService});
+      if (!categoryExist) {await this.categoryServiceRepository.save(category); }
+    }
+    console.log("Categorias de Servicios Cargadas Con Exito")
+  }
+
+  async preloadInitial () {
     await this.loadRolesData();
     await this.loadSexData();
     await this.loadUsersData();
     await this.loadPetsData();
     await this.loadStatesAppointments();
+    await this.loadVeterinarian();
+    await this.loadCategoryService();
+    await this.loadServices();
+  }
+
+
+  async onModuleInit() {
+    await this.preloadInitial();
   }
 }
