@@ -13,25 +13,9 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       // whitelist hace que solo se admitan las propiedades del DTO y ninguna adicional.
-      whitelist: true,
-      // setea la forma en la que voy a mostrar los errores de los DTO
-      exceptionFactory: (errors) => {
-        const cleanErrors = errors.map((error) => {
-          return { property: error.property, constraints: error.constraints };
-        });
-        return new BadRequestException({
-          alert: 'Estos son los errores encontrados',
-          errors: cleanErrors,
-        });
-      },
+      whitelist: true,      
     }),
   );
-
-
-      await app.get(CategoryServicesService).preloadCategoryService()
-      await app.get(VeterinarianService).preloadVeterinarian()
-      await app.get(ServicesService).preloadServices()
-
 
   //genero el Document Builder donde preconfiguro los datos basicos
   const swaggerConfig = new DocumentBuilder()

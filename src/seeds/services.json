@@ -79,5 +79,68 @@
       "price": 9000,
       "licenceVet": 9876,
       "durationMin": 20
+    },
+    {
+      "service": "Corte de Raza",
+      "category": "Peluqueria",
+      "description": "El mejor corte de Raza para tu mascota!",
+      "sendMessage": "",
+      "price": 10000,
+      "licenceVet": 19876,
+      "durationMin": 20
+    },
+    {
+      "service": "Baño",
+      "category": "Peluqueria",
+      "description": "Un hermoso baño para tu mascota. Queda limpia y esponjosa",
+      "sendMessage": "",
+      "price": 9000,
+      "licenceVet": 19876,
+      "durationMin": 20
+    },
+    {
+      "service": "Corte de Uña",
+      "category": "Peluqueria",
+      "description": "Cansado de los rayones en tu auto! Nosotros le cortamos las uñas a tu mascota",
+      "sendMessage": "",
+      "price": 15000,
+      "licenceVet": 19876,
+      "durationMin": 20
+    },
+    {
+      "service": "Limpieza de Ojos",
+      "category": "Peluqueria",
+      "description": "Con esta limpieza de ojos tu mascota queda mas linda que nunca",
+      "sendMessage": "",
+      "price": 12000,
+      "licenceVet": 10788,
+      "durationMin": 20
+    },
+    {
+      "service": "Limpieza de Orejas",
+      "category": "Peluqueria",
+      "description": "Despues de esta limpieza tu mascota volvera a escuchar",
+      "sendMesasge": "",
+      "price": 20000,
+      "licenceVet": 10788,
+      "durationMin": 20
+    },
+    {
+      "service": "Baño con Corte",
+      "category": "Peluqueria",
+      "description": "Combo NearVet- Le damos un buen baño y le cortamos el pelo para dejarlo hermoso",
+      "sendMessage": "",
+      "price": 10000,
+      "licenceVet": 10788,
+      "durationMin": 20
+    },
+    {
+      "service": "Corte de Pelo y Uñas",
+      "category": "Peluqueria",
+      "description": "Dejamos tu mascota como nuevo y limpita",
+      "sendMessage": "",
+      "price": 25000,
+      "licenceVet": 9876,
+      "durationMin": 20
     }
   ]

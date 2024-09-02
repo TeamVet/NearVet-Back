@@ -1,5 +1,4 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import preloadCatSer from  "../../seeds/categoryService.json"
 import { CategoryServiceRepository } from './categoryServices.repository';
 import { CategoryService } from './entities/categoryService.entity';
 
@@ -45,12 +44,4 @@ export class CategoryServicesService {
     return id;
   }
 
-  async preloadCategoryService(): Promise<void> {
-    for (const category of preloadCatSer) {
-      const {categoryService, description, image} = category;
-      const categoryExist: CategoryService = await this.categoryServiceRepository.getCategoryServiceByCategory(categoryService);
-      if (!categoryExist) {await this.categoryServiceRepository.createCategoryService(category); }
-    }
-    console.log("Categorias de Servicios Cargadas Con Exito")
-  }
 }

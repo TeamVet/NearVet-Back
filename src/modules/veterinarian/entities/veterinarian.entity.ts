@@ -1,7 +1,7 @@
 import { User } from 'src/modules/users/entities/user.entity';
-import { CategoryService } from '../../categoryServices/entities/categoryService.entity';
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany,OneToOne,PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, OneToMany,OneToOne,PrimaryGeneratedColumn} from 'typeorm';
 import { Service } from 'src/modules/services/entities/service.entity';
+import { ClinicalExamination } from 'src/modules/clinical-examination/entities/clinicalExamination.entity';
   
   @Entity({name: 'veterinarians'})
   export class Veterinarian {
@@ -28,5 +28,8 @@ import { Service } from 'src/modules/services/entities/service.entity';
     /* RELACION UNO-A-MUCHOS CON service */
     @OneToMany(() => Service, (service) => service.veterinarian)
     services: Service[];
+
+    @OneToMany(() => ClinicalExamination, (clinicalExamination) => clinicalExamination.veterinarian)
+    clinicalExaminations: ClinicalExamination[];
   }
   

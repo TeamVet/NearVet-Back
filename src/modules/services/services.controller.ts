@@ -98,11 +98,4 @@ export class ServicesController {
     return await this.servicesService.removeService(id);
   }
 
-  @Post("preleadServices")
-  @ApiOperation({
-    summary: 'Precarga de servicios',
-    description: `Realiza una precarga inicial de datos para probar la aplicacion`})
-  async preloadServices() {
-    return await this.servicesService.preloadServices();
-  }
 }
