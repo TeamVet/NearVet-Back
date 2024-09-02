@@ -27,12 +27,18 @@ export class AppointmentService {
   }
 
   async createAppointmentService(createAppointmentDto: CreateAppointmentDto) {
-    await this.petsRepository.getPetByIdRepository(createAppointmentDto.pet_id.id);
+    await this.petsRepository.getPetByIdRepository(String(createAppointmentDto.pet_id));
     return this.appointmentRepository.createAppointment(createAppointmentDto);
   }
+
   async editAppointmentService(editAppointment: EditAppointmentDto, idAppointment: string) {
     const appointment = await this.getAppointmentByIdService(idAppointment);
     return this.appointmentRepository.editAppointment(editAppointment, appointment);
+  }
+
+  async finishAppointmentService(idAppointment: string) {
+    await this.getAppointmentByIdService(idAppointment);
+    return this.appointmentRepository.finishAppointment(idAppointment);
   }
 
   async cancelAppointmentService(idAppointment: string) {
