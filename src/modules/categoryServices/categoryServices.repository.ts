@@ -7,7 +7,6 @@ import { DeleteResult, Repository, UpdateResult } from "typeorm";
 export class CategoryServiceRepository {
     constructor (@InjectRepository(CategoryService) private categoryServiceRepository: Repository<CategoryService>) {}
 
-    
     async getCategoryServices(): Promise<CategoryService[]> {
         return await this.categoryServiceRepository.find();
     }

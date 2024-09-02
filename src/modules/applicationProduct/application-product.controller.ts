@@ -11,7 +11,7 @@ export class ApplicationProductController {
   create(@Body() createApplicationProductDto: CreateApplicationProductDto) {
     return this.applicationProductService.create(createApplicationProductDto);
   }
-
+    
   @Get()
   findAll() {
     return this.applicationProductService.findAll();

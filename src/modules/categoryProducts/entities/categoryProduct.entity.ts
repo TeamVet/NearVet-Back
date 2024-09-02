@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ApplicationProduct } from 'src/modules/applicationProduct/entities/applicationProduct.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Product } from 'src/modules/products/entities/product.entity';
 
 @Entity({
