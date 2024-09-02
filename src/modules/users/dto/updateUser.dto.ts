@@ -13,6 +13,32 @@ import { passwordCompare } from '../../../decorators/comparePass.decorator';
 
 export class UpdateUserDto {
   @ApiPropertyOptional({
+    description: 'El nombre es Opcional',
+    example: 'Carlos',
+  })
+  @IsOptional()
+  @IsString()
+  @Length(1, 50)
+  name: string;
+
+  @ApiPropertyOptional({
+    description: 'El Apellido es Opcional',
+    example: 'Amadeo',
+  })
+  @IsOptional()
+  @IsString()
+  @Length(1, 50)
+  lastname: string;
+
+  @ApiPropertyOptional({
+    description: 'El DNI es Opcional',
+    example: '34576894',
+  })
+  @IsOptional()
+  @IsNumber()
+  dni: number;
+
+  @ApiPropertyOptional({
     description: 'Debe ser un email válido',
     example: 'example@gmail.com',
   })
@@ -21,30 +47,30 @@ export class UpdateUserDto {
   @Length(1, 50)
   email: string;
 
-  @ApiProperty({
-    description:
-      'La contraseña debe tener almenos 6 caracteres, una mayuscula, una minuscula y un caracter especial',
-    example: 'pruEba123&%',
-  })
-  @IsNotEmpty()
-  @IsString()
-  @Length(8, 15)
-  @IsStrongPassword({
-    minLowercase: 1,
-    minUppercase: 1,
-    minNumbers: 1,
-    minSymbols: 1,
-  })
-  password: string;
+  // @ApiProperty({
+  //   description:
+  //     'La contraseña debe tener almenos 6 caracteres, una mayuscula, una minuscula y un caracter especial',
+  //   example: 'pruEba123&%',
+  // })
+  // @IsNotEmpty()
+  // @IsString()
+  // @Length(8, 15)
+  // @IsStrongPassword({
+  //   minLowercase: 1,
+  //   minUppercase: 1,
+  //   minNumbers: 1,
+  //   minSymbols: 1,
+  // })
+  // password: string;
 
-  @ApiProperty({
-    description:
-      'La confirmacion del password es Obligatoria. Debe coincidir con password.',
-    example: 'pruEba123&%',
-  })
-  @IsNotEmpty()
-  @Validate(passwordCompare, ['password'])
-  passwordConfirm: string;
+  // @ApiProperty({
+  //   description:
+  //     'La confirmacion del password es Obligatoria. Debe coincidir con password.',
+  //   example: 'pruEba123&%',
+  // })
+  // @IsNotEmpty()
+  // @Validate(passwordCompare, ['password'])
+  // passwordConfirm: string;
 
   @ApiPropertyOptional({
     description: 'La fecha de nacimiento es opcional',

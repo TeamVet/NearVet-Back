@@ -11,7 +11,7 @@ export class FileTraetmentController {
   create(@Body() createFileTraetmentDto: CreateFileTraetmentDto) {
     return this.fileTraetmentService.create(createFileTraetmentDto);
   }   
-
+ 
   @Get()
   findAll() {
     return this.fileTraetmentService.findAll();

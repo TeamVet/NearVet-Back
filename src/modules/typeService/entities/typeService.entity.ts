@@ -18,6 +18,6 @@ export class TypeService {
     @ManyToOne(() => Service, (service) => service.typeServices)
     @JoinColumn({name:"serviceId"})
     service: Service;
-    @Column({type:"uuid", nullable:true})
+    @Column({type:"uuid"})
     serviceId: string
 }
