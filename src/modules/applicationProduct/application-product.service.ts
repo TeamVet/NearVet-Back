@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
-import { CreateApplicationProductDto } from './dto/createApplicationProduct.dto';
-import { UpdateApplicationProductDto } from './dto/updateApplicationProduct.dto';
-
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { ApplicationProduct } from './entities/applicationProduct.entity';
+import { ApplicationProductRepository } from './application-product.repository';
+import { DeleteResult, UpdateResult } from 'typeorm';
+ 
 @Injectable()
 export class ApplicationProductService {
-  create(createApplicationProductDto: CreateApplicationProductDto) {
-    return 'This action adds a new applicationProduct';
+  
+  constructor (private readonly AppProductRepository: ApplicationProductRepository){}
+
+  async getApplicationProductByTreatmentId(treatmentId:string): Promise<ApplicationProduct[]> {
+    const appProduct: ApplicationProduct[] = await this.AppProductRepository.getApplicationProductByTreatmentId(treatmentId);
+    if (appProduct.length ===0) throw new NotFoundException ("No se encontraron productos asignados al tratamiento")
+    return appProduct;
   }
 
-  findAll() {
-    return `This action returns all applicationProduct`;
+  async createApplicationProduct(AppProd: Partial<ApplicationProduct>): Promise<ApplicationProduct> {
+    const appProduct: ApplicationProduct = await this.AppProductRepository.createApplicationProduct(AppProd)
+    if (!appProduct) throw new InternalServerErrorException ("No se pudo asignar el producto al tratamiento")
+    return appProduct;
+  }
+    
+  async updateApplicationProduct(treatmentId: string, productId: string, AppProd: Partial<ApplicationProduct>): Promise<Object> {
+    const appProduct: UpdateResult = await this.AppProductRepository.updateApplicationProduct(treatmentId, productId, AppProd)
+    if (appProduct.affected === 0) throw new NotFoundException("No se encontro el producto a actualizar")
+    return {treatmentId: treatmentId, productId: productId}
+  } 
+
+  async removeApplicationProduct(treatmentId: string, productId: string): Promise<Object> {
+    const appProduct: DeleteResult = await this.AppProductRepository.removeApplicationProduct(treatmentId, productId)
+    if (appProduct.affected === 0) throw new NotFoundException("No se encontro el producto a eliminar")
+    return {treatmentId: treatmentId, productId: productId}
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} applicationProduct`;
+  async removeApplicationProductByTreatment(treatmentId: string): Promise<string> {
+    const appProduct: DeleteResult = await this.AppProductRepository.removeApplicationProductByTreatment(treatmentId)
+    if (appProduct.affected === 0) throw new NotFoundException("No se encontro el producto a eliminar")
+    return treatmentId
   }
-
-  update(id: number, updateApplicationProductDto: UpdateApplicationProductDto) {
-    return `This action updates a #${id} applicationProduct`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} applicationProduct`;
-  }
+  
 }
