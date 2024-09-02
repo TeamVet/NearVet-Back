@@ -10,7 +10,7 @@ export class FileTraetmentController {
   @Post()
   create(@Body() createFileTraetmentDto: CreateFileTraetmentDto) {
     return this.fileTraetmentService.create(createFileTraetmentDto);
-  }
+  }   
 
   @Get()
   findAll() {

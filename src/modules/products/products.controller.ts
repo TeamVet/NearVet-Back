@@ -10,7 +10,7 @@ import { ApiBody, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOperat
 export class ProductsController {
   
   constructor(private readonly productsService: ProductsService) {}
-
+ 
   @Get()
   @ApiOperation({summary: "Devuelve todos los productos paginados",
           description: "Esta ruta devulve un array todos los productos existentes segun la paginacion ingresada"})
@@ -19,7 +19,7 @@ export class ProductsController {
   @ApiQuery({ name: 'page', required: false, description:"Numero de pagina a retornar: (default: 1)"})
   @ApiQuery({ name: 'limit', required: false, description:"Cantidad maxima de productos por pagina: (default: 5)" })
   async getProducts (@Query("page") page:number=1, @Query("limit") limit:number=5): Promise<Product[]> {
-    return await this.productsService.getProducts(page, limit)
+    return await this.productsService.getProducts(+page, +limit)
   }
 
   @Get(":id")
@@ -53,7 +53,7 @@ export class ProductsController {
   async getProductsByCategory (@Query("page") page : number = 1, 
                                @Query("limit") limit : number = 5, 
                                @Param("categoryProductId") categoryId: string): Promise<Product[]> {
-      return await this.productsService.getProductsByCategory(page, limit, categoryId)
+      return await this.productsService.getProductsByCategory(+page, +limit, categoryId)
   }
 
   // async getProductsBySale (saleId: string): Promise<Product[]> {
