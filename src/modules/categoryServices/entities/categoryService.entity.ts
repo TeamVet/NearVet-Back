@@ -16,7 +16,7 @@ import {Column, Entity, OneToMany,PrimaryGeneratedColumn} from 'typeorm';
 
     @Column({
         type: 'varchar',
-        nullable:false,
+        nullable:true,
       })
       description: string;  
     
