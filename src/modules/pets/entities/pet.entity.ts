@@ -5,6 +5,7 @@ import { Sex } from './sex.entity';
 import { RepCondition } from './repCondition.entity';
 import { Appointment } from 'src/modules/appointment/entities/appointment.entity';
 import { Specie } from 'src/modules/species/entities/specie.entity';
+import { ClinicalExamination } from 'src/modules/clinical-examination/entities/clinicalExamination.entity';
 
 @Entity({
   name: 'pets',
@@ -84,4 +85,8 @@ export class Pet {
   // RELACION UNO-A-MUCHOS con appointments
   @OneToMany(() => Appointment, (appointment) => appointment.pet)
   appointments: Appointment[];
+
+  // RELACION UNO-A-MUCHOS con ClinicalExamination
+  @OneToMany(() => ClinicalExamination, (clinicalExamination) => clinicalExamination.pet)
+  clinicalExaminations: ClinicalExamination[];
 }

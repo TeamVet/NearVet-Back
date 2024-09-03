@@ -36,8 +36,7 @@ export class PetsController {
 
   @Get()
   @ApiOperation({ summary: 'Devuelve todas las mascotas',
-                  description: `Este endpiont retorna una array de objetos tipo Pets con todos 
-                                los datos de la entidad y sus relaciones si las tiene`,})
+                  description: `Devuelve un array con todas las mascotas registradas en la veterinaria`,})
   @ApiNotFoundResponse({ description:"Por el momento no hay mascotas registradas"})
   @HttpCode(200)
   @ApiBearerAuth()
@@ -48,7 +47,7 @@ export class PetsController {
   }
 
   @Get("SpecieAndRaces")
-  @ApiOperation({ summary: 'Retorna las Especies con las razas asociadas',
+  @ApiOperation({ summary: 'Devuelve todas las Especies con las razas asociadas',
                   description: `Este endpiont retorna una array de objetos tipo Specie con id, Specie, y Races.
                                 Donde Races es un array con todas las razas asociadas a esa especie
                                 conteniendo id y race por cada raza`,})

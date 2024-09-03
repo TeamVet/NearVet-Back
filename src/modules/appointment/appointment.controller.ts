@@ -68,7 +68,7 @@ export class AppointmentController {
     return this.appointmentService.createAppointmentService(createAppointmentDto);
   }
 
-  @Put('edit/:idPet')
+  @Put('edit/:idAppointment')
   @ApiOperation({
     summary: 'Edita turno',
     description: 'Esta ruta edita un turno de la mascota...',
@@ -83,8 +83,22 @@ export class AppointmentController {
   @ApiBadRequestResponse({
     description: 'algunos datos son incorrectos',
   })
-  editAppointment(@Param('idPet') idPet: string, @Body() editAppointmentDto: EditAppointmentDto) {
-    return this.appointmentService.editAppointmentService(editAppointmentDto, idPet);
+  editAppointment(@Param('idAppointment') idAppointment: string, @Body() editAppointmentDto: EditAppointmentDto) {
+    return this.appointmentService.editAppointmentService(editAppointmentDto, idAppointment);
+  }
+  @Put('finish/:idAppointment')
+  @ApiOperation({
+    summary: 'Finaliza turno',
+    description: 'Esta ruta finaliza un turno de la mascota...',
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Error al intentar finalizar el turno',
+  })
+  @ApiBadRequestResponse({
+    description: 'ID incorrecto o ya finalizado',
+  })
+  finishAppointment(@Param('idAppointment') idAppointment: string) {
+    return this.appointmentService.finishAppointmentService(idAppointment);
   }
   @Put('cancel/:idAppointment')
   @ApiOperation({

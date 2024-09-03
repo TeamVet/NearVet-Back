@@ -56,19 +56,4 @@ export class VeterinarianService {
     return id;
   }
 
-  async preloadVeterinarian(): Promise<void> {
-    //console.log("preloadVeterinarian  ", preloadVeterinarian)
-    for (const vet of preloadVeterinarian) {
-      const vetExist: Veterinarian = await this.veterinarianRepository.getVeterinarianByLicence(vet.licence);
-
-      if (!vetExist) {
-        const user: User = await this.userRepository.getUserByDniRepository(vet.dni);
-        if (!user) {
-          const { dni, ...veterinarian } = vet;
-          await this.veterinarianRepository.createVeterinarian({ ...veterinarian, user });
-        }
-      }
-    }
-    //console.log("Veterinarios Cargados Con Exito")
-  }
 }

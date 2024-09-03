@@ -9,9 +9,14 @@ import { Sex } from '../pets/entities/sex.entity';
 import { Race } from '../pets/entities/race.entity';
 import { StatesAppointment } from '../appointment/entities/statesAppointment.entity';
 import { Specie } from '../species/entities/specie.entity';
+import { VeterinarianRepository } from '../veterinarian/veterinarian.repository';
+import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
+import { CategoryService } from '../categoryServices/entities/categoryService.entity';
+import { Service } from '../services/entities/service.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Pet, UserRole, Sex, Race, Specie, StatesAppointment])],
+  imports: [TypeOrmModule.forFeature([User, Pet, UserRole, Sex, Race, Specie, StatesAppointment, Veterinarian,
+                                      CategoryService, Service])],
   controllers: [SeederController],
   providers: [SeederService],
 })

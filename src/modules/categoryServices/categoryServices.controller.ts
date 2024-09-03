@@ -74,15 +74,5 @@ export class CategoryServicesController {
   removeCategoryService(@Param('id') id: string) {
     return this.categoryServicesService.removeCategoryService(id);
   }
-  
-  
-  @Post("preloadCategoryService")
-  @ApiOperation({
-    summary: 'Realiza la pracarga de Categorias de servicio',
-    description: `Este endpoint realiza a precarga inicial de datos en la tabla Categoria de servicios`})
-  preloadCategoryService() {
-    return this.categoryServicesService.preloadCategoryService();
-  }
-
-
+ 
 }

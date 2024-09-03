@@ -1,6 +1,7 @@
 import { Pet } from 'src/modules/pets/entities/pet.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { StatesAppointment } from './statesAppointment.entity';
+import { Service } from 'src/modules/services/entities/service.entity';
 //import { Service } from 'src/modules/services/entities/service.entity';
 
 @Entity({
@@ -32,9 +33,8 @@ export class Appointment {
   @JoinColumn({ name: 'stateAppointment_id' })
   state: StatesAppointment;
 
-  /* RELACION MUCHOS-A-UNO CON services 
+  /* RELACION MUCHOS-A-UNO CON services*/
   @ManyToOne(() => Service, (service) => service.id)
   @JoinColumn({ name: 'service_id' })
   service: Service;
-  */
 }

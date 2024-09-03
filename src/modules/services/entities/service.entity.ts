@@ -1,7 +1,9 @@
 import { Veterinarian } from 'src/modules/veterinarian/entities/veterinarian.entity';
 import { CategoryService } from '../../categoryServices/entities/categoryService.entity';
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany,PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany,OneToOne,PrimaryGeneratedColumn} from 'typeorm';
 import { AvailabilityService } from '../../availabilityService/entities/availability-service.entity';
+import { Treatment } from 'src/modules/treatment/entities/treatment.entity';
+import { TypeService } from 'src/modules/typeService/entities/typeService.entity';
   
   @Entity({name: 'services'})
   export class Service {
@@ -33,9 +35,15 @@ import { AvailabilityService } from '../../availabilityService/entities/availabi
     /* RELACION MUCHOS-A-UNO CON CategoryService */
     @ManyToOne(() => CategoryService, (categoryService) => categoryService.services)
     @JoinColumn({ name: 'categoryServiceId' })
-    categoryService: CategoryService[];
+    categoryService: CategoryService;
     @Column({type: 'uuid',nullable: true})
     categoryServiceId: string;
+
+    @OneToMany(() => TypeService, (typeService) => typeService.service)
+    typeServices: TypeService[];
+
+    @OneToMany(() => Treatment, (treatment) => treatment.service)
+    treatments: Treatment[];
 
     @OneToMany(() => AvailabilityService, (availabilityService) => availabilityService.service)
     availabilityService: AvailabilityService[];

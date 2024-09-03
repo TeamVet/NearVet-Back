@@ -47,13 +47,15 @@ export class PetsRepository {
       where: { id: id },
       relations: { specie: true, race: true, sex: true },
     });
-    if (!pet) throw new NotFoundException(`Mascota con el ID ${id} no encontrada`);
+    if (!pet || id === undefined) {
+      throw new NotFoundException(`Mascota con el ID ${id} no encontrada`);
+    }
     return pet;
   }
 
   async getPetsByUserRepository(id: string): Promise<Pet[]> {
-    const pets = await this.petsRepository.find({where: {userId: id}, relations: {sex:true, race:true, specie:true, repCondition:true}});
-    return pets
+    const pets = await this.petsRepository.find({ where: { userId: id }, relations: { sex: true, race: true, specie: true, repCondition: true } });
+    return pets;
   }
 
   async createPetRepository(pet: Partial<Pet>) {

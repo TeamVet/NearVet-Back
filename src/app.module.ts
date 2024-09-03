@@ -16,6 +16,10 @@ import { VeterinarianModule } from './modules/veterinarian/veterinarian.module';
 import { VetsModule } from './modules/vets/vets.module';
 import { AppointmentModule } from './modules/appointment/appointment.module';
 import { SpeciesModule } from './modules/species/species.module';
+import { TreatmentModule } from './modules/treatment/treatment.module';
+import { ClinicalExaminationModule } from './modules/clinical-examination/clinical-examination.module';
+import { ProductsModule } from './modules/products/products.module';
+import { CategoryProductsModule } from './modules/categoryProducts/categoryProducts.module';
 
 @Module({
   imports: [
@@ -44,7 +48,11 @@ import { SpeciesModule } from './modules/species/species.module';
     ServicesModule,
     VeterinarianModule,
     VetsModule,
-    SpeciesModule
+    SpeciesModule,
+    TreatmentModule,
+    ClinicalExaminationModule,
+    ProductsModule,
+    CategoryProductsModule
   ],
 
   controllers: [],
