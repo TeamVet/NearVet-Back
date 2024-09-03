@@ -62,7 +62,8 @@ import { SalesModule } from './modules/sales/sales.module';
     TypeServiceModule,
     ApplicationProductModule,
     FileTreatmentModule,
-    SalesModule
+    SalesModule,
+    RacesModule
   ],
 
   controllers: [],

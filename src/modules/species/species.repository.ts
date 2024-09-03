@@ -7,7 +7,7 @@ import { Repository } from "typeorm";
 @Injectable()
 export class speciesRepository {
     constructor(
-        @InjectRepository(Specie) private specieRepository: Repository<Specie>
+        @InjectRepository(Specie) private readonly specieRepository: Repository<Specie>
     ) {}
     
     async getAllSpeciesRepository() {
@@ -19,7 +19,8 @@ export class speciesRepository {
     }
 
     async createSpeciesRepository(specie: Partial<Specie>) {
-        return await this.specieRepository.save(specie);
+        const newSpecie = this.specieRepository.create(specie);
+        return await this.specieRepository.save(newSpecie);
     }
 
     async updateSpeciesRepository(id: string, specie: Partial<Specie>) {

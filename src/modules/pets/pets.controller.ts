@@ -25,7 +25,7 @@ import { RolesGuard } from '../users/roles/roles.guard';
 import { Roles } from '../users/roles/roles.decorator';
 import { Role } from '../users/roles/roles.enum';
 import { Sex } from './entities/sex.entity';
-import { Race } from './entities/race.entity';
+import { Race } from '../races/entitites/race.entity';
 import { Pet } from './entities/pet.entity';
 import { Specie } from '../species/entities/specie.entity';
 

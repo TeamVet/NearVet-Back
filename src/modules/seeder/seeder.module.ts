@@ -6,7 +6,7 @@ import { User } from '../users/entities/user.entity';
 import { Pet } from '../pets/entities/pet.entity';
 import { UserRole } from '../users/entities/userRole.entity';
 import { Sex } from '../pets/entities/sex.entity';
-import { Race } from '../pets/entities/race.entity';
+import { Race } from '../races/entitites/race.entity';
 import { StatesAppointment } from '../appointment/entities/statesAppointment.entity';
 import { Specie } from '../species/entities/specie.entity';
 import { VeterinarianRepository } from '../veterinarian/veterinarian.repository';

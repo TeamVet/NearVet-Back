@@ -11,7 +11,7 @@ import { UserRole } from '../users/entities/userRole.entity';
 import { Pet } from '../pets/entities/pet.entity';
 import * as bcrypt from 'bcrypt';
 import { Sex } from '../pets/entities/sex.entity';
-import { Race } from '../pets/entities/race.entity';
+import { Race } from '../races/entitites/race.entity';
 import { StatesAppointment } from '../appointment/entities/statesAppointment.entity';
 import { Specie } from '../species/entities/specie.entity';
 import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
