@@ -24,10 +24,10 @@ import { AuthGuard } from '../authGlobal/guards/Auth.guard';
 import { RolesGuard } from '../users/roles/roles.guard';
 import { Roles } from '../users/roles/roles.decorator';
 import { Role } from '../users/roles/roles.enum';
-import { Specie } from './entities/specie.entity';
 import { Sex } from './entities/sex.entity';
 import { Race } from './entities/race.entity';
 import { Pet } from './entities/pet.entity';
+import { Specie } from '../species/entities/specie.entity';
 
 @ApiTags('Pets')
 @Controller('pets')

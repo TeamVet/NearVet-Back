@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PetsRepository } from './pets.repository';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import { Specie } from './entities/specie.entity';
 import { Sex } from './entities/sex.entity';
 import { Race } from './entities/race.entity';
 import { Pet } from './entities/pet.entity';
+import { Specie } from '../species/entities/specie.entity';
 import { CreatePetDto } from './dto/create-pet.dto';
 
 @Injectable()
