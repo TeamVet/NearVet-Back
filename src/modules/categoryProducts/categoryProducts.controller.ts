@@ -9,7 +9,7 @@ import { ApiBody, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOperat
 @Controller('category-products')
 export class CategoryProductsController {
   constructor(private readonly categoryProductsService: CategoryProductsService) {}
-
+ 
   @Get()
   @ApiOperation({
     summary: 'Devuelve todas las categorias de servicios',

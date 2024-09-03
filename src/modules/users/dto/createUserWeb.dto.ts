@@ -4,6 +4,7 @@ import {
   IsEmail,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   IsStrongPassword,
   Length,
@@ -73,13 +74,13 @@ export class CreateUserWebDto {
   @Validate(passwordCompare, ['password'])
   passwordConfirm: string;
 
-  // @ApiPropertyOptional({
-  //   description: 'La fecha de nacimiento es opcional',
-  //   example: new Date('1/2/1988'),
-  // })
-  // @IsOptional()
-  // @IsDateString()
-  // birthDate?: Date;
+  @ApiPropertyOptional({
+     description: 'La fecha de nacimiento es opcional',
+     example: new Date('1/2/1988'),
+  })
+  @IsOptional()
+  @IsDateString()
+  birthDate?: Date;
 
   @ApiProperty({
     description: 'La fecha de inicio es obligatoria',
