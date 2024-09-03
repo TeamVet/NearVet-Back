@@ -11,6 +11,7 @@ import { Pet } from 'src/modules/pets/entities/pet.entity';
 import { UserRole } from './userRole.entity';
 import { Vet } from 'src/modules/vets/entities/vet.entity';
 import { Veterinarian } from 'src/modules/veterinarian/entities/veterinarian.entity';
+import { Sale } from 'src/modules/sales/entities/sale.entity';
 
 @Entity({
   name: 'users',
@@ -100,6 +101,10 @@ export class User {
   /* RELACION UNO-A-MUCHOS con pets */
   @OneToMany(() => Pet, (pet) => pet.user)
   pets: Pet[];
+
+  /* RELACION UNO-A-MUCHOS con sales */
+  @OneToMany(() => Sale, (sale) => sale.user)
+  sales: Sale[];
 
   //RELACION UNO-A-MUCHOS con roles
   @ManyToOne(() => UserRole, (role) => role.users)

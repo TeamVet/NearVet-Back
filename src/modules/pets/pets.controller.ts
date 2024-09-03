@@ -24,10 +24,10 @@ import { AuthGuard } from '../authGlobal/guards/Auth.guard';
 import { RolesGuard } from '../users/roles/roles.guard';
 import { Roles } from '../users/roles/roles.decorator';
 import { Role } from '../users/roles/roles.enum';
-import { Specie } from './entities/specie.entity';
 import { Sex } from './entities/sex.entity';
-import { Race } from './entities/race.entity';
+import { Race } from '../races/entitites/race.entity';
 import { Pet } from './entities/pet.entity';
+import { Specie } from '../species/entities/specie.entity';
 
 @ApiTags('Pets')
 @Controller('pets')
@@ -139,8 +139,8 @@ export class PetsController {
       new ParseFilePipe({
         validators: [
           new MaxFileSizeValidator({
-            maxSize: 200000,
-            message: 'El Archivo debe ser menor a 200Kb',
+            maxSize: 30000000,
+            message: 'El Archivo debe ser menor a 30Mb',
           }),
           new FileTypeValidator({
             fileType: /(.jpg|.jpeg|.png|.webp)$/,
@@ -150,7 +150,6 @@ export class PetsController {
     )
     file: Express.Multer.File,
   ) {
-    console.log('File', file);
     return await this.petsService.uploadImgProfileService(id, file);
   }
 }

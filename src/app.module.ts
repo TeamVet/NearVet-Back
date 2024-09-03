@@ -15,10 +15,16 @@ import { ServicesModule } from './modules/services/services.module';
 import { VeterinarianModule } from './modules/veterinarian/veterinarian.module';
 import { VetsModule } from './modules/vets/vets.module';
 import { AppointmentModule } from './modules/appointment/appointment.module';
+import { SpeciesModule } from './modules/species/species.module';
 import { TreatmentModule } from './modules/treatment/treatment.module';
 import { ClinicalExaminationModule } from './modules/clinical-examination/clinical-examination.module';
 import { ProductsModule } from './modules/products/products.module';
 import { CategoryProductsModule } from './modules/categoryProducts/categoryProducts.module';
+import { RacesModule } from './modules/races/races.module';
+import { ApplicationProductModule } from './modules/applicationProduct/application-product.module';
+import { TypeServiceModule } from './modules/typeService/type-service.module';
+import { FileTreatmentModule } from './modules/fileTraetment/file-treatment.module';
+import { SalesModule } from './modules/sales/sales.module';
 
 @Module({
   imports: [
@@ -47,10 +53,17 @@ import { CategoryProductsModule } from './modules/categoryProducts/categoryProdu
     ServicesModule,
     VeterinarianModule,
     VetsModule,
+    SpeciesModule,
+    RacesModule,
     TreatmentModule,
     ClinicalExaminationModule,
     ProductsModule,
-    CategoryProductsModule
+    CategoryProductsModule,
+    TypeServiceModule,
+    ApplicationProductModule,
+    FileTreatmentModule,
+    SalesModule,
+    RacesModule
   ],
 
   controllers: [],

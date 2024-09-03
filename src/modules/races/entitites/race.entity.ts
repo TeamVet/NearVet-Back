@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Pet } from './pet.entity';
-import { Specie } from './specie.entity';
+import { Pet } from '../../pets/entities/pet.entity';
+import { Specie } from 'src/modules/species/entities/specie.entity';
 
 @Entity({
   name: 'races',

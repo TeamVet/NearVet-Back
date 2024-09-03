@@ -11,9 +11,9 @@ import { UserRole } from '../users/entities/userRole.entity';
 import { Pet } from '../pets/entities/pet.entity';
 import * as bcrypt from 'bcrypt';
 import { Sex } from '../pets/entities/sex.entity';
-import { Specie } from '../pets/entities/specie.entity';
-import { Race } from '../pets/entities/race.entity';
+import { Race } from '../races/entitites/race.entity';
 import { StatesAppointment } from '../appointment/entities/statesAppointment.entity';
+import { Specie } from '../species/entities/specie.entity';
 import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
 import { Service } from '../services/entities/service.entity';
 import { CategoryService } from '../categoryServices/entities/categoryService.entity';
@@ -151,8 +151,8 @@ export class SeederService implements OnModuleInit {
         if (!raceDB) {
           raceDB = await this.raceRepository.save({ race, specie: specieDB });
         }
-
-        const date = new Date().toLocaleDateString();
+          
+        const date = new Date().toISOString();
         await this.petsRepository.save({
           name,
           birthdate,

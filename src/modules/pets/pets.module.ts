@@ -7,8 +7,8 @@ import { PetsRepository } from './pets.repository';
 import { UsersModule } from '../users/users.module';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Sex } from './entities/sex.entity';
-import { Specie } from './entities/specie.entity';
-import { Race } from './entities/race.entity';
+import { Race } from '../races/entitites/race.entity';
+import { Specie } from '../species/entities/specie.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Pet, Sex, Specie, Race]), UsersModule],
