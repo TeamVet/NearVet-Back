@@ -20,6 +20,7 @@ import { TreatmentModule } from './modules/treatment/treatment.module';
 import { ClinicalExaminationModule } from './modules/clinical-examination/clinical-examination.module';
 import { ProductsModule } from './modules/products/products.module';
 import { CategoryProductsModule } from './modules/categoryProducts/categoryProducts.module';
+import { RacesModule } from './modules/races/races.module';
 
 @Module({
   imports: [
@@ -52,7 +53,8 @@ import { CategoryProductsModule } from './modules/categoryProducts/categoryProdu
     TreatmentModule,
     ClinicalExaminationModule,
     ProductsModule,
-    CategoryProductsModule
+    CategoryProductsModule,
+    RacesModule
   ],
 
   controllers: [],

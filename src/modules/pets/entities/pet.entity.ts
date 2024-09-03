@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Race } from './race.entity';
+import { Race } from '../../races/entitites/race.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { Sex } from './sex.entity';
 import { RepCondition } from './repCondition.entity';
