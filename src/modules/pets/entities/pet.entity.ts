@@ -1,10 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Specie } from './specie.entity';
 import { Race } from './race.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { Sex } from './sex.entity';
 import { RepCondition } from './repCondition.entity';
 import { Appointment } from 'src/modules/appointment/entities/appointment.entity';
+import { Specie } from 'src/modules/species/entities/specie.entity';
 
 @Entity({
   name: 'pets',

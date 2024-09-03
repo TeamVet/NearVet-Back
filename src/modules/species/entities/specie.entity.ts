@@ -1,12 +1,12 @@
+import { Pet } from 'src/modules/pets/entities/pet.entity';
+import { Race } from 'src/modules/pets/entities/race.entity';
 import {
   Column,
   Entity,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Pet } from './pet.entity';
-import { Race } from './race.entity';
+
 
 @Entity({
   name: 'species',

@@ -8,9 +8,9 @@ import { UserRole } from '../users/entities/userRole.entity';
 import { Pet } from '../pets/entities/pet.entity';
 import * as bcrypt from 'bcrypt';
 import { Sex } from '../pets/entities/sex.entity';
-import { Specie } from '../pets/entities/specie.entity';
 import { Race } from '../pets/entities/race.entity';
 import { StatesAppointment } from '../appointment/entities/statesAppointment.entity';
+import { Specie } from '../species/entities/specie.entity';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -139,18 +139,8 @@ export class SeederService implements OnModuleInit {
         if (!raceDB) {
           raceDB = await this.raceRepository.save({ race, specie: specieDB });
         }
-
-<<<<<<< HEAD
-          let specieDB: Specie = await this.specieRepository.findOneBy({specie});
-          if (!specieDB) {specieDB = await this.specieRepository.save({specie});}
- 
-          let raceDB: Race = await this.raceRepository.findOneBy({race});
-          if (!raceDB) {raceDB = await this.raceRepository.save({race, specie: specieDB});}
           
         const date = new Date().toISOString();
-=======
-        const date = new Date().toLocaleDateString();
->>>>>>> 95976c2448c572908e23b861b390180f1f4b41ba
         await this.petsRepository.save({
           name,
           birthdate,

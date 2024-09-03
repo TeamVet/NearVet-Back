@@ -5,9 +5,9 @@ import { Pet } from './entities/pet.entity';
 import { User } from '../users/entities/user.entity';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { Sex } from './entities/sex.entity';
-import { Specie } from './entities/specie.entity';
 import { Race } from './entities/race.entity';
 import { UsersRepository } from '../users/users.repository';
+import { Specie } from '../species/entities/specie.entity';
 
 @Injectable()
 export class PetsRepository {
