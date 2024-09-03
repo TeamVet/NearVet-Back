@@ -22,14 +22,14 @@ export class CreateUserWebDto {
   @Length(1, 50)
   name: string;
 
-  // @ApiProperty({
-  //   description: 'El apellido es obligatorio',
-  //   example: 'Mendoza',
-  // })
-  // @IsNotEmpty()
-  // @IsString()
-  // @Length(1, 50)
-  // lastName: string;
+   @ApiProperty({
+     description: 'El apellido es obligatorio',
+     example: 'Mendoza',
+   })
+   @IsNotEmpty()
+   @IsString()
+   @Length(1, 50)
+   lastName: string;
 
   @ApiProperty({
     description: 'El DNI es obligatorio',
@@ -74,13 +74,13 @@ export class CreateUserWebDto {
   @Validate(passwordCompare, ['password'])
   passwordConfirm: string;
 
-  @ApiPropertyOptional({
-     description: 'La fecha de nacimiento es opcional',
-     example: new Date('1/2/1988'),
-  })
-  @IsOptional()
-  @IsDateString()
-  birthDate?: Date;
+  // @ApiPropertyOptional({
+  //    description: 'La fecha de nacimiento es opcional',
+  //    example: new Date('1/2/1988'),
+  // })
+  // @IsOptional()
+  // @IsDateString()
+  // birthDate?: Date;
 
   @ApiProperty({
     description: 'La fecha de inicio es obligatoria',

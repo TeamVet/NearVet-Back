@@ -61,7 +61,7 @@ export class CategoryProductsController {
   @ApiBody({ description:"Ingrese los datos a actualizar", type:UpdateCategoryProductDto})
   async updateCategoryProduct(@Param("id", ParseUUIDPipe) id: string, @Body() category: UpdateCategoryProductDto): Promise<string> {
       return await this.categoryProductsService.updateCategoryProduct(id, category)
-  } 
+  }  
 
   @Delete(":id")
   @ApiOperation({summary: "Elimina una categoria de producto",

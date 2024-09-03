@@ -139,8 +139,8 @@ export class PetsController {
       new ParseFilePipe({
         validators: [
           new MaxFileSizeValidator({
-            maxSize: 200000,
-            message: 'El Archivo debe ser menor a 200Kb',
+            maxSize: 30000000,
+            message: 'El Archivo debe ser menor a 30Mb',
           }),
           new FileTypeValidator({
             fileType: /(.jpg|.jpeg|.png|.webp)$/,
@@ -150,7 +150,6 @@ export class PetsController {
     )
     file: Express.Multer.File,
   ) {
-    console.log('File', file);
     return await this.petsService.uploadImgProfileService(id, file);
   }
 }

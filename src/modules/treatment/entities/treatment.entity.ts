@@ -1,8 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
-import { ApplicationProduct } from 'src/modules/applicationProduct/entities/applicationProduct.entity';
-import { Service } from 'src/modules/services/entities/service.entity';
-import { TypeService } from 'src/modules/typeService/entities/typeService.entity';
-import { ClinicalExamination } from 'src/modules/clinical-examination/entities/clinicalExamination.entity';
+import { ApplicationProduct } from '../../applicationProduct/entities/applicationProduct.entity';
+import { Service } from '../../services/entities/service.entity';
+import { TypeService } from '../../typeService/entities/typeService.entity';
+import { ClinicalExamination } from '../../clinical-examination/entities/clinicalExamination.entity';
+import { FileTreatment } from '../../fileTraetment/entities/file-treatment.entity';
 
 @Entity({
   name: 'treatments',
@@ -27,6 +28,10 @@ export class Treatment {
   // RELACION UNO-A-MUCHOS con applicationProduct
   @OneToMany(() => ApplicationProduct, (applicationProduct) => applicationProduct.treatment)
   applicationProducts: ApplicationProduct[];
+
+  // RELACION UNO-A-MUCHOS con fileTraetment
+  @OneToMany(() => FileTreatment, (fileTraetment) => fileTraetment.treatment)
+  fileTreatments: FileTreatment[];
 
   // RELACION UNO-A-MUCHOS con Service
   @ManyToOne(() => Service, (service) => service.treatments)
