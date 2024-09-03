@@ -1,5 +1,5 @@
 import { Pet } from 'src/modules/pets/entities/pet.entity';
-import { Race } from 'src/modules/pets/entities/race.entity';
+import { Race } from 'src/modules/races/entitites/race.entity';
 import {
   Column,
   Entity,
