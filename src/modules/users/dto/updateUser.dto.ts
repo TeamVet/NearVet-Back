@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsDateString,
   IsEmail,
   IsNotEmpty,
   IsNumber,
@@ -74,10 +75,11 @@ export class UpdateUserDto {
 
   @ApiPropertyOptional({
     description: 'La fecha de nacimiento es opcional',
-    example: '1/2/2024',
+    example: new Date('1/2/2024'),
   })
   @IsOptional()
-  birthdate?: string;
+  @IsDateString()
+  birthdate?: Date;
 
   @ApiPropertyOptional({
     description: 'El numero de telefono es opcional, Ingresar solo numeros',

@@ -23,7 +23,7 @@ export class CreateApplicationProductDto {
     @IsNotEmpty()
     @ApiProperty({
         description:"Cantidad del producto. Requerido",
-        example: "2"
+        example: 2
     })
     acount: number = 1;
 
@@ -31,7 +31,7 @@ export class CreateApplicationProductDto {
     @IsNotEmpty()
     @ApiProperty({
         description:"Precio individual del producto. Requerido",
-        example: "200"
+        example: 200
     })
     price: number;
 }

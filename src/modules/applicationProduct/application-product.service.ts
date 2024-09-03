@@ -25,7 +25,7 @@ export class ApplicationProductService {
     if (appProduct.affected === 0) throw new NotFoundException("No se encontro el producto a actualizar")
     return {treatmentId: treatmentId, productId: productId}
   } 
-
+ 
   async removeApplicationProduct(treatmentId: string, productId: string): Promise<Object> {
     const appProduct: DeleteResult = await this.AppProductRepository.removeApplicationProduct(treatmentId, productId)
     if (appProduct.affected === 0) throw new NotFoundException("No se encontro el producto a eliminar")

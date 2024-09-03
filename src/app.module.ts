@@ -21,6 +21,10 @@ import { ClinicalExaminationModule } from './modules/clinical-examination/clinic
 import { ProductsModule } from './modules/products/products.module';
 import { CategoryProductsModule } from './modules/categoryProducts/categoryProducts.module';
 import { RacesModule } from './modules/races/races.module';
+import { ApplicationProductModule } from './modules/applicationProduct/application-product.module';
+import { TypeServiceModule } from './modules/typeService/type-service.module';
+import { FileTreatmentModule } from './modules/fileTraetment/file-treatment.module';
+import { SalesModule } from './modules/sales/sales.module';
 
 @Module({
   imports: [
@@ -50,10 +54,15 @@ import { RacesModule } from './modules/races/races.module';
     VeterinarianModule,
     VetsModule,
     SpeciesModule,
+    RacesModule,
     TreatmentModule,
     ClinicalExaminationModule,
     ProductsModule,
     CategoryProductsModule,
+    TypeServiceModule,
+    ApplicationProductModule,
+    FileTreatmentModule,
+    SalesModule,
     RacesModule
   ],
 
