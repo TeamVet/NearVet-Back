@@ -25,17 +25,17 @@ async getTreatmentsByService (serviceId: string): Promise<Treatment[]>  {
   return treatments;
 }
 
-async getTreatmentsByTypeService (typeServiceId: string): Promise<Treatment[]>  {
-  const treatments: Treatment[] = await this.treatmentRepository.getTreatmentsByTypeService(typeServiceId);
-  if (treatments.length === 0) throw new NotFoundException("No se encontraron tratamientos en el tipo de servicio especificado")
-  return treatments;
-}
+// async getTreatmentsByTypeService (typeServiceId: string): Promise<Treatment[]>  {
+//   const treatments: Treatment[] = await this.treatmentRepository.getTreatmentsByTypeService(typeServiceId);
+//   if (treatments.length === 0) throw new NotFoundException("No se encontraron tratamientos en el tipo de servicio especificado")
+//   return treatments;
+// }
 
-async getTreatmentsByDates (startDate: Date, endDate: Date): Promise<Treatment[]>  {
-  const treatments: Treatment[] = await this.treatmentRepository.getTreatmentsByDates(startDate, endDate);
-  if (treatments.length === 0) throw new NotFoundException("No se encontraron tratamientos en el periodo especificado")
-  return treatments;
-}
+// async getTreatmentsByDates (startDate: Date, endDate: Date): Promise<Treatment[]>  {
+//   const treatments: Treatment[] = await this.treatmentRepository.getTreatmentsByDates(startDate, endDate);
+//   if (treatments.length === 0) throw new NotFoundException("No se encontraron tratamientos en el periodo especificado")
+//   return treatments;
+// }
 
 async getTreatmentsByPet (petId: string): Promise<Treatment[]>  {
   const treatments: Treatment[] = await this.treatmentRepository.getTreatmentsByPet(petId);

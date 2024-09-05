@@ -10,9 +10,6 @@ export class FileTreatment {
     @Column()
     image: string;
 
-    @Column({type:"varchar", nullable:true})
-    description: String;
-
     @ManyToOne(() => Treatment, (treatment) => treatment.fileTreatments)
     @JoinColumn({name:"treatmentId"})
     treatment: Treatment;

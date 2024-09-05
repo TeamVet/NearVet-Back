@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+/*import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { TypeServiceRepository } from './type-service.repository';
 import { TypeService } from './entities/typeService.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
@@ -52,3 +52,4 @@ export class TypeServiceService {
   }
 
 }
+*/
