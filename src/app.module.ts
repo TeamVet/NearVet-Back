@@ -26,6 +26,7 @@ import { ApplicationProductModule } from './modules/applicationProduct/applicati
 import { FileTreatmentModule } from './modules/fileTraetment/file-treatment.module';
 import { SalesModule } from './modules/sales/sales.module';
 import { MethodPayModule } from './modules/method-pay/method-pay.module';
+import { AvailabilityServiceModule } from './modules/availabilityService/availabilityService.module';
 
 @Module({
   imports: [
@@ -63,7 +64,8 @@ import { MethodPayModule } from './modules/method-pay/method-pay.module';
     FileTreatmentModule,
     SalesModule,
     RacesModule,
-    MethodPayModule
+    MethodPayModule,
+    AvailabilityServiceModule
   ],
 
   controllers: [],
