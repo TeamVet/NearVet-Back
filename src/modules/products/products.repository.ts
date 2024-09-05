@@ -13,18 +13,18 @@ export class ProductsRepository {
     }
 
     async getProductById (id:string): Promise<Product> {
-        return await this.productRepository.findOne({where: {id}, relations: {categoryProduct:true}})
+        return await this.productRepository.findOne({where: {id}})
     }
 
     async getProductByName (name:string): Promise<Product> {
-        return await this.productRepository.findOne({where: {name}, relations: {categoryProduct:true}})
+        return await this.productRepository.findOne({where: {name}})
     }
 
-    async getProductsByCategory (page:number, limit:number, categoryProductId: string): Promise<Product[]> {
-        return await this.productRepository.find({skip: page*limit, take: limit, 
-                                                  where: {categoryProductId},
-                                                  relations: {categoryProduct:true}})
-    }
+    // async getProductsByCategory (page:number, limit:number, categoryProductId: string): Promise<Product[]> {
+    //     return await this.productRepository.find({skip: page*limit, take: limit, 
+    //                                               where: {categoryProductId},
+    //                                               relations: {categoryProduct:true}})
+    // }
 
     // async getProductsBySale (saleId: string): Promise<Product[]> {
     //     return await this.productRepository.find({where: {saleProduct: {saleId}}})

@@ -39,26 +39,26 @@ export class TreatmentController {
     return await this.treatmentService.getTreatmentsByService(serviceId)
   }
 
-  @Get("typeService/:typeServiceId")
-  @ApiOperation({summary: "Devuelve los tratamientos relacionados con el servicio",
-                description: "Esta ruta devulve un array con los tratamiento pasado por ID"})
-  @HttpCode(200)
-  @ApiParam({name:"typeServiceId", required:true, description: "Ingrese el Id del Tipo de Servicio (uuid)"})
-  @ApiNotFoundResponse({description: "No se encontraron tratamientos en el servicio especificado"})
-  async getTreatmentsByTypeService (@Param("typeServiceId") typeServiceId: string): Promise<Treatment[]>  {
-    return await this.treatmentService.getTreatmentsByTypeService(typeServiceId)
-  }
+  // @Get("typeService/:typeServiceId")
+  // @ApiOperation({summary: "Devuelve los tratamientos relacionados con el servicio",
+  //               description: "Esta ruta devulve un array con los tratamiento pasado por ID"})
+  // @HttpCode(200)
+  // @ApiParam({name:"typeServiceId", required:true, description: "Ingrese el Id del Tipo de Servicio (uuid)"})
+  // @ApiNotFoundResponse({description: "No se encontraron tratamientos en el servicio especificado"})
+  // async getTreatmentsByTypeService (@Param("typeServiceId") typeServiceId: string): Promise<Treatment[]>  {
+  //   return await this.treatmentService.getTreatmentsByTypeService(typeServiceId)
+  // }
 
-  @Get("dates/")
-  @ApiOperation({summary: "Devuelve los tratamientos en el priodo especificado",
-                description: "Esta ruta devulve un array con los tratamiento existentes en el periodo especificado"})
-  @HttpCode(200)
-  @ApiNotFoundResponse({description: "No se encontraron tratamientos en el periodo especificado"})
-  @ApiQuery({ name: 'startDate', required: true })
-  @ApiQuery({ name: 'endDate', required: true })
-  async getTreatmentsByDates (@Query("startDate") startDate: Date = new Date(), @Query("endDate") endDate: Date = new Date()): Promise<Treatment[]>  {
-    return await this.treatmentService.getTreatmentsByDates(startDate, endDate);
-  }
+  // @Get("dates/")
+  // @ApiOperation({summary: "Devuelve los tratamientos en el priodo especificado",
+  //               description: "Esta ruta devulve un array con los tratamiento existentes en el periodo especificado"})
+  // @HttpCode(200)
+  // @ApiNotFoundResponse({description: "No se encontraron tratamientos en el periodo especificado"})
+  // @ApiQuery({ name: 'startDate', required: true })
+  // @ApiQuery({ name: 'endDate', required: true })
+  // async getTreatmentsByDates (@Query("startDate") startDate: Date = new Date(), @Query("endDate") endDate: Date = new Date()): Promise<Treatment[]>  {
+  //   return await this.treatmentService.getTreatmentsByDates(startDate, endDate);
+  // }
 
   @Get("pet/:petId")
   @ApiOperation({summary: "Devuelve los tratamientos relacionados con la mascota",

@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
 
     const token = request.headers['authorization']?.split(' ')[1] ?? '';
-
+    console.log("request.headers['authorization'] ", request.headers['authorization']);
     if (!token)
       throw new HttpException(
         { status: 401, error: `No se ha encontrado el Bearer token` },

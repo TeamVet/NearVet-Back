@@ -12,12 +12,12 @@ export class TypeService {
     @Column({type:"varchar"})
     typeService:string
 
-    @OneToMany(() => Treatment, (treatment) => treatment.typeService)
-    treatments: Treatment[];
+    // @OneToMany(() => Treatment, (treatment) => treatment.typeService)
+    // treatments: Treatment[];
 
-    @ManyToOne(() => Service, (service) => service.typeServices)
-    @JoinColumn({name:"serviceId"})
-    service: Service;
-    @Column({type:"uuid"})
-    serviceId: string
+    // @ManyToOne(() => Service, (service) => service.typeServices)
+    // @JoinColumn({name:"serviceId"})
+    // service: Service;
+    // @Column({type:"uuid"})
+    // serviceId: string
 }

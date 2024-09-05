@@ -32,10 +32,10 @@ export class Product {
   @OneToMany(() => ApplicationProduct, (applicationProduct) => applicationProduct.product)
   applicationProducts: ApplicationProduct[];
 
-  /* RELACION MUCHOS-A-UNO CON CategoryService */
-  @ManyToOne(() => CategoryProduct, (categoryProduct) => categoryProduct.products)
-  @JoinColumn({ name: 'categoryProductId' })
-  categoryProduct: CategoryProduct;
-  @Column({type: 'uuid',nullable: true})
-  categoryProductId: string;
+  // /* RELACION MUCHOS-A-UNO CON CategoryService */
+  // @ManyToOne(() => CategoryProduct, (categoryProduct) => categoryProduct.products)
+  // @JoinColumn({ name: 'categoryProductId' })
+  // categoryProduct: CategoryProduct;
+  // @Column({type: 'uuid',nullable: true})
+  // categoryProductId: string;
 }

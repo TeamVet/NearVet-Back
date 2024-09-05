@@ -22,8 +22,7 @@ export class AppointmentService {
   }
 
   async getAppointmentsByUserIdService(idUser: string) {
-    const user = await this.userService.getUsersByIdService(idUser);
-    return this.appointmentRepository.getAppointmentsByUserId(user);
+    return this.appointmentRepository.getAppointmentsByUserId(idUser);
   }
 
   async createAppointmentService(createAppointmentDto: CreateAppointmentDto) {
