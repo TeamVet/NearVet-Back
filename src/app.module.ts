@@ -19,12 +19,13 @@ import { SpeciesModule } from './modules/species/species.module';
 import { TreatmentModule } from './modules/treatment/treatment.module';
 import { ClinicalExaminationModule } from './modules/clinical-examination/clinical-examination.module';
 import { ProductsModule } from './modules/products/products.module';
-import { CategoryProductsModule } from './modules/categoryProducts/categoryProducts.module';
+//import { CategoryProductsModule } from './modules/categoryProducts/categoryProducts.module';
 import { RacesModule } from './modules/races/races.module';
 import { ApplicationProductModule } from './modules/applicationProduct/application-product.module';
-import { TypeServiceModule } from './modules/typeService/type-service.module';
+//import { TypeServiceModule } from './modules/typeService/type-service.module';
 import { FileTreatmentModule } from './modules/fileTraetment/file-treatment.module';
 import { SalesModule } from './modules/sales/sales.module';
+import { MethodPayModule } from './modules/method-pay/method-pay.module';
 
 @Module({
   imports: [
@@ -40,7 +41,7 @@ import { SalesModule } from './modules/sales/sales.module';
     // modulo para generar los token
     JwtModule.register({
       global: true,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '10h' },
       secret: process.env.JWT_SECRET,
     }),
     AuthGlobalModule,
@@ -58,12 +59,11 @@ import { SalesModule } from './modules/sales/sales.module';
     TreatmentModule,
     ClinicalExaminationModule,
     ProductsModule,
-    CategoryProductsModule,
-    TypeServiceModule,
     ApplicationProductModule,
     FileTreatmentModule,
     SalesModule,
-    RacesModule
+    RacesModule,
+    MethodPayModule
   ],
 
   controllers: [],

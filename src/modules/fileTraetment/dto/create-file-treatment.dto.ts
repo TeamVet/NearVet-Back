@@ -11,14 +11,6 @@ export class CreateFileTreatmentDto {
     })
     image?: string;
 
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional({
-        description: "Descripcion importante del archivo ingresado",
-        example: ""
-    })
-    description?: String;
-
     @IsUUID()
     @IsNotEmpty()
     @ApiProperty({

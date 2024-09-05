@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { Service } from 'src/modules/services/entities/service.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+=======
+import { Service } from "src/modules/services/entities/service.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+>>>>>>> f03200e6ab26d20f15445876448cff8b3f2ec641
 
 @Entity({
   name: 'availabilityServices',
@@ -38,7 +43,11 @@ export class AvailabilityService {
   })
   endHour2: Date;
 
-  // RELACION MUCHOS-A-UNO con services
-  @ManyToOne(() => Service, (service) => service.availabilityService)
-  service: Service;
+   // RELACION MUCHOS-A-UNO con services
+   @ManyToOne(() => Service, (service) => service.availabilityService)
+   @JoinColumn({name:"serviceId"})
+   service: Service; 
+   @Column("uuid")
+   serviceId:string
+    
 }

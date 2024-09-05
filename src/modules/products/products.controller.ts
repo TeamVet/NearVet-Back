@@ -42,19 +42,19 @@ export class ProductsController {
       return await this.productsService.getProductByName(name)
   }
 
-  @Get("category/:categoryProductId")
-  @ApiOperation({summary: "Devuelve todos los productos de una categoria",
-    description: "Esta ruta devuelve todos los productos de una categoria pasado por Id"})
-  @HttpCode(HttpStatus.FOUND)
-  @ApiNotFoundResponse({description: "No se encontraron Productos en esta categoria"})
-  @ApiParam({ name: 'categoryProductId', required: true, description:"Inserte el Id de la categoria"})
-  @ApiQuery({ name: 'page', required: false, description:"Numero de pagina a retornar: (default: 1)"})
-  @ApiQuery({ name: 'limit', required: false, description:"Cantidad maxima de productos por pagina: (default: 5)" })
-  async getProductsByCategory (@Query("page") page : number = 1, 
-                               @Query("limit") limit : number = 5, 
-                               @Param("categoryProductId") categoryId: string): Promise<Product[]> {
-      return await this.productsService.getProductsByCategory(+page, +limit, categoryId)
-  }
+  // @Get("category/:categoryProductId")
+  // @ApiOperation({summary: "Devuelve todos los productos de una categoria",
+  //   description: "Esta ruta devuelve todos los productos de una categoria pasado por Id"})
+  // @HttpCode(HttpStatus.FOUND)
+  // @ApiNotFoundResponse({description: "No se encontraron Productos en esta categoria"})
+  // @ApiParam({ name: 'categoryProductId', required: true, description:"Inserte el Id de la categoria"})
+  // @ApiQuery({ name: 'page', required: false, description:"Numero de pagina a retornar: (default: 1)"})
+  // @ApiQuery({ name: 'limit', required: false, description:"Cantidad maxima de productos por pagina: (default: 5)" })
+  // async getProductsByCategory (@Query("page") page : number = 1, 
+  //                              @Query("limit") limit : number = 5, 
+  //                              @Param("categoryProductId") categoryId: string): Promise<Product[]> {
+  //     return await this.productsService.getProductsByCategory(+page, +limit, categoryId)
+  // }
 
   // async getProductsBySale (saleId: string): Promise<Product[]> {
   //     return await this.productRepository.find({where: {saleProduct: {saleId}}})

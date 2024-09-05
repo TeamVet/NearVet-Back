@@ -16,9 +16,9 @@ export class FileTraetmentRepository {
         return await this.fileTreatmentRepository.save(file)
     }
 
-    async updateFile (id:string, file:Partial<FileTreatment>): Promise<UpdateResult> {
-        return await this.fileTreatmentRepository.update(id, file);
-    }
+    // async updateFile (id:string, file:Partial<FileTreatment>): Promise<UpdateResult> {
+    //     return await this.fileTreatmentRepository.update(id, file);
+    // }
 
     async removeFile (id:string): Promise<DeleteResult> {
         return await this.fileTreatmentRepository.delete(id)

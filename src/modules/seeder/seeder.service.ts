@@ -205,29 +205,15 @@ export class SeederService implements OnModuleInit {
 
       if (!vetExist) {
         const user: User = await this.userRepository.findOneBy({ dni: vet.dni });
-        if (!user) {
+        console.log('user ', user);
+        if (user) {
           const { dni, ...veterinarian } = vet;
-          await this.veterinarianRepository.save({ ...veterinarian, user });
+          const vetUser = await this.veterinarianRepository.save({ ...veterinarian, user });
+          console.log('vetUser ', vetUser);
         }
       }
     }
     console.log('Veterinarios Cargados Con Exito');
-  }
-
-  async loadServices() {
-    for (const service of preloadServices) {
-      const serviceExist: Service = await this.serviceRepository.findOneBy({ service: service.service });
-
-      if (!serviceExist) {
-        const veterinarian: Veterinarian = await this.veterinarianRepository.findOneBy({ licence: service.licenceVet });
-        const categoryService: CategoryService = await this.categoryServiceRepository.findOneBy({ categoryService: service.category });
-        if (veterinarian && categoryService) {
-          const { licenceVet, category, ...createService } = service;
-          await this.serviceRepository.save({ ...createService, veterinarian });
-        }
-      }
-    }
-    console.log('Servicios Cargados Con Exito');
   }
 
   async loadCategoryService(): Promise<void> {
@@ -238,21 +224,26 @@ export class SeederService implements OnModuleInit {
         await this.categoryServiceRepository.save(category);
       }
     }
-    console.log('Categorias de Servicios Cargadas Con Exito');
+    console.log('Servicios Cargados Con Exito');
   }
 
-  /* async loadAvailabilityService() {
-    for (const item of this.availabilityServicedata) {
-      let availabilityService = await this.availabilityServiceRepository.findOne({
-        where: { day: item.day },
-      });
-      if (!availabilityService) {
-        availabilityService = this.availabilityServiceRepository.create({ day: item.day });
-        await this.availabilityServiceRepository.save(availabilityService);
+  async loadServices() {
+    for (const service of preloadServices) {
+      const serviceExist: Service = await this.serviceRepository.findOneBy({ service: service.service });
+      console.log('serviceExist ', serviceExist);
+      if (!serviceExist) {
+        const veterinarian: Veterinarian = await this.veterinarianRepository.findOneBy({ licence: service.licenceVet });
+        const categoryService: CategoryService = await this.categoryServiceRepository.findOneBy({ categoryService: service.category });
+        console.log('veterinarian ', veterinarian);
+        console.log('categoryService ', categoryService);
+        if (veterinarian && categoryService) {
+          const { licenceVet, category, ...createService } = service;
+          await this.serviceRepository.save({ ...createService, veterinarian, categoryService });
+        }
       }
     }
-    return { message: 'Seeder availabilityService agregados' };
-  } */
+    console.log('Servicios Cargados Con Exito');
+  }
 
   async preloadInitial() {
     await this.loadRolesData();
