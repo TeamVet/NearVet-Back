@@ -1,21 +1,11 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { AvailabilityServiceService } from './availabilityService.service';
 import { CreateAvailabilityServiceDto } from './dto/create-availability-service.dto';
 import { UpdateAvailabilityServiceDto } from './dto/update-availability-service.dto';
 
 @Controller('availability-service')
 export class AvailabilityServiceController {
-  constructor(
-    private readonly availabilityServiceService: AvailabilityServiceService,
-  ) {}
+  constructor(private readonly availabilityServiceService: AvailabilityServiceService) {}
 
   @Get(":serviceId")
   getAppointmetnService(@Param("serviceId") serviceId:string ,@Body() date: Date) {
