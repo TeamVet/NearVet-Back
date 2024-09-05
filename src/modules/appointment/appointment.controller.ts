@@ -34,13 +34,7 @@ export class AppointmentController {
     return this.appointmentService.getAppointmentByIdService(idAppointment);
   }
 
-<<<<<<< HEAD
-  
-
-  @Get('/user:idUser')
-=======
   @Get('/user/:idUser')
->>>>>>> 39f3b0a6a2897b71674b7ef2f24d3422b962ac4a
   @ApiOperation({
     summary: 'Muestra turnos creados por el usuario',
     description: 'Esta ruta muestra turnos creados por el usuario',
