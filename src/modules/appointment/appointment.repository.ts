@@ -36,14 +36,21 @@ export class AppointmentRepository {
 
   async getAppointmentsByUserId(user: Omit<User, 'password'>) {
     const pets = user.pets;
-    const appointments = this.appointmentRepository.find({
+    const appointments = await this.appointmentRepository.find({
       where: { pet: In(pets.map((pet) => pet.id)) }, // Usa el operador In para filtrar por múltiples IDs de mascotas
       relations: {
         pet: true,
-        //service: true,
+        service: true,
         state: true,
       },
     });
+    /* const appointments = await this.appointmentRepository
+      .createQueryBuilder('appointment')
+      .leftJoinAndSelect('appointment.pet', 'pet') // Hacemos la unión entre la cita y la mascota
+      .leftJoinAndSelect('appointment.service', 'service') // Unión con la tabla 'Service'
+      .select(['pet.name', 'appointment', 'service']) // Seleccionamos el nombre de la mascota y la entidad completa de citas
+      .where('pet.userId = :userId', { userId: user.id }) // Filtramos por el id del usuario
+      .getMany(); */
 
     return appointments;
   }

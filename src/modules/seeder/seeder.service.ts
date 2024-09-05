@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
 import preloadVeterinarian from '../../seeds/veterinarian.json';
-import preloadServices from "../../seeds/services.json"
-import preloadCatSer from  "../../seeds/categoryService.json"
+import preloadServices from '../../seeds/services.json';
+import preloadCatSer from '../../seeds/categoryService.json';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { UserRole } from '../users/entities/userRole.entity';
@@ -17,6 +17,7 @@ import { Specie } from '../species/entities/specie.entity';
 import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
 import { Service } from '../services/entities/service.entity';
 import { CategoryService } from '../categoryServices/entities/categoryService.entity';
+import { AvailabilityService } from '../availabilityService/entities/availability-service.entity';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -40,6 +41,8 @@ export class SeederService implements OnModuleInit {
     private readonly serviceRepository: Repository<Service>,
     @InjectRepository(CategoryService)
     private readonly categoryServiceRepository: Repository<CategoryService>,
+    /* @InjectRepository(AvailabilityService)
+    private readonly availabilityServiceRepository: Repository<AvailabilityService>, */
   ) {}
 
   petsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'pets.json');
@@ -59,6 +62,9 @@ export class SeederService implements OnModuleInit {
 
   statesAppointmentsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'statesAppointments.json');
   statesAppointmentsdata = JSON.parse(fs.readFileSync(this.statesAppointmentsPath, 'utf8'));
+
+  availabilityServicePath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'availabilityService.json');
+  availabilityServicedata = JSON.parse(fs.readFileSync(this.availabilityServicePath, 'utf8'));
 
   async resetData() {
     await this.userRepository.delete({});
@@ -151,7 +157,7 @@ export class SeederService implements OnModuleInit {
         if (!raceDB) {
           raceDB = await this.raceRepository.save({ race, specie: specieDB });
         }
-          
+
         const date = new Date().toISOString();
         await this.petsRepository.save({
           name,
@@ -195,45 +201,60 @@ export class SeederService implements OnModuleInit {
 
   async loadVeterinarian(): Promise<void> {
     for (const vet of preloadVeterinarian) {
-      const vetExist: Veterinarian = await this.veterinarianRepository.findOneBy({licence: vet.licence});
+      const vetExist: Veterinarian = await this.veterinarianRepository.findOneBy({ licence: vet.licence });
 
       if (!vetExist) {
-        const user: User = await this.userRepository.findOneBy({dni: vet.dni});
+        const user: User = await this.userRepository.findOneBy({ dni: vet.dni });
         if (!user) {
           const { dni, ...veterinarian } = vet;
           await this.veterinarianRepository.save({ ...veterinarian, user });
         }
       }
     }
-    console.log("Veterinarios Cargados Con Exito")
+    console.log('Veterinarios Cargados Con Exito');
   }
 
   async loadServices() {
     for (const service of preloadServices) {
-       const serviceExist: Service = await this.serviceRepository.findOneBy({service: service.service});
- 
-       if (!serviceExist) {
-         const veterinarian: Veterinarian = await this.veterinarianRepository.findOneBy({licence: service.licenceVet});
-         const categoryService: CategoryService = await this.categoryServiceRepository.findOneBy({categoryService: service.category})
-         if (veterinarian && categoryService) { 
-           const {licenceVet, category, ...createService} = service
-           await this.serviceRepository.save({...createService, veterinarian});
-         }
-       }
-     }
-     console.log("Servicios Cargados Con Exito")
-   }
+      const serviceExist: Service = await this.serviceRepository.findOneBy({ service: service.service });
 
-   async loadCategoryService(): Promise<void> {
-    for (const category of preloadCatSer) {
-      const {categoryService} = category;
-      const categoryExist: CategoryService = await this.categoryServiceRepository.findOneBy({categoryService});
-      if (!categoryExist) {await this.categoryServiceRepository.save(category); }
+      if (!serviceExist) {
+        const veterinarian: Veterinarian = await this.veterinarianRepository.findOneBy({ licence: service.licenceVet });
+        const categoryService: CategoryService = await this.categoryServiceRepository.findOneBy({ categoryService: service.category });
+        if (veterinarian && categoryService) {
+          const { licenceVet, category, ...createService } = service;
+          await this.serviceRepository.save({ ...createService, veterinarian });
+        }
+      }
     }
-    console.log("Categorias de Servicios Cargadas Con Exito")
+    console.log('Servicios Cargados Con Exito');
   }
 
-  async preloadInitial () {
+  async loadCategoryService(): Promise<void> {
+    for (const category of preloadCatSer) {
+      const { categoryService } = category;
+      const categoryExist: CategoryService = await this.categoryServiceRepository.findOneBy({ categoryService });
+      if (!categoryExist) {
+        await this.categoryServiceRepository.save(category);
+      }
+    }
+    console.log('Categorias de Servicios Cargadas Con Exito');
+  }
+
+  /* async loadAvailabilityService() {
+    for (const item of this.availabilityServicedata) {
+      let availabilityService = await this.availabilityServiceRepository.findOne({
+        where: { day: item.day },
+      });
+      if (!availabilityService) {
+        availabilityService = this.availabilityServiceRepository.create({ day: item.day });
+        await this.availabilityServiceRepository.save(availabilityService);
+      }
+    }
+    return { message: 'Seeder availabilityService agregados' };
+  } */
+
+  async preloadInitial() {
     await this.loadRolesData();
     await this.loadSexData();
     await this.loadUsersData();
@@ -242,8 +263,8 @@ export class SeederService implements OnModuleInit {
     await this.loadVeterinarian();
     await this.loadCategoryService();
     await this.loadServices();
+    //await this.loadAvailabilityService();
   }
-
 
   async onModuleInit() {
     await this.preloadInitial();
