@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import { Service } from 'src/modules/services/entities/service.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-=======
 import { Service } from "src/modules/services/entities/service.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
->>>>>>> f03200e6ab26d20f15445876448cff8b3f2ec641
 
 @Entity({
   name: 'availabilityServices',

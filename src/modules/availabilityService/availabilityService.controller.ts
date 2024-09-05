@@ -8,7 +8,7 @@ export class AvailabilityServiceController {
   constructor(private readonly availabilityServiceService: AvailabilityServiceService) {}
 
   @Get(":serviceId")
-  getAppointmetnService(@Param("serviceId") serviceId:string ,@Body() date: Date) {
+  getAppointmetnService(@Param("serviceId") serviceId:string) {
     return ["10:00","10:30","11:00","11:30","12:00","12:30","16:00","16:30","17:00","17:30","18:00","18:30"];
   }
 
