@@ -34,6 +34,8 @@ export class AppointmentController {
     return this.appointmentService.getAppointmentByIdService(idAppointment);
   }
 
+  
+
   @Get('/user:idUser')
   @ApiOperation({
     summary: 'Muestra turnos creados por el usuario',
