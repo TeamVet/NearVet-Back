@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { ApplicationProduct } from '../../applicationProduct/entities/applicationProduct.entity';
 import { Service } from '../../services/entities/service.entity';
-import { TypeService } from '../../typeService/entities/typeService.entity';
+//import { TypeService } from '../../typeService/entities/typeService.entity';
 import { ClinicalExamination } from '../../clinical-examination/entities/clinicalExamination.entity';
 import { FileTreatment } from '../../fileTraetment/entities/file-treatment.entity';
 
@@ -18,9 +18,6 @@ export class Treatment {
 
   @Column({ type: 'text', nullable: true })
   observation: string;
-
-  @Column({ type: 'date', nullable: false })
-  date: Date;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
   price: number;
@@ -47,11 +44,11 @@ export class Treatment {
   @Column("uuid")
   clinicalExaminationId:string
 
-  // RELACION UNO-A-MUCHOS con TypeService
-  @ManyToOne(() => TypeService, (typeService) => typeService.treatments)
-  @JoinColumn({name:"typeServiceId"}) 
-  typeService: TypeService;
-  @Column("uuid")
-  typeServiceId:string
+  // // RELACION UNO-A-MUCHOS con TypeService
+  // @ManyToOne(() => TypeService, (typeService) => typeService.treatments)
+  // @JoinColumn({name:"typeServiceId"}) 
+  // typeService: TypeService;
+  // @Column("uuid")
+  // typeServiceId:string
 
 }

@@ -11,9 +11,8 @@ export class TreatmentRepository {
 
     async getTreatments (): Promise<Treatment[]>  {
         return await this.treatmentRepository.find({
-            relations: {service: true, typeService:true, clinicalExamination: true},
+            relations: {service: true, clinicalExamination: true},
             select: {service: {id:true, service:true},
-                    typeService: {id:true, typeService:true},
                     clinicalExamination:{id:true, anamnesis:true, veterinarian: 
                                     {id:true, licence:true, user: 
                                         {id:true, name:true, lastName:true}}}}});
@@ -22,9 +21,8 @@ export class TreatmentRepository {
     async getTreatmentById (id:string): Promise<Treatment>  {
         return await this.treatmentRepository.findOne({
             where: {id}, 
-            relations: {service: true, typeService:true, clinicalExamination: true},
+            relations: {service: true, clinicalExamination: true},
             select: {service: {id:true, service:true},
-                    typeService: {id:true, typeService:true},
                     clinicalExamination: {id:true, anamnesis:true, veterinarian: 
                                         {id:true, licence:true, user: 
                                             {id:true, name:true, lastName:true}}}} });
@@ -33,42 +31,41 @@ export class TreatmentRepository {
     async getTreatmentsByService (serviceId: string): Promise<Treatment[]>  {
         return await this.treatmentRepository.find({
             where: {serviceId}, 
-            relations: {service: true, typeService:true, clinicalExamination: true},
+            relations: {service: true, clinicalExamination: true},
             select: {service: {id:true, service:true},
-                    typeService: {id:true, typeService:true},
                     clinicalExamination: {id:true, anamnesis:true, veterinarian: 
                                         {id:true, licence:true, user: 
                                             {id:true, name:true, lastName:true}}}}});
     }
 
-    async getTreatmentsByTypeService (typeServiceId: string): Promise<Treatment[]>  {
-        return await this.treatmentRepository.find({
-            where: {typeServiceId}, 
-            relations: {service: true, typeService:true, clinicalExamination: true},
-            select: {service: {id:true, service:true},
-                    typeService: {id:true, typeService:true},
-                    clinicalExamination: {id:true, anamnesis:true, veterinarian: 
-                                        {id:true, licence:true, user: 
-                                            {id:true, name:true, lastName:true}}}}});
-    }
+    // async getTreatmentsByTypeService (typeServiceId: string): Promise<Treatment[]>  {
+    //     return await this.treatmentRepository.find({
+    //         where: {typeServiceId}, 
+    //         relations: {service: true, typeService:true, clinicalExamination: true},
+    //         select: {service: {id:true, service:true},
+    //                 typeService: {id:true, typeService:true},
+    //                 clinicalExamination: {id:true, anamnesis:true, veterinarian: 
+    //                                     {id:true, licence:true, user: 
+    //                                         {id:true, name:true, lastName:true}}}}});
+    // }
 
-    async getTreatmentsByDates (startDate: Date, endDate: Date): Promise<Treatment[]>  {
-        return await this.treatmentRepository.find({
-            where: {date: Between(startDate,endDate)}, 
-            relations: ["service", "typeService", "clinicalExamination"],
-            select: {service: {id:true, service:true},
-                    typeService: {id:true, typeService:true},
-                    clinicalExamination: {id:true, anamnesis:true, veterinarian: 
-                                        {id:true, licence:true, user: 
-                                            {id:true, name:true, lastName:true}}, pet: {id:true, name:true}}}});
-    }
+    // async getTreatmentsByDates (startDate: Date, endDate: Date): Promise<Treatment[]>  {
+    //     return await this.treatmentRepository.find({
+    //         where: {date: Between(startDate,endDate)}, 
+    //         relations: ["service", "typeService", "clinicalExamination"],
+    //         select: {service: {id:true, service:true},
+    //                 typeService: {id:true, typeService:true},
+    //                 clinicalExamination: {id:true, anamnesis:true, veterinarian: 
+    //                                     {id:true, licence:true, user: 
+    //                                         {id:true, name:true, lastName:true}}, pet: {id:true, name:true}}}});
+    // }
 
     async getTreatmentsByPet (petId: string): Promise<Treatment[]>  {
         return await this.treatmentRepository.find({
             where: {clinicalExamination: {petId}}, 
-            relations: ["service", "typeService", "clinicalExamination"],
+            relations: ["service", "clinicalExamination"],
             select: {service: {id:true, service:true},
-                    typeService: {id:true, typeService:true},
+                    // typeService: {id:true, typeService:true},
                     clinicalExamination: {id:true, anamnesis:true, veterinarian: 
                                         {id:true, licence:true, user: 
                                             {id:true, name:true, lastName:true}}}}});

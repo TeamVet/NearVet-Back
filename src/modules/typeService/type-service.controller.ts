@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, HttpCode, HttpStatus, Put, Query } from '@nestjs/common';
+/*import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, HttpCode, HttpStatus, Put, Query } from '@nestjs/common';
 import { TypeServiceService } from './type-service.service';
 import { CreateTypeServiceDto } from './dto/create-type-service.dto';
 import { UpdateTypeServiceDto } from './dto/update-type-service.dto';
@@ -85,4 +85,4 @@ export class TypeServiceController {
       return await this.typeServiceService.removeTypeServiceProduct(id)
   }
 
-}
+}*/

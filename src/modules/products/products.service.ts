@@ -26,11 +26,11 @@ export class ProductsService {
       return productFind
     }
 
-    async getProductsByCategory (page:number, limit:number, categoryProductId: string): Promise<Product[]> {
-      const productFind: Product[] = await this.productService.getProductsByCategory(page, limit, categoryProductId);
-      if (productFind.length===0) throw new NotFoundException("No se encontraron Productos en esta categoria")
-      return productFind
-    }
+    // async getProductsByCategory (page:number, limit:number, categoryProductId: string): Promise<Product[]> {
+    //   const productFind: Product[] = await this.productService.getProductsByCategory(page, limit, categoryProductId);
+    //   if (productFind.length===0) throw new NotFoundException("No se encontraron Productos en esta categoria")
+    //   return productFind
+    // }
 
     // async getProductsBySale (saleId: string): Promise<Product[]> {
     //     return await this.productRepository.find({where: {saleProduct: {saleId}}})

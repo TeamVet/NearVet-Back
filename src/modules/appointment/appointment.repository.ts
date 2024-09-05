@@ -34,10 +34,9 @@ export class AppointmentRepository {
     return appointment;
   }
 
-  async getAppointmentsByUserId(user: Omit<User, 'password'>) {
-    const pets = user.pets;
+  async getAppointmentsByUserId(userId: string) {
     const appointments = this.appointmentRepository.find({
-      where: { pet: In(pets.map((pet) => pet.id)) }, // Usa el operador In para filtrar por múltiples IDs de mascotas
+      where: { pet: {userId} }, // Usa el operador In para filtrar por múltiples IDs de mascotas
       relations: {
         pet: true,
         //service: true,

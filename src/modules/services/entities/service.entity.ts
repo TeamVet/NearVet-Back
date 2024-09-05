@@ -39,8 +39,8 @@ import { TypeService } from 'src/modules/typeService/entities/typeService.entity
     @Column({type: 'uuid',nullable: true})
     categoryServiceId: string;
 
-    @OneToMany(() => TypeService, (typeService) => typeService.service)
-    typeServices: TypeService[];
+    // @OneToMany(() => TypeService, (typeService) => typeService.service)
+    // typeServices: TypeService[];
 
     @OneToMany(() => Treatment, (treatment) => treatment.service)
     treatments: Treatment[];
