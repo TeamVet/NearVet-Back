@@ -95,6 +95,6 @@ export class AppointmentRepository {
 
     if (appointment.state === canceledState) throw new BadRequestException('El turno ya está cancleado');
     await this.appointmentRepository.update(idAppointment, { state: canceledState });
-    return 'Turno cancelado existosamente';
+    return { status: 200, message: 'Turno cancelado existosamente' };
   }
 }
