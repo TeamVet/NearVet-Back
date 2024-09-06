@@ -26,6 +26,7 @@ import { TypeServiceModule } from './modules/typeService/type-service.module';
 import { FileTreatmentModule } from './modules/fileTraetment/file-treatment.module';
 import { SalesModule } from './modules/sales/sales.module';
 import { MethodPayModule } from './modules/method-pay/method-pay.module';
+import { CouponsModule } from './modules/coupons/coupons.module';
 
 @Module({
   imports: [
@@ -65,7 +66,8 @@ import { MethodPayModule } from './modules/method-pay/method-pay.module';
     FileTreatmentModule,
     SalesModule,
     RacesModule,
-    MethodPayModule
+    MethodPayModule,
+    CouponsModule
   ],
 
   controllers: [],
