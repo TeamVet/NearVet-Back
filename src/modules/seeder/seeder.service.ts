@@ -5,6 +5,7 @@ import * as path from 'path';
 import preloadVeterinarian from '../../seeds/veterinarian.json';
 import preloadServices from '../../seeds/services.json';
 import preloadCatSer from '../../seeds/categoryService.json';
+import preloadAvailabilityService from '../../seeds/availabilityService.json';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { UserRole } from '../users/entities/userRole.entity';
@@ -41,8 +42,8 @@ export class SeederService implements OnModuleInit {
     private readonly serviceRepository: Repository<Service>,
     @InjectRepository(CategoryService)
     private readonly categoryServiceRepository: Repository<CategoryService>,
-    /* @InjectRepository(AvailabilityService)
-    private readonly availabilityServiceRepository: Repository<AvailabilityService>, */
+    @InjectRepository(AvailabilityService)
+    private readonly availabilityServiceRepository: Repository<AvailabilityService>, 
   ) {}
 
   petsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'pets.json');
@@ -230,12 +231,9 @@ export class SeederService implements OnModuleInit {
   async loadServices() {
     for (const service of preloadServices) {
       const serviceExist: Service = await this.serviceRepository.findOneBy({ service: service.service });
-      //console.log('serviceExist ', serviceExist);
       if (!serviceExist) {
         const veterinarian: Veterinarian = await this.veterinarianRepository.findOneBy({ licence: service.licenceVet });
         const categoryService: CategoryService = await this.categoryServiceRepository.findOneBy({ categoryService: service.category });
-        //console.log('veterinarian ', veterinarian);
-        //console.log('categoryService ', categoryService);
         if (veterinarian && categoryService) {
           const { licenceVet, category, ...createService } = service;
           await this.serviceRepository.save({ ...createService, veterinarian, categoryService });
@@ -243,6 +241,21 @@ export class SeederService implements OnModuleInit {
       }
     }
     console.log('Servicios Cargados Con Exito');
+  }
+
+  async loadAvailabilityService() {
+    for (const preloadAS of preloadAvailabilityService) {
+      const veterinarianFind: Veterinarian = await this.veterinarianRepository.findOneBy({ licence: preloadAS.licence });
+      if (veterinarianFind) {
+          const availSer = await this.availabilityServiceRepository.findOneBy({day: preloadAS.day, veterinarianId:veterinarianFind.id})
+          console.log("availSer ", availSer)
+          if (!availSer) {
+            const {licence, ...avSerCreate} = preloadAS
+            await this.availabilityServiceRepository.save({ ...avSerCreate, veterinarianId: veterinarianFind.id });
+          }
+        }
+      }
+    console.log('Dias y horarios de Servicios Cargados Con Exito');
   }
 
   async preloadInitial() {
@@ -254,7 +267,7 @@ export class SeederService implements OnModuleInit {
     await this.loadVeterinarian();
     await this.loadCategoryService();
     await this.loadServices();
-    //await this.loadAvailabilityService();
+    await this.loadAvailabilityService();
   }
 
   async onModuleInit() {

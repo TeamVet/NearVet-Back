@@ -35,4 +35,11 @@ export class VeterinarianRepository {
       return await this.veterinarianRepository.delete(id)
     }
 
+    async getVeterianrianDelayAtention(id: string): Promise<Veterinarian> {
+          return await this.veterinarianRepository.findOne({ 
+                        where: {id},
+                        select: ["delayAtention"]
+                     })
+}
+
 }

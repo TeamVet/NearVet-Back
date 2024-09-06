@@ -1,6 +1,8 @@
 import { MethodPay } from "src/modules/method-pay/entities/method-pay.entity";
+import { SaleProduct } from "src/modules/sale-products/entities/sale-product.entity";
+import { SaleService } from "src/modules/sale-services/entities/sale-service.entity";
 import { User } from "src/modules/users/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
     name:"sales"
@@ -44,5 +46,11 @@ export class Sale {
     methodPay: MethodPay;
     @Column("uuid")
     methodPayId: string
+
+    @OneToMany(() => SaleService, (saleService) => saleService.sale, {cascade:true})
+    saleServices: SaleService[];
+
+    @OneToMany(() => SaleProduct, (saleProduct) => saleProduct.sale, {cascade:true})
+    saleProducts: SaleProduct[];
 
 }

@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { SendEmailDto } from '../email/dto/createEmail.dto';
-import { sendEmail } from '../../services/email/email.service';
+//import { sendEmail } from '../../services/email/email.service';
 import { UserRole } from './entities/userRole.entity';
 import { Role } from './roles/roles.enum';
 
@@ -80,17 +80,17 @@ export class UsersRepository {
     return user;
   }
 
-   notifyUser = async (sendEmailDto: SendEmailDto) => {
-     let { to, subject, text, html } = sendEmailDto;
-     try {
-       to = 'user@example.com';
-       subject = 'Welcome!';
-       text = 'Welcome to our service!';
-       html = '<b>Welcome to our service!</b>';
+  //  notifyUser = async (sendEmailDto: SendEmailDto) => {
+  //    let { to, subject, text, html } = sendEmailDto;
+  //    try {
+  //      to = 'user@example.com';
+  //      subject = 'Welcome!';
+  //      text = 'Welcome to our service!';
+  //      html = '<b>Welcome to our service!</b>';
 
-       await sendEmail(to, subject, text, html);
-     } catch (error) {
-       console.error('Error sending email:', error);
-     }
-   };
+  //      await sendEmail(to, subject, text, html);
+  //    } catch (error) {
+  //      console.error('Error sending email:', error);
+  //    }
+  //  };
 }
