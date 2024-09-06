@@ -7,28 +7,10 @@ import { UpdateAvailabilityServiceDto } from './dto/update-availability-service.
 export class AvailabilityServiceController {
   constructor(private readonly availabilityServiceService: AvailabilityServiceService) {}
 
-  @Post()
-  create(@Body() createAvailabilityServiceDto: CreateAvailabilityServiceDto) {
-    return this.availabilityServiceService.create(createAvailabilityServiceDto);
+  @Get(":serviceId")
+  getAppointmetnService(@Param("serviceId") serviceId:string) {
+    return ["10:00","10:30","11:00","11:30","12:00","12:30","16:00","16:30","17:00","17:30","18:00","18:30"];
   }
 
-  @Get()
-  findAll() {
-    return this.availabilityServiceService.findAll();
-  }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.availabilityServiceService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAvailabilityServiceDto: UpdateAvailabilityServiceDto) {
-    return this.availabilityServiceService.update(+id, updateAvailabilityServiceDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.availabilityServiceService.remove(+id);
-  }
 }
