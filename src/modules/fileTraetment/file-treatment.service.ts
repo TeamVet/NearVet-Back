@@ -17,18 +17,18 @@ export class FileTreatmentService {
     return files
   }
 
-  async addFile (treatmentId: string, file: Express.Multer.File, description: string): Promise<FileTreatment> {
+  async addFile (treatmentId: string, file: Express.Multer.File): Promise<FileTreatment> {
     const imgUpload = await this.cloudinaryService.uploadImage(file);
-    const fileCreated: FileTreatment = await this.fileTreatmentRepository.addFile({image:imgUpload.secure_url, treatmentId, description})
+    const fileCreated: FileTreatment = await this.fileTreatmentRepository.addFile({image:imgUpload.secure_url, treatmentId})
     if (!fileCreated) throw new InternalServerErrorException("No se pudo cargar el archivo")
     return fileCreated
   }
 
-  async updateFile (id:string, file:Partial<FileTreatment>): Promise<string> {
-    const fileUpdate: UpdateResult = await this.fileTreatmentRepository.updateFile(id, file);
-    if (fileUpdate.affected === 0) throw new NotFoundException("No se encontro el archivo a actualizar")
-    return id
-  }
+  // async updateFile (id:string, file:Partial<FileTreatment>): Promise<string> {
+  //   const fileUpdate: UpdateResult = await this.fileTreatmentRepository.updateFile(id, file);
+  //   if (fileUpdate.affected === 0) throw new NotFoundException("No se encontro el archivo a actualizar")
+  //   return id
+  // }
 
   async removeFile (id:string): Promise<string> {
     const fileDelete: DeleteResult = await this.fileTreatmentRepository.removeFile(id)  

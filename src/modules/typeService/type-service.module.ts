@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+/*import { Module } from '@nestjs/common';
 import { TypeServiceService } from './type-service.service';
 import { TypeServiceController } from './type-service.controller';
 import { TypeServiceRepository } from './type-service.repository';
@@ -11,3 +11,4 @@ import { TypeService } from './entities/typeService.entity';
   providers: [TypeServiceService, TypeServiceRepository],
 })
 export class TypeServiceModule {}
+*/

@@ -13,7 +13,7 @@ export class CategoryProduct {
   category:string
 
   // RELACION MUNO-A-MUCHOS con product
-  @OneToMany(() => Product, (product) => product.categoryProduct)
-  products: Product[];
+  // @OneToMany(() => Product, (product) => product.categoryProduct)
+  // products: Product[];
 
 }

@@ -47,19 +47,19 @@ export class FileTreatmentController {
     }),
   )
   file: Express.Multer.File,  @Query("description") description?: string): Promise<FileTreatment> {
-    return await this.fileTreatmentService.addFile(treatmentId, file, description)
+    return await this.fileTreatmentService.addFile(treatmentId, file)
   }
 
-  @Put(":id")
-  @ApiOperation({summary: "Actualiza la descripcion de un archivo",
-    description: "Esta ruta actualiza un archivo pasado por Id con la informacion pasada por body y retorna el Id"})
-  @HttpCode(HttpStatus.OK)
-  @ApiNotFoundResponse({description: "No se encontro el archivo a actualizar"})
-  @ApiParam({ name: 'id', required: true, description:"Inserte el Id del archivo"})
-  @ApiBody({ description:"Ingrese los datos a actualizar", type:UpdateFileTreatmentDto})
-  async updateFile (@Param("id", ParseUUIDPipe) id:string, @Body() file:UpdateFileTreatmentDto): Promise<string> {
-    return await this.fileTreatmentService.updateFile(id, file);
-  }
+  // @Put(":id")
+  // @ApiOperation({summary: "Actualiza la descripcion de un archivo",
+  //   description: "Esta ruta actualiza un archivo pasado por Id con la informacion pasada por body y retorna el Id"})
+  // @HttpCode(HttpStatus.OK)
+  // @ApiNotFoundResponse({description: "No se encontro el archivo a actualizar"})
+  // @ApiParam({ name: 'id', required: true, description:"Inserte el Id del archivo"})
+  // @ApiBody({ description:"Ingrese los datos a actualizar", type:UpdateFileTreatmentDto})
+  // async updateFile (@Param("id", ParseUUIDPipe) id:string, @Body() file:UpdateFileTreatmentDto): Promise<string> {
+  //   return await this.fileTreatmentService.updateFile(id, file);
+  // }
 
   @Delete(":id")
   @ApiOperation({summary: "Elimina un archivo de un tratamiento",

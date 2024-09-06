@@ -14,6 +14,33 @@ export class ClinicalExamination {
  
     @Column({type:"text", nullable:false})
     anamnesis: string
+
+    @Column({nullable:true})
+    fc: number
+
+    @Column({nullable:true})
+    fr: number
+
+    @Column({type:"varchar", length:30, nullable:true})
+    mucous: string
+
+    @Column({nullable:true})
+    tllc: number
+
+    @Column({nullable:true})
+    temperature: number
+
+    @Column({nullable:true})
+    hydration: number
+
+    @Column({type:"varchar", length:50, nullable:false})
+    moodState: string
+
+    @Column({type:"varchar", length:50, nullable:false})
+    temper: string
+
+    @Column({type:"varchar", length:150, nullable:false})
+    diagnostico: string
     
     @OneToMany(() => Treatment, (treatment) => treatment.clinicalExamination)
     treatments: Treatment[];
@@ -28,5 +55,5 @@ export class ClinicalExamination {
     @JoinColumn({name: "veterinarianId"})
     veterinarian: Veterinarian;
     @Column("uuid")
-    veterinarianId:string
+    veterinarianId:string 
 }

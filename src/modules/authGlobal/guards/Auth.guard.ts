@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
 
     const token = request.headers['authorization']?.split(' ')[1] ?? '';
-
+    console.log("request.headers['authorization'] ", request.headers['authorization']);
     if (!token)
       throw new HttpException(
         { status: 401, error: `No se ha encontrado el Bearer token` },
@@ -25,13 +25,15 @@ export class AuthGuard implements CanActivate {
       );
     try {
       const secret = process.env.JWT_SECRET;
+      console.log("secret    ", secret);
       const payload = this.jwtService.verify(token, { secret });
+      console.log("payload    ", payload);
       payload.iat = new Date(payload.iat * 1000);
       payload.exp = new Date(payload.exp * 1000);
       request.user = payload;
       return true;
     } catch (err) {
-      throw new HttpException({ status: 401, error: `Token Invalido` }, 401);
+      throw new HttpException({ status: 401, error: `Token Invalido ${err}` }, 401);
     }
   }
 }
