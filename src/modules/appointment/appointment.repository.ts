@@ -2,11 +2,10 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateAppointmentDto, EditAppointmentDto } from './dto/appointment.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Appointment } from './entities/appointment.entity';
-import { In, Repository } from 'typeorm';
 import { StatesAppointment } from './entities/statesAppointment.entity';
-import { User } from '../users/entities/user.entity';
 import { PetsRepository } from '../pets/pets.repository';
 import { ServiceRepository } from '../services/service.repository';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AppointmentRepository {
@@ -37,7 +36,7 @@ export class AppointmentRepository {
   async getAppointmentsByUserId(userId: string) {
     //const pets = user.pets;
     const appointments = await this.appointmentRepository.find({
-      where: { pet: {userId}}, // Usa el operador In para filtrar por múltiples IDs de mascotas
+      where: { pet: { userId } }, // Usa el operador In para filtrar por múltiples IDs de mascotas
       relations: {
         pet: true,
         service: true,
@@ -95,6 +94,6 @@ export class AppointmentRepository {
 
     if (appointment.state === canceledState) throw new BadRequestException('El turno ya está cancleado');
     await this.appointmentRepository.update(idAppointment, { state: canceledState });
-    return 'Turno cancelado existosamente';
+    return { status: 200, message: 'Turno cancelado existosamente' };
   }
 }

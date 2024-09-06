@@ -230,12 +230,12 @@ export class SeederService implements OnModuleInit {
   async loadServices() {
     for (const service of preloadServices) {
       const serviceExist: Service = await this.serviceRepository.findOneBy({ service: service.service });
-      console.log('serviceExist ', serviceExist);
+      //console.log('serviceExist ', serviceExist);
       if (!serviceExist) {
         const veterinarian: Veterinarian = await this.veterinarianRepository.findOneBy({ licence: service.licenceVet });
         const categoryService: CategoryService = await this.categoryServiceRepository.findOneBy({ categoryService: service.category });
-        console.log('veterinarian ', veterinarian);
-        console.log('categoryService ', categoryService);
+        //console.log('veterinarian ', veterinarian);
+        //console.log('categoryService ', categoryService);
         if (veterinarian && categoryService) {
           const { licenceVet, category, ...createService } = service;
           await this.serviceRepository.save({ ...createService, veterinarian, categoryService });
