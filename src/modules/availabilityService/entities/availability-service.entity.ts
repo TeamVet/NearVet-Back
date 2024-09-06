@@ -1,4 +1,5 @@
 import { Service } from 'src/modules/services/entities/service.entity';
+import { Veterinarian } from 'src/modules/veterinarian/entities/veterinarian.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
@@ -10,7 +11,6 @@ export class AvailabilityService {
 
   @Column({
     nullable: false,
-    unique: true,
   })
   day: number;
 
@@ -43,9 +43,9 @@ export class AvailabilityService {
   endHour2: string;
 
   // RELACION MUCHOS-A-UNO con services
-  @ManyToOne(() => Service, (service) => service.availabilityService)
-  @JoinColumn({ name: 'serviceId' })
-  service: Service;
+  @ManyToOne(() => Veterinarian, (veterinarian) => veterinarian.availabilityServices)
+  @JoinColumn({ name: 'veterinarianId' })
+  veterinarian: Veterinarian;
   @Column('uuid')
-  serviceId: string;
+  veterinarianId: string;
 }

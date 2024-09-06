@@ -1,29 +1,54 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAvailabilityServiceDto } from './dto/create-availability-service.dto';
-import { UpdateAvailabilityServiceDto } from './dto/update-availability-service.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { AvailabilityServiceRepository } from './availabilityService.repository';
+import { Hours, appoitmentGenerate } from 'src/helpers/appoitmentGenerate';
+import { VeterinarianRepository } from '../veterinarian/veterinarian.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Appointment } from '../appointment/entities/appointment.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AvailabilityServiceService {
-  create(createAvailabilityServiceDto: CreateAvailabilityServiceDto) {
-    return 'This action adds a new availabilityService';
-  }
+  
+constructor (private readonly availabilityRepository: AvailabilityServiceRepository,
+             private readonly veterinarianRepository: VeterinarianRepository,
+             @InjectRepository(Appointment)
+             private readonly appointmentRepository: Repository<Appointment>,
+){}
 
-  findAll() {
-    return `This action returns all availabilityService`;
-  }
+  
+async getAvailability () {
+  return await this.availabilityRepository.getAvailability();
+}
 
-  findOne(id: number) {
-    return `This action returns a #${id} availabilityService`;
-  }
+async getAppointmentService(veterinarianId: string, date: Date) {
+  
+  //Obtengo la duracion de cada turno si no esta quiere decir que el veterinario no existe
+  const serviceDuration = await this.veterinarianRepository.getVeterianrianDelayAtention(veterinarianId)
+  if (!serviceDuration) throw new NotFoundException("El veterinario no existe");
 
-  update(
-    id: number,
-    updateAvailabilityServiceDto: UpdateAvailabilityServiceDto,
-  ) {
-    return `This action updates a #${id} availabilityService`;
-  }
+  // obtengo los turnos disponibles del veterinario ese dia. Si no hay retorno error
+  const availabilityService = await this.availabilityRepository.getAvailabilityAtention(veterinarianId, date.getDay())
+  if (!availabilityService) throw new NotFoundException("Este veterinario no atiende en el dia solicitado");
 
-  remove(id: number) {
-    return `This action removes a #${id} availabilityService`;
+  // Uso el Helper appoitmentGenerate para generar el array con los horarios totales disponibles
+  let arrayAppointmentAvailabilties: Hours[] = appoitmentGenerate(availabilityService.startHour1, availabilityService.endHour1, serviceDuration.delayAtention);
+  // si hay un segundo horario tambien lo sumo
+  if (availabilityService.startHour2 && availabilityService.endHour2)
+      arrayAppointmentAvailabilties = arrayAppointmentAvailabilties.concat(appoitmentGenerate(availabilityService.startHour2, availabilityService.endHour2, serviceDuration.delayAtention));
+  
+  // Obtengo todos los turnos ya ocupados
+  const arrayAppointmentAnavailability = await this.appointmentRepository.find({
+    where: {service: {veterinarianId}},
+    select: ["id", "time"]
+    })
+
+  // Creo un array con los turnos libres a partir del total de turnos 
+  // y los turnos ya ocupados y retorno el resultado
+  const appointmentFree: Hours[] = arrayAppointmentAvailabilties.filter(disponible => 
+       !arrayAppointmentAnavailability.some(ocupado => ocupado.time === disponible.hour)
+     );
+  return appointmentFree;
   }
+  
+  
 }

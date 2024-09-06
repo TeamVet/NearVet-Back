@@ -1,26 +1,33 @@
-import { Injectable } from '@nestjs/common';
-import { CreateSaleServiceDto } from './dto/create-sale-service.dto';
-import { UpdateSaleServiceDto } from './dto/update-sale-service.dto';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { SaleServicesRepository } from './sale-services.repository';
+import { SaleService } from './entities/sale-service.entity';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class SaleServicesService {
-  create(createSaleServiceDto: CreateSaleServiceDto) {
-    return 'This action adds a new saleService';
+ 
+  constructor (private readonly saleServiceRepository: SaleServicesRepository) {}
+
+  async getSalesServiceBySaleId (saleId:string): Promise<SaleService[]> {
+    return await this.saleServiceRepository.getSalesServiceBySaleId(saleId)
   }
 
-  findAll() {
-    return `This action returns all saleServices`;
+  async createSalesService (saleService: Partial<SaleService>): Promise<SaleService> {
+    const saleServiceCreated: SaleService = await this.saleServiceRepository.createSalesService(saleService)
+    if (!saleServiceCreated) throw new InternalServerErrorException("No se pudo agregar el servicio a la venta")
+    return saleServiceCreated
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} saleService`;
+  async updateSalesService (saleId:string, serviceId:string, saleService: Partial<SaleService>): Promise<string[]> {
+    const saleServiceUpdate: UpdateResult = await this.saleServiceRepository.updateSalesService(saleId, serviceId, saleService)
+    if (saleServiceUpdate.affected === 0) throw new NotFoundException("No se encontro el servicio a actualizar")
+    return [saleId, serviceId]
   }
 
-  update(id: number, updateSaleServiceDto: UpdateSaleServiceDto) {
-    return `This action updates a #${id} saleService`;
+  async deleteSalesService (saleId:string, serviceId:string): Promise<string[]> {
+    const saleServiceDelete: DeleteResult = await this.saleServiceRepository.deleteSalesService(saleId, serviceId)
+    if (saleServiceDelete.affected === 0) throw new NotFoundException("No se encontro el servicio a eliminar")
+    return [saleId, serviceId]
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} saleService`;
-  }
 }

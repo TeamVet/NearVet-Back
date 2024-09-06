@@ -15,7 +15,7 @@
       "sendMessage": "Debemos tener los siguientes recaudos: Que la mascota no tenga nada metalico",
       "price": 9000,
       "licenceVet": 19876,
-      "durationMin": 20
+      "durationMin": 20 
     },
     {
       "service": "Laboratorio",

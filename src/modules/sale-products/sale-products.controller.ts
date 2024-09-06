@@ -1,34 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query, Put, ParseUUIDPipe } from '@nestjs/common';
 import { SaleProductsService } from './sale-products.service';
+import { SaleProduct } from './entities/sale-product.entity';
 import { CreateSaleProductDto } from './dto/create-sale-product.dto';
 import { UpdateSaleProductDto } from './dto/update-sale-product.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('sale-products')
+@ApiTags("Sales Products")
+@Controller('sale-Products')
 export class SaleProductsController {
   constructor(private readonly saleProductsService: SaleProductsService) {}
 
+  @Get(":saleId")
+  async getSalesProductBySaleId (@Param("saleId", ParseUUIDPipe) saleId:string): Promise<SaleProduct[]> {
+    return await this.saleProductsService.getSalesProductBySaleId(saleId)
+  }
+
   @Post()
-  create(@Body() createSaleProductDto: CreateSaleProductDto) {
-    return this.saleProductsService.create(createSaleProductDto);
+  async createSalesProduct (@Body() saleProduct: CreateSaleProductDto): Promise<SaleProduct> {
+    return await this.saleProductsService.createSalesProduct(saleProduct)
   }
 
-  @Get()
-  findAll() {
-    return this.saleProductsService.findAll();
+  @Put()
+  async updateSalesProduct (@Query("saleId", ParseUUIDPipe) saleId:string, 
+                            @Query("productId", ParseUUIDPipe) productId:string, 
+                            @Body() saleProduct: UpdateSaleProductDto): Promise<string[]> {
+    return await this.saleProductsService.updateSalesProduct(saleId, productId, saleProduct)
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.saleProductsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSaleProductDto: UpdateSaleProductDto) {
-    return this.saleProductsService.update(+id, updateSaleProductDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.saleProductsService.remove(+id);
+  @Delete()
+  async deleteSalesService (@Query("saleId", ParseUUIDPipe) saleId:string, 
+                            @Query("serviceId", ParseUUIDPipe) productId:string): Promise<string[]> {
+    return await this.saleProductsService.deleteSalesProduct(saleId, productId)
   }
 }
