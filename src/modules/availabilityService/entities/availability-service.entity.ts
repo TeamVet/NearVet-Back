@@ -15,28 +15,32 @@ export class AvailabilityService {
   day: number;
 
   @Column({
-    type: 'date',
+    type: 'varchar',
+    length: 5,
     nullable: false,
   })
-  startHour1: Date;
+  startHour1: string;
 
   @Column({
-    type: 'date',
+    type: 'varchar',
+    length: 5,
     nullable: false,
   })
-  endHour1: Date;
+  endHour1: string;
 
   @Column({
-    type: 'date',
-    nullable: false,
+    type: 'varchar',
+    length: 5,
+    nullable: true,
   })
-  startHour2: Date;
+  startHour2: string;
 
   @Column({
-    type: 'date',
-    nullable: false,
+    type: 'varchar',
+    length: 5,
+    nullable: true,
   })
-  endHour2: Date;
+  endHour2: string;
 
    // RELACION MUCHOS-A-UNO con services
    @ManyToOne(() => Service, (service) => service.availabilityService)

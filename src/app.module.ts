@@ -42,7 +42,7 @@ import { AvailabilityServiceModule } from './modules/availabilityService/availab
     // modulo para generar los token
     JwtModule.register({
       global: true,
-      signOptions: { expiresIn: '10h' },
+      signOptions: { expiresIn: "5h" },
       secret: process.env.JWT_SECRET,
     }),
     AuthGlobalModule,
