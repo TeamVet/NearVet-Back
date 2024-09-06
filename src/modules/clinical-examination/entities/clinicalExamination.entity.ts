@@ -42,7 +42,7 @@ export class ClinicalExamination {
     @Column({type:"varchar", length:150, nullable:false})
     diagnostico: string
     
-    @OneToMany(() => Treatment, (treatment) => treatment.clinicalExamination)
+    @OneToMany(() => Treatment, (treatment) => treatment.clinicalExamination, { cascade: true })
     treatments: Treatment[];
 
     @ManyToOne (() => Pet, (pet) => pet.clinicalExaminations)

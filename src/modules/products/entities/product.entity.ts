@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ApplicationProduct } from 'src/modules/applicationProduct/entities/applicationProduct.entity';
 import { CategoryProduct } from 'src/modules/categoryProducts/entities/categoryProduct.entity';
+import { SaleProduct } from 'src/modules/sale-products/entities/sale-product.entity';
 
 @Entity({
   name: 'products',
@@ -31,6 +32,9 @@ export class Product {
   // RELACION UNO-A-MUCHOS con applicationProduct
   @OneToMany(() => ApplicationProduct, (applicationProduct) => applicationProduct.product)
   applicationProducts: ApplicationProduct[];
+
+  @OneToMany(() => SaleProduct, (saleProduct) => saleProduct.product)
+    saleProducts: SaleProduct[];
 
   // /* RELACION MUCHOS-A-UNO CON CategoryService */
   // @ManyToOne(() => CategoryProduct, (categoryProduct) => categoryProduct.products)
