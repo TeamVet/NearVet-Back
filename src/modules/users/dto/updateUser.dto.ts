@@ -29,7 +29,7 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   @Length(1, 50)
-  lastname: string;
+  lastName: string;
 
   @ApiPropertyOptional({
     description: 'El DNI es Opcional',
