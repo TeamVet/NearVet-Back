@@ -1,59 +1,33 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateSaleServiceDto } from './dto/create-sale-service.dto';
-import { UpdateSaleServiceDto } from './dto/update-sale-service.dto';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { SaleServicesRepository } from './sale-services.repository';
 import { SaleService } from './entities/sale-service.entity';
-import { SaleServiceRepository } from './sale-service.repository';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 @Injectable()
-export class SaleServiceService {
-  constructor(private readonly saleServiceRepository: SaleServiceRepository) {}
+export class SaleServicesService {
+ 
+  constructor (private readonly saleServiceRepository: SaleServicesRepository) {}
 
-  async getAllSaleServices() {
-    const saleServices = await this.saleServiceRepository.getAllSaleServicesRepository();
-    if (saleServices.length === 0) {
-      throw new NotFoundException('Hasta el momento no hay servicios de venta registrados ...');
-    }
-    return {
-      message: "Listado de servicios de venta registrados",
-      saleServices
-    };
+  async getSalesServiceBySaleId (saleId:string): Promise<SaleService[]> {
+    return await this.saleServiceRepository.getSalesServiceBySaleId(saleId)
   }
 
-  async getSaleServiceById(id: string) {
-    const saleService = await this.saleServiceRepository.getSaleServiceByIdRepository(id);
-    if (!saleService) {
-      throw new NotFoundException(`Servicio de venta con el ID ${id} no encontrado`);
-    }
-    return {
-      message: `Servicio de venta con el ID ${id} encontrado exitosamente`,
-      saleService
-    };
+  async createSalesService (saleService: Partial<SaleService>): Promise<SaleService> {
+    const saleServiceCreated: SaleService = await this.saleServiceRepository.createSalesService(saleService)
+    if (!saleServiceCreated) throw new InternalServerErrorException("No se pudo agregar el servicio a la venta")
+    return saleServiceCreated
   }
 
-  async createSaleService(createSaleServiceDto: CreateSaleServiceDto): Promise<SaleService> {
-    return await this.saleServiceRepository.createSaleServiceRepository(createSaleServiceDto);
+  async updateSalesService (saleId:string, serviceId:string, saleService: Partial<SaleService>): Promise<string[]> {
+    const saleServiceUpdate: UpdateResult = await this.saleServiceRepository.updateSalesService(saleId, serviceId, saleService)
+    if (saleServiceUpdate.affected === 0) throw new NotFoundException("No se encontro el servicio a actualizar")
+    return [saleId, serviceId]
   }
 
-  async updateSaleService(id: string, updateSaleServiceDto: UpdateSaleServiceDto) {
-    const saleService = await this.saleServiceRepository.updateSaleServiceRepository(id, updateSaleServiceDto);
-    if (!saleService) {
-      throw new NotFoundException(`Servicio de venta para modificar con el ID ${id} no encontrado`);
-    }
-    return {
-      message: `Servicio de venta con el ID ${id} modificado exitosamente`,
-      saleService
-    };
+  async deleteSalesService (saleId:string, serviceId:string): Promise<string[]> {
+    const saleServiceDelete: DeleteResult = await this.saleServiceRepository.deleteSalesService(saleId, serviceId)
+    if (saleServiceDelete.affected === 0) throw new NotFoundException("No se encontro el servicio a eliminar")
+    return [saleId, serviceId]
   }
 
-  async deleteSaleService(id: string) {
-    const saleService = await this.saleServiceRepository.getSaleServiceByIdRepository(id);
-    if (!saleService) {
-      throw new NotFoundException(`Servicio de venta para eliminar con el ID ${id} no encontrado`);
-    }
-    await this.saleServiceRepository.deleteSaleServiceRepository(id);
-    return {
-      message: `Servicio de venta con el ID ${id} eliminado exitosamente`,
-      saleService
-    };
-  }
 }

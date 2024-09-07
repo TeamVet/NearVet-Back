@@ -28,8 +28,10 @@ import { SalesModule } from './modules/sales/sales.module';
 import { MethodPayModule } from './modules/method-pay/method-pay.module';
 import { CouponsModule } from './modules/coupons/coupons.module';
 import { AvailabilityServiceModule } from './modules/availabilityService/availabilityService.module';
-import { SaleServicesModule } from './modules/sale-services/sale-services.module';
 import { PendingModule } from './modules/pending/pending.module';
+import { SaleProductsModule } from './modules/sale-products/sale-products.module';
+import { PdfModule } from './modules/pdf/pdf.module';
+import { SaleServicesModule } from './modules/sale-services/sale-services.module';
 
 @Module({
   imports: [
@@ -45,7 +47,7 @@ import { PendingModule } from './modules/pending/pending.module';
     // modulo para generar los token
     JwtModule.register({
       global: true,
-      signOptions: { expiresIn: '10h' },
+      signOptions: { expiresIn: "5h" },
       secret: process.env.JWT_SECRET,
     }),
     AuthGlobalModule,
@@ -66,12 +68,13 @@ import { PendingModule } from './modules/pending/pending.module';
     ApplicationProductModule,
     FileTreatmentModule,
     SalesModule,
-    RacesModule,
     MethodPayModule,
     CouponsModule,
     AvailabilityServiceModule,
     SaleServicesModule,
-    PendingModule
+    PendingModule,
+    SaleProductsModule,
+    PdfModule
   ],
 
   controllers: [],

@@ -16,6 +16,7 @@ async function bootstrap() {
       whitelist: true,      
     }),
   );
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   //genero el Document Builder donde preconfiguro los datos basicos
   const swaggerConfig = new DocumentBuilder()

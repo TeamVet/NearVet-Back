@@ -13,10 +13,11 @@ import { VeterinarianRepository } from '../veterinarian/veterinarian.repository'
 import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
 import { CategoryService } from '../categoryServices/entities/categoryService.entity';
 import { Service } from '../services/entities/service.entity';
+import { AvailabilityService } from '../availabilityService/entities/availability-service.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Pet, UserRole, Sex, Race, Specie, StatesAppointment, Veterinarian,
-                                      CategoryService, Service])],
+                                      CategoryService, Service, AvailabilityService])],
   controllers: [SeederController],
   providers: [SeederService],
 })

@@ -1,33 +1,29 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Sale } from "src/modules/sales/entities/sale.entity";
+import { Service } from "src/modules/services/entities/service.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 
 @Entity({
-  name: 'sale_services',
+    name: "saleServies"
 })
 export class SaleService {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+    
+    @ManyToOne (() => Service, (service) => service.saleServices)
+    @JoinColumn({name:"serviceId"})
+    service: Service
 
-  @Column({
-    type: 'varchar',
-    length: 100,
-  })
-  name: string;
+    @PrimaryColumn("uuid")
+    serviceId: string;
 
-  @Column({
-    type: 'text',
-  })
-  description: string;
+    @ManyToOne (() => Sale, (sale) => sale.saleServices, {onDelete: "CASCADE"})
+    @JoinColumn({name:"saleId"})
+    sale: Sale
+    
+    @PrimaryColumn("uuid")
+    saleId: string;
 
-  @Column({
-    type: 'decimal',
-    precision: 10,
-    scale: 2,
-  })
-  price: number;
+    @Column()
+    price: number;
 
-  @Column({
-    type: 'boolean',
-    default: true,
-  })
-  active: boolean;
+    @Column()
+    acount: number;
 }

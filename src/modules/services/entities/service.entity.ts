@@ -1,10 +1,11 @@
 import { Veterinarian } from 'src/modules/veterinarian/entities/veterinarian.entity';
 import { CategoryService } from '../../categoryServices/entities/categoryService.entity';
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany,OneToOne,PrimaryGeneratedColumn} from 'typeorm';
-import { AvailabilityService } from '../../availabilityService/entities/availability-service.entity';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany,PrimaryGeneratedColumn} from 'typeorm';
 import { Treatment } from 'src/modules/treatment/entities/treatment.entity';
 import { TypeService } from 'src/modules/typeService/entities/typeService.entity';
 import { Pending } from 'src/modules/pending/entities/pending.entity';
+import { SaleService } from 'src/modules/sale-services/entities/sale-service.entity';
+import { AvailabilityService } from 'src/modules/availabilityService/entities/availability-service.entity';
   
   @Entity({name: 'services'})
   export class Service {
@@ -52,5 +53,11 @@ import { Pending } from 'src/modules/pending/entities/pending.entity';
     /* RELACION UNO-A-MUCHOS CON pending */
     @OneToMany(() => Pending, (pending) => pending.service)
     pendings: Pending[];
+    
+    @OneToMany(() => SaleService, (saleService) => saleService.service)
+    saleServices: SaleService[];
+
+    // @OneToMany(() => AvailabilityService, (availabilityService) => availabilityService.service)
+    // availabilityService: AvailabilityService[];
   }
   
