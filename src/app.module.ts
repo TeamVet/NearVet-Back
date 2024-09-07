@@ -29,6 +29,7 @@ import { MethodPayModule } from './modules/method-pay/method-pay.module';
 import { AvailabilityServiceModule } from './modules/availabilityService/availabilityService.module';
 import { SaleProductsModule } from './modules/sale-products/sale-products.module';
 import { SaleServicesModule } from './modules/sale-services/sale-services.module';
+import { PdfModule } from './modules/pdf/pdf.module';
 
 @Module({
   imports: [
@@ -69,7 +70,8 @@ import { SaleServicesModule } from './modules/sale-services/sale-services.module
     MethodPayModule,
     AvailabilityServiceModule,
     SaleProductsModule,
-    SaleServicesModule
+    SaleServicesModule,
+    PdfModule
   ],
 
   controllers: [],
