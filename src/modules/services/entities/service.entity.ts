@@ -4,6 +4,7 @@ import {Column, Entity, JoinColumn, ManyToOne, OneToMany,OneToOne,PrimaryGenerat
 import { AvailabilityService } from '../../availabilityService/entities/availability-service.entity';
 import { Treatment } from 'src/modules/treatment/entities/treatment.entity';
 import { TypeService } from 'src/modules/typeService/entities/typeService.entity';
+import { Pending } from 'src/modules/pending/entities/pending.entity';
   
   @Entity({name: 'services'})
   export class Service {
@@ -47,5 +48,9 @@ import { TypeService } from 'src/modules/typeService/entities/typeService.entity
 
     @OneToMany(() => AvailabilityService, (availabilityService) => availabilityService.service)
     availabilityService: AvailabilityService[];
+
+    /* RELACION UNO-A-MUCHOS CON pending */
+    @OneToMany(() => Pending, (pending) => pending.service)
+    pendings: Pending[];
   }
   

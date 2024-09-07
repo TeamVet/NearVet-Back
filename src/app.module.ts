@@ -28,6 +28,8 @@ import { SalesModule } from './modules/sales/sales.module';
 import { MethodPayModule } from './modules/method-pay/method-pay.module';
 import { CouponsModule } from './modules/coupons/coupons.module';
 import { AvailabilityServiceModule } from './modules/availabilityService/availabilityService.module';
+import { SaleServicesModule } from './modules/sale-services/sale-services.module';
+import { PendingModule } from './modules/pending/pending.module';
 
 @Module({
   imports: [
@@ -67,7 +69,9 @@ import { AvailabilityServiceModule } from './modules/availabilityService/availab
     RacesModule,
     MethodPayModule,
     CouponsModule,
-    AvailabilityServiceModule
+    AvailabilityServiceModule,
+    SaleServicesModule,
+    PendingModule
   ],
 
   controllers: [],
