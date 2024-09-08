@@ -54,6 +54,20 @@ export class AppointmentRepository {
     return appointments;
   }
 
+  async getAppointmentsActive(): Promise<Appointment[]> {
+    //const pets = user.pets;
+    const appointments = await this.appointmentRepository.find({
+      where: { state: {state:"Pendiente"} 
+       }, // Usa el operador In para filtrar por múltiples IDs de mascotas
+      relations: {
+        pet: true,
+        service: true,
+        state: true,
+      },
+    });
+    return appointments;
+  }
+
   async createAppointment(createAppointmentDto: CreateAppointmentDto) {
     const pet = await this.petsRepository.getPetByIdRepository(String(createAppointmentDto.pet_id));
     const state = await this.statesAppointmentRepository.findOne({

@@ -51,11 +51,11 @@ export class CreateProductDto {
     })
     price: number;
 
-    @IsUUID()
-    @IsNotEmpty()
-    @ApiProperty({
-        description: "Id de la categoria correspondiente al producto. Es Obligatorio",
-        example: "asd567asd-asd56-56mkj-56l6j-asd789jkl"
-    })
-    categoryProductId: string;
+    // @IsUUID()
+    // @IsNotEmpty()
+    // @ApiProperty({
+    //     description: "Id de la categoria correspondiente al producto. Es Obligatorio",
+    //     example: "asd567asd-asd56-56mkj-56l6j-asd789jkl"
+    // })
+    // categoryProductId: string;
 }

@@ -121,6 +121,6 @@ export class User {
   @OneToOne(() => Veterinarian, (veterinarian) => veterinarian.user)
   veterinarian: Veterinarian;
 
-  @OneToMany(() => Vet, (vet) => vet.user)
-  vet: Vet[];
+  @OneToOne(() => Vet, (vet) => vet.user)
+  vet: Vet;
 }

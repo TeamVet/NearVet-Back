@@ -30,9 +30,11 @@ import { AvailabilityServiceModule } from './modules/availabilityService/availab
 import { SaleProductsModule } from './modules/sale-products/sale-products.module';
 import { SaleServicesModule } from './modules/sale-services/sale-services.module';
 import { PdfModule } from './modules/pdf/pdf.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [typeOrmConfig],

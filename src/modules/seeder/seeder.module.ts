@@ -14,10 +14,13 @@ import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
 import { CategoryService } from '../categoryServices/entities/categoryService.entity';
 import { Service } from '../services/entities/service.entity';
 import { AvailabilityService } from '../availabilityService/entities/availability-service.entity';
+import { RepCondition } from '../pets/entities/repCondition.entity';
+import { Product } from '../products/entities/product.entity';
+import { Vet } from '../vets/entities/vet.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Pet, UserRole, Sex, Race, Specie, StatesAppointment, Veterinarian,
-                                      CategoryService, Service, AvailabilityService])],
+                                      CategoryService, Service, AvailabilityService, RepCondition, Product, Vet])],
   controllers: [SeederController],
   providers: [SeederService],
 })
