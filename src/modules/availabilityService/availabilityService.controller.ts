@@ -10,8 +10,8 @@ export class AvailabilityServiceController {
 
   @Post()
   async getAppointmentService(@Body() getApp: GetAppointment) {
-    const {veterinarianId, date} = getApp
-    return await this.availabilityServiceService.getAppointmentService(veterinarianId, date);
+    const {serviceId, date} = getApp
+    return await this.availabilityServiceService.getAppointmentService(serviceId, date);
   }
 
   @Get()

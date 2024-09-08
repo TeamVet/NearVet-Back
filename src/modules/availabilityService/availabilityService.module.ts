@@ -7,11 +7,13 @@ import { AvailabilityServiceRepository } from './availabilityService.repository'
 import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
 import { Appointment } from '../appointment/entities/appointment.entity';
 import { VeterinarianRepository } from '../veterinarian/veterinarian.repository';
+import { ServiceRepository } from '../services/service.repository';
+import { Service } from '../services/entities/service.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Veterinarian, AvailabilityService, Appointment])],
+  imports: [TypeOrmModule.forFeature([Veterinarian, AvailabilityService, Appointment, Service])],
   controllers: [AvailabilityServiceController],
   providers: [AvailabilityServiceService, AvailabilityServiceRepository,
-              VeterinarianRepository],
+              VeterinarianRepository, ServiceRepository],
 })
 export class AvailabilityServiceModule {}

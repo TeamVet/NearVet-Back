@@ -10,7 +10,7 @@ export class ProductsService {
 
     async getProducts (page:number, limit:number): Promise<Product[]> {
       const productFind: Product[] = await this.productService.getProducts(page, limit);
-      if (productFind.length===0) throw new NotFoundException("No se encontraron Productos")
+      //if (productFind.length===0) throw new NotFoundException("No se encontraron Productos")
       return productFind
     }
 

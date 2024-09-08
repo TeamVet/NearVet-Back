@@ -44,7 +44,7 @@ export class Pet {
 
   @Column({
     default:
-      'https://img.freepik.com/vector-gratis/ilustracion-silueta-perro-gato-diseno-plano_23-2150369464.jpg?size=338&ext=jpg&ga=GA1.1.933601817.1722556800&semt=ais_hybrid',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPwSWBMLpGsh7FpkESSq7CVWbd_hSv7Bjp5D17-bJ_-ZA5NF1blEJGjbENfWtfQiq8ZdY&usqp=CAU',
   })
   imgProfile: string;
 

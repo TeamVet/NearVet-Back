@@ -7,7 +7,7 @@ export class GetAppointment {
     @IsUUID()
     @IsNotEmpty()
     @ApiProperty()
-    veterinarianId: string;
+    serviceId: string;
     
     @Type(() => Date)
     @IsDate()
