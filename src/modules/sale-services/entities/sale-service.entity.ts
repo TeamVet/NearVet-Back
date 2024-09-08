@@ -10,12 +10,14 @@ export class SaleService {
     @ManyToOne (() => Service, (service) => service.saleServices)
     @JoinColumn({name:"serviceId"})
     service: Service
+
     @PrimaryColumn("uuid")
     serviceId: string;
 
     @ManyToOne (() => Sale, (sale) => sale.saleServices, {onDelete: "CASCADE"})
     @JoinColumn({name:"saleId"})
     sale: Sale
+    
     @PrimaryColumn("uuid")
     saleId: string;
 

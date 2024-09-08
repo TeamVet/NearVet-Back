@@ -42,10 +42,15 @@ export class AvailabilityService {
   })
   endHour2: string;
 
-  // RELACION MUCHOS-A-UNO con services
   @ManyToOne(() => Veterinarian, (veterinarian) => veterinarian.availabilityServices)
   @JoinColumn({ name: 'veterinarianId' })
   veterinarian: Veterinarian;
+
+  /* RELACION MUCHOS-A-UNO CON Service */
+  @ManyToOne(() => Service, (service) => service.availabilityService)
+  @JoinColumn({ name: 'serviceId' })
+  service: Service;
+
   @Column('uuid')
   veterinarianId: string;
 }

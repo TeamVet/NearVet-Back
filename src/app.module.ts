@@ -26,11 +26,13 @@ import { ApplicationProductModule } from './modules/applicationProduct/applicati
 import { FileTreatmentModule } from './modules/fileTraetment/file-treatment.module';
 import { SalesModule } from './modules/sales/sales.module';
 import { MethodPayModule } from './modules/method-pay/method-pay.module';
+import { CouponsModule } from './modules/coupons/coupons.module';
 import { AvailabilityServiceModule } from './modules/availabilityService/availabilityService.module';
+import { PendingModule } from './modules/pending/pending.module';
 import { SaleProductsModule } from './modules/sale-products/sale-products.module';
-import { SaleServicesModule } from './modules/sale-services/sale-services.module';
 import { PdfModule } from './modules/pdf/pdf.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { SaleServicesModule } from './modules/sale-services/sale-services.module';
 
 @Module({
   imports: [
@@ -68,11 +70,12 @@ import { ScheduleModule } from '@nestjs/schedule';
     ApplicationProductModule,
     FileTreatmentModule,
     SalesModule,
-    RacesModule,
     MethodPayModule,
+    CouponsModule,
     AvailabilityServiceModule,
-    SaleProductsModule,
     SaleServicesModule,
+    PendingModule,
+    SaleProductsModule,
     PdfModule
   ],
 
