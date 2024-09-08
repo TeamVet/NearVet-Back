@@ -9,18 +9,16 @@ import * as bcrypt from 'bcrypt';
 import { UsersRepository } from '../users/users.repository';
 import { User } from '../users/entities/user.entity';
 import { LoginUserDto } from './dto/loginUser.dto';
-import { SendEmailDto } from '../email/dto/createEmail.dto';
-import { EmailProvider } from '../email/email.provider';
+import { EmailService } from '../email/email.service';
 import { UserRole } from '../users/entities/userRole.entity';
 import { Role } from '../users/roles/roles.enum';
 import { CreateUserWebDto } from '../users/dto/createUserWeb.dto';
-import { welcomeNearvet } from '../../utils/plantillasHTML';
 
 @Injectable()
 export class AuthGlobalService {
   constructor(
     private readonly usersRepository: UsersRepository,
-    private readonly emailProvider: EmailProvider,
+    private readonly emailService: EmailService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -52,15 +50,7 @@ export class AuthGlobalService {
 
     //envio email de bienvenida
     if (userSave.email) {
-        const sendEmailWelcome: SendEmailDto = {
-        to: userSave.email,
-        subject: `¡Bienvenido ${userSave.name}! - NearVet`,
-        html: `<H1>¡Bienvenido ${userSave.name}! - NearVet </H1>
-              <p>Nos alegra que estes con nosotros. 
-            Desde NearVet nuestra rpioridad es el cuidado de las mascotas! 
-            deseamos que tengas una excelente experiencia con nosotros.</p>`,
-        };
-      this.emailProvider.sendEmail(sendEmailWelcome);
+      this.emailService.WelcomeEmail(userSave, passwordConfirm, false);
     }
 
     // quito el password y el role del userSave y lo guardo en sendUser para retornarlo
@@ -121,15 +111,7 @@ export class AuthGlobalService {
           userDB = await this.usersRepository.getUserByEmailRepository(userDB.email);
       
           //envio email de bienvenida
-          if (userDB.email) {
-              const sendEmailWelcome: SendEmailDto = {
-              to: userDB.email,
-              subject: `¡Bienvenido ${userDB.name}! - NearVet`,
-              html: welcomeNearvet({nombre:userDB.name, email:userDB.email , passwordDefault:passwordDefault, logo: "https://st2.depositphotos.com/1007168/5524/i/450/depositphotos_55249403-stock-photo-veterinary-blue-circle-label-with.jpg"}),
-
-              };
-            this.emailProvider.sendEmail(sendEmailWelcome);
-          }
+          this.emailService.WelcomeEmail(userDB, passwordDefault, true);
     }
     //creo el Payload a guardar en el token, con id, email, y los roles asignados al usuario
     const userPayload = {

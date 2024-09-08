@@ -6,6 +6,7 @@ import { RepCondition } from './repCondition.entity';
 import { Appointment } from 'src/modules/appointment/entities/appointment.entity';
 import { Specie } from 'src/modules/species/entities/specie.entity';
 import { ClinicalExamination } from 'src/modules/clinical-examination/entities/clinicalExamination.entity';
+import { Pending } from 'src/modules/pending/entities/pending.entity';
 
 @Entity({
   name: 'pets',
@@ -43,7 +44,7 @@ export class Pet {
 
   @Column({
     default:
-      'https://img.freepik.com/vector-gratis/ilustracion-silueta-perro-gato-diseno-plano_23-2150369464.jpg?size=338&ext=jpg&ga=GA1.1.933601817.1722556800&semt=ais_hybrid',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPwSWBMLpGsh7FpkESSq7CVWbd_hSv7Bjp5D17-bJ_-ZA5NF1blEJGjbENfWtfQiq8ZdY&usqp=CAU',
   })
   imgProfile: string;
 
@@ -89,4 +90,8 @@ export class Pet {
   // RELACION UNO-A-MUCHOS con ClinicalExamination
   @OneToMany(() => ClinicalExamination, (clinicalExamination) => clinicalExamination.pet)
   clinicalExaminations: ClinicalExamination[];
+
+  /* RELACION UNO-A-MUCHOS CON pending */
+  @OneToMany(() => Pending, (pending) => pending.pet)
+  pendings: Pending[];
 }

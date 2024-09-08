@@ -8,15 +8,15 @@ import {
 import { Pet } from './pet.entity';
 
 @Entity({
-  name: 'repConritions',
+  name: 'repCoditions',
 })
 export class RepCondition {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
+ 
   @Column({
     type: 'varchar',
-    length: 50,
+    length: 10,
   })
   repCondition: string;
 
