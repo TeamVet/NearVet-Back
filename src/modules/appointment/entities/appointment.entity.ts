@@ -17,7 +17,7 @@ export class Appointment {
   @Column({ type: 'varchar', length: 5 })
   time: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable:true })
   messageUser: string;
 
   @Column({ type: 'int' })
