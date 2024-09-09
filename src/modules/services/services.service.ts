@@ -1,17 +1,11 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Service } from './entities/service.entity';
 import { ServiceRepository } from './service.repository';
-import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
-import { VeterinarianRepository } from '../veterinarian/veterinarian.repository';
-import { CategoryService } from '../categoryServices/entities/categoryService.entity';
-import { CategoryServiceRepository } from '../categoryServices/categoryServices.repository';
 
 @Injectable() 
 export class ServicesService {
 
   constructor (private readonly serviceRepository: ServiceRepository,
-        private readonly veterinarianRepository: VeterinarianRepository,
-        private readonly catServiceRepository: CategoryServiceRepository
   ){}
   
   async getServices(): Promise<Service[]> {

@@ -22,7 +22,10 @@ export class ServiceRepository {
   }
 
   async getServicesByCategory(categoryServiceId: string): Promise<Service[]> {
-    return await this.serviceRepository.find({ where: { categoryServiceId } });
+    return await this.serviceRepository.find({ 
+                where: { categoryServiceId },
+                relations: {veterinarian: {user:true} }
+     });
   }
 
   async getServicesByVeterinarian(veterinarianId: string): Promise<Service[]> {
