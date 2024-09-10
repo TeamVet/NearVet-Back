@@ -96,9 +96,8 @@ export class EmailService {
 
 
   //notificaciones programadas
-      // Aviso de fecha cercana al pendiente... Sugerirle que saque el turno y ponerle un link redireccionando a sacar el turno
-      // Aviso de fecha cercana al turno. que no falte y avisos de cuidados previos. 
-      // Aviso a veterinario de la lista de turnos con mascotas y servicios del dia siguiente
+      // Aviso de fecha cercana al pendiente... Sugerirle que saque el turno y ponerle un link redireccionando a sacar el turno // LISTO
+      // Aviso de fecha cercana al turno. que no falte y avisos de cuidados previos. // LISTO
   @Cron('0 0 8 * * *')  // Este cron ejecuta la tarea todos los días a las 08:00 AM
   async recordingPending() {
         
@@ -158,13 +157,4 @@ export class EmailService {
         })
     }
 
-    @Cron('0 2 8 * * *')  // Este cron ejecuta la tarea todos los días a las 08:02 AM
-    async recordingVeterinarian() {
-        // Consulto todas los turnos pendientes para un veterinario agrupado por fechas
-
-        // si la fecha de hoy es un dia antes de los turnos enviamos email
-
-        // enviamos el email al veterinario con una plantilla recordandole todos los turnos que tiene
-        //con una lista de los horarios, las mascotas, y el servicio puentual. 
-    }
 }
