@@ -12,6 +12,8 @@ import preloadRaces from '../../seeds/races.json';
 import preloadPets from '../../seeds/pets.json';
 import preloadProducts from '../../seeds/products.json';
 import preloadVet from '../../seeds/vet.json';
+import preloadPending from '../../seeds/pending.json';
+import preloadAppointment from '../../seeds/appointments.json';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { UserRole } from '../users/entities/userRole.entity';
@@ -28,6 +30,8 @@ import { AvailabilityService } from '../availabilityService/entities/availabilit
 import { RepCondition } from '../pets/entities/repCondition.entity';
 import { Product } from '../products/entities/product.entity';
 import { Vet } from '../vets/entities/vet.entity';
+import { Pending } from '../pending/entities/pending.entity';
+import { Appointment } from '../appointment/entities/appointment.entity';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -59,6 +63,10 @@ export class SeederService implements OnModuleInit {
     private readonly productRepository: Repository<Product>, 
     @InjectRepository(Vet)
     private readonly vetRepository: Repository<Vet>, 
+    @InjectRepository(Pending)
+    private readonly pendingRepository: Repository<Pending>, 
+    @InjectRepository(Appointment)
+    private readonly appointmentRepository: Repository<Appointment>, 
   ) {}
 
   petsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'pets.json');
@@ -296,6 +304,19 @@ export class SeederService implements OnModuleInit {
     console.log('Veterinaria Cargada Con Exito');
   }
 
+  async loadPending(): Promise<void> {
+    for (const pending of preloadPending) {
+      const pendingExist: Boolean = await this.pendingRepository.existsBy({description: pending.description});
+      if (!pendingExist) {
+        const petBD: Pet = await this.petsRepository.findOne({where: {name: pending.pet}});
+        const serviceBD : Service = await this.serviceRepository.findOne({where: {service: pending.service}});
+        const {pet, service, ...pendingCreate} = pending;
+        if (petBD) await this.pendingRepository.save({...pendingCreate, serviceId: serviceBD.id, userId: petBD.userId, petId: petBD.id});
+      }
+    }
+    console.log('Pendientes Cargada Con Exito');
+  }
+
   async loadServices() {
     for (const service of preloadServices) {
       const serviceExist: Service = await this.serviceRepository.findOneBy({ service: service.service });
@@ -309,6 +330,27 @@ export class SeederService implements OnModuleInit {
       }
     }
     console.log('Servicios Cargados Con Exito');
+  }
+
+  async loadAppointment() {
+    for (const appointment of preloadAppointment) {
+      const appointmentFind: Appointment = await this.appointmentRepository.findOneBy({ messageUser: appointment.messageUser });
+      if (!appointmentFind) {
+        const serviceFind: Service = await this.serviceRepository.findOneBy({ service: appointment.service });
+        const petFind: Pet = await this.petsRepository.findOne({where:{ name: appointment.pet }});
+        const stateAppointmentFind: StatesAppointment = await this.statesAppointmentsRepository.findOneBy({state:"Pendiente"})
+        if (serviceFind && petFind) {
+          const { pet, service, ...createAppointment } = appointment;
+          await this.appointmentRepository.save({ 
+                  ...createAppointment, 
+                  price: serviceFind.price, 
+                  pet: petFind, 
+                  service: serviceFind, 
+                  state: stateAppointmentFind});
+        }
+      }
+    }
+    console.log('Turnos Cargados Con Exito');
   }
 
   async loadAvailabilityService() {
@@ -340,6 +382,8 @@ export class SeederService implements OnModuleInit {
     await this.loadAvailabilityService();
     await this.loadProducts();
     await this.loadVet();
+    await this.loadPending();
+    await this.loadAppointment();
   }
 
   async onModuleInit() {

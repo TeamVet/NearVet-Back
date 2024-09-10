@@ -5,7 +5,7 @@ import { Appointment } from './entities/appointment.entity';
 import { StatesAppointment } from './entities/statesAppointment.entity';
 import { PetsRepository } from '../pets/pets.repository';
 import { ServiceRepository } from '../services/service.repository';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 
 @Injectable()
 export class AppointmentRepository {
@@ -23,7 +23,7 @@ export class AppointmentRepository {
     return this.appointmentRepository.find({ take: limit, skip: (page - 1) * limit, relations: { pet: true, state: true } });
   }
 
-  async getAppointmentById(idAppointment: string) {
+  async getAppointmentById(idAppointment: string): Promise<Appointment> {
     const appointment = await this.appointmentRepository.findOne({
       where: { id: idAppointment },
       relations: { pet: true, state: true, service: true },
@@ -32,6 +32,15 @@ export class AppointmentRepository {
     if (!appointment) throw new NotFoundException('Turno no encontrado');
     return appointment;
   }
+
+  async getAppointmentsByVeterinarianAndDate (veterinarianId:string, dateFind: Date): Promise<Appointment[]> {
+
+       return await this.appointmentRepository.find({
+        select: {id:true, messageUser:true, time:true, date:true ,service: {service:true, durationMin:true}, pet: {name:true, user: {name:true, lastName:true,}}},
+         where: {service: {veterinarianId}, date: Equal(dateFind), state: {state:"Pendiente"}},
+         relations: {service: true , pet: {user:true}}
+       })
+     }
 
   async getAppointmentsByUserId(userId: string) {
     //const pets = user.pets;

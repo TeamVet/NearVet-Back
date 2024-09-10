@@ -15,7 +15,11 @@ export class EmailService {
               @InjectRepository(Vet) private vetRepository: Repository<Vet>,
               @InjectRepository(Appointment) private appointmentRepository: Repository<Appointment>,
   ) {}
-
+  //notificaciones por accion
+      // cuando se registra un usuario. 
+      // cuando saca un nuevo turno. al cliente y al veterinario.
+      // cuando registra una mascota
+      // cuando se envia un cupon de descuento.
   async WelcomeEmail(userDB: User, password:string, byGoogle:boolean): Promise<string> {
     const vet: Vet[] = await this.vetRepository.find()
     const sendEmailWelcome: SendEmailDto = {
@@ -26,6 +30,11 @@ export class EmailService {
     return this.emailProvider.sendEmail(sendEmailWelcome);
   }
 
+
+  //notificaciones programadas
+      // Aviso de fecha cercana al pendiente... Sugerirle que saque el turno y ponerle un link redireccionando a sacar el turno
+      // Aviso de fecha cercana al turno. que no falte y avisos de cuidados previos. 
+      // Aviso a veterinario de la lista de turnos con mascotas y servicios del dia siguiente
   @Cron('0 0 8 * * *')  // Este cron ejecuta la tarea todos los días a las 08:00 AM
   async notificationPending() {
         // Consulto todas los pending activos.
@@ -55,7 +64,7 @@ export class EmailService {
                   const sendEmailWelcome: SendEmailDto = {
                     to: appointment.pet.user.email,
                     subject: `¡Hola ${appointment.pet.user.name}! - Tenes un Turno en ${vet[0].name}`,
-                    //html: notificationAppointmentEmail(appointment, vet[0]),
+                    html: notificationAppointmentEmail(appointment, vet[0]),
                     };
                   this.emailProvider.sendEmail(sendEmailWelcome);
             }

@@ -1,7 +1,10 @@
-import { Controller, Post, Body, Param, Put, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body, Param, Put, Get, Query, HttpCode, HttpStatus, ParseUUIDPipe } from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { CreateAppointmentDto, EditAppointmentDto } from './dto/appointment.dto';
-import { ApiBadRequestResponse, ApiBody, ApiInternalServerErrorResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBody, ApiInternalServerErrorResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { AppResponseCalendarDayDto } from './dto/AppResponseCalendar.dto';
+import { Appointment } from './entities/appointment.entity';
+import { VeterinarianAndDateDto } from './dto/veterinarianAndDate.dto';
 
 @ApiTags('Appointments')
 @Controller('appointments')
@@ -19,7 +22,7 @@ export class AppointmentController {
     return this.appointmentService.getAppointmentsService(Number(page), Number(limit));
   }
 
-  @Get('/:idAppoinment')
+  @Get(':id')
   @ApiOperation({
     summary: 'Muestra un turno por ID',
     description: 'Esta ruta muestra un turno de mascota',
@@ -30,8 +33,17 @@ export class AppointmentController {
   @ApiBadRequestResponse({
     description: 'No se encontro el turno',
   })
-  getAppoinmentById(@Param('idAppointment') idAppointment: string) {
-    return this.appointmentService.getAppointmentByIdService(idAppointment);
+  getAppoinmentById(@Param('id') id: string): Promise<Appointment> {
+    return this.appointmentService.getAppointmentByIdService(id);
+  }
+
+  @Post("AppointmentsByVeterinarianAndDate")
+  // @ApiQuery({ name: 'veterinarianId', required: false, example: 1 })
+  // @ApiQuery({ name: 'date', required: false, example: new Date("2024-09-10") })
+  // @ApiParam({ name: 'veterinarianId', required: false, example: 1 })
+  // @ApiParam({name: 'date', required: false, example: new Date("2024-09-10")})
+  async getAppointmentsByVeterinarianAndDate (@Body() vetDate:VeterinarianAndDateDto): Promise<AppResponseCalendarDayDto[]> {
+         return await this.appointmentService.getAppointmentsByVeterinarianAndDate(vetDate.veterinarianId, vetDate.date)
   }
 
   @Get('/user/:idUser')
