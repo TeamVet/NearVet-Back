@@ -82,7 +82,7 @@
   },
   {
       "service": "Corte de Raza",
-      "category": "Peluquería",
+      "category": "Peluqueria",
       "description": "Corte de pelo específico para la raza de tu mascota, manteniéndola estilizada y acorde a los estándares de su raza.",
       "sendMessage": "No se requiere preparación especial, solo asegúrate de que tu mascota esté limpia antes del corte.",
       "price": 10000,
@@ -91,7 +91,7 @@
   },
   {
       "service": "Baño",
-      "category": "Peluquería",
+      "category": "Peluqueria",
       "description": "Baño completo para la mascota, eliminando suciedad y dejando el pelaje limpio y esponjoso.",
       "sendMessage": "No se requiere preparación especial, pero es importante que la mascota esté seca antes de cualquier otro tratamiento.",
       "price": 9000,
@@ -100,7 +100,7 @@
   },
   {
       "service": "Corte de Uña",
-      "category": "Peluquería",
+      "category": "Peluqueria",
       "description": "Corte de uñas para prevenir el crecimiento excesivo que puede causar molestias a la mascota.",
       "sendMessage": "No se requiere preparación especial, pero es útil tener una mascota calmada durante el corte.",
       "price": 15000,
@@ -109,7 +109,7 @@
   },
   {
       "service": "Limpieza de Ojos",
-      "category": "Peluquería",
+      "category": "Peluqueria",
       "description": "Limpieza de ojos para eliminar secreciones y mantener una buena higiene ocular en la mascota.",
       "sendMessage": "No se requiere preparación especial, pero asegúrate de que la mascota esté tranquila durante la limpieza.",
       "price": 12000,
@@ -118,7 +118,7 @@
   },
   {
       "service": "Limpieza de Orejas",
-      "category": "Peluquería",
+      "category": "Peluqueria",
       "description": "Limpieza de oídos para eliminar cerumen y prevenir infecciones en la mascota.",
       "sendMessage": "Asegúrate de que la mascota esté tranquila durante la limpieza para evitar molestias.",
       "price": 20000,
@@ -127,7 +127,7 @@
   },
   {
       "service": "Baño con Corte",
-      "category": "Peluquería",
+      "category": "Peluqueria",
       "description": "Combo de baño y corte de pelo para mantener a la mascota limpia y con un aspecto bien cuidado.",
       "sendMessage": "No se requiere preparación especial, pero asegúrate de que la mascota esté limpia antes del corte.",
       "price": 10000,
@@ -136,7 +136,7 @@
   },
   {
       "service": "Corte de Pelo y Uñas",
-      "category": "Peluquería",
+      "category": "Peluqueria",
       "description": "Servicio combinado de corte de pelo y uñas para mantener a la mascota en óptimas condiciones.",
       "sendMessage": "Asegúrate de que la mascota esté calmada y limpia antes del servicio.",
       "price": 25000,

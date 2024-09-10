@@ -6,6 +6,7 @@ import { TypeService } from 'src/modules/typeService/entities/typeService.entity
 import { Pending } from 'src/modules/pending/entities/pending.entity';
 import { SaleService } from 'src/modules/sale-services/entities/sale-service.entity';
 import { AvailabilityService } from 'src/modules/availabilityService/entities/availability-service.entity';
+import { Appointment } from 'src/modules/appointment/entities/appointment.entity';
   
   @Entity({name: 'services'})
   export class Service {
@@ -57,7 +58,7 @@ import { AvailabilityService } from 'src/modules/availabilityService/entities/av
     @OneToMany(() => SaleService, (saleService) => saleService.service)
     saleServices: SaleService[];
 
-    // @OneToMany(() => AvailabilityService, (availabilityService) => availabilityService.service)
-    // availabilityService: AvailabilityService[];
+    @OneToMany(() => Appointment, (appointment) => appointment.service)
+    appointments: Appointment[];
   }
   

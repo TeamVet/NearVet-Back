@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/modules/users/entities/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'coupons' })
 export class Coupon {
@@ -29,6 +30,11 @@ export class Coupon {
   })
   isActive: boolean;
 
-  // relacion muchos-a-uno con sales
+  // relacion muchos-a-uno con User
+@ManyToOne(() => User, (user) => user.coupons)
+@JoinColumn({name:"userId"})
+user: User;
+@Column("uuid")
+userId:string
 
 }

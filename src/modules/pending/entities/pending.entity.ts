@@ -42,7 +42,7 @@ export class Pending {
   @JoinColumn({name: "petId"})
   pet: Pet;
   @Column({ type:"uuid", nullable:true})
-  petId:string;
+  petId: string;
 
   @ManyToOne(() => User, (user) => user.pendings) 
   @JoinColumn({name: "userId"})
