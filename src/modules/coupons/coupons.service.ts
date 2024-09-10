@@ -3,10 +3,13 @@ import { CreateCouponDto } from './dto/create-coupon.dto';
 import { UpdateCouponDto } from './dto/update-coupon.dto';
 import { Coupon } from './entities/coupon.entity';
 import { CouponsRepository } from './coupons.repository';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class CouponsService {
-  constructor(private readonly couponRepository: CouponsRepository) {}
+  constructor(private readonly couponRepository: CouponsRepository,
+    private readonly emailService: EmailService,
+  ) {}
 
   async getAllCouponsService() {
     const coupons = await this.couponRepository.getAllCouponsRepository();
@@ -30,8 +33,9 @@ export class CouponsService {
     };
   }
 
-  async createCouponService(createCouponDto: CreateCouponDto) {
-    const createdCoupon = await this.couponRepository.createCouponRepository(createCouponDto);
+  async createCouponService(createCoupon: Partial<Coupon>) {
+    const createdCoupon = await this.couponRepository.createCouponRepository(createCoupon);
+    await this.emailService.sendCouponToUser(createdCoupon.id);
     return {
         message: `Cupón creado exitosamente`,
         createdCoupon

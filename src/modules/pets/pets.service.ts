@@ -6,12 +6,14 @@ import { Race } from '../races/entitites/race.entity';
 import { Pet } from './entities/pet.entity';
 import { Specie } from '../species/entities/specie.entity';
 import { CreatePetDto } from './dto/create-pet.dto';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class PetsService {
   constructor(
     private readonly petsRepository: PetsRepository,
     private readonly cloudinaryService: CloudinaryService,
+    private readonly emailService: EmailService,
   ) {}
 
   async getPetsService(): Promise<Pet[]> {
@@ -36,16 +38,18 @@ export class PetsService {
     return await this.petsRepository.getPetSpeciesRepository();
   }
 
-  getPetSpeciesandRacesService(): Promise<Specie[]> {
-    return this.petsRepository.getPetSpeciesandRacesRepository();
+  async getPetSpeciesandRacesService(): Promise<Specie[]> {
+    return await this.petsRepository.getPetSpeciesandRacesRepository();
   }
 
-  getPetsSexService(): Promise<Sex[]> {
-    return this.petsRepository.getPetsSexService();
+  async getPetsSexService(): Promise<Sex[]> {
+    return await this.petsRepository.getPetsSexService();
   }
 
   async createPetService(createPetDto: CreatePetDto) {
-    return this.petsRepository.createPetRepository(createPetDto);
+    const pet = await this.petsRepository.createPetRepository(createPetDto);
+    await this.emailService.registerPetNotification(pet.id);
+    return pet;
   }
 
   async updatePetService(id: string, updatePetDto: Partial<Pet>) {

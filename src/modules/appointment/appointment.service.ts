@@ -5,17 +5,18 @@ import { PetsRepository } from '../pets/pets.repository';
 import { UsersService } from '../users/users.service';
 import { Appointment } from './entities/appointment.entity';
 import { AppResponseCalendarDayDto } from './dto/AppResponseCalendar.dto';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class AppointmentService {
   constructor(
     private readonly appointmentRepository: AppointmentRepository,
     private readonly petsRepository: PetsRepository,
-    private readonly userService: UsersService,
+    private readonly emailService: EmailService,
   ) {}
 
   async getAppointmentsService(page: number, limit: number): Promise<Appointment[]> {
-    return this.appointmentRepository.getAppointments(page, limit);
+    return await this.appointmentRepository.getAppointments(page, limit);
   }
 
   async getAppointmentByIdService(idAppointment: string): Promise<Appointment> {
@@ -52,26 +53,28 @@ export class AppointmentService {
    }
 
   async getAppointmentsByUserIdService(idUser: string) {
-    return this.appointmentRepository.getAppointmentsByUserId(idUser);
+    return await this.appointmentRepository.getAppointmentsByUserId(idUser);
   }
 
   async createAppointmentService(createAppointmentDto: CreateAppointmentDto) {
     await this.petsRepository.getPetByIdRepository(String(createAppointmentDto.pet_id));
-    return this.appointmentRepository.createAppointment(createAppointmentDto);
+    const newAppointment = await this.appointmentRepository.createAppointment(createAppointmentDto);
+    await this.emailService.appointmentNotification(newAppointment.id)
+    return newAppointment;
   }
 
   async editAppointmentService(editAppointment: EditAppointmentDto, idAppointment: string) {
     const appointment = await this.getAppointmentByIdService(idAppointment);
-    return this.appointmentRepository.editAppointment(editAppointment, appointment);
+    return await this.appointmentRepository.editAppointment(editAppointment, appointment);
   }
 
   async finishAppointmentService(idAppointment: string) {
     await this.getAppointmentByIdService(idAppointment);
-    return this.appointmentRepository.finishAppointment(idAppointment);
+    return await this.appointmentRepository.finishAppointment(idAppointment);
   }
 
   async cancelAppointmentService(idAppointment: string) {
     await this.appointmentRepository.getAppointmentById(idAppointment);
-    return this.appointmentRepository.cancelAppointment(idAppointment);
+    return await this.appointmentRepository.cancelAppointment(idAppointment);
   }
 }
