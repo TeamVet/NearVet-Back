@@ -41,6 +41,14 @@ export class AppointmentRepository {
          relations: {service: true , pet: {user:true}}
        })
      }
+  
+  async getAppointmentsByAdminAndDate(dateFind: Date) {
+    return await this.appointmentRepository.find({
+      select: {id:true, messageUser:true, time:true, date:true ,service: {service:true, durationMin:true}, pet: {name:true, user: {name:true, lastName:true,}}},
+       where: {date: Equal(dateFind), state: {state:"Pendiente"}},
+       relations: {service: true , pet: {user:true}}
+     })
+  }
 
   async getAppointmentsByUserId(userId: string) {
     //const pets = user.pets;

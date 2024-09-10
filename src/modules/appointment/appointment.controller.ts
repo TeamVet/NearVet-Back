@@ -4,7 +4,7 @@ import { CreateAppointmentDto, EditAppointmentDto } from './dto/appointment.dto'
 import { ApiBadRequestResponse, ApiBody, ApiInternalServerErrorResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AppResponseCalendarDayDto } from './dto/AppResponseCalendar.dto';
 import { Appointment } from './entities/appointment.entity';
-import { VeterinarianAndDateDto } from './dto/veterinarianAndDate.dto';
+import { IdAndDateDto} from './dto/idAndDate.dto';
 
 @ApiTags('Appointments')
 @Controller('appointments')
@@ -38,12 +38,13 @@ export class AppointmentController {
   }
 
   @Post("AppointmentsByVeterinarianAndDate")
-  // @ApiQuery({ name: 'veterinarianId', required: false, example: 1 })
-  // @ApiQuery({ name: 'date', required: false, example: new Date("2024-09-10") })
-  // @ApiParam({ name: 'veterinarianId', required: false, example: 1 })
-  // @ApiParam({name: 'date', required: false, example: new Date("2024-09-10")})
-  async getAppointmentsByVeterinarianAndDate (@Body() vetDate:VeterinarianAndDateDto): Promise<AppResponseCalendarDayDto[]> {
-         return await this.appointmentService.getAppointmentsByVeterinarianAndDate(vetDate.veterinarianId, vetDate.date)
+  async getAppointmentsByVeterinarianAndDate (@Body() vetDate:IdAndDateDto): Promise<AppResponseCalendarDayDto[]> {
+         return await this.appointmentService.getAppointmentsByIdAndDate(vetDate.id, vetDate.date, false)
+  }
+
+  @Post("AppointmentsByAdminAndDate")
+  async getAppointmentsByAdminAndDate (@Body() adminDate:IdAndDateDto): Promise<AppResponseCalendarDayDto[]> {
+         return await this.appointmentService.getAppointmentsByIdAndDate(adminDate.id, adminDate.date, true)
   }
 
   @Get('/user/:idUser')

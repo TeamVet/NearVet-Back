@@ -22,8 +22,8 @@ export class AppointmentService {
     return await this.appointmentRepository.getAppointmentById(idAppointment);
   }
 
-   async getAppointmentsByVeterinarianAndDate (veterinarianId:string, date: Date): Promise<AppResponseCalendarDayDto[]> {
-    const appointments: Appointment[] = await this.appointmentRepository.getAppointmentsByVeterinarianAndDate(veterinarianId, date);
+   async getAppointmentsByIdAndDate (id:string, date: Date, admin: Boolean): Promise<AppResponseCalendarDayDto[]> {
+     const appointments: Appointment[] = admin ? await this.appointmentRepository.getAppointmentsByAdminAndDate(date) : await this.appointmentRepository.getAppointmentsByVeterinarianAndDate(id, date);
      const responseAppointments: AppResponseCalendarDayDto[] = []
      if (appointments.length>0) {
        appointments.forEach ((appointment) => {
@@ -36,6 +36,7 @@ export class AppointmentService {
                endMin -= 60
              }
              const dateApp = new Date(appointment.date)
+             dateApp.setDate(dateApp.getDate()+1)
              const responseAppointment: AppResponseCalendarDayDto = {
                id: appointment.id,
                Subject: `${appointment.service.service} - ${appointment.pet.user.name} ${appointment.pet.user.lastName}`, //"Rayos X - Javier", servicio - nombre del cliente
@@ -47,7 +48,6 @@ export class AppointmentService {
              responseAppointments.push(responseAppointment);
        })  
      } 
-     console.log("responseAppointments", responseAppointments)
      return responseAppointments;
    }
 
