@@ -29,6 +29,10 @@ export class UsersService {
     return await this.usersRepository.getRolesUsersRepository();
   }
 
+  async getUsersByRoleRepository(role: Role) {
+    return await this.usersRepository.getUsersByRoleRepository(role);
+  }
+
   async getRolesUsersByRoleService(role: Role) {
     return await this.usersRepository.getRolesUsersByRoleRepository(role);
   }

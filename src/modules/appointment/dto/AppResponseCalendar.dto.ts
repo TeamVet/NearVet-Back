@@ -5,4 +5,6 @@ export class AppResponseCalendarDayDto {
     StartTime: Date; // new Date(2024, 8, 9, 9, 0), ///anio, -mes, dia, hora, minutos Horario de comienzo
     EndTime: Date; //new Date(2024, 8, 9, 10, 0), Horario fin
     isAllDay: Boolean = false; //false, siempre en false
+    petId: string;
+    stateAppointment: string;
 }
