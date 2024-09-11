@@ -5,6 +5,15 @@ import * as path from 'path';
 import preloadVeterinarian from '../../seeds/veterinarian.json';
 import preloadServices from '../../seeds/services.json';
 import preloadCatSer from '../../seeds/categoryService.json';
+import preloadAvailabilityService from '../../seeds/availabilityService.json';
+import preloadRepCondition from '../../seeds/repCondition.json';
+import preloadSpecies from '../../seeds/species.json';
+import preloadRaces from '../../seeds/races.json';
+import preloadPets from '../../seeds/pets.json';
+import preloadProducts from '../../seeds/products.json';
+import preloadVet from '../../seeds/vet.json';
+import preloadPending from '../../seeds/pending.json';
+import preloadAppointment from '../../seeds/appointments.json';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { UserRole } from '../users/entities/userRole.entity';
@@ -18,6 +27,11 @@ import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
 import { Service } from '../services/entities/service.entity';
 import { CategoryService } from '../categoryServices/entities/categoryService.entity';
 import { AvailabilityService } from '../availabilityService/entities/availability-service.entity';
+import { RepCondition } from '../pets/entities/repCondition.entity';
+import { Product } from '../products/entities/product.entity';
+import { Vet } from '../vets/entities/vet.entity';
+import { Pending } from '../pending/entities/pending.entity';
+import { Appointment } from '../appointment/entities/appointment.entity';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -39,10 +53,20 @@ export class SeederService implements OnModuleInit {
     private readonly veterinarianRepository: Repository<Veterinarian>,
     @InjectRepository(Service)
     private readonly serviceRepository: Repository<Service>,
+    @InjectRepository(RepCondition)
+    private readonly repConditionRepository: Repository<RepCondition>,
     @InjectRepository(CategoryService)
     private readonly categoryServiceRepository: Repository<CategoryService>,
-    /* @InjectRepository(AvailabilityService)
-    private readonly availabilityServiceRepository: Repository<AvailabilityService>, */
+    @InjectRepository(AvailabilityService)
+    private readonly availabilityServiceRepository: Repository<AvailabilityService>, 
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>, 
+    @InjectRepository(Vet)
+    private readonly vetRepository: Repository<Vet>, 
+    @InjectRepository(Pending)
+    private readonly pendingRepository: Repository<Pending>, 
+    @InjectRepository(Appointment)
+    private readonly appointmentRepository: Repository<Appointment>, 
   ) {}
 
   petsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'pets.json');
@@ -134,7 +158,7 @@ export class SeederService implements OnModuleInit {
   }
 
   async loadPetsData() {
-    for (const item of this.petsdata) {
+    for (const item of preloadPets) {
       const pet = await this.petsRepository.findOne({
         where: { name: item.name }, // CAMBIAR POR ALGO UNICO DE LA MASCOTA
       });
@@ -145,32 +169,26 @@ export class SeederService implements OnModuleInit {
           throw new Error(`Dueño de la mascota con email: ${item.emailOwner} no encontrado`);
         }
 
-        const { birthdate, color, name, sex, race, specie } = item;
+        const { sex, race, specie, repCondition, weightCurrent, ...petCreate } = item;
         const sexDB = await this.sexRepository.findOneBy({ sex });
-
-        let specieDB: Specie = await this.specieRepository.findOneBy({ specie });
-        if (!specieDB) {
-          specieDB = await this.specieRepository.save({ specie });
-        }
-
-        let raceDB: Race = await this.raceRepository.findOneBy({ race });
-        if (!raceDB) {
-          raceDB = await this.raceRepository.save({ race, specie: specieDB });
-        }
+        const specieDB: Specie = await this.specieRepository.findOneBy({ specie });
+        const raceDB: Race = await this.raceRepository.findOneBy({ race });
+        const repConditionDB: RepCondition = await this.repConditionRepository.findOneBy({ repCondition });
 
         const date = new Date().toISOString();
         await this.petsRepository.save({
-          name,
-          birthdate,
+          ...petCreate,
+          weightCurrent: +weightCurrent,
           startDate: date,
-          color,
-          user,
-          specie: specieDB,
-          race: raceDB,
-          sex: sexDB,
+          userId: user.id,
+          specieId: specieDB.id,
+          raceId: raceDB.id,
+          sexId: sexDB.id,
+          repConditionId: repConditionDB.id,
         });
       }
     }
+    console.log("Seeder mascotas agregados");
     return { message: 'Seeder mascotas agregados' };
   }
 
@@ -184,7 +202,46 @@ export class SeederService implements OnModuleInit {
         await this.sexRepository.save(sex);
       }
     }
+    console.log("Seeder sexos agregados")
     return { message: 'Seeder sexos agregados' };
+  }
+
+  async loadRepConditionData() {
+    for (const item of preloadRepCondition) {
+      let repCondition = await this.repConditionRepository.findOne({
+        where: { repCondition: item.repCondition },
+      });
+      if (!repCondition) {
+          await this.repConditionRepository.save({repCondition: item.repCondition});
+      }
+    }
+    console.log("Seeder condicion reproductiva agregados")
+    return { message: 'Seeder condicion reproductiva agregados' };
+  }
+
+  async loadSpecieData() {
+    for (const item of preloadSpecies) {
+      let specie = await this.specieRepository.findOne({
+        where: { specie: item.specie },
+      });
+      if (!specie) {
+          await this.specieRepository.save({specie: item.specie});
+      }
+    }
+    console.log("Seeder Especies agregados")
+    return { message: 'Seeder Especies agregados' };
+  }
+
+  async loadRaceData() {
+    for (const item of preloadRaces) {
+      const race = await this.raceRepository.findOne({where: { race: item.race } });
+      if (!race) {
+        const specie = await this.specieRepository.findOne({where: { specie: item.specie } });
+        if (specie) { await this.raceRepository.save({race: item.race, specieId: specie.id}) }
+      }
+    }
+    console.log("Seeder Razas agregados")
+    return { message: 'Seeder Razas agregados' };
   }
 
   async loadStatesAppointments() {
@@ -205,11 +262,9 @@ export class SeederService implements OnModuleInit {
 
       if (!vetExist) {
         const user: User = await this.userRepository.findOneBy({ dni: vet.dni });
-        console.log('user ', user);
         if (user) {
           const { dni, ...veterinarian } = vet;
           const vetUser = await this.veterinarianRepository.save({ ...veterinarian, user });
-          console.log('vetUser ', vetUser);
         }
       }
     }
@@ -227,15 +282,47 @@ export class SeederService implements OnModuleInit {
     console.log('Servicios Cargados Con Exito');
   }
 
+  async loadProducts(): Promise<void> {
+    for (const product of preloadProducts) {
+      const productExist: Boolean = await this.productRepository.existsBy({name: product.name});
+      if (!productExist) {
+        await this.productRepository.save(product);
+      }
+    }
+    console.log('Productos Cargados Con Exito');
+  }
+
+  async loadVet(): Promise<void> {
+    for (const vet of preloadVet) {
+      const productExist: Boolean = await this.vetRepository.existsBy({cuit: vet.cuit});
+      if (!productExist) {
+        const userBD: User = await this.userRepository.findOneBy({email: vet.user});
+        const {user, ...vetCreate} = vet;
+        if (userBD) await this.vetRepository.save({...vetCreate, userId: userBD.id});
+      }
+    }
+    console.log('Veterinaria Cargada Con Exito');
+  }
+
+  async loadPending(): Promise<void> {
+    for (const pending of preloadPending) {
+      const pendingExist: Boolean = await this.pendingRepository.existsBy({description: pending.description});
+      if (!pendingExist) {
+        const petBD: Pet = await this.petsRepository.findOne({where: {name: pending.pet}});
+        const serviceBD : Service = await this.serviceRepository.findOne({where: {service: pending.service}});
+        const {pet, service, ...pendingCreate} = pending;
+        if (petBD) await this.pendingRepository.save({...pendingCreate, serviceId: serviceBD.id, userId: petBD.userId, petId: petBD.id});
+      }
+    }
+    console.log('Pendientes Cargada Con Exito');
+  }
+
   async loadServices() {
     for (const service of preloadServices) {
       const serviceExist: Service = await this.serviceRepository.findOneBy({ service: service.service });
-      //console.log('serviceExist ', serviceExist);
       if (!serviceExist) {
         const veterinarian: Veterinarian = await this.veterinarianRepository.findOneBy({ licence: service.licenceVet });
         const categoryService: CategoryService = await this.categoryServiceRepository.findOneBy({ categoryService: service.category });
-        //console.log('veterinarian ', veterinarian);
-        //console.log('categoryService ', categoryService);
         if (veterinarian && categoryService) {
           const { licenceVet, category, ...createService } = service;
           await this.serviceRepository.save({ ...createService, veterinarian, categoryService });
@@ -245,16 +332,58 @@ export class SeederService implements OnModuleInit {
     console.log('Servicios Cargados Con Exito');
   }
 
+  async loadAppointment() {
+    for (const appointment of preloadAppointment) {
+      const appointmentFind: Appointment = await this.appointmentRepository.findOneBy({ messageUser: appointment.messageUser });
+      if (!appointmentFind) {
+        const serviceFind: Service = await this.serviceRepository.findOneBy({ service: appointment.service });
+        const petFind: Pet = await this.petsRepository.findOne({where:{ name: appointment.pet }});
+        const stateAppointmentFind: StatesAppointment = await this.statesAppointmentsRepository.findOneBy({state:"Pendiente"})
+        if (serviceFind && petFind) {
+          const { pet, service, ...createAppointment } = appointment;
+          await this.appointmentRepository.save({ 
+                  ...createAppointment, 
+                  price: serviceFind.price, 
+                  pet: petFind, 
+                  service: serviceFind, 
+                  state: stateAppointmentFind});
+        }
+      }
+    }
+    console.log('Turnos Cargados Con Exito');
+  }
+
+  async loadAvailabilityService() {
+    for (const preloadAS of preloadAvailabilityService) {
+      const veterinarianFind: Veterinarian = await this.veterinarianRepository.findOneBy({ licence: preloadAS.licence });
+      if (veterinarianFind) {
+          const availSer = await this.availabilityServiceRepository.findOneBy({day: preloadAS.day, veterinarianId:veterinarianFind.id})
+          if (!availSer) {
+            const {licence, ...avSerCreate} = preloadAS
+            await this.availabilityServiceRepository.save({ ...avSerCreate, veterinarianId: veterinarianFind.id });
+          }
+        }
+      }
+    console.log('Dias y horarios de Servicios Cargados Con Exito');
+  }
+
   async preloadInitial() {
     await this.loadRolesData();
     await this.loadSexData();
     await this.loadUsersData();
+    await this.loadRepConditionData();
+    await this.loadSpecieData()
+    await this.loadRaceData()
     await this.loadPetsData();
     await this.loadStatesAppointments();
     await this.loadVeterinarian();
     await this.loadCategoryService();
     await this.loadServices();
-    //await this.loadAvailabilityService();
+    await this.loadAvailabilityService();
+    await this.loadProducts();
+    await this.loadVet();
+    await this.loadPending();
+    await this.loadAppointment();
   }
 
   async onModuleInit() {

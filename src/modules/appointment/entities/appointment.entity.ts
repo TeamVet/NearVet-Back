@@ -17,24 +17,24 @@ export class Appointment {
   @Column({ type: 'varchar', length: 5 })
   time: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable:true })
   messageUser: string;
 
   @Column({ type: 'int' })
   price: number;
 
   /* RELACION MUCHOS-A-UNO CON mascotas */
-  @ManyToOne(() => Pet, (pet) => pet.id)
+  @ManyToOne(() => Pet, (pet) => pet.appointments)
   @JoinColumn({ name: 'pet_id' })
   pet: Pet;
 
   /* RELACION MUCHOS-A-UNO CON estado de turnos */
-  @ManyToOne(() => StatesAppointment, (stateName) => stateName.id)
+  @ManyToOne(() => StatesAppointment, (stateAppointment) => stateAppointment.appointments)
   @JoinColumn({ name: 'stateAppointment_id' })
   state: StatesAppointment;
 
   /* RELACION MUCHOS-A-UNO CON services*/
-  @ManyToOne(() => Service, (service) => service.id)
+  @ManyToOne(() => Service, (service) => service.appointments)
   @JoinColumn({ name: 'service_id' })
   service: Service;
 }

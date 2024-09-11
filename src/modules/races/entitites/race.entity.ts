@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Pet } from '../../pets/entities/pet.entity';
 import { Specie } from 'src/modules/species/entities/specie.entity';
+import { JoinAttribute } from 'typeorm/query-builder/JoinAttribute';
 
 @Entity({
   name: 'races',
@@ -21,5 +22,8 @@ export class Race {
 
   /* RELACION MUCHOS-A-UNO CON species */
   @ManyToOne(() => Specie, (specie) => specie.races)
+  @JoinColumn({name:"specieId"})
   specie: Specie;
+  @Column({type:"uuid", nullable:false})
+  specieId:string
 }

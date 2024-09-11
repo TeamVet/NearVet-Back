@@ -1,0 +1,122 @@
+[
+    {
+        "description": "Se ha programado una castración para Misha. Por favor, traiga a su mascota en ayunas.",
+        "date": "2024-09-01",
+        "endPending": "2024-09-15",
+        "notification": false,
+        "service": "Castración",
+        "pet": "Misha"
+    },
+    {
+        "description": "Rayos X programados para Rocky. Evite que el perro realice actividades bruscas antes del examen.",
+        "date": "2024-09-02",
+        "endPending": "2024-09-16",
+        "notification": false,
+        "service": "Rayos X",
+        "pet": "Rocky"
+    },
+    {
+        "description": "Se recomienda realizar una desparasitación a Nina. Tráigala en la fecha indicada.",
+        "date": "2024-09-03",
+        "endPending": "2024-09-30",
+        "notification": false,
+        "service": "Desparasitación",
+        "pet": "Nina"
+    },
+    {
+        "description": "Análisis de laboratorio para Bruno están programados. Evite alimentar a su mascota 8 horas antes.",
+        "date": "2024-09-04",
+        "endPending": "2024-09-20",
+        "notification": false,
+        "service": "Laboratorio",
+        "pet": "Bruno"
+    },
+    {
+        "description": "Ecografía para Lola agendada. Por favor, asegúrese de que esté calmada antes del examen.",
+        "date": "2024-09-05",
+        "endPending": "2024-09-22",
+        "notification": false,
+        "service": "Ecografía",
+        "pet": "Lola"
+    },
+    {
+        "description": "Consulta de cardiología programada para Coco. Tráigalo bien hidratado para el examen.",
+        "date": "2024-09-06",
+        "endPending": "2024-09-23",
+        "notification": false,
+        "service": "Cardiología",
+        "pet": "Coco"
+    },
+    {
+        "description": "Vacunación de refuerzo programada para Luna. Verifique que esté saludable antes de traerla.",
+        "date": "2024-09-07",
+        "endPending": "2024-09-25",
+        "notification": false,
+        "service": "Vacunación",
+        "pet": "Luna"
+    },
+    {
+        "description": "Castración para Max agendada. Asegúrese de que no coma nada en las 12 horas previas.",
+        "date": "2024-09-08",
+        "endPending": "2024-09-26",
+        "notification": false,
+        "service": "Castración",
+        "pet": "Max"
+    },
+    {
+        "description": "Rayos X de seguimiento programados para Simba. Tráigalo a la hora acordada.",
+        "date": "2024-09-09",
+        "endPending": "2024-09-27",
+        "notification": false,
+        "service": "Rayos X",
+        "pet": "Simba"
+    },
+    {
+        "description": "Cirugía menor programada para Bella. Asegúrese de que no coma antes de la cirugía.",
+        "date": "2024-09-10",
+        "endPending": "2024-09-28",
+        "notification": false,
+        "service": "Cirugía",
+        "pet": "Bella"
+    },
+    {
+        "description": "Ecografía de control agendada para Milo. Mantenga a su mascota tranquila antes del examen.",
+        "date": "2024-09-11",
+        "endPending": "2024-09-29",
+        "notification": false,
+        "service": "Ecografía",
+        "pet": "Milo"
+    },
+    {
+        "description": "Vacunación anual programada para Chloe. Revise que esté al día con sus vacunas anteriores.",
+        "date": "2024-09-12",
+        "endPending": "2024-10-01",
+        "notification": false,
+        "service": "Vacunación",
+        "pet": "Chloe"
+    },
+    {
+        "description": "Se ha programado una consulta de cardiología para Tommy. Tráigalo bien hidratado.",
+        "date": "2024-09-13",
+        "endPending": "2024-10-02",
+        "notification": false,
+        "service": "Cardiología",
+        "pet": "Tommy"
+    },
+    {
+        "description": "Desparasitación programada para Pepper. Tráigalo a la hora acordada.",
+        "date": "2024-09-14",
+        "endPending": "2024-10-03",
+        "notification": false,
+        "service": "Desparasitación",
+        "pet": "Pepper"
+    },
+    {
+        "description": "Consulta para eutanasia programada para Daisy. Tráigalo para la evaluación final.",
+        "date": "2024-09-15",
+        "endPending": "2024-10-05",
+        "notification": false,
+        "service": "Eutanasia",
+        "pet": "Daisy"
+    }
+]

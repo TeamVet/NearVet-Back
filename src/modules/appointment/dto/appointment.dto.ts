@@ -14,10 +14,10 @@ export class CreateAppointmentDto {
   @Matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, { message: 'Formato de hora incorrecto' }) // Valida formato de hora HH:mm
   time: string;
 
-  @ApiProperty({ description: 'Mensaje del usuario para solicitar el turno', example: 'Mi perro no come' })
-  @IsNotEmpty()
+  @ApiPropertyOptional({ description: 'Mensaje del usuario para solicitar el turno', example: 'Mi perro no come' })
+  @IsOptional()
   @IsString()
-  messageUser: string;
+  messageUser?: string;
 
   @ApiProperty({ description: 'Precio del turno', example: 100 })
   @IsNotEmpty()

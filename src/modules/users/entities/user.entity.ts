@@ -12,6 +12,8 @@ import { UserRole } from './userRole.entity';
 import { Vet } from 'src/modules/vets/entities/vet.entity';
 import { Veterinarian } from 'src/modules/veterinarian/entities/veterinarian.entity';
 import { Sale } from 'src/modules/sales/entities/sale.entity';
+import { Pending } from 'src/modules/pending/entities/pending.entity';
+import { Coupon } from 'src/modules/coupons/entities/coupon.entity';
 
 @Entity({
   name: 'users',
@@ -121,6 +123,12 @@ export class User {
   @OneToOne(() => Veterinarian, (veterinarian) => veterinarian.user)
   veterinarian: Veterinarian;
 
-  @OneToMany(() => Vet, (vet) => vet.user)
-  vet: Vet[];
+  @OneToOne(() => Vet, (vet) => vet.user)
+  vet: Vet;
+
+  @OneToMany(() => Pending, (pending) => pending.user) // Relación One-to-Many con la entidad Pending
+  pendings: Pending[]; // Nombre de la propiedad que corresponde a la relación inversa
+
+  @OneToMany(() => Coupon, (coupon) => coupon.user) // Relación One-to-Many con la entidad Pending
+  coupons: Coupon[];
 }

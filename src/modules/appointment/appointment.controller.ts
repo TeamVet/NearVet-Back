@@ -1,7 +1,10 @@
-import { Controller, Post, Body, Param, Put, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body, Param, Put, Get, Query, HttpCode, HttpStatus, ParseUUIDPipe } from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { CreateAppointmentDto, EditAppointmentDto } from './dto/appointment.dto';
-import { ApiBadRequestResponse, ApiBody, ApiInternalServerErrorResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBody, ApiInternalServerErrorResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { AppResponseCalendarDayDto } from './dto/AppResponseCalendar.dto';
+import { Appointment } from './entities/appointment.entity';
+import { IdAndDateDto} from './dto/idAndDate.dto';
 
 @ApiTags('Appointments')
 @Controller('appointments')
@@ -19,7 +22,7 @@ export class AppointmentController {
     return this.appointmentService.getAppointmentsService(Number(page), Number(limit));
   }
 
-  @Get('/:idAppoinment')
+  @Get(':id')
   @ApiOperation({
     summary: 'Muestra un turno por ID',
     description: 'Esta ruta muestra un turno de mascota',
@@ -30,8 +33,18 @@ export class AppointmentController {
   @ApiBadRequestResponse({
     description: 'No se encontro el turno',
   })
-  getAppoinmentById(@Param('idAppointment') idAppointment: string) {
-    return this.appointmentService.getAppointmentByIdService(idAppointment);
+  getAppoinmentById(@Param('id') id: string): Promise<Appointment> {
+    return this.appointmentService.getAppointmentByIdService(id);
+  }
+
+  @Post("AppointmentsByVeterinarianAndDate")
+  async getAppointmentsByVeterinarianAndDate (@Body() vetDate:IdAndDateDto): Promise<AppResponseCalendarDayDto[]> {
+         return await this.appointmentService.getAppointmentsByIdAndDate(vetDate.id, vetDate.date, false)
+  }
+
+  @Post("AppointmentsByAdminAndDate")
+  async getAppointmentsByAdminAndDate (@Body() adminDate:IdAndDateDto): Promise<AppResponseCalendarDayDto[]> {
+         return await this.appointmentService.getAppointmentsByIdAndDate(adminDate.id, adminDate.date, true)
   }
 
   @Get('/user/:idUser')

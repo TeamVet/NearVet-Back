@@ -40,8 +40,8 @@ export class PetsController {
   @ApiNotFoundResponse({ description:"Por el momento no hay mascotas registradas"})
   @HttpCode(200)
   @ApiBearerAuth()
-  @Roles(Role.AdminVet, Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.AdminVet, Role.User)
+  // @UseGuards(AuthGuard, RolesGuard)
   getPets(): Promise<Pet[]> {
     return this.petsService.getPetsService();
   }

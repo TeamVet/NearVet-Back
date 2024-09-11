@@ -1,32 +1,72 @@
 [
   {
     "day": 1,
-    "startHour1": "2024-09-01T08:00:00.000Z",
-    "endHour1": "2024-09-01T12:00:00.000Z",
-    "startHour2": "2024-09-01T14:00:00.000Z",
-    "endHour2": "2024-09-01T18:00:00.000Z",
-    "service": {
-      "name": "Castración"
-    }
+    "startHour1": "08:00",
+    "endHour1": "12:00",
+    "startHour2": "15:00",
+    "endHour2": "20:00",
+    "licence": 19876
   },
   {
     "day": 2,
-    "startHour1": "2024-09-02T09:00:00.000Z",
-    "endHour1": "2024-09-02T13:00:00.000Z",
-    "startHour2": "2024-09-02T15:00:00.000Z",
-    "endHour2": "2024-09-02T19:00:00.000Z",
-    "service": {
-      "name": "Laboratorio"
-    }
+    "startHour1": "08:00",
+    "endHour1": "12:00",
+    "startHour2": "15:00",
+    "endHour2": "20:00",
+    "licence": 19876
   },
   {
     "day": 3,
-    "startHour1": "2024-09-03T10:00:00.000Z",
-    "endHour1": "2024-09-03T12:30:00.000Z",
-    "startHour2": "2024-09-03T14:30:00.000Z",
-    "endHour2": "2024-09-03T17:30:00.000Z",
-    "service": {
-      "name": "Vacunacion"
-    }
+    "startHour1": "08:00",
+    "endHour1": "12:00",
+    "startHour2": "15:00",
+    "endHour2": "20:00",
+    "licence": 19876
+  },
+  {
+    "day": 4,
+    "startHour1": "08:00",
+    "endHour1": "12:00",
+    "startHour2": "15:00",
+    "endHour2": "20:00",
+    "licence": 10788
+  },
+  {
+    "day": 5,
+    "startHour1": "08:00",
+    "endHour1": "12:00",
+    "startHour2": "15:00",
+    "endHour2": "20:00",
+    "licence": 10788
+  },
+  {
+    "day": 1,
+    "startHour1": "08:00",
+    "endHour1": "12:00",
+    "licence": 9876
+  },
+  {
+    "day": 2,
+    "startHour1": "08:00",
+    "endHour1": "12:00",
+    "licence": 9876
+  },
+  {
+    "day": 3,
+    "startHour1": "08:00",
+    "endHour1": "12:00",
+    "licence": 9876
+  },
+  {
+    "day": 4,
+    "startHour1": "08:00",
+    "endHour1": "12:00",
+    "licence": 9876
+  },
+  {
+    "day": 5,
+    "startHour1": "08:00",
+    "endHour1": "12:00",
+    "licence": 9876
   }
 ]

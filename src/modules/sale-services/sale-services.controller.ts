@@ -1,34 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query, Put, ParseUUIDPipe } from '@nestjs/common';
 import { SaleServicesService } from './sale-services.service';
 import { CreateSaleServiceDto } from './dto/create-sale-service.dto';
 import { UpdateSaleServiceDto } from './dto/update-sale-service.dto';
+import { SaleService } from './entities/sale-service.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Sales Services")
 @Controller('sale-services')
 export class SaleServicesController {
   constructor(private readonly saleServicesService: SaleServicesService) {}
 
+  @Get(":saleId")
+  async getSalesServiceBySaleId (@Param("saleId", ParseUUIDPipe) saleId:string): Promise<SaleService[]> {
+    return await this.saleServicesService.getSalesServiceBySaleId(saleId)
+  }
+
   @Post()
-  create(@Body() createSaleServiceDto: CreateSaleServiceDto) {
-    return this.saleServicesService.create(createSaleServiceDto);
+  async createSalesService (@Body() saleService: CreateSaleServiceDto): Promise<SaleService> {
+    return await this.saleServicesService.createSalesService(saleService)
   }
 
-  @Get()
-  findAll() {
-    return this.saleServicesService.findAll();
+  @Put()
+  async updateSalesService (@Query("saleId", ParseUUIDPipe) saleId:string, 
+                            @Query("serviceId", ParseUUIDPipe) serviceId:string, 
+                            @Body() saleService: UpdateSaleServiceDto): Promise<string[]> {
+    return await this.saleServicesService.updateSalesService(saleId, serviceId, saleService)
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.saleServicesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSaleServiceDto: UpdateSaleServiceDto) {
-    return this.saleServicesService.update(+id, updateSaleServiceDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.saleServicesService.remove(+id);
+  @Delete()
+  async deleteSalesService (@Query("saleId", ParseUUIDPipe) saleId:string, 
+                            @Query("serviceId", ParseUUIDPipe) serviceId:string): Promise<string[]> {
+    return await this.saleServicesService.deleteSalesService(saleId, serviceId)
   }
 }

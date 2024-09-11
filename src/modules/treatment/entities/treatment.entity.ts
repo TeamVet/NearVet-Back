@@ -38,7 +38,9 @@ export class Treatment {
   serviceId:string
 
   // RELACION UNO-A-MUCHOS con clinicalExaminationId
-  @ManyToOne(() => ClinicalExamination, (clinicalExamination) => clinicalExamination.treatments)
+  @ManyToOne(() => ClinicalExamination, 
+             (clinicalExamination) => clinicalExamination.treatments, 
+             {onDelete: 'CASCADE' })
   @JoinColumn({name:"clinicalExaminationId"}) 
   clinicalExamination: ClinicalExamination;
   @Column("uuid")
