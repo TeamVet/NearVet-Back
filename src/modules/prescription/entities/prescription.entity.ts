@@ -1,29 +1,31 @@
-import { ClinicalExamination } from "src/modules/clinical-examination/entities/clinicalExamination.entity";
-import { Product } from "src/modules/products/entities/product.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ClinicalExamination } from 'src/modules/clinical-examination/entities/clinicalExamination.entity';
+import { Product } from 'src/modules/products/entities/product.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({
-    name: 'prescriptions',
+@Entity('prescriptions')
+export class Prescription {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({
+    type: 'varchar',
+    length: 255,
   })
-  export class Prescription {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
-  
-    @Column({ type: 'varchar', length: 255, nullable: false })
-    description: string;
-  
-    /* RELACION MUCHOS-A-UNO CON usuarios */
-    @ManyToOne(() => Product, (product) => product.prescriptions)
-    @JoinColumn({name:"productId"})
-    product: Product;
-    @Column({nullable:true})
-    productId: string;
-  
-    /* RELACION MUCHOS-A-UNO CON usuarios */
-    @ManyToOne(() => ClinicalExamination, (clinicalExamination) => clinicalExamination.prescriptions)
-    @JoinColumn({name:"clinicalExaminationId"})
-    clinicalExamination: ClinicalExamination;
-    @Column({type: "uuid", nullable:true})
-    clinicalExaminationId: string;
-  }
-  
+  description: string;
+
+  // Relación MUCHOS-A-UNO con Product
+  @ManyToOne(() => Product, (product) => product.prescriptions)
+  @JoinColumn({ name: 'productId' })
+  product: Product;
+
+  @Column({ type: 'uuid', nullable: true })
+  productId: string;
+
+  // Relación MUCHOS-A-UNO con ClinicalExamination
+  @ManyToOne(() => ClinicalExamination, (clinicalExamination) => clinicalExamination.prescriptions)
+  @JoinColumn({ name: 'clinicalExaminationId' })
+  clinicalExamination: ClinicalExamination;
+
+  @Column({ type: 'uuid', nullable: true })
+  clinicalExaminationId: string;
+}

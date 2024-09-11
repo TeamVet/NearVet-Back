@@ -46,4 +46,7 @@ export class Product {
   // categoryProduct: CategoryProduct;
   // @Column({type: 'uuid',nullable: true})
   // categoryProductId: string;
+
+  // Relación UNO-A-MUCHOS con Prescription
+
 }
