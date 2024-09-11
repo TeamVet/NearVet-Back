@@ -27,6 +27,7 @@ import { FileTreatmentModule } from './modules/fileTraetment/file-treatment.modu
 import { SalesModule } from './modules/sales/sales.module';
 import { MethodPayModule } from './modules/method-pay/method-pay.module';
 import { AvailabilityServiceModule } from './modules/availabilityService/availabilityService.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 
 @Module({
   imports: [
@@ -65,7 +66,8 @@ import { AvailabilityServiceModule } from './modules/availabilityService/availab
     SalesModule,
     RacesModule,
     MethodPayModule,
-    AvailabilityServiceModule
+    AvailabilityServiceModule,
+    PaymentsModule,
   ],
 
   controllers: [],
