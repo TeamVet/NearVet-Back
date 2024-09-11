@@ -29,6 +29,7 @@ export class ClinicalExaminationService {
   async createExamination (examination:Partial<ClinicalExamination>): Promise<ClinicalExamination> {
     const examinationCreated: ClinicalExamination = await this.examinationRepository.createExamination(examination)
     if (!examinationCreated) throw new InternalServerErrorException("No se pudo crear la Atencion Medica");
+    // crear una orden de venta....
     return examinationCreated
   }
 

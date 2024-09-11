@@ -1,4 +1,4 @@
-import { Controller, Get, Res } from '@nestjs/common';
+import { Controller, Get, Param, Res } from '@nestjs/common';
 import { PdfService } from './pdf.service';
 import { CreatePdfDto } from './dto/create-pdf.dto';
 import { UpdatePdfDto } from './dto/update-pdf.dto';
@@ -10,10 +10,10 @@ import { Response } from 'express';
 export class PdfController {
   constructor(private readonly pdfService: PdfService) {}
 
-   @Get()
-   async createVetPrescription (@Res() res:Response) {
+   @Get(":prescriptionId")
+   async createVetPrescription (@Param("prescriptionId") prescriptionId:string, @Res() res:Response) {
     try {
-      const pdfBuffer = await this.pdfService.createVetPrescription();
+      const pdfBuffer = await this.pdfService.createPrescription(prescriptionId);
 
       // Establecer los encabezados de respuesta
       res.set({

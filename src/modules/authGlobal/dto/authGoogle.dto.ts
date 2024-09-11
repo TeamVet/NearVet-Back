@@ -21,7 +21,7 @@ export class AuthGoogleDto {
   @ApiPropertyOptional({description: 'Debe ser un email valido', example: 'example@example.com'})
   @IsOptional()
   @IsString()
-  lastname?: string;
+  lastName?: string;
 
   @ApiPropertyOptional({description: 'Debe ser un email valido', example: 'example@example.com'})
   @IsOptional()
