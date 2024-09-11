@@ -37,6 +37,9 @@ export class Product {
   @OneToMany(() => SaleProduct, (saleProduct) => saleProduct.product)
     saleProducts: SaleProduct[];
 
+  @OneToMany(() => Prescription, (prescription) => prescription.product)
+  prescriptions: Prescription[];
+
   // /* RELACION MUCHOS-A-UNO CON CategoryService */
   // @ManyToOne(() => CategoryProduct, (categoryProduct) => categoryProduct.products)
   // @JoinColumn({ name: 'categoryProductId' })
@@ -45,6 +48,5 @@ export class Product {
   // categoryProductId: string;
 
   // Relación UNO-A-MUCHOS con Prescription
-  @OneToMany(() => Prescription, (prescription) => prescription.product)
-  prescriptions: Prescription[];
+
 }
