@@ -29,7 +29,7 @@ export class SalesController {
                           @Query("userId") userId:string,
                           @Query("start") start:Date, 
                           @Query("end") end:Date): Promise<Sale[]> {
-    return await this.salesService.getSalesByUserId (page, limit, userId, start, end);
+    return await this.salesService.getSalesByUserId (+page, +limit, userId, start, end);
   }
 
   @Get("SalesByClinical")

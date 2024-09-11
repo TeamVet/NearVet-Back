@@ -22,11 +22,11 @@ export class CreateCouponDto {
 
   @ApiProperty({
     description: 'Fecha de expiración del cupón',
-    example: '2024-12-31',
+    example: new Date('2024-12-31'),
   })
   @IsNotEmpty()
   @IsDateString()
-  expirationDate: string;
+  expirationDate: Date;
 
   @ApiProperty({
     description: 'Estado del cupón (activo/inactivo)',

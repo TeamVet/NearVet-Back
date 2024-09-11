@@ -1,4 +1,7 @@
 import { Appointment } from "src/modules/appointment/entities/appointment.entity"
+import { Coupon } from "src/modules/coupons/entities/coupon.entity"
+import { Pending } from "src/modules/pending/entities/pending.entity"
+import { Pet } from "src/modules/pets/entities/pet.entity"
 import { Vet } from "src/modules/vets/entities/vet.entity"
 
 export const header = (logo:string) => {
@@ -84,6 +87,7 @@ export const footer = (email:string) => {
     </html>`
 }
 
+// NOTIFICACIONES POR ACCION
 
 export const welcomeNearvet = ({nombre, email, passwordDefault, logo, byGoogle}) => {
   let emailResponse = `<div
@@ -252,7 +256,93 @@ export const welcomeCHATGPT = ({nombre, email, passwordDefault, logo, byGoogle})
           </html>`
 }
 
-export const notificationAppointmentEmail = (appointment: Appointment, vet:Vet) => {
+export const notificationAppointmentUserEmail = (appointment: Appointment, vet:Vet) => {
+  return `  ${header(vet.imgLogo)}
+  <div class="content">
+      <h1>¡Hola ${appointment.pet.user.name}! Sacaste un turno en ${vet.name} para tu mascota</h1>
+      <h3>¡Te pasamos la info!</h3>
+      <img src=${appointment.pet.imgProfile} style={{ width: '100px', }} alt="Imagen de Mascota">
+      <p>Turno reservado para tu mascota: ${appointment.pet.name}</p>
+      <p>Fecha del Turno: ${appointment.date.toLocaleDateString}</p>
+      <p>¿En que Horario? -> ${appointment.time}</p>
+      <p>Servicio Solicitado: ${appointment.service.service}</p>
+      <p>Esta fue tu observacion: ${appointment.messageUser}</p>
+      <p>${appointment.service.sendMesasge}</p>
+      </br>
+      </br>
+      <p>No dudes en explorar nuestra página, conocer nuestros servicios, y aprender más sobre cómo podemos ayudarte a ti y a tu mascota.</p>
+      <!-- Botón de llamada a la acción -->
+      <a href=${vet.urlWebPage} class="button">Visita nuestra página</a>
+  </div>
+  ${footer(vet.email)}`
+}
+
+export const notificationAppointmentVetEmail = (appointment: Appointment, vet:Vet) => {
+  return `  ${header(vet.imgLogo)}
+  <div class="content">
+      <h1>¡Hola ${appointment.service.veterinarian.user.name}! </h1>
+      <h3>¡El cliente ${appointment.pet.user.name} saco un nuevo turno!</h3>
+      <h4>Te pasamos la info,</h4>
+      <img src=${appointment.pet.imgProfile} style={{ width: '100px', }} alt="Imagen de Mascota">
+      <p>Turno reservado para tu mascota: ${appointment.pet.name}</p>
+      <p>Fecha del Turno: ${appointment.date.toLocaleDateString}</p>
+      <p>¿En que Horario? -> ${appointment.time}</p>
+      <p>Servicio Solicitado: ${appointment.service.service}</p>
+      <p>Esta fue tu observacion: ${appointment.messageUser}</p>
+      <p>${appointment.service.sendMesasge}</p>
+      </br>
+      </br>
+      <p>No dudes en explorar nuestra página, conocer nuestros servicios, y aprender más sobre cómo podemos ayudarte a ti y a tu mascota.</p>
+      <!-- Botón de llamada a la acción -->
+      <a href=${vet.urlWebPage} class="button">Visita nuestra página</a>
+  </div>
+  ${footer(vet.email)}`
+}
+
+export const notificationRegisterPetEmail = (pet: Pet, vet:Vet) => {
+  return `  ${header(vet.imgLogo)}
+  <div class="content">
+      <h1>¡Hola ${pet.user.name}! - Felicitaciones por registrar tu mascota</h1>
+      
+      <h4>Te pasamos la info de ${pet.name}</h4>
+      <img src=${pet.imgProfile} style={{ width: '100px', }} alt="Imagen de Mascota">
+      <p>Especie: ${pet.specie.specie}</p>
+      <p>Raza: ${pet.race.race}</p>
+      <p>Sexo:  ${pet.sex.sex}</p>
+      </br>
+      <p>GRACIAS POR CONFIARNOS EL CUIDADO DE TU PELUDO AMIGO</p>
+      </br>
+      </br>
+      <p>No dudes en explorar nuestra página, conocer nuestros servicios, y aprender más sobre cómo podemos ayudarte a ti y a tu mascota.</p>
+      <!-- Botón de llamada a la acción -->
+      <a href=${vet.urlWebPage} class="button">Visita nuestra página</a>
+  </div>
+  ${footer(vet.email)}`
+}
+
+export const notificationCouponUserEmail = (coupon: Coupon, vet:Vet) => {
+  return `  ${header(vet.imgLogo)}
+  <div class="content">
+      <h1>¡Hola ${coupon.user.name}! - TENES UN DESCUENTO DEL ${coupon.porcentageValue}%</h1>
+      
+      <h2>Usalo para los turnos</h2>
+      <h3>Tu clave es: ${coupon.code}</h3>
+      <p>Usarlo es sencillo. Ingresa a la pagina, saca un turno, inclui tu codigo de descuento y aprovechalo al maximo</p>
+      </br>
+      <p>GRACIAS POR CONFIARNOS EL CUIDADO DE TU PELUDO AMIGO</p>
+      </br>
+      </br>
+      <p>No dudes en explorar nuestra página, conocer nuestros servicios, y aprender más sobre cómo podemos ayudarte a ti y a tu mascota.</p>
+      <!-- Botón de llamada a la acción -->
+      <a href=${vet.urlWebPage} class="button">Visita nuestra página</a>
+  </div>
+  ${footer(vet.email)}`
+}
+
+
+// RECORDATORIOS AUTOMATICOS
+
+export const recordingAppointmentEmail = (appointment: Appointment, vet:Vet) => {
 return `  ${header(vet.imgLogo)}
             <div class="content">
                 <h1>¡Hola ${appointment.pet.user.name}! </h1>
@@ -273,3 +363,26 @@ return `  ${header(vet.imgLogo)}
             </div>
             ${footer(vet.email)}`
 }
+
+export const recordingPendingEmail = (pending: Pending, vet:Vet) => {
+  return `  ${header(vet.imgLogo)}
+              <div class="content">
+                  <h1>¡Hola ${pending.pet.user.name}! </h1>
+                  <h3>¡Te escribimos desde ${vet.name} para recordarte que tenes una cita pendiente!</h3>
+                  <h4>Te pasamos la info,</h4>
+                  <img src=${pending.pet.imgProfile} style={{ width: '100px', }} alt="Imagen de Mascota">
+                  <p>La atención es necesaria para tu mascota: ${pending.pet.name}</p>
+                  <p>Fecha del Pendiente: ${pending.date.toLocaleDateString}</p>
+                  <p>Servicio Pendiente: ${pending.service.service}</p>
+                  <p>Esta fue la descripcion del Veterinario: ${pending.description}</p>
+                  <p>${pending.service.sendMesasge}</p>
+                  </br>
+                  <p>¡NO OLVIDES RESERVAR TU TURNO!</p>
+                  </br>
+                  </br>
+                  <p>No dudes en explorar nuestra página, conocer nuestros servicios, y aprender más sobre cómo podemos ayudarte a ti y a tu mascota.</p>
+                  <!-- Botón de llamada a la acción -->
+                  <a href=${vet.urlWebPage} class="button">Visita nuestra página</a>
+              </div>
+              ${footer(vet.email)}`
+  }
