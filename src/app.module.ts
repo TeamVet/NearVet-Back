@@ -28,11 +28,14 @@ import { SalesModule } from './modules/sales/sales.module';
 import { MethodPayModule } from './modules/method-pay/method-pay.module';
 import { CouponsModule } from './modules/coupons/coupons.module';
 import { AvailabilityServiceModule } from './modules/availabilityService/availabilityService.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 import { PendingModule } from './modules/pending/pending.module';
 import { SaleProductsModule } from './modules/sale-products/sale-products.module';
 import { PdfModule } from './modules/pdf/pdf.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SaleServicesModule } from './modules/sale-services/sale-services.module';
+import { Prescription } from './modules/prescription/entities/prescription.entity';
+import { PrescriptionModule } from './modules/prescription/prescription.module';
 
 @Module({
   imports: [
@@ -49,7 +52,7 @@ import { SaleServicesModule } from './modules/sale-services/sale-services.module
     // modulo para generar los token
     JwtModule.register({
       global: true,
-      signOptions: { expiresIn: "5h" },
+      signOptions: { expiresIn: '5h' },
       secret: process.env.JWT_SECRET,
     }),
     AuthGlobalModule,
@@ -76,7 +79,9 @@ import { SaleServicesModule } from './modules/sale-services/sale-services.module
     SaleServicesModule,
     PendingModule,
     SaleProductsModule,
-    PdfModule
+    PdfModule,
+    PrescriptionModule,
+    PaymentsModule,
   ],
 
   controllers: [],

@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { ApplicationProduct } from 'src/modules/applicationProduct/entities/applicationProduct.entity';
 import { CategoryProduct } from 'src/modules/categoryProducts/entities/categoryProduct.entity';
 import { SaleProduct } from 'src/modules/sale-products/entities/sale-product.entity';
+import { Prescription } from 'src/modules/prescription/entities/prescription.entity';
 
 @Entity({
   name: 'products',
@@ -42,4 +43,8 @@ export class Product {
   // categoryProduct: CategoryProduct;
   // @Column({type: 'uuid',nullable: true})
   // categoryProductId: string;
+
+  // Relación UNO-A-MUCHOS con Prescription
+  @OneToMany(() => Prescription, (prescription) => prescription.product)
+  prescriptions: Prescription[];
 }

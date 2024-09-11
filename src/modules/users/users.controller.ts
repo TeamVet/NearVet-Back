@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/updateUser.dto';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags, ApiParam, ApiQuery, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Role } from './roles/roles.enum';
@@ -29,32 +29,42 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Obtener lista de usuarios' })
+  @ApiQuery({ name: 'page', required: false, description: 'Número de página para la paginación', type: Number })
+  @ApiQuery({ name: 'limit', required: false, description: 'Número de resultados por página', type: Number })
   getUsers(@Query('page') page: number = 1, @Query('limit') limit: number = 5) {
     return this.usersService.getUsersService(Number(page), Number(limit));
   }
 
-  @Get("userRoles")
+  @Get('userRoles')
+  @ApiOperation({ summary: 'Obtener todos los roles de usuarios' })
   getRolesUsers() {
     return this.usersService.getRolesUsersService();
   }
 
-  @Get("userRoles/:role")
-  getRolesUsersByRole(@Param("role") role:Role) {
+  @Get('userRoles/:role')
+  @ApiOperation({ summary: 'Obtener usuarios por rol específico' })
+  @ApiParam({ name: 'role', description: 'Rol del usuario', enum: Role })
+  getRolesUsersByRole(@Param('role') role: Role) {
     return this.usersService.getRolesUsersByRoleService(role);
   }
 
   @Get('search-by-email')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
-  getUsersByEmail(
-    @Query('email') email: string,
-  ): Promise<Omit<User, 'password'>> {
+  @ApiOperation({ summary: 'Buscar usuarios por email' })
+  @ApiQuery({ name: 'email', required: true, description: 'Email del usuario a buscar', type: String })
+  @ApiResponse({ status: 200, description: 'Retorna el usuario sin la contraseña' })
+  getUsersByEmail(@Query('email') email: string): Promise<Omit<User, 'password'>> {
     return this.usersService.getUsersByEmailService(email);
   }
 
   @Get('search-by-dni')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Buscar usuarios por DNI' })
+  @ApiQuery({ name: 'dni', required: true, description: 'DNI del usuario a buscar', type: Number })
+  @ApiResponse({ status: 200, description: 'Retorna el usuario sin la contraseña' })
   getUsersByDni(@Query('dni') dni: number): Promise<Omit<User, 'password'>> {
     return this.usersService.getUsersByDniService(dni);
   }
@@ -62,6 +72,9 @@ export class UsersController {
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Obtener usuario por ID' })
+  @ApiParam({ name: 'id', description: 'ID del usuario', type: 'string', format: 'uuid' })
+  @ApiResponse({ status: 200, description: 'Retorna el usuario' })
   getUsersById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.getUsersByIdService(id);
   }
@@ -69,6 +82,10 @@ export class UsersController {
   @Put(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Actualizar un usuario' })
+  @ApiParam({ name: 'id', description: 'ID del usuario', type: 'string', format: 'uuid' })
+  @ApiBody({ type: UpdateUserDto, description: 'Datos a actualizar del usuario' })
+  @ApiResponse({ status: 200, description: 'Usuario actualizado exitosamente' })
   updateUser(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -76,18 +93,12 @@ export class UsersController {
     return this.usersService.updateUserService(id, updateUserDto);
   }
 
-  /*
-    // CREAR DAR DE BAJA (AGREGAR FECHA DE BAJA EN endDate)
-    @Put('unsubscribe/:id')
-    unsubscribeUser(@Param('id', ParseUUIDPipe) id: string){
-      return this.usersService.unsubscribeUserService(id)
-    }
-    */
-
-  // CREAR DELETE (borrar de bd)
   @Delete(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Eliminar un usuario' })
+  @ApiParam({ name: 'id', description: 'ID del usuario', type: 'string', format: 'uuid' })
+  @ApiResponse({ status: 200, description: 'Usuario eliminado exitosamente' })
   removeUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.removeUserService(id);
   }
@@ -97,6 +108,8 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Subir imagen de perfil de usuario' })
+  @ApiParam({ name: 'id', description: 'ID del usuario', type: 'string', format: 'uuid' })
   @ApiBody({
     description: `Debe subir el Archivo de Imagen`,
     schema: {
@@ -109,6 +122,7 @@ export class UsersController {
       },
     },
   })
+  @ApiResponse({ status: 200, description: 'Imagen de perfil subida exitosamente' })
   async uploadImgProfile(
     @Param('id', ParseUUIDPipe) id: string,
     @UploadedFile(
