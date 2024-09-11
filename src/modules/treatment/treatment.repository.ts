@@ -63,12 +63,8 @@ export class TreatmentRepository {
     async getTreatmentsByPet (petId: string): Promise<Treatment[]>  {
         return await this.treatmentRepository.find({
             where: {clinicalExamination: {petId}}, 
-            relations: ["service", "clinicalExamination"],
-            select: {service: {id:true, service:true},
-                    // typeService: {id:true, typeService:true},
-                    clinicalExamination: {id:true, anamnesis:true, veterinarian: 
-                                        {id:true, licence:true, user: 
-                                            {id:true, name:true, lastName:true}}}}});
+            relations: {service:true, clinicalExamination:true},
+            });
     }
 
     async createTreatment (treatment: Partial<Treatment>): Promise<Treatment> {
