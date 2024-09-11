@@ -1,4 +1,5 @@
 import { Pet } from "src/modules/pets/entities/pet.entity";
+import { Prescription } from "src/modules/prescription/entities/prescription.entity";
 import { Treatment } from "src/modules/treatment/entities/treatment.entity";
 import { Veterinarian } from "src/modules/veterinarian/entities/veterinarian.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -44,6 +45,9 @@ export class ClinicalExamination {
     
     @OneToMany(() => Treatment, (treatment) => treatment.clinicalExamination, { cascade: true })
     treatments: Treatment[];
+    
+    @OneToMany(() => Prescription, (prescription) => prescription.clinicalExamination, { cascade: true })
+    prescriptions: Prescription[];
 
     @ManyToOne (() => Pet, (pet) => pet.clinicalExaminations)
     @JoinColumn({name: "petId"})

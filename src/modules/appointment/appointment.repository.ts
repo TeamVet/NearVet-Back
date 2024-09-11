@@ -33,11 +33,11 @@ export class AppointmentRepository {
     return appointment;
   }
 
-  async getAppointmentsByVeterinarianAndDate (veterinarianId:string, dateFind: Date): Promise<Appointment[]> {
+  async getAppointmentsByVeterinarianAndDate (userId:string, dateFind: Date): Promise<Appointment[]> {
 
        return await this.appointmentRepository.find({
         select: {id:true, messageUser:true, time:true, date:true ,service: {service:true, durationMin:true}, pet: {name:true, user: {name:true, lastName:true,}}},
-         where: {service: {veterinarianId}, date: Equal(dateFind), state: {state:"Pendiente"}},
+         where: {service: {veterinarian: {userId}}, date: Equal(dateFind), state: {state:"Pendiente"}},
          relations: {service: true , pet: {user:true}}
        })
      }

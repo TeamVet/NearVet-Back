@@ -2,20 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { PassThrough } from 'stream';
 import PDFDocument from 'pdfkit';
 import axios from 'axios';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Prescription } from '../prescription/entities/prescription.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PdfService {
 
-  async createVetPrescription(data?: {
-    mascota: { nombre: string; raza: string; peso: string; color: string; imagen: string };
-    medicamento: string;
-    descripcion: string;
-    dosis: string;
-    frecuencia: string;
-    dias: string;
-    veterinario: { nombre: string; matricula: string };
-  }): Promise<Buffer> {
-   // const { mascota, medicamento, descripcion, dosis, frecuencia, dias, veterinario } = data;
+  constructor (@InjectRepository(Prescription) private prescriptionRepository: Repository<Prescription>) {}
+  
+  async createPrescription(prescriptionId: string): Promise<Buffer> {
+    // Obtengo los datos de la prescription, la mascota y el veterinario;
+    const prescription: Prescription = await this.prescriptionRepository.findOne({
+      where: {id: prescriptionId},
+      relations: {product:true, 
+                  clinicalExamination: {pet: {race:true}, veterinarian: {user:true}}
+      }
+    })
 
     // Crear un nuevo documento PDF
     const doc = new PDFDocument({ size: [108 * 2.83465, 165 * 2.83465], margin: 20 });
@@ -40,7 +43,7 @@ export class PdfService {
     // Descargar la imagen de la URL y agregarla al PDF
     //if (mascota.imagen) {
       try {
-        const response = await axios.get("https://www.seguroparaperros.com/wp-content/uploads/2022/01/gestos-de-los-perros.jpg", { responseType: 'arraybuffer' });
+        const response = await axios.get(prescription.clinicalExamination.pet.imgProfile, { responseType: 'arraybuffer' });
         const imageBuffer = Buffer.from(response.data, 'binary');
         doc.image(imageBuffer, imageX, topY, { width: 120 });
       } catch (error) {
@@ -56,10 +59,10 @@ export class PdfService {
       .fontSize(12)
       .font('Helvetica')
       .fillColor('black')
-      .text(`Nombre: Firulai`, textX, topY)
-      .text(`Raza: Salchicha`, textX, topY +20)
-      .text(`Peso: 11 Kg`, textX, topY +40)
-      .text(`Color: Marron y blanco`, textX, topY +60)
+      .text(`Nombre: ${prescription.clinicalExamination.pet.name}`, textX, topY)
+      .text(`Raza: ${prescription.clinicalExamination.pet.race.race}`, textX, topY +20)
+      .text(`Peso: ${prescription.clinicalExamination.pet.weightCurrent} Kg`, textX, topY +40)
+      .text(`Color: ${prescription.clinicalExamination.pet.color}`, textX, topY +60)
      // .moveDown(1);
   
     // Restablecer coordenadas para el texto normal
@@ -77,7 +80,7 @@ export class PdfService {
       .fontSize(12)
       .font('Helvetica')
       .fillColor('black')
-      .text("Supremasol 500 - Amoxilidol en comprimidos")
+      .text(prescription.product.name)
       .moveDown(1.5);
 
     // Descripción
@@ -92,7 +95,7 @@ export class PdfService {
       .fontSize(12)
       .font('Helvetica')
       .fillColor('black')
-      .text("Suministrar 1 comprimido cada 8 Hs. Tratamiento a realizar por el Periodo de una semana")
+      .text(prescription.description)
       .moveDown(5);
 
     // // Dosis, frecuencia y duración
@@ -110,8 +113,8 @@ export class PdfService {
       .fontSize(16)
       .font('Helvetica-Bold')
       .fillColor('#0073e6')
-      .text("Juan Carlos Curamasc", { align: 'right' })
-      .text(`Matrícula: 109345`, { align: 'right' });
+      .text(prescription.clinicalExamination.veterinarian.user.name+" "+ prescription.clinicalExamination.veterinarian.user.name, { align: 'right' })
+      .text(`Matrícula: ${prescription.clinicalExamination.veterinarian.licence}`, { align: 'right' });
 
     // Finalizar el documento
     doc.end();
@@ -124,4 +127,6 @@ export class PdfService {
       stream.on('error', (err) => reject(err));
     });
   }
+
+
 }
