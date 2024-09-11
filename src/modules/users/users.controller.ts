@@ -21,7 +21,6 @@ import { User } from './entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Role } from './roles/roles.enum';
 import { AuthGuard } from '../authGlobal/guards/Auth.guard';
-import { RolesGuard } from './roles/roles.guard';
 
 @ApiTags('Users')
 @Controller('users')
@@ -43,10 +42,17 @@ export class UsersController {
   }
 
   @Get('userRoles/:role')
-  @ApiOperation({ summary: 'Obtener usuarios por rol específico' })
+  @ApiOperation({ summary: 'Obtener Rol de usuario por el nombre del rol' })
   @ApiParam({ name: 'role', description: 'Rol del usuario', enum: Role })
   getRolesUsersByRole(@Param('role') role: Role) {
     return this.usersService.getRolesUsersByRoleService(role);
+  }
+
+  @Get('roles/:role')
+  @ApiOperation({ summary: 'Obtener usuarios por rol específico' })
+  @ApiParam({ name: 'role', description: 'Rol del usuario', enum: Role })
+  async getUsersByRoleRepository(role: Role) {
+    return await this.usersService.getUsersByRoleRepository(role);
   }
 
   @Get('search-by-email')

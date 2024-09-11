@@ -6,6 +6,7 @@ import { UsersService } from '../users/users.service';
 import { Appointment } from './entities/appointment.entity';
 import { AppResponseCalendarDayDto } from './dto/AppResponseCalendar.dto';
 import { EmailService } from '../email/email.service';
+import { StatesAppointment } from './entities/statesAppointment.entity';
 
 @Injectable()
 export class AppointmentService {
@@ -23,8 +24,9 @@ export class AppointmentService {
     return await this.appointmentRepository.getAppointmentById(idAppointment);
   }
 
-   async getAppointmentsByIdAndDate (id:string, date: Date, admin: Boolean): Promise<AppResponseCalendarDayDto[]> {
-     const appointments: Appointment[] = admin ? await this.appointmentRepository.getAppointmentsByAdminAndDate(date) : await this.appointmentRepository.getAppointmentsByVeterinarianAndDate(id, date);
+   async getAppointmentsByIdAndDate (id:string, admin: Boolean, startDate: Date, endDate:Date): Promise<AppResponseCalendarDayDto[]> {
+     const appointments: Appointment[] =
+      admin ? await this.appointmentRepository.getAppointmentsByAdminAndDate(startDate, endDate) : await this.appointmentRepository.getAppointmentsByVeterinarianAndDate(id, startDate, endDate);
      const responseAppointments: AppResponseCalendarDayDto[] = []
      if (appointments.length>0) {
        appointments.forEach ((appointment) => {
@@ -45,6 +47,8 @@ export class AppointmentService {
                StartTime: new Date(dateApp.getFullYear(), dateApp.getMonth(), dateApp.getDate(), +appointment.time.split(":")[0], +appointment.time.split(":")[1]), // new Date(2024, 8, 9, 9, 0), ///anio, -mes, dia, hora, minutos Horario de comienzo
                EndTime: new Date(dateApp.getFullYear(), dateApp.getMonth(), dateApp.getDate(), endHour, endMin), //new Date(2024, 8, 9, 10, 0), Horario fin
                isAllDay: false, //false, siempre en false
+               petId: appointment.pet.id,
+               stateAppointment: appointment.state.state,
              }
              responseAppointments.push(responseAppointment);
        })  

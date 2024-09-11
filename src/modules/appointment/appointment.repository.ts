@@ -5,7 +5,7 @@ import { Appointment } from './entities/appointment.entity';
 import { StatesAppointment } from './entities/statesAppointment.entity';
 import { PetsRepository } from '../pets/pets.repository';
 import { ServiceRepository } from '../services/service.repository';
-import { Equal, Repository } from 'typeorm';
+import { Between, Equal, Repository } from 'typeorm';
 
 @Injectable()
 export class AppointmentRepository {
@@ -33,20 +33,20 @@ export class AppointmentRepository {
     return appointment;
   }
 
-  async getAppointmentsByVeterinarianAndDate (userId:string, dateFind: Date): Promise<Appointment[]> {
+  async getAppointmentsByVeterinarianAndDate (userId:string, startDate: Date, endDate: Date): Promise<Appointment[]> {
 
        return await this.appointmentRepository.find({
         select: {id:true, messageUser:true, time:true, date:true ,service: {service:true, durationMin:true}, pet: {name:true, user: {name:true, lastName:true,}}},
-         where: {service: {veterinarian: {userId}}, date: Equal(dateFind), state: {state:"Pendiente"}},
-         relations: {service: true , pet: {user:true}}
+         where: {service: {veterinarian: {userId}}, date: Between(startDate, endDate), state: {state:"Pendiente"}},
+         relations: {service: true , pet: {user:true}, state:true}
        })
      }
   
-  async getAppointmentsByAdminAndDate(dateFind: Date) {
+  async getAppointmentsByAdminAndDate(startDate: Date, endDate: Date) {
     return await this.appointmentRepository.find({
       select: {id:true, messageUser:true, time:true, date:true ,service: {service:true, durationMin:true}, pet: {name:true, user: {name:true, lastName:true,}}},
-       where: {date: Equal(dateFind), state: {state:"Pendiente"}},
-       relations: {service: true , pet: {user:true}}
+       where: {date: Between(startDate, endDate), state: {state:"Pendiente"}},
+       relations: {service: true , pet: {user:true}, state:true}
      })
   }
 
