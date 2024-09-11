@@ -38,9 +38,7 @@ async getTreatmentsByService (serviceId: string): Promise<Treatment[]>  {
 // }
 
 async getTreatmentsByPet (petId: string): Promise<Treatment[]>  {
-  const treatments: Treatment[] = await this.treatmentRepository.getTreatmentsByPet(petId);
-  if (treatments.length === 0) throw new NotFoundException("No se encontraron tratamientos para la mascota especificada")
-  return treatments;
+  return await this.treatmentRepository.getTreatmentsByPet(petId);
 }
 
 async createTreatment (treatment: Partial<Treatment>): Promise<Treatment> {

@@ -26,7 +26,7 @@ export class AppointmentRepository {
   async getAppointmentById(idAppointment: string): Promise<Appointment> {
     const appointment = await this.appointmentRepository.findOne({
       where: { id: idAppointment },
-      relations: { pet: true, state: true, service: true },
+      relations: { pet: {race:true, specie:true, sex:true, repCondition:true}, state: true, service: true },
     });
 
     if (!appointment) throw new NotFoundException('Turno no encontrado');
