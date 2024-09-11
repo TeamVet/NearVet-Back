@@ -63,7 +63,7 @@ export class TreatmentRepository {
     async getTreatmentsByPet (petId: string): Promise<Treatment[]>  {
         return await this.treatmentRepository.find({
             where: {clinicalExamination: {petId}}, 
-            relations: {service:true, clinicalExamination:true},
+            relations: {service:true, clinicalExamination:true, applicationProducts: {product:true}},
             });
     }
 
