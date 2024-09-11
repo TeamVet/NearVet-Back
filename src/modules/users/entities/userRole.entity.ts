@@ -2,7 +2,7 @@ import { User } from './user.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../roles/roles.enum';
 
-@Entity({ name: 'roles' })
+@Entity({ name: 'userRoles' })
 export class UserRole {
   @PrimaryGeneratedColumn('uuid')
   id: string;

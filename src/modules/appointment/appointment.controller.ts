@@ -39,12 +39,12 @@ export class AppointmentController {
 
   @Post("AppointmentsByVeterinarianAndDate")
   async getAppointmentsByVeterinarianAndDate (@Body() vetDate:IdAndDateDto): Promise<AppResponseCalendarDayDto[]> {
-         return await this.appointmentService.getAppointmentsByIdAndDate(vetDate.id, vetDate.date, false)
+         return await this.appointmentService.getAppointmentsByIdAndDate(vetDate.id, false, vetDate.startDate, vetDate.endDate)
   }
 
   @Post("AppointmentsByAdminAndDate")
   async getAppointmentsByAdminAndDate (@Body() adminDate:IdAndDateDto): Promise<AppResponseCalendarDayDto[]> {
-         return await this.appointmentService.getAppointmentsByIdAndDate(adminDate.id, adminDate.date, true)
+         return await this.appointmentService.getAppointmentsByIdAndDate(adminDate.id, true, adminDate.startDate, adminDate.endDate)
   }
 
   @Get('/user/:idUser')
