@@ -5,27 +5,27 @@ export class CreateAvailabilityServiceDto {
 
     @IsNumber()
     @IsNotEmpty()
-    @ApiProperty()
+    @ApiProperty({example: "1"})
     day: number;
     
     @IsString()
     @IsNotEmpty()
-    @ApiProperty()
+    @ApiProperty({example: "09:00"})
     startHour1: string;
     
     @IsString()
     @IsNotEmpty()
-    @ApiProperty()
+    @ApiProperty({example: "12:30"})
     endHour1: string;
     
     @IsString()
     @IsOptional()
-    @ApiProperty()
+    @ApiProperty({example: "16:00"})
     startHour2?: string;
     
     @IsString()
     @IsOptional()
-    @ApiProperty()  
+    @ApiProperty({example: "20:00"})  
     endHour2?: string;
     
     @IsString()
