@@ -35,12 +35,16 @@ export class PrescriptionController {
   @ApiResponse({ status: 200, description: 'Listado de recetas obtenidas satisfactoriamente', type: [Prescription] })
   @ApiResponse({ status: 404, description: 'Mascota no encontrada' })
   async getAllPrescriptionsByPet(
-    @Param('petId') petId: string,
-    @Query('page') page: number,
-    @Query('limit') limit: number,
-    @Query('includeProducts') includeProducts: boolean
+    @Param('petId') petId: string
   ) {
-    return await this.prescriptionService.getAllPrescriptionsByPet(petId, page, limit, includeProducts);
+    return await this.prescriptionService.getAllPrescriptionsByPet(petId);
+  }
+
+  @Get('clinical-examination/:clinicalExaminationId')
+  async getAllPrescriptionsByClinicalExamination(
+    @Param('clinicalExaminationId') clinicalExaminationId: string
+  ) {
+    return await this.prescriptionService.getAllPrescriptionsByClinicalExamination(clinicalExaminationId);
   }
 
   @Get(':id')
