@@ -29,7 +29,7 @@ export class PendingRepository {
   async getPendingByPetRepository(petId: string) {
     return await this.pendingRepository.find({
       where: { pet: { id: petId } },
-      relations: ['pet'], 
+      relations: {pet:true }, 
     });
   }
 

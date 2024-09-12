@@ -54,7 +54,7 @@ export class ClinicalExamination {
     description: 'Tiempo de llenado capilar (TLLC) del paciente',
     type: Number,
     nullable: true,
-  })
+  }) 
   tllc: number;
 
   @Column({ nullable: true })
