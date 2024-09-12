@@ -1,6 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ApplicationProduct } from 'src/modules/applicationProduct/entities/applicationProduct.entity';
-import { CategoryProduct } from 'src/modules/categoryProducts/entities/categoryProduct.entity';
 import { SaleProduct } from 'src/modules/sale-products/entities/sale-product.entity';
 import { Prescription } from 'src/modules/prescription/entities/prescription.entity';
 
