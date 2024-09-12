@@ -95,7 +95,7 @@ export class ClinicalExamination {
     type: String,
     maxLength: 150,
   })
-  diagnostico: string;
+  diagnosis: string;
 
   @OneToMany(() => Treatment, (treatment) => treatment.clinicalExamination, { cascade: true })
   @ApiProperty({
