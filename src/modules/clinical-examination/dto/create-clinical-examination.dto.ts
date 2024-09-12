@@ -88,10 +88,10 @@ export class CreateClinicalExaminationDto {
     type: String,
     maxLength: 150,
   })
-  @IsNotEmpty()
+  @IsNotEmpty() 
   @IsString()
   @MaxLength(150)
-  diagnostico: string;
+  diagnosis: string;
 
   @ApiProperty({
     description: 'ID de la mascota asociada al examen clínico',

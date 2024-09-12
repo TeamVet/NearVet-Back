@@ -43,13 +43,8 @@ export class PendingService {
 
   async getPendingByPet(petId: string) {
     const pendings = await this.pendingRepository.getPendingByPetRepository(petId);
-    if (pendings.length === 0) {
-      throw new NotFoundException(`No hay pendientes registradas para la mascota con ID ${petId}`);
-    }
-    return {
-      message: `Listado de pendientes de la mascota con ID ${petId}`,
-      pendings
-    };
+    return pendings
+
   }
 
   async getPendingByService(serviceId: string) {
