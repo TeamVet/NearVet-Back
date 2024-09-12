@@ -54,7 +54,7 @@ export class ClinicalExamination {
     description: 'Tiempo de llenado capilar (TLLC) del paciente',
     type: Number,
     nullable: true,
-  })
+  }) 
   tllc: number;
 
   @Column({ nullable: true })
@@ -95,7 +95,7 @@ export class ClinicalExamination {
     type: String,
     maxLength: 150,
   })
-  diagnostico: string;
+  diagnosis: string;
 
   @OneToMany(() => Treatment, (treatment) => treatment.clinicalExamination, { cascade: true })
   @ApiProperty({

@@ -5,18 +5,12 @@ export class UpdateApplicationProductDto {
     
     @IsNumber()
     @IsOptional()
-    @ApiPropertyOptional({
-        description:"La cantidad del producto usado para el tratamiento",
-        example:3
-    })
+    @ApiPropertyOptional({example:3})
     acount?: number;
   
     @IsNumber()
     @IsOptional()
-    @ApiPropertyOptional({
-        description:"El precio del producto usado para el tratamiento",
-        example:250
-    })
+    @ApiPropertyOptional({example:250})
     price?: number;
   
 }

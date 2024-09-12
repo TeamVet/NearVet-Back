@@ -5,7 +5,7 @@ import { Appointment } from './entities/appointment.entity';
 import { StatesAppointment } from './entities/statesAppointment.entity';
 import { PetsRepository } from '../pets/pets.repository';
 import { ServiceRepository } from '../services/service.repository';
-import { Between, Equal, Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 
 @Injectable()
 export class AppointmentRepository {
@@ -19,7 +19,6 @@ export class AppointmentRepository {
   ) {}
 
   async getAppointments(page: number, limit: number) {
-    //await this.appointmentRepository.find({ relations: { pet: true, service: true, state: true } });
     return this.appointmentRepository.find({ take: limit, skip: (page - 1) * limit, relations: { pet: true, state: true } });
   }
 
@@ -60,19 +59,11 @@ export class AppointmentRepository {
         state: true,
       },
     });
-    /* const appointments = await this.appointmentRepository
-      .createQueryBuilder('appointment')
-      .leftJoinAndSelect('appointment.pet', 'pet') // Hacemos la unión entre la cita y la mascota
-      .leftJoinAndSelect('appointment.service', 'service') // Unión con la tabla 'Service'
-      .select(['pet.name', 'appointment', 'service']) // Seleccionamos el nombre de la mascota y la entidad completa de citas
-      .where('pet.userId = :userId', { userId: user.id }) // Filtramos por el id del usuario
-      .getMany(); */
-
     return appointments;
   }
 
   async getAppointmentsActive(): Promise<Appointment[]> {
-    //const pets = user.pets;
+
     const appointments = await this.appointmentRepository.find({
       where: { state: {state:"Pendiente"} 
        }, // Usa el operador In para filtrar por múltiples IDs de mascotas

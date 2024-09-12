@@ -1,34 +1,31 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, IsNumber, IsUUID, MaxLength } from 'class-validator';
 
 export class CreateClinicalExaminationDto {
-  @ApiProperty({
-    description: 'Anamnesis del examen clínico',
-    type: String,
-  })
+  @ApiProperty({description: 'Anamnesis del examen clínico'})
   @IsNotEmpty()
   @IsString()
   anamnesis: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Frecuencia cardíaca del paciente',
     type: Number,
     nullable: true,
   })
   @IsOptional()
   @IsNumber()
-  fc: number;
+  fc?: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Frecuencia respiratoria del paciente',
     type: Number,
     nullable: true,
   })
   @IsOptional()
   @IsNumber()
-  fr: number;
+  fr?: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Estado de las mucosas del paciente',
     type: String,
     maxLength: 30,
@@ -37,34 +34,34 @@ export class CreateClinicalExaminationDto {
   @IsOptional()
   @IsString()
   @MaxLength(30)
-  mucous: string;
+  mucous?: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Tiempo de llenado capilar (TLLC) del paciente',
     type: Number,
     nullable: true,
   })
   @IsOptional()
   @IsNumber()
-  tllc: number;
+  tllc?: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Temperatura corporal del paciente',
     type: Number,
     nullable: true,
   })
   @IsOptional()
   @IsNumber()
-  temperature: number;
+  temperature?: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Nivel de hidratación del paciente',
     type: Number,
     nullable: true,
   })
   @IsOptional()
   @IsNumber()
-  hydration: number;
+  hydration?: number;
 
   @ApiProperty({
     description: 'Estado de ánimo del paciente',
@@ -91,10 +88,10 @@ export class CreateClinicalExaminationDto {
     type: String,
     maxLength: 150,
   })
-  @IsNotEmpty()
+  @IsNotEmpty() 
   @IsString()
   @MaxLength(150)
-  diagnostico: string;
+  diagnosis: string;
 
   @ApiProperty({
     description: 'ID de la mascota asociada al examen clínico',
