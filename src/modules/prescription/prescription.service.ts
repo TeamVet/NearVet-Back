@@ -30,14 +30,24 @@ export class PrescriptionService {
     };
   }
 
-  async getAllPrescriptionsByPet(petId: string, page: number, limit: number, includeProducts: boolean) {
-    const { prescriptions, total } = await this.prescriptionRepository.getAllPrescriptionsByPetRepository(petId, page, limit, includeProducts);
-    if (total === 0) {
+  async getAllPrescriptionsByPet(petId: string) {
+    const prescription = await this.prescriptionRepository.getAllPrescriptionsByPetRepository(petId);
+    if (!prescription) {
       throw new NotFoundException(`No se encontraron recetas para la mascota con ID ${petId}`);
     }
     return {
       message: `Listado de prescripciones para la mascota con ID ${petId}`,
-      total,
+      prescription,
+    };
+  }
+
+  async getAllPrescriptionsByClinicalExamination(clinicalExaminationId: string) {
+    const prescriptions = await this.prescriptionRepository.getAllPrescriptionsByClinicalExaminationRepository(clinicalExaminationId);
+    if (prescriptions.length === 0) {
+      throw new NotFoundException(`No se encontraron recetas para la examinación clínica con ID ${clinicalExaminationId}`);
+    }
+    return {
+      message: `Listado de prescripciones para la examinación clínica con ID ${clinicalExaminationId}`,
       prescriptions,
     };
   }

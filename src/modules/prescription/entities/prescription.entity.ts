@@ -1,4 +1,5 @@
 import { ClinicalExamination } from 'src/modules/clinical-examination/entities/clinicalExamination.entity';
+import { Pet } from 'src/modules/pets/entities/pet.entity';
 import { Product } from 'src/modules/products/entities/product.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -28,4 +29,11 @@ export class Prescription {
 
   @Column({ type: 'uuid', nullable: true })
   clinicalExaminationId: string;
+
+  @ManyToOne(() => Pet, (pet) => pet.prescriptions)
+  @JoinColumn({ name: 'petId' })
+  pet: Pet;
+
+  @Column({ type: 'uuid', nullable: true })
+  petId: string;
 }
