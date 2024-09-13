@@ -16,30 +16,17 @@ export class FileTreatmentController {
     return await this.fileTreatmentService.getFileByTreatmentId(treatmentId)
   }
 
-  @Post()
+  @Post(":treatmentId")
   @ApiOperation({summary: "Agrega un nuevo archivo al Tratamiento"})
   @ApiInternalServerErrorResponse({description: "No se pudo agregar el archivo al tratamiento"})
-  @ApiQuery({name: "treatmentId",  description:"Ingrese el Id del tratamiento" , required:true})
-  @ApiQuery({name: "description",  description:"Ingrese la descripcion de la imagen" , required:false})
+  @ApiParam({name: "treatmentId",  description:"Ingrese el Id del tratamiento" , required:true})
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({description: `Debe subir el Archivo de Imagen`,
             schema: { type: 'object', properties: { file: {type: 'string',format: 'binary'}}}})
           
-  async addFile (@Query("treatmentId") treatmentId: string, @UploadedFile(
-    new ParseFilePipe({
-      validators: [
-        new MaxFileSizeValidator({
-          maxSize: 2000000,
-          message: 'El Archivo debe ser menor a 2000Kb',
-        }),
-         new FileTypeValidator({
-           fileType: /(.jpg|.jpeg|.png|.webp|.pdf|.*doc|.)$/,
-         }),
-      ],
-    }),
-  )
-  file: Express.Multer.File,  @Query("description") description?: string): Promise<FileTreatment> {
+  async addFile (@Param("treatmentId", ParseUUIDPipe) treatmentId: string, @UploadedFile(new ParseFilePipe())
+  file: Express.Multer.File): Promise<FileTreatment> {
     return await this.fileTreatmentService.addFile(treatmentId, file)
   }
 

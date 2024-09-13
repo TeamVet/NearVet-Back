@@ -30,10 +30,4 @@ export class Prescription {
   @Column({ type: 'uuid', nullable: true })
   clinicalExaminationId: string;
 
-  @ManyToOne(() => Pet, (pet) => pet.prescriptions)
-  @JoinColumn({ name: 'petId' })
-  pet: Pet;
-
-  @Column({ type: 'uuid', nullable: true })
-  petId: string;
 }

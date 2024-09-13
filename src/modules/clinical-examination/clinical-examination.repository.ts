@@ -10,7 +10,7 @@ export class ClinicalExaminationRepository {
 
     async getExaminations (page:number, limit:number): Promise<ClinicalExamination[]> {
         return await this.examinationRepository.find({
-            skip: page*limit, 
+            skip: (page-1)*limit, 
             take: limit, 
             relations: {pet:true, veterinarian:true, treatments:true}})
     }

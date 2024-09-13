@@ -14,6 +14,9 @@ import preloadProducts from '../../seeds/products.json';
 import preloadVet from '../../seeds/vet.json';
 import preloadPending from '../../seeds/pending.json';
 import preloadAppointment from '../../seeds/appointments.json';
+import preloadExamination from '../../seeds/examination.json';
+import preloadTreatment from '../../seeds/treatment.json';
+import preloadPrescription from '../../seeds/prescription.json';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { UserRole } from '../users/entities/userRole.entity';
@@ -32,6 +35,9 @@ import { Product } from '../products/entities/product.entity';
 import { Vet } from '../vets/entities/vet.entity';
 import { Pending } from '../pending/entities/pending.entity';
 import { Appointment } from '../appointment/entities/appointment.entity';
+import { ClinicalExamination } from '../clinical-examination/entities/clinicalExamination.entity';
+import { Treatment } from '../treatment/entities/treatment.entity';
+import { Prescription } from '../prescription/entities/prescription.entity';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -67,6 +73,12 @@ export class SeederService implements OnModuleInit {
     private readonly pendingRepository: Repository<Pending>, 
     @InjectRepository(Appointment)
     private readonly appointmentRepository: Repository<Appointment>, 
+    @InjectRepository(ClinicalExamination)
+    private readonly examinationRepository: Repository<ClinicalExamination>, 
+    @InjectRepository(Treatment)
+    private readonly treatmentRepository: Repository<Treatment>, 
+    @InjectRepository(Prescription)
+    private readonly prescriptionRepository: Repository<Prescription>, 
   ) {}
 
   petsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'pets.json');
@@ -244,6 +256,22 @@ export class SeederService implements OnModuleInit {
     return { message: 'Seeder Razas agregados' };
   }
 
+  async loadExamination() {
+    for (const examination of preloadExamination) {
+      const clinExam= await this.examinationRepository.findOne({where: { tllc: examination.tllc } });
+      if (!clinExam) {
+        const pets = await this.petsRepository.findOne({where: { name: examination.pet } });
+        const vet = await this.veterinarianRepository.findOne({where: { licence: examination.veterinarian } });
+        if (pets && vet) { 
+          const {veterinarian, pet, ...examinationCreate} = examination
+          await this.examinationRepository.save({...examinationCreate, petId: pets.id, veterinarianId: vet.id}) 
+        }
+      }
+    }
+    console.log("Examinaciones Clinicas cargadas con exitos")
+    return { message: 'Seeder Razas agregados' };
+  }
+
   async loadStatesAppointments() {
     for (const item of this.statesAppointmentsdata) {
       let stateAppointment = await this.statesAppointmentsRepository.findOne({
@@ -367,6 +395,35 @@ export class SeederService implements OnModuleInit {
     console.log('Dias y horarios de Servicios Cargados Con Exito');
   }
 
+  async loadTreatment() {
+    for (const treatment of preloadTreatment) {
+      const treatmentFind: Treatment = await this.treatmentRepository.findOneBy({ observation: treatment.observation });
+      if (!treatmentFind) {
+          const ser = await this.serviceRepository.findOneBy({service:treatment.service})
+          const examination = await this.examinationRepository.findOneBy({tllc: treatment.clinicalExamination})
+          if (ser && examination) {
+            const {clinicalExamination, service , ...treatmentCreate} = treatment
+            await this.treatmentRepository.save({ ...treatmentCreate, clinicalExaminationId: examination.id, serviceId: ser.id });
+          }
+        }
+      }
+    console.log('Tratamientos Cargados Con Exito');
+  }
+
+  async loadPrescription() {
+    for (const prescription of preloadPrescription) {
+      const prescriptionFind: Prescription = await this.prescriptionRepository.findOneBy({ description: prescription.description });
+      if (!prescriptionFind) {
+          const prod = await this.productRepository.findOneBy({name:prescription.product})
+          const examination = await this.examinationRepository.findOneBy({tllc: prescription.clinicalExamination})
+          if (prod && examination) {
+            await this.prescriptionRepository.save({ description: prescription.description, clinicalExaminationId: examination.id, productId: prod.id });
+          }
+        }
+      }
+    console.log('Recetas medicas Cargados Con Exito');
+  }
+
   async preloadInitial() {
     await this.loadRolesData();
     await this.loadSexData();
@@ -384,6 +441,9 @@ export class SeederService implements OnModuleInit {
     await this.loadVet();
     await this.loadPending();
     await this.loadAppointment();
+    await this.loadExamination();
+    await this.loadTreatment();
+    await this.loadPrescription()
   }
 
   async onModuleInit() {
