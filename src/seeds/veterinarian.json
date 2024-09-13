@@ -1,23 +1,9 @@
 [
     {
       "licence": 19876,
-      "specialty": "Licenciada En Cardiologia",
+      "specialty": "Medico Clinico Veterinario",
       "description": "10 años de experiencia. Graduado del mejor instituto de veterinarios. ",
       "dni": 22222222,
       "delayAtention": 20
-    },
-    {
-      "licence": 10788,
-      "specialty": "Clinico Veterinario",
-      "description": "10 años de experiencia. Graduado del mejor instituto de veterinarios. ",
-      "dni": 33333333,
-      "delayAtention": 30
-    },
-    {
-      "licence": 9876,
-      "specialty": "Medica Cirujana",
-      "description": "10 años de experiencia. Graduado del mejor instituto de veterinarios. ",
-      "dni": 44444444,
-      "delayAtention": 15
     }
   ]
