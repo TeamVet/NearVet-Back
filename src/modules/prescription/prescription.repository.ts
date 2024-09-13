@@ -32,7 +32,7 @@ export class PrescriptionRepository {
       .take(limit)
       .getManyAndCount();
 
-    return { prescriptions, total };
+    return prescriptions;
   }
 
   /*

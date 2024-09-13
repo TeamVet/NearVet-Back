@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { ClinicalExaminationRepository } from './clinical-examination.repository';
 import { ClinicalExamination } from './entities/clinicalExamination.entity';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Or, Repository, UpdateResult } from 'typeorm';
 import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -31,7 +31,8 @@ export class ClinicalExaminationService {
   }
 
   async createExamination (examination:Partial<ClinicalExamination>): Promise<ClinicalExamination> {
-    const veterinarian: Veterinarian = await this.veterinarianRepository.findOne({where: {userId:examination.veterinarianId}});
+    const veterinarian: Veterinarian = await this.veterinarianRepository.findOne({where: [{userId:examination.veterinarianId}, {id: examination.veterinarianId}]});
+    if (!veterinarian) throw new NotFoundException("El usuario ingresado no es un veterinario")
     const examinationCreated: ClinicalExamination = await this.examinationRepository.createExamination({...examination, veterinarianId: veterinarian.id})
     if (!examinationCreated) throw new InternalServerErrorException("No se pudo crear la Atencion Medica");
     // crear una orden de venta....
