@@ -21,8 +21,16 @@ export class PrescriptionService {
     return prescription;
   }
 
-  async getAllPrescriptionsByPet(petId: string, page: number, limit: number, includeProducts: boolean) {
-    const prescriptions = await this.prescriptionRepository.getAllPrescriptionsByPetRepository(petId, page, limit, includeProducts);
+  async getAllPrescriptionsByPet(petId: string) {
+    const prescription = await this.prescriptionRepository.getAllPrescriptionsByPetRepository(petId);
+    if (!prescription) {
+      throw new NotFoundException(`No se encontraron recetas para la mascota con ID ${petId}`);
+    }
+    return prescription;
+  }
+
+  async getAllPrescriptionsByClinicalExamination(clinicalExaminationId: string) {
+    const prescriptions = await this.prescriptionRepository.getAllPrescriptionsByClinicalExaminationRepository(clinicalExaminationId);
     return prescriptions;
   }
 
