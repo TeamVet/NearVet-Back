@@ -24,6 +24,14 @@ export class ClinicalExamination {
   })
   anamnesis: string;
 
+  @Column({ type: "varchar", length: 150, nullable: false })
+  @ApiProperty({
+    description: 'Diagnóstico del examen clínico',
+    type: String,
+    maxLength: 150,
+  })
+  diagnosis: string;
+
   @Column({ nullable: true })
   @ApiProperty({
     description: 'Frecuencia cardíaca del paciente',
@@ -88,14 +96,6 @@ export class ClinicalExamination {
     maxLength: 50,
   })
   temper: string;
-
-  @Column({ type: "varchar", length: 150, nullable: false })
-  @ApiProperty({
-    description: 'Diagnóstico del examen clínico',
-    type: String,
-    maxLength: 150,
-  })
-  diagnosis: string;
 
   @OneToMany(() => Treatment, (treatment) => treatment.clinicalExamination, { cascade: true })
   @ApiProperty({

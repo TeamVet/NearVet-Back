@@ -29,7 +29,7 @@
     "endHour1": "12:00",
     "startHour2": "15:00",
     "endHour2": "20:00",
-    "licence": 10788
+    "licence": 19876
   },
   {
     "day": 5,
@@ -37,36 +37,12 @@
     "endHour1": "12:00",
     "startHour2": "15:00",
     "endHour2": "20:00",
-    "licence": 10788
+    "licence": 19876
   },
   {
-    "day": 1,
+    "day": 6,
     "startHour1": "08:00",
     "endHour1": "12:00",
-    "licence": 9876
-  },
-  {
-    "day": 2,
-    "startHour1": "08:00",
-    "endHour1": "12:00",
-    "licence": 9876
-  },
-  {
-    "day": 3,
-    "startHour1": "08:00",
-    "endHour1": "12:00",
-    "licence": 9876
-  },
-  {
-    "day": 4,
-    "startHour1": "08:00",
-    "endHour1": "12:00",
-    "licence": 9876
-  },
-  {
-    "day": 5,
-    "startHour1": "08:00",
-    "endHour1": "12:00",
-    "licence": 9876
+    "licence": 19876
   }
 ]

@@ -32,7 +32,7 @@
       "description": "Examen de diagnóstico por imágenes que utiliza ultrasonido para visualizar órganos internos y detectar problemas de salud.",
       "sendMessage": "La mascota debe estar en ayuno de alimentos y líquidos durante 12 horas antes de la ecografía para obtener imágenes claras.",
       "price": 12000,
-      "licenceVet": 10788,
+      "licenceVet": 19876,
       "durationMin": 20
   },
   {
@@ -41,7 +41,7 @@
       "description": "Procedimiento quirúrgico para tratar diversas condiciones médicas o realizar intervenciones necesarias en la mascota.",
       "sendMessage": "La mascota debe estar en ayuno de alimentos y líquidos durante 12 horas antes de la cirugía para evitar complicaciones.",
       "price": 20000,
-      "licenceVet": 10788,
+      "licenceVet": 19876,
       "durationMin": 20
   },
   {
@@ -50,7 +50,7 @@
       "description": "Evaluación y tratamiento de problemas cardíacos en mascotas mediante exámenes especializados.",
       "sendMessage": "Asegúrate de que la mascota esté tranquila antes del examen para obtener resultados precisos.",
       "price": 10000,
-      "licenceVet": 10788,
+      "licenceVet": 19876,
       "durationMin": 20
   },
   {
@@ -59,7 +59,7 @@
       "description": "Procedimiento para poner fin a la vida de una mascota de manera digna y sin dolor en caso de enfermedades terminales o sufrimiento.",
       "sendMessage": "No se requiere preparación especial, pero es importante que el dueño esté preparado emocionalmente.",
       "price": 25000,
-      "licenceVet": 9876,
+      "licenceVet": 19876,
       "durationMin": 20
   },
   {
@@ -68,7 +68,7 @@
       "description": "Aplicación de vacunas para proteger a la mascota contra enfermedades infecciosas.",
       "sendMessage": "Asegúrate de que la mascota esté en buen estado de salud antes de la vacunación.",
       "price": 7000,
-      "licenceVet": 9876,
+      "licenceVet": 19876,
       "durationMin": 20
   },
   {
@@ -77,7 +77,7 @@
       "description": "Tratamiento para eliminar parásitos internos o externos en la mascota.",
       "sendMessage": "No se requiere preparación especial, pero asegúrate de seguir las instrucciones para el tratamiento.",
       "price": 9000,
-      "licenceVet": 9876,
+      "licenceVet": 19876,
       "durationMin": 20
   },
   {
@@ -113,7 +113,7 @@
       "description": "Limpieza de ojos para eliminar secreciones y mantener una buena higiene ocular en la mascota.",
       "sendMessage": "No se requiere preparación especial, pero asegúrate de que la mascota esté tranquila durante la limpieza.",
       "price": 12000,
-      "licenceVet": 10788,
+      "licenceVet": 19876,
       "durationMin": 20
   },
   {
@@ -122,7 +122,7 @@
       "description": "Limpieza de oídos para eliminar cerumen y prevenir infecciones en la mascota.",
       "sendMessage": "Asegúrate de que la mascota esté tranquila durante la limpieza para evitar molestias.",
       "price": 20000,
-      "licenceVet": 10788,
+      "licenceVet": 19876,
       "durationMin": 20
   },
   {
@@ -131,7 +131,7 @@
       "description": "Combo de baño y corte de pelo para mantener a la mascota limpia y con un aspecto bien cuidado.",
       "sendMessage": "No se requiere preparación especial, pero asegúrate de que la mascota esté limpia antes del corte.",
       "price": 10000,
-      "licenceVet": 10788,
+      "licenceVet": 19876,
       "durationMin": 20
   },
   {
@@ -140,7 +140,7 @@
       "description": "Servicio combinado de corte de pelo y uñas para mantener a la mascota en óptimas condiciones.",
       "sendMessage": "Asegúrate de que la mascota esté calmada y limpia antes del servicio.",
       "price": 25000,
-      "licenceVet": 9876,
+      "licenceVet": 19876,
       "durationMin": 20
   }
 ]
