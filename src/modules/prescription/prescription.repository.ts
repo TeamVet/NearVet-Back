@@ -23,7 +23,7 @@ export class PrescriptionRepository {
   async getAllPrescriptionsByPetRepository(petId: string) {
     return await this.prescriptionRepository.find({
       where: {
-        petId: petId,
+        clinicalExamination: {petId},
       },
       relations: {
         product: true,

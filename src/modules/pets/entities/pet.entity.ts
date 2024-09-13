@@ -95,7 +95,5 @@ export class Pet {
   /* RELACION UNO-A-MUCHOS CON pending */
   @OneToMany(() => Pending, (pending) => pending.pet)
   pendings: Pending[];
-
-  @OneToMany(() => Prescription, (prescription) => prescription.pet)
-  prescriptions: Prescription[];
+  
 }

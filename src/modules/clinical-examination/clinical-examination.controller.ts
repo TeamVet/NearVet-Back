@@ -18,7 +18,7 @@ export class ClinicalExaminationController {
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 5
   ): Promise<ClinicalExamination[]> {
-    return await this.clinicalExaminationService.getExaminations(page, limit);
+    return await this.clinicalExaminationService.getExaminations(+page, +limit);
   }
 
   @Get(':id')

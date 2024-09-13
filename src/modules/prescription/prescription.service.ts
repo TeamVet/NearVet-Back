@@ -10,13 +10,7 @@ export class PrescriptionService {
 
   async getAllPrescriptions() {
     const prescriptions = await this.prescriptionRepository.getAllPrescriptionsRepository();
-    if (prescriptions.length === 0) {
-      throw new NotFoundException('Hasta el momento no hay prescripciones registradas ...');
-    }
-    return {
-      message: "Listado de prescripciones registradas",
-      prescriptions
-    };
+    return prescriptions;
   }
 
   async getPrescriptionById(id: string) {
@@ -24,10 +18,7 @@ export class PrescriptionService {
     if (!prescription) {
       throw new NotFoundException(`Prescripción con el ID ${id} no encontrada`);
     }
-    return {
-      message: `Prescripción con el ID ${id} encontrada exitosamente`,
-      prescription
-    };
+    return prescription;
   }
 
   async getAllPrescriptionsByPet(petId: string) {
@@ -35,21 +26,12 @@ export class PrescriptionService {
     if (!prescription) {
       throw new NotFoundException(`No se encontraron recetas para la mascota con ID ${petId}`);
     }
-    return {
-      message: `Listado de prescripciones para la mascota con ID ${petId}`,
-      prescription,
-    };
+    return prescription;
   }
 
   async getAllPrescriptionsByClinicalExamination(clinicalExaminationId: string) {
     const prescriptions = await this.prescriptionRepository.getAllPrescriptionsByClinicalExaminationRepository(clinicalExaminationId);
-    if (prescriptions.length === 0) {
-      throw new NotFoundException(`No se encontraron recetas para la examinación clínica con ID ${clinicalExaminationId}`);
-    }
-    return {
-      message: `Listado de prescripciones para la examinación clínica con ID ${clinicalExaminationId}`,
-      prescriptions,
-    };
+    return prescriptions;
   }
 
   async createPrescription(createPrescriptionDto: CreatePrescriptionDto): Promise<Prescription> {
@@ -61,10 +43,7 @@ export class PrescriptionService {
     if (!prescription) {
       throw new NotFoundException(`Prescripción para modificar con el ID ${id} no encontrada`);
     }
-    return {
-      message: `Prescripción con el ID ${id} modificada exitosamente`,
-      prescription
-    };
+    return prescription;
   }
 
   async deletePrescription(id: string) {
@@ -73,9 +52,6 @@ export class PrescriptionService {
       throw new NotFoundException(`Prescripción para eliminar con el ID ${id} no encontrada`);
     }
     await this.prescriptionRepository.deletePrescriptionRepository(id);
-    return {
-      message: `Prescripción con el ID ${id} eliminada exitosamente`,
-      prescription
-    };
+    return prescription;
   }
 }
