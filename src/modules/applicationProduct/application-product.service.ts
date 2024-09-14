@@ -2,11 +2,17 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { ApplicationProduct } from './entities/applicationProduct.entity';
 import { ApplicationProductRepository } from './application-product.repository';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { SaleProduct } from '../sale-products/entities/sale-product.entity';
+import { SaleProductsRepository } from '../sale-products/sale-products.repository';
+import { TreatmentRepository } from '../treatment/treatment.repository';
  
 @Injectable()
 export class ApplicationProductService {
   
-  constructor (private readonly AppProductRepository: ApplicationProductRepository){}
+  constructor (private readonly AppProductRepository: ApplicationProductRepository,
+               private readonly saleProductRepository: SaleProductsRepository,
+               private readonly treatmentRepository: TreatmentRepository
+  ){}
 
   async getApplicationProductByTreatmentId(treatmentId:string): Promise<ApplicationProduct[]> {
     const appProduct: ApplicationProduct[] = await this.AppProductRepository.getApplicationProductByTreatmentId(treatmentId);
@@ -14,9 +20,11 @@ export class ApplicationProductService {
     return appProduct;
   }
 
-  async createApplicationProduct(AppProd: Partial<ApplicationProduct>): Promise<ApplicationProduct> {
-    const appProduct: ApplicationProduct = await this.AppProductRepository.createApplicationProduct(AppProd)
+  async createApplicationProduct(appProd: Partial<ApplicationProduct>): Promise<ApplicationProduct> {
+    const appProduct: ApplicationProduct = await this.AppProductRepository.createApplicationProduct(appProd)
     if (!appProduct) throw new InternalServerErrorException ("No se pudo asignar el producto al tratamiento")
+    const saleId = await this.treatmentRepository.getSaleIdByTreatmentId(appProd.treatmentId);
+    await this.saleProductRepository.createSalesProduct({saleId, productId: appProd.productId, price: appProd.price, acount: appProd.acount});
     return appProduct;
   }
     

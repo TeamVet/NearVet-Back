@@ -15,6 +15,13 @@ export class SaleServicesRepository {
         })
     }
 
+    async getSalesServiceByIds (saleId:string, serviceId:string): Promise<SaleService> {
+        return await this.saleServiceRepository.findOne({
+            where: {saleId, serviceId},
+            relations: {service:true}
+        })
+    }
+
     async createSalesService (saleService: Partial<SaleService>): Promise<SaleService> {
         return await this.saleServiceRepository.save(saleService)
     }

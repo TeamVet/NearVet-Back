@@ -2,9 +2,10 @@ import { Pet } from "src/modules/pets/entities/pet.entity";
 import { Prescription } from "src/modules/prescription/entities/prescription.entity";
 import { Treatment } from "src/modules/treatment/entities/treatment.entity";
 import { Veterinarian } from "src/modules/veterinarian/entities/veterinarian.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 import { FileTreatment } from "src/modules/fileTraetment/entities/file-treatment.entity";
+import { Sale } from "src/modules/sales/entities/sale.entity";
 
 @Entity({
   name: 'clinicalExaminations',
@@ -43,6 +44,9 @@ export class ClinicalExamination {
   @Column({ type: "varchar", length: 50, nullable: false })
   temper: string;
 
+  @Column({ type: "date", nullable: false })
+  date: Date;
+
   @OneToMany(() => Treatment, (treatment) => treatment.clinicalExamination, { cascade: true })
   treatments: Treatment[];
 
@@ -57,6 +61,12 @@ export class ClinicalExamination {
   veterinarian: Veterinarian;
   @Column("uuid")
   veterinarianId: string;
+
+  @OneToOne(() => Sale, (sale) => sale.clinicalExamination)
+  @JoinColumn({ name: "saleId" })
+  sale: Sale;
+  @Column({type: "uuid", nullable:true})
+  saleId: string;
 
   @OneToMany(() => Prescription, (prescription) => prescription.clinicalExamination)
   prescriptions: Prescription[];

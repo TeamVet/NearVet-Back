@@ -16,7 +16,7 @@ export class PrescriptionRepository {
   async getPrescriptionByIdRepository(id: string) {
     return await this.prescriptionRepository.findOne({
       where: { id },
-      relations: {product:true},
+      relations: {product:true, clinicalExamination:true},
     });
   }
 
