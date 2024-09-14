@@ -33,7 +33,7 @@ export class FileTreatmentController {
                       message: 'El Archivo debe ser menor a 300Mb',
                     }),
                     new FileTypeValidator({
-                      fileType: /(.jpg|.jpeg|.png|.webp|.pdf|.doc|.docx|.mp4|.mov)$/,
+                      fileType: /.*/,
                     }),
                   ],
                 }))
