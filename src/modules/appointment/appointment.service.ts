@@ -1,8 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAppointmentDto, EditAppointmentDto } from './dto/appointment.dto';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { AppointmentRepository } from './appointment.repository';
-import { PetsRepository } from '../pets/pets.repository';
-import { UsersService } from '../users/users.service';
 import { Appointment } from './entities/appointment.entity';
 import { AppResponseCalendarDayDto } from './dto/AppResponseCalendar.dto';
 import { EmailService } from '../email/email.service';
@@ -12,7 +9,6 @@ import { StatesAppointment } from './entities/statesAppointment.entity';
 export class AppointmentService {
   constructor(
     private readonly appointmentRepository: AppointmentRepository,
-    private readonly petsRepository: PetsRepository,
     private readonly emailService: EmailService,
   ) {}
 
@@ -21,7 +17,9 @@ export class AppointmentService {
   }
 
   async getAppointmentByIdService(idAppointment: string): Promise<Appointment> {
-    return await this.appointmentRepository.getAppointmentById(idAppointment);
+    const appointment: Appointment = await this.appointmentRepository.getAppointmentById(idAppointment)
+    if (!appointment) throw new NotFoundException('Turno no encontrado');
+    return appointment;
   }
 
    async getAppointmentsByIdAndDate (id:string, admin: Boolean, startDate: Date, endDate:Date): Promise<AppResponseCalendarDayDto[]> {
@@ -60,25 +58,28 @@ export class AppointmentService {
     return await this.appointmentRepository.getAppointmentsByUserId(idUser);
   }
 
-  async createAppointmentService(createAppointmentDto: CreateAppointmentDto) {
-    await this.petsRepository.getPetByIdRepository(String(createAppointmentDto.pet_id));
-    const newAppointment = await this.appointmentRepository.createAppointment(createAppointmentDto);
+  async createAppointmentService(createAppointment: Partial<Appointment>) {
+    const newAppointment = await this.appointmentRepository.createAppointment(createAppointment);
+    if (!newAppointment) throw new InternalServerErrorException("No se pudo crear el turno")
     await this.emailService.appointmentNotification(newAppointment.id)
     return newAppointment;
   }
 
-  async editAppointmentService(editAppointment: EditAppointmentDto, idAppointment: string) {
-    const appointment = await this.getAppointmentByIdService(idAppointment);
-    return await this.appointmentRepository.editAppointment(editAppointment, appointment);
+  async editAppointmentService(id: string, editAppointment: Partial<Appointment>) {
+    const appointment = await this.appointmentRepository.editAppointment(id, editAppointment);
+    if (appointment.affected === 0 ) throw new NotFoundException("No se encontro el Aturno a actualizar")
+    return id;
   }
 
   async finishAppointmentService(idAppointment: string) {
-    await this.getAppointmentByIdService(idAppointment);
-    return await this.appointmentRepository.finishAppointment(idAppointment);
+    const finishedApp = await this.appointmentRepository.finishAppointment(idAppointment)
+    if (finishedApp.affected===0) throw new NotFoundException("El turno a finalizar no fue encontrado");
+    return await this.appointmentRepository.getAppointmentById(idAppointment);
   }
 
   async cancelAppointmentService(idAppointment: string) {
-    await this.appointmentRepository.getAppointmentById(idAppointment);
-    return await this.appointmentRepository.cancelAppointment(idAppointment);
+    const canceledApp = await this.appointmentRepository.cancelAppointment(idAppointment)
+    if (canceledApp.affected===0) throw new NotFoundException("El turno a Cancelar no fue encontrado");
+    return await this.appointmentRepository.getAppointmentById(idAppointment);
   }
 }

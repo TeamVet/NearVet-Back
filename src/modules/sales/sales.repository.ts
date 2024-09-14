@@ -25,7 +25,7 @@ export class SalesRepository {
     }
  
     async createSale (sale:Partial<Sale>): Promise<Sale> {
-        return await this.saleRepository.create(sale);
+        return await this.saleRepository.save(sale);
     }
 
     async updateSale (id:string, sale:Partial<Sale>): Promise<UpdateResult> {

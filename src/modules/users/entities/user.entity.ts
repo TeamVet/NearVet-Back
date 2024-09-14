@@ -126,8 +126,8 @@ export class User {
   @OneToOne(() => Vet, (vet) => vet.user)
   vet: Vet;
 
-  @OneToMany(() => Pending, (pending) => pending.user) // Relación One-to-Many con la entidad Pending
-  pendings: Pending[]; // Nombre de la propiedad que corresponde a la relación inversa
+  // @OneToMany(() => Pending, (pending) => pending.user) // Relación One-to-Many con la entidad Pending
+  // pendings: Pending[]; // Nombre de la propiedad que corresponde a la relación inversa
 
   @OneToMany(() => Coupon, (coupon) => coupon.user) // Relación One-to-Many con la entidad Pending
   coupons: Coupon[];

@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString, IsNumber, IsUUID, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsNumber, IsUUID, MaxLength, IsDateString } from 'class-validator';
 
 export class CreateClinicalExaminationDto {
   @ApiProperty({description: 'Anamnesis del examen clínico'})
@@ -92,6 +92,13 @@ export class CreateClinicalExaminationDto {
   @IsString()
   @MaxLength(150)
   diagnosis: string;
+
+  @ApiProperty({
+    description: 'Fecha del examen clínico',
+  })
+  @IsNotEmpty() 
+  @IsDateString()
+  date: Date;
 
   @ApiProperty({
     description: 'ID de la mascota asociada al examen clínico',

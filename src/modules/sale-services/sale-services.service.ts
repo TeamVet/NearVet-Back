@@ -1,20 +1,30 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { SaleServicesRepository } from './sale-services.repository';
 import { SaleService } from './entities/sale-service.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { SalesRepository } from '../sales/sales.repository';
 
 @Injectable()
 export class SaleServicesService {
  
-  constructor (private readonly saleServiceRepository: SaleServicesRepository) {}
+  constructor (private readonly saleServiceRepository: SaleServicesRepository,
+    private readonly saleRepository: SalesRepository
+  ) {}
 
   async getSalesServiceBySaleId (saleId:string): Promise<SaleService[]> {
     return await this.saleServiceRepository.getSalesServiceBySaleId(saleId)
   }
 
   async createSalesService (saleService: Partial<SaleService>): Promise<SaleService> {
+    let saleServiceFind = await this.saleServiceRepository.getSalesServiceByIds(saleService.saleId, saleService.serviceId)
+    if (saleServiceFind) throw new BadRequestException("El servicio ya fue creado para esta examinacion. No puede asignar dos veces el mismo servicio")
     const saleServiceCreated: SaleService = await this.saleServiceRepository.createSalesService(saleService)
     if (!saleServiceCreated) throw new InternalServerErrorException("No se pudo agregar el servicio a la venta")
+    saleServiceFind = await this.saleServiceRepository.getSalesServiceByIds(saleService.saleId, saleService.serviceId)
+    await this.saleRepository.updateSale(
+      saleService.saleId, 
+      {subtotal: (saleServiceFind.sale.subtotal +(saleService.acount*saleService.price)), 
+       total: (saleServiceFind.sale.total +(saleService.acount*saleService.price))});
     return saleServiceCreated
   }
 

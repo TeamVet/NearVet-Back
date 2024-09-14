@@ -8,18 +8,12 @@ export class CreateTreatmentDto {
     @ApiProperty({ description:"Describe el tratamiento a realizar. Es Obligatoria. ", 
                    example: "Se aplicara una desinfeccion con antibioticos y se procedera a hacer una costura." })
     description: string;
-
+ 
     @IsString()
     @IsOptional()
     @ApiPropertyOptional({ description:"Indica algo extre que el profecional quiera dejar registrado. Es opcional", 
                            example: "Algo importante de lo que se deba dejar constancia." })
     observation?: string;
-
-    @IsDateString()
-    @IsNotEmpty()
-    @ApiProperty({ description:"Es la fecha en la que comienza la aplicacion del tratamiento. Es Obligatorio", 
-        example: "Se aplicara una desinfeccion con antibioticos y se procedera a hacer una costura." })
-    Date: Date;
 
     @IsNumber()
     @IsNotEmpty()
@@ -34,8 +28,8 @@ export class CreateTreatmentDto {
     serviceId:string;
 
     @IsUUID()
-    @IsOptional()
-    @ApiPropertyOptional({ description:"En caso de tenerlo, se puede indicar el tipo de servicio que se aplica o requiere. Es Opcional", 
+    @IsNotEmpty()
+    @ApiProperty({ description:"En caso de tenerlo, se puede indicar el tipo de servicio que se aplica o requiere. Es Opcional", 
         example: "asd3434-asd45-asdf5-dfg6-asdfsfhtrr6" })
-    typeServiceId?:string
+    clinicalExaminationId:string
 }

@@ -1,11 +1,14 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { TreatmentRepository } from './treatment.repository';
 import { Treatment } from './entities/treatment.entity';
+import { SaleServicesRepository } from '../sale-services/sale-services.repository';
 
 @Injectable()
 export class TreatmentService {
   
-  constructor (private readonly treatmentRepository: TreatmentRepository){}
+  constructor (private readonly treatmentRepository: TreatmentRepository,
+    private readonly saleServiceRepository: SaleServicesRepository
+  ){}
 
   async getTreatments (): Promise<Treatment[]>  {
     const treatments: Treatment[] = await this.treatmentRepository.getTreatments();
@@ -44,6 +47,8 @@ async getTreatmentsByPet (petId: string): Promise<Treatment[]>  {
 async createTreatment (treatment: Partial<Treatment>): Promise<Treatment> {
   const treatmentCreated: Treatment = await this.treatmentRepository.createTreatment(treatment);
   if (!treatmentCreated) throw new InternalServerErrorException("No se pudo crear el nuevo tratamiento")
+  const treatmentSale = await this.treatmentRepository.getTreatmentById(treatment.id);
+  await this.saleServiceRepository.createSalesService({saleId: treatmentSale.clinicalExamination.saleId, serviceId: treatmentSale.serviceId, price: treatmentSale.service.price, acount: 1});
   return treatmentCreated;
 }
 

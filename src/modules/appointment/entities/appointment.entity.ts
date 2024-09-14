@@ -25,16 +25,22 @@ export class Appointment {
 
   /* RELACION MUCHOS-A-UNO CON mascotas */
   @ManyToOne(() => Pet, (pet) => pet.appointments)
-  @JoinColumn({ name: 'pet_id' })
+  @JoinColumn({ name: 'petId' })
   pet: Pet;
+  @Column({type:"uuid", nullable:true})
+  petId:string
 
   /* RELACION MUCHOS-A-UNO CON estado de turnos */
   @ManyToOne(() => StatesAppointment, (stateAppointment) => stateAppointment.appointments)
-  @JoinColumn({ name: 'stateAppointment_id' })
+  @JoinColumn({ name: 'stateAppointmentId' })
   state: StatesAppointment;
+  @Column({type:"uuid", nullable:true})
+  stateAppointmentId:string
 
   /* RELACION MUCHOS-A-UNO CON services*/
   @ManyToOne(() => Service, (service) => service.appointments)
-  @JoinColumn({ name: 'service_id' })
+  @JoinColumn({ name: 'serviceId' })
   service: Service;
+  @Column({type:"uuid", nullable:true})
+  serviceId:string
 }

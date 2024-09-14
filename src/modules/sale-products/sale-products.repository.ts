@@ -14,7 +14,12 @@ export class SaleProductsRepository {
             relations: {product:true}
         })
     }
-
+    async getSalesProductByIds (saleId:string, productId:string): Promise<SaleProduct> {
+        return await this.saleProductRepository.findOne({
+            where: {saleId, productId},
+            relations: {product:true, sale:true}
+        })
+    }
     async createSalesProduct (saleProduct: Partial<SaleProduct>): Promise<SaleProduct> {
         return await this.saleProductRepository.save(saleProduct)
     }

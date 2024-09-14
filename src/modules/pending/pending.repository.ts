@@ -10,47 +10,46 @@ export class PendingRepository {
   ) {}
 
   async getAllPendingsRepository(): Promise<Pending[]> {
-    return await this.pendingRepository.find();
+    return await this.pendingRepository.find({relations: {service:true}});
   }
 
   async getPendingByIdRepository(id: string): Promise<Pending> {
-    return await this.pendingRepository.findOneBy({ id });
+    return await this.pendingRepository.findOne({where:{ id }, relations: {service:true}});
   }
 
   async getAllUsersPendingRepository(userId: string): Promise<Pending[]> {
     return await this.pendingRepository.find({
-      where: {
-        user: { id: userId },  
-      },
-      relations: ['user'], 
+      where: {pet: { userId }},
+      relations: {service:true, pet:true}, 
+      
     });
   }
 
   async getPendingByPetRepository(petId: string) {
     return await this.pendingRepository.find({
       where: { pet: { id: petId } },
-      relations: {pet:true }, 
+      relations: {service:true}, 
     });
   }
 
   async getPendingByServiceRepository(serviceId: string) {
     return await this.pendingRepository.find({
       where: { service: { id: serviceId } },
-      relations: ['service'], 
+      relations: {service:true, pet:true}, 
     });
   }
 
   async getActivePendingRepository() {
     return await this.pendingRepository.find({
       where: { endPending: null },  
-      relations: ['service', 'pet', 'user'],  
+      relations: {service:true, pet: {user:true}},  
     });
   }
 
   async getPendingByVeterinarianRepository(veterinarianId: string) {
     return await this.pendingRepository.find({
-      where: { user: { id: veterinarianId } },  
-      relations: ['user'],  
+      where: { service: {veterinarian: {userId: veterinarianId}} },  
+      relations: {service: {veterinarian:true}, pet: true},  
     });
   }
 

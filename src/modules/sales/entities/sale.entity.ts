@@ -1,8 +1,9 @@
+import { ClinicalExamination } from "src/modules/clinical-examination/entities/clinicalExamination.entity";
 import { MethodPay } from "src/modules/method-pay/entities/method-pay.entity";
 import { SaleProduct } from "src/modules/sale-products/entities/sale-product.entity";
 import { SaleService } from "src/modules/sale-services/entities/sale-service.entity";
 import { User } from "src/modules/users/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
     name:"sales"
@@ -30,7 +31,7 @@ export class Sale {
     @Column({default:false})
     finished: boolean
 
-    @Column({default:false})
+    @Column({default:true})
     sendClinical: boolean
 
     //Realcion con User Muchos a uno
@@ -44,7 +45,7 @@ export class Sale {
     @ManyToOne(() => MethodPay, (methodPay) => methodPay.sales)
     @JoinColumn({name: "methodPayId"})
     methodPay: MethodPay;
-    @Column("uuid")
+    @Column({type:"uuid", nullable: true})
     methodPayId: string
 
     @OneToMany(() => SaleService, (saleService) => saleService.sale, {cascade:true})
@@ -52,5 +53,8 @@ export class Sale {
 
     @OneToMany(() => SaleProduct, (saleProduct) => saleProduct.sale, {cascade:true})
     saleProducts: SaleProduct[];
+
+    @OneToOne(() => ClinicalExamination, (clinicalExamination) => clinicalExamination.sale,)
+    clinicalExamination: ClinicalExamination;
 
 }

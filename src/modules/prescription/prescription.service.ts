@@ -1,12 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreatePrescriptionDto } from './dto/create-prescription.dto';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { UpdatePrescriptionDto } from './dto/update-prescription.dto';
 import { PrescriptionRepository } from './prescription.repository';
 import { Prescription } from './entities/prescription.entity';
+import { SaleProductsRepository } from '../sale-products/sale-products.repository';
 
 @Injectable()
 export class PrescriptionService {
-  constructor(private readonly prescriptionRepository: PrescriptionRepository) {}
+  constructor(private readonly prescriptionRepository: PrescriptionRepository,
+    private readonly saleProductRepository: SaleProductsRepository
+  ) {}
 
   async getAllPrescriptions() {
     const prescriptions = await this.prescriptionRepository.getAllPrescriptionsRepository();
@@ -34,8 +36,12 @@ export class PrescriptionService {
     return prescriptions;
   }
 
-  async createPrescription(createPrescriptionDto: CreatePrescriptionDto): Promise<Prescription> {
-    return await this.prescriptionRepository.createPrescriptionRepository(createPrescriptionDto);
+  async createPrescription(createPrescription: Partial<Prescription>): Promise<Prescription> {
+    const prescription = await this.prescriptionRepository.createPrescriptionRepository(createPrescription)
+    if (!prescription) throw new InternalServerErrorException ("No se puedo crear la Receta Medica")
+    const prescriptionSale = await this.prescriptionRepository.getPrescriptionByIdRepository(prescription.id);
+    await this.saleProductRepository.createSalesProduct({saleId: prescriptionSale.clinicalExamination.saleId, productId: prescription.productId, price: prescriptionSale.product.price, acount: 1});
+    return prescription;
   }
 
   async updatePrescription(id: string, updatePrescriptionDto: UpdatePrescriptionDto) {
