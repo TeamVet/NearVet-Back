@@ -5,16 +5,14 @@ import { UpdateTreatmentDto } from './dto/updateTreatment.dto';
 import { Treatment } from './entities/treatment.entity';
 import { ApiBody, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 
-@ApiTags("Treatment")
+@ApiTags("Treatments")
 @Controller('treatment')
 export class TreatmentController {
   constructor(private readonly treatmentService: TreatmentService) {}
 
   @Get()
-  @ApiOperation({summary: "Devuelve todos los Tratamientos",
-                description: "Esta ruta devuleve un array de objetos con todos los tratamientos que se realizaron hasta el momento"})
+  @ApiOperation({summary: "Devuelve todos los Tratamientos"})
   @HttpCode(200)
-  @ApiNotFoundResponse({description: "No se encontraron tratamientos"})
   async getTreatments (): Promise<Treatment[]>  {
     return await this.treatmentService.getTreatments();
   }
@@ -71,11 +69,9 @@ export class TreatmentController {
   }
 
   @Post()
-  @ApiOperation({summary: "Crea un nuevo tratamiento",
-                description: "Esta ruta crea un nuevo tratamiento con los datos pasados por el body"})
+  @ApiOperation({summary: "Crea un nuevo tratamiento"})
   @HttpCode(201)
   @ApiBody({description: "Ingrese los datos requeridos", type: CreateTreatmentDto})
-  @ApiInternalServerErrorResponse({description: "No se pudo crear el nuevo tratamiento"})
   async createTreatment (@Body() treatment: CreateTreatmentDto): Promise<Treatment> {
     return await this.treatmentService.createTreatment(treatment)
   }

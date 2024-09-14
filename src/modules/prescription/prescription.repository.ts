@@ -10,13 +10,13 @@ export class PrescriptionRepository {
   ) {}
 
   async getAllPrescriptionsRepository() {
-    return await this.prescriptionRepository.find();
+    return await this.prescriptionRepository.find({relations: {product:true}});
   }
 
   async getPrescriptionByIdRepository(id: string) {
     return await this.prescriptionRepository.findOne({
       where: { id },
-      relations: ['product'],
+      relations: {product:true},
     });
   }
 

@@ -4,6 +4,7 @@ import { Treatment } from "src/modules/treatment/entities/treatment.entity";
 import { Veterinarian } from "src/modules/veterinarian/entities/veterinarian.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
+import { FileTreatment } from "src/modules/fileTraetment/entities/file-treatment.entity";
 
 @Entity({
   name: 'clinicalExaminations',
@@ -59,4 +60,7 @@ export class ClinicalExamination {
 
   @OneToMany(() => Prescription, (prescription) => prescription.clinicalExamination)
   prescriptions: Prescription[];
+
+  @OneToMany(() => FileTreatment, (fileTreatment) => fileTreatment.clinicalExamination)
+  fileTreatments: FileTreatment[];
 }

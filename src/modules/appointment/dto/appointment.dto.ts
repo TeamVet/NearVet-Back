@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsOptional, IsString, Matches } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Matches } from 'class-validator';
 
 export class CreateAppointmentDto {
   @ApiProperty({ example: '2024-01-10' })
@@ -26,21 +26,21 @@ export class CreateAppointmentDto {
 
   @ApiProperty({ example: '4418276c-ef71-4e7a-bb80-a52458996a06' })
   @IsNotEmpty()
-  pet_id: { id: string };
+  @IsUUID()
+  petId: string;
 
   @ApiProperty({ example: '83c47570-47ee-4fe7-8b7e-a8416947b58a' })
   @IsNotEmpty()
-  service_id: { id: string };
+  @IsUUID()
+  serviceId: string;
 }
 
 export class EditAppointmentDto {
   @ApiPropertyOptional({ example: '2024-01-11' })
-  @IsNotEmpty()
   @IsOptional()
   date?: Date;
 
   @ApiPropertyOptional({ example: '08:30' })
-  @IsNotEmpty()
   @IsString()
   @Matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, { message: 'Formato de hora incorrecto' }) // Valida formato de hora HH:mm
   @IsOptional()
@@ -53,7 +53,6 @@ export class EditAppointmentDto {
   messageUser?: string;
 
   @ApiPropertyOptional({ example: '07bdc58c-a922-4237-a57d-99d1fc188fc1' })
-  @IsNotEmpty()
   @IsOptional()
-  service?: { id: string };
+  serviceId?: string;
 }

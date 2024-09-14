@@ -41,7 +41,7 @@ export class AppointmentController {
     return this.appointmentService.getAppointmentsByUserIdService(idUser);
   }
 
-  @Post('create')
+  @Post()
   @ApiOperation({summary: 'Crear turno'})
   @ApiBody({
     description: 'Ingrese los datos requeridos para el turno',
@@ -58,7 +58,7 @@ export class AppointmentController {
     type: EditAppointmentDto,
   })
   editAppointment(@Param('idAppointment') idAppointment: string, @Body() editAppointmentDto: EditAppointmentDto) {
-    return this.appointmentService.editAppointmentService(editAppointmentDto, idAppointment);
+    return this.appointmentService.editAppointmentService(idAppointment, editAppointmentDto);
   }
 
   @Put('finish/:idAppointment')

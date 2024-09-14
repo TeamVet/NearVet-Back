@@ -18,17 +18,13 @@ export class Treatment {
 
   @Column({ type: 'text', nullable: true })
   observation: string;
-
+ 
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
   price: number;
  
   // RELACION UNO-A-MUCHOS con applicationProduct
   @OneToMany(() => ApplicationProduct, (applicationProduct) => applicationProduct.treatment)
   applicationProducts: ApplicationProduct[];
-
-  // RELACION UNO-A-MUCHOS con fileTraetment
-  @OneToMany(() => FileTreatment, (fileTraetment) => fileTraetment.treatment)
-  fileTreatments: FileTreatment[];
 
   // RELACION UNO-A-MUCHOS con Service
   @ManyToOne(() => Service, (service) => service.treatments)

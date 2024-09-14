@@ -44,9 +44,4 @@ export class Pending {
   @Column({ type:"uuid", nullable:true})
   petId: string;
 
-  @ManyToOne(() => User, (user) => user.pendings) 
-  @JoinColumn({name: "userId"})
-  user: User;
-  @Column({ type:"uuid", nullable:true})
-  userId:string;
 }

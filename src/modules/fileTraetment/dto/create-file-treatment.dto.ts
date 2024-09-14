@@ -14,5 +14,5 @@ export class CreateFileTreatmentDto {
     @IsUUID()
     @IsNotEmpty()
     @ApiProperty({example: "asd678asd-as56-hjk78-345ty-asd456sd"})
-    treatmentId:string
+    cinicalExaminationId:string
 }
