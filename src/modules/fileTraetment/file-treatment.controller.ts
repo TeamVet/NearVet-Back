@@ -9,25 +9,25 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class FileTreatmentController {
   constructor(private readonly fileTreatmentService: FileTreatmentService) {}
 
-  @Get(":treatmentId")
+  @Get(":clinicalExaminationId")
   @ApiOperation({summary: 'devuleve los archivos de un tratamiento'})
-  @ApiParam({name:"treatmentId", required:true, description:"Ingrese el Id del tratamiento"})
-  async getFileByTreatmentId (@Param("treatmentId") treatmentId:string): Promise<FileTreatment[]> {
-    return await this.fileTreatmentService.getFileByTreatmentId(treatmentId)
+  @ApiParam({name:"clinicalExaminationId", required:true, description:"Ingrese el Id del tratamiento"})
+  async getFileByTreatmentId (@Param("clinicalExaminationId") clinicalExaminationId:string): Promise<FileTreatment[]> {
+    return await this.fileTreatmentService.getFileByTreatmentId(clinicalExaminationId)
   }
 
-  @Post(":treatmentId")
+  @Post(":clinicalExaminationId")
   @ApiOperation({summary: "Agrega un nuevo archivo al Tratamiento"})
   @ApiInternalServerErrorResponse({description: "No se pudo agregar el archivo al tratamiento"})
-  @ApiParam({name: "treatmentId",  description:"Ingrese el Id del tratamiento" , required:true})
+  @ApiParam({name: "clinicalExaminationId",  description:"Ingrese el Id del tratamiento" , required:true})
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({description: `Debe subir el Archivo de Imagen`,
             schema: { type: 'object', properties: { file: {type: 'string',format: 'binary'}}}})
           
-  async addFile (@Param("treatmentId", ParseUUIDPipe) treatmentId: string, @UploadedFile(new ParseFilePipe())
+  async addFile (@Param("clinicalExaminationId", ParseUUIDPipe) clinicalExaminationId: string, @UploadedFile(new ParseFilePipe())
   file: Express.Multer.File): Promise<FileTreatment> {
-    return await this.fileTreatmentService.addFile(treatmentId, file)
+    return await this.fileTreatmentService.addFile(clinicalExaminationId, file)
   }
 
   @Delete(":id")

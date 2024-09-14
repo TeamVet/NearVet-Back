@@ -10,13 +10,7 @@ export class PendingService {
 
   async getAllPendings() {
     const pendings = await this.pendingRepository.getAllPendingsRepository();
-    if (pendings.length === 0) {
-      throw new NotFoundException('Hasta el momento no hay pendientes registradas...');
-    }
-    return {
-      message: "Listado de pendientes registradas",
-      pendings,
-    };
+    return pendings;
   }
 
   async getPendingById(id: string) {
@@ -24,21 +18,12 @@ export class PendingService {
     if (!pending) {
       throw new NotFoundException(`Pendiente con el ID ${id} no encontrada`);
     }
-    return {
-      message: `Pendiente con el ID ${id} encontrada exitosamente`,
-      pending,
-    };
+    return pending;
   }
 
   async getAllUsersPending(userId: string) {
     const pendings = await this.pendingRepository.getAllUsersPendingRepository(userId);
-    if (pendings.length === 0) {
-      throw new NotFoundException(`No hay pendientes registradas para el usuario con ID ${userId}`);
-    }
-    return {
-      message: `Listado de pendientes del usuario con ID ${userId}`,
-      pendings
-    };
+    return pendings;
   }
 
   async getPendingByPet(petId: string) {
@@ -49,35 +34,20 @@ export class PendingService {
 
   async getPendingByService(serviceId: string) {
     const pendings = await this.pendingRepository.getPendingByServiceRepository(serviceId);
-    if (pendings.length === 0) {
-      throw new NotFoundException(`No hay pendientes registradas para el servicio con ID ${serviceId}`);
-    }
-    return {
-      message: `Listado de pendientes del servicio con ID ${serviceId}`,
-      pendings
-    };
+    
+    return pendings;
   }
 
   async getActivePending() {
     const pendings = await this.pendingRepository.getActivePendingRepository();
-    if (pendings.length === 0) {
-      throw new NotFoundException('No hay pendientes activas registradas.');
-    }
-    return {
-      message: "Listado de pendientes activas",
-      pendings
-    };
+   
+    return pendings;
   }
 
   async getPendingByVeterinarian(veterinarianId: string) {
     const pendings = await this.pendingRepository.getPendingByVeterinarianRepository(veterinarianId);
-    if (pendings.length === 0) {
-      throw new NotFoundException(`No hay pendientes registradas para el veterinario con ID ${veterinarianId}`);
-    }
-    return {
-      message: `Listado de pendientes del veterinario con ID ${veterinarianId}`,
-      pendings
-    };
+   
+    return pendings;
   }
 
   async createPending(createPendingDto: CreatePendingDto): Promise<Pending> {
@@ -89,10 +59,7 @@ export class PendingService {
     if (!pending) {
       throw new NotFoundException(`Pendiente para modificar con el ID ${id} no encontrada`);
     }
-    return {
-      message: `Pendiente con el ID ${id} modificada exitosamente`,
-      pending,
-    };
+    return pending;
   }
 
   async deletePending(id: string) {
@@ -101,9 +68,6 @@ export class PendingService {
       throw new NotFoundException(`Pendiente para eliminar con el ID ${id} no encontrada`);
     }
     await this.pendingRepository.deletePendingRepository(id);
-    return {
-      message: `Pendiente con el ID ${id} eliminada exitosamente`,
-      pending,
-    };
+    return pending;
   }
 }

@@ -1,10 +1,7 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateAppointmentDto, EditAppointmentDto } from './dto/appointment.dto';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Appointment } from './entities/appointment.entity';
 import { StatesAppointment } from './entities/statesAppointment.entity';
-import { PetsRepository } from '../pets/pets.repository';
-import { ServiceRepository } from '../services/service.repository';
 import { Between, Repository } from 'typeorm';
 
 @Injectable()
@@ -13,9 +10,7 @@ export class AppointmentRepository {
     @InjectRepository(Appointment)
     private readonly appointmentRepository: Repository<Appointment>,
     @InjectRepository(StatesAppointment)
-    private readonly statesAppointmentRepository: Repository<StatesAppointment>,
-    private readonly petsRepository: PetsRepository,
-    private readonly serviceRepository: ServiceRepository,
+    private readonly statesAppointmentRepository: Repository<StatesAppointment>
   ) {}
 
   async getAppointments(page: number, limit: number) {
@@ -23,20 +18,17 @@ export class AppointmentRepository {
   }
 
   async getAppointmentById(idAppointment: string): Promise<Appointment> {
-    const appointment = await this.appointmentRepository.findOne({
+    return await this.appointmentRepository.findOne({
       where: { id: idAppointment },
       relations: { pet: {race:true, specie:true, sex:true, repCondition:true}, state: true, service: true },
-    });
-
-    if (!appointment) throw new NotFoundException('Turno no encontrado');
-    return appointment;
+    })
   }
 
   async getAppointmentsByVeterinarianAndDate (userId:string, startDate: Date, endDate: Date): Promise<Appointment[]> {
 
        return await this.appointmentRepository.find({
         select: {id:true, messageUser:true, time:true, date:true ,service: {service:true, durationMin:true}, pet: {name:true, user: {name:true, lastName:true,}}},
-         where: {service: {veterinarian: {userId}}, date: Between(startDate, endDate), state: {state:"Pendiente"}},
+         where: {service: {veterinarian: {userId}}, date: Between(startDate, endDate)},
          relations: {service: true , pet: {user:true}, state:true}
        })
      }
@@ -44,22 +36,20 @@ export class AppointmentRepository {
   async getAppointmentsByAdminAndDate(startDate: Date, endDate: Date) {
     return await this.appointmentRepository.find({
       select: {id:true, messageUser:true, time:true, date:true ,service: {service:true, durationMin:true}, pet: {name:true, user: {name:true, lastName:true,}}},
-       where: {date: Between(startDate, endDate), state: {state:"Pendiente"}},
+       where: {date: Between(startDate, endDate)},
        relations: {service: true , pet: {user:true}, state:true}
      })
   }
 
   async getAppointmentsByUserId(userId: string) {
-    //const pets = user.pets;
-    const appointments = await this.appointmentRepository.find({
-      where: { pet: { userId } }, // Usa el operador In para filtrar por múltiples IDs de mascotas
+    return await this.appointmentRepository.find({
+      where: { pet: { userId } },
       relations: {
         pet: true,
         service: true,
         state: true,
       },
     });
-    return appointments;
   }
 
   async getAppointmentsActive(): Promise<Appointment[]> {
@@ -76,46 +66,29 @@ export class AppointmentRepository {
     return appointments;
   }
 
-  async createAppointment(createAppointmentDto: CreateAppointmentDto) {
-    const pet = await this.petsRepository.getPetByIdRepository(String(createAppointmentDto.pet_id));
-    const state = await this.statesAppointmentRepository.findOne({
-      where: { state: 'Pendiente' },
+  async createAppointment(createAppointment: Partial<Appointment>) {
+    const state = await this.statesAppointmentRepository.findOne({ where: { state: 'Pendiente' } });
+    return  await this.appointmentRepository.save({
+      ...createAppointment,
+      stateAppointmentId: state.id,
     });
-    const service = await this.serviceRepository.getServiceById(String(createAppointmentDto.service_id));
-
-    const newAppointment = this.appointmentRepository.create({
-      ...createAppointmentDto,
-      state,
-      pet,
-      service,
-    });
-    await this.appointmentRepository.save(newAppointment);
-    return newAppointment;
   }
 
-  async editAppointment(editAppointmentDto: EditAppointmentDto, appointment: Appointment) {
-    const service = await this.serviceRepository.getServiceById(String(editAppointmentDto.service));
-    await this.appointmentRepository.update(appointment.id, {
-      ...editAppointmentDto,
-      service,
-    });
-    return appointment;
+  async editAppointment(id: string, editAppointment: Partial<Appointment>) {
+    return await this.appointmentRepository.update(id, editAppointment);
   }
 
-  async finishAppointment(idAppoinment: string) {
-    const finishService = await this.statesAppointmentRepository.findOne({ where: { state: 'Finalizado' } });
-    await this.appointmentRepository.update(idAppoinment, {
-      state: finishService,
+  async finishAppointment(idAppointment: string) {
+    const stateApp = await this.statesAppointmentRepository.findOne({ where: { state: 'Finalizado' } });
+    return await this.appointmentRepository.update(idAppointment, {
+      stateAppointmentId: stateApp.id,
     });
-    return 'Turno finalizado';
   }
 
   async cancelAppointment(idAppointment: string) {
-    const appointment = await this.getAppointmentById(idAppointment);
-    const canceledState = await this.statesAppointmentRepository.findOne({ where: { state: 'Cancelado' } });
-
-    if (appointment.state === canceledState) throw new BadRequestException('El turno ya está cancleado');
-    await this.appointmentRepository.update(idAppointment, { state: canceledState });
-    return { status: 200, message: 'Turno cancelado existosamente' };
+    const stateApp = await this.statesAppointmentRepository.findOne({ where: { state: 'Cancelado' } });
+    return await this.appointmentRepository.update(idAppointment, {
+      stateAppointmentId: stateApp.id,
+    });
   }
 }

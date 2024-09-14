@@ -1,3 +1,4 @@
+import { ClinicalExamination } from "src/modules/clinical-examination/entities/clinicalExamination.entity";
 import { Treatment } from "src/modules/treatment/entities/treatment.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -10,9 +11,9 @@ export class FileTreatment {
     @Column()
     image: string;
 
-    @ManyToOne(() => Treatment, (treatment) => treatment.fileTreatments)
-    @JoinColumn({name:"treatmentId"})
-    treatment: Treatment;
+    @ManyToOne(() => ClinicalExamination, (clinicalExamination) => clinicalExamination.fileTreatments)
+    @JoinColumn({name:"clinicalExaminationId"})
+    clinicalExamination: ClinicalExamination;
     @Column("uuid")
-    treatmentId:string
+    clinicalExaminationId:string
 }

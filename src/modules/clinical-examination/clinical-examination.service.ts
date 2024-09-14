@@ -4,12 +4,15 @@ import { ClinicalExamination } from './entities/clinicalExamination.entity';
 import { DeleteResult, Or, Repository, UpdateResult } from 'typeorm';
 import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SalesService } from '../sales/sales.service';
+import { Sale } from '../sales/entities/sale.entity';
 
 @Injectable()
 export class ClinicalExaminationService {
 
   constructor (private readonly examinationRepository: ClinicalExaminationRepository,
     @InjectRepository(Veterinarian) private veterinarianRepository: Repository<Veterinarian>,
+    private readonly saleService: SalesService,
   ) {}
 
   async getExaminations (page:number, limit:number): Promise<ClinicalExamination[]> {
@@ -34,9 +37,11 @@ export class ClinicalExaminationService {
     const veterinarian: Veterinarian = await this.veterinarianRepository.findOne({where: [{userId:examination.veterinarianId}, {id: examination.veterinarianId}]});
     if (!veterinarian) throw new NotFoundException("El usuario ingresado no es un veterinario")
     const examinationCreated: ClinicalExamination = await this.examinationRepository.createExamination({...examination, veterinarianId: veterinarian.id})
+    const examinationUser: ClinicalExamination = await this.examinationRepository.getExaminationById(examinationCreated.id)
     if (!examinationCreated) throw new InternalServerErrorException("No se pudo crear la Atencion Medica");
-    // crear una orden de venta....
-    return examinationCreated
+    const sale: Sale = await this.saleService.createSale({date: new Date(examinationCreated.date), advancedPay: 9000, userId: examinationUser.pet.userId });
+    await this.examinationRepository.updateExamination(examinationCreated.id, { saleId: sale.id});
+    return {...examinationCreated, saleId:sale.id}
   }
 
   async updateExamination (id: string, examination:Partial<ClinicalExamination>): Promise<string> {
