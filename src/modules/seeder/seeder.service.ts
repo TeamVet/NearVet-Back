@@ -38,6 +38,8 @@ import { Appointment } from '../appointment/entities/appointment.entity';
 import { ClinicalExamination } from '../clinical-examination/entities/clinicalExamination.entity';
 import { Treatment } from '../treatment/entities/treatment.entity';
 import { Prescription } from '../prescription/entities/prescription.entity';
+import { ClinicalExaminationService } from '../clinical-examination/clinical-examination.service';
+import { PrescriptionService } from '../prescription/prescription.service';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -75,10 +77,12 @@ export class SeederService implements OnModuleInit {
     private readonly appointmentRepository: Repository<Appointment>, 
     @InjectRepository(ClinicalExamination)
     private readonly examinationRepository: Repository<ClinicalExamination>, 
+    private readonly examinationService: ClinicalExaminationService, 
     @InjectRepository(Treatment)
     private readonly treatmentRepository: Repository<Treatment>, 
     @InjectRepository(Prescription)
     private readonly prescriptionRepository: Repository<Prescription>, 
+    private readonly prescriptionService: PrescriptionService
   ) {}
 
   petsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'pets.json');
@@ -263,8 +267,8 @@ export class SeederService implements OnModuleInit {
         const pets = await this.petsRepository.findOne({where: { name: examination.pet } });
         const vet = await this.veterinarianRepository.findOne({where: { licence: examination.veterinarian } });
         if (pets && vet) { 
-          const {veterinarian, pet, ...examinationCreate} = examination
-          await this.examinationRepository.save({...examinationCreate, petId: pets.id, veterinarianId: vet.id}) 
+          const {veterinarian, pet, date, ...examinationCreate} = examination
+          await this.examinationService.createExamination({...examinationCreate, date: new Date(date), petId: pets.id, veterinarianId: vet.id}) 
         }
       }
     }
@@ -417,7 +421,7 @@ export class SeederService implements OnModuleInit {
           const prod = await this.productRepository.findOneBy({name:prescription.product})
           const examination = await this.examinationRepository.findOneBy({tllc: prescription.clinicalExamination})
           if (prod && examination) {
-            await this.prescriptionRepository.save({ description: prescription.description, clinicalExaminationId: examination.id, productId: prod.id });
+            await this.prescriptionService.createPrescription({ description: prescription.description, clinicalExaminationId: examination.id, productId: prod.id });
           }
         }
       }

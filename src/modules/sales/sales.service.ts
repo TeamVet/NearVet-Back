@@ -8,6 +8,10 @@ export class SalesService {
 
   constructor (private readonly saleRepository: SalesRepository) {}
 
+  async getSales (): Promise<Sale[]> {
+    return await this.saleRepository.getSales ();
+  }
+
   async getSalesByDates (page:number, limit:number, start:Date, end:Date): Promise<Sale[]> {
     const sales: Sale[] = await this.saleRepository.getSalesByDates (page, limit, start, end);
     if (sales.length === 0 ) throw new NotFoundException("No se encontraron ventas en el periodo")

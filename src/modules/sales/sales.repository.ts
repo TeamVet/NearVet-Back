@@ -12,6 +12,10 @@ export class SalesRepository {
         return await this.saleRepository.find({where: {date: Between(start,end)}, take: limit, skip:page*limit});
     }
 
+    async getSales (): Promise<Sale[]> {
+        return await this.saleRepository.find();
+    }
+
     async getSaleById (id:string): Promise<Sale> {
         return await this.saleRepository.findOneBy({id});
     }

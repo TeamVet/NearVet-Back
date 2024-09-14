@@ -10,11 +10,11 @@ import { ApiBody, ApiTags } from '@nestjs/swagger';
 export class SalesController {
   constructor(private readonly salesService: SalesService) {}
 
-  @Get(":id")
-  async getSaleById (@Param("id", ParseUUIDPipe) id:string): Promise<Sale> {
-    return await this.salesService.getSaleById (id)
+  @Get()
+  async getSales (): Promise<Sale[]> {
+    return await this.salesService.getSales ();
   }
-
+  
   @Get("dates")
   async getSalesByDates (@Query("page") page:number = 1,
                          @Query("limit") limit:number = 5, 
@@ -36,6 +36,11 @@ export class SalesController {
   async getSalesSendClinical (): Promise<Sale[]> {
     return await this.salesService.getSalesSendClinical ();
   }
+
+  @Get(":id")
+  async getSaleById (@Param("id", ParseUUIDPipe) id:string): Promise<Sale> {
+    return await this.salesService.getSaleById (id)
+  } 
 
   @Post()
   @ApiBody({description:"Ingrese todos los datos requeridos", type: CreateSaleDto})

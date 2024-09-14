@@ -22,12 +22,23 @@ import { Appointment } from '../appointment/entities/appointment.entity';
 import { ClinicalExamination } from '../clinical-examination/entities/clinicalExamination.entity';
 import { Treatment } from '../treatment/entities/treatment.entity';
 import { Prescription } from '../prescription/entities/prescription.entity';
+import { ClinicalExaminationService } from '../clinical-examination/clinical-examination.service';
+import { ClinicalExaminationRepository } from '../clinical-examination/clinical-examination.repository';
+import { SalesService } from '../sales/sales.service';
+import { SalesRepository } from '../sales/sales.repository';
+import { Sale } from '../sales/entities/sale.entity';
+import { PrescriptionService } from '../prescription/prescription.service';
+import { PrescriptionRepository } from '../prescription/prescription.repository';
+import { SaleProduct } from '../sale-products/entities/sale-product.entity';
+import { SaleProductsRepository } from '../sale-products/sale-products.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Pet, UserRole, Sex, Race, Specie, StatesAppointment, Veterinarian,
                                       CategoryService, Service, AvailabilityService, RepCondition, Product, 
-                                      Vet, Pending, Appointment, ClinicalExamination, Treatment, Prescription])],
+                                      Vet, Pending, Appointment, ClinicalExamination, Treatment, Prescription,
+                                      Sale, SaleProduct])],
   controllers: [SeederController],
-  providers: [SeederService],
+  providers: [SeederService, ClinicalExaminationService, ClinicalExaminationRepository, SalesService, 
+    SalesRepository, PrescriptionService, PrescriptionRepository, SaleProductsRepository],
 })
 export class SeederModule {}
