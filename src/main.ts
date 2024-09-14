@@ -30,8 +30,12 @@ async function bootstrap() {
 
   //creo el documento. le asigno la ruta "api"
   const document = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('doc', app, document);
-
+  SwaggerModule.setup('doc', app, document, {
+    swaggerOptions: {
+      docExpansion: 'none', // This ensures all tags start collapsed
+    },
+  });
+  
   await app.listen(3000);
 }
 bootstrap();
