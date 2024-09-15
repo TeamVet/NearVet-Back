@@ -19,6 +19,12 @@ export class AppointmentController {
     return this.appointmentService.getAppointmentsService(Number(page), Number(limit));
   }
 
+  @Get('/user/:idUser')
+  @ApiOperation({summary: 'Muestra turnos creados por el usuario'})
+  getAppoinmentsByUserId(@Param('idUser') idUser: string) {
+    return this.appointmentService.getAppointmentsByUserIdService(idUser);
+  }
+
   @Get(':id')
   @ApiOperation({summary: 'Muestra un turno por ID'})
   getAppoinmentById(@Param('id') id: string): Promise<Appointment> {
@@ -33,12 +39,6 @@ export class AppointmentController {
   @Post("AppointmentsByAdminAndDate")
   async getAppointmentsByAdminAndDate (@Body() adminDate:IdAndDateDto): Promise<AppResponseCalendarDayDto[]> {
          return await this.appointmentService.getAppointmentsByIdAndDate(adminDate.id, true, adminDate.startDate, adminDate.endDate)
-  }
-
-  @Get('/user/:idUser')
-  @ApiOperation({summary: 'Muestra turnos creados por el usuario'})
-  getAppoinmentsByUserId(@Param('idUser') idUser: string) {
-    return this.appointmentService.getAppointmentsByUserIdService(idUser);
   }
 
   @Post()

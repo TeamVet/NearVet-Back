@@ -75,17 +75,6 @@ export class UsersController {
     return this.usersService.getUsersByIdService(id);
   }
 
-  @Put(':id')
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
-  @ApiOperation({ summary: 'Actualizar un usuario' })
-  updateUser(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    return this.usersService.updateUserService(id, updateUserDto);
-  }
-
   @Delete(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
@@ -134,4 +123,19 @@ export class UsersController {
     console.log('File', file);
     return await this.usersService.uploadImgProfileService(id, file);
   }
+
+  @Put(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Actualizar un usuario' })
+  @ApiParam({ name: 'id', description: 'ID del usuario', type: 'string', format: 'uuid' })
+  @ApiBody({ type: UpdateUserDto, description: 'Datos a actualizar del usuario' })
+  @ApiResponse({ status: 200, description: 'Usuario actualizado exitosamente' })
+  updateUser(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.usersService.updateUserService(id, updateUserDto);
+  }
+  
 }

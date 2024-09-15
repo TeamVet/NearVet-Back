@@ -15,12 +15,6 @@ export class PendingController {
     return this.pendingService.getAllPendings();
   }
 
-  @Get(':id')
-  @ApiOperation({summary: "Obtiene una pendiente por ID"})
-  getPendingById(@Param('id', ParseUUIDPipe) id: string) {
-    return this.pendingService.getPendingById(id);
-  }
-
   @Get('/user/:userId')
   @ApiOperation({summary: "Obtiene todas las pendientes de un usuario"})
   getAllUsersPending(@Param('userId', ParseUUIDPipe) userId: string) {
@@ -37,6 +31,12 @@ export class PendingController {
   @ApiOperation({summary: "Obtiene pendientes por servicio"})
   getPendingByService(@Param('serviceId', ParseUUIDPipe) serviceId: string) {
     return this.pendingService.getPendingByService(serviceId);
+  }
+
+  @Get(':id')
+  @ApiOperation({summary: "Obtiene una pendiente por ID"})
+  getPendingById(@Param('id', ParseUUIDPipe) id: string) {
+    return this.pendingService.getPendingById(id);
   }
 
   @Get('/active')
