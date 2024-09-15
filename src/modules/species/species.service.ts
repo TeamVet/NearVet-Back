@@ -11,14 +11,7 @@ export class SpeciesService {
   ) {}
 
   async getAllSpeciesService() {
-    const species = await this.speciesRepository.getAllSpeciesRepository();
-    if (species.length === 0) {
-      throw new NotFoundException('Hasta el momento no hay especies registradas ...');
-    }
-    return {
-      message: "Listado de especies registradas",
-      species
-    }
+    return await this.speciesRepository.getAllSpeciesRepository();
   }
 
   async getSpecieByIdService(id: string) {

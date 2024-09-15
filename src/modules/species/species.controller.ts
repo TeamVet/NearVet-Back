@@ -31,9 +31,6 @@ export class SpeciesController {
     description: 'Obtiene todas las especies registradas hasta el momento',
   })
   @HttpCode(200)
-  @ApiInternalServerErrorResponse({
-    description: 'Error al intentar obtener todas las especies',
-  })
   getAllSpecies() {
     return this.speciesService.getAllSpeciesService();
   }
@@ -42,14 +39,6 @@ export class SpeciesController {
   @ApiOperation({
     summary: 'Obtiene una especie por ID',
     description: 'Obtiene una especie específica utilizando su ID único',
-  })
-  @ApiParam({
-    name: 'id',
-    type: String,
-    description: 'ID de la especie',
-  })
-  @ApiInternalServerErrorResponse({
-    description: 'Error al intentar obtener la especie por ID',
   })
   getSpeciesById(@Param('id', ParseUUIDPipe) id: string) {
     return this.speciesService.getSpecieByIdService(id);
@@ -60,13 +49,6 @@ export class SpeciesController {
     summary: 'Crea una nueva especie',
     description: 'Crea una nueva especie en el sistema',
   })
-  @ApiBody({
-    type: CreateSpeciesDto,
-    description: 'Datos para la creación de la nueva especie',
-  })
-  @ApiInternalServerErrorResponse({
-    description: 'Error al intentar crear la especie',
-  })
   createSpecies(@Body() createSpeciesDto: CreateSpeciesDto) {
     return this.speciesService.createSpecieService(createSpeciesDto);
   }
@@ -75,18 +57,6 @@ export class SpeciesController {
   @ApiOperation({
     summary: 'Actualiza una especie existente',
     description: 'Actualiza los datos de una especie utilizando su ID',
-  })
-  @ApiParam({
-    name: 'id',
-    type: String,
-    description: 'ID de la especie a actualizar',
-  })
-  @ApiBody({
-    type: UpdateSpeciesDto,
-    description: 'Datos para actualizar la especie',
-  })
-  @ApiInternalServerErrorResponse({
-    description: 'Error al intentar actualizar la especie',
   })
   updateSpecies(
     @Param('id', ParseUUIDPipe) id: string,
@@ -99,14 +69,6 @@ export class SpeciesController {
   @ApiOperation({
     summary: 'Elimina una especie',
     description: 'Elimina una especie específica del sistema utilizando su ID',
-  })
-  @ApiParam({
-    name: 'id',
-    type: String,
-    description: 'ID de la especie a eliminar',
-  })
-  @ApiInternalServerErrorResponse({
-    description: 'Error al intentar eliminar la especie',
   })
   deleteSpecies(@Param('id', ParseUUIDPipe) id: string) {
     return this.speciesService.deleteSpecieService(id);

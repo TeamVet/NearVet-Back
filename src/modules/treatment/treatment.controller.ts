@@ -21,8 +21,6 @@ export class TreatmentController {
   @ApiOperation({summary: "Devuelve un tratamiento por ID",
                 description: "Esta ruta devuleve un objeto conlos datos del tratamiento pasado por ID"})
   @HttpCode(200)
-  @ApiParam({name:"Id", required:true, description: "Ingrese el Id del tratamiento (uuid)"})
-  @ApiNotFoundResponse({description: "No existe el tratamiento buscado"})
   async getTreatmentById (@Param("id") id:string): Promise<Treatment>  {
     return await this.treatmentService.getTreatmentById(id);
   }
@@ -31,8 +29,6 @@ export class TreatmentController {
   @ApiOperation({summary: "Devuelve los tratamientos relacionados con el servicio",
                 description: "Esta ruta devulve un array con los tratamiento pasado por ID"})
   @HttpCode(200)
-  @ApiParam({name:"serviceId", required:true, description: "Ingrese el Id del Servicio (uuid)"})
-  @ApiNotFoundResponse({description: "No se encontraron tratamientos en el servicio especificado"})
   async getTreatmentsByService (@Param("serviceId") serviceId: string): Promise<Treatment[]>  {
     return await this.treatmentService.getTreatmentsByService(serviceId)
   }
@@ -62,8 +58,6 @@ export class TreatmentController {
   @ApiOperation({summary: "Devuelve los tratamientos relacionados con la mascota",
                 description: "Esta ruta devulve un array con los tratamiento relacionados con la mascota pasada por ID"})
   @HttpCode(200)
-  @ApiParam({name:"petId", required:true, description: "Ingrese el Id de la Mascota (uuid)"})
-  @ApiNotFoundResponse({description: "No se encontraron tratamientos en el servicio especificado"})
   async getTreatmentsByPet (petId: string): Promise<Treatment[]>  {
     return await this.treatmentService.getTreatmentsByPet(petId)
   }
@@ -71,7 +65,6 @@ export class TreatmentController {
   @Post()
   @ApiOperation({summary: "Crea un nuevo tratamiento"})
   @HttpCode(201)
-  @ApiBody({description: "Ingrese los datos requeridos", type: CreateTreatmentDto})
   async createTreatment (@Body() treatment: CreateTreatmentDto): Promise<Treatment> {
     return await this.treatmentService.createTreatment(treatment)
   }
@@ -80,9 +73,6 @@ export class TreatmentController {
   @ApiOperation({summary: "Actualiza los datos de un tratamiento",
     description: "Esta ruta actualiza un tratamiento pasado por ID con los datos pasados por el body"})
   @HttpCode(201)
-  @ApiParam({name:"id", required: true, description: "Ingrese el ID del tratamiento a actualizar"})
-  @ApiBody({description: "Ingrese al menos un dato a modificar", type: UpdateTreatmentDto})
-  @ApiNotFoundResponse({description: "No se encontraro el tratamiento a actualizar"})
   async updateTreatment (@Param("id") id: string , @Body() treatment: UpdateTreatmentDto): Promise<string> {
     return await this.treatmentService.updateTreatment(id, treatment)
   } 
@@ -91,10 +81,7 @@ export class TreatmentController {
   @ApiOperation({summary: "Elimina un tratamiento",
     description: "Esta ruta elimina un tratamiento pasado por ID"})
   @HttpCode(201)
-  @ApiParam({name:"id", required: true, description: "Ingrese el ID del tratamiento a eliminar"})
-  @ApiNotFoundResponse({description: "No se encontraro el tratamiento a eliminar"})
   async removeTreatment (@Param("id") id: string): Promise<string> {
     return await this.treatmentService.removeTreatment(id)
   } 
-
 }

@@ -11,15 +11,12 @@ export class FileTreatmentController {
 
   @Get(":clinicalExaminationId")
   @ApiOperation({summary: 'devuleve los archivos de un tratamiento'})
-  @ApiParam({name:"clinicalExaminationId", required:true, description:"Ingrese el Id del tratamiento"})
   async getFileByTreatmentId (@Param("clinicalExaminationId") clinicalExaminationId:string): Promise<FileTreatment[]> {
     return await this.fileTreatmentService.getFileByTreatmentId(clinicalExaminationId)
   }
 
   @Post(":clinicalExaminationId")
   @ApiOperation({summary: "Agrega un nuevo archivo al Tratamiento"})
-  @ApiInternalServerErrorResponse({description: "No se pudo agregar el archivo al tratamiento"})
-  @ApiParam({name: "clinicalExaminationId",  description:"Ingrese el Id del tratamiento" , required:true})
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({description: `Debe subir el Archivo de Imagen`,
@@ -33,7 +30,6 @@ export class FileTreatmentController {
   @Delete(":id")
   @ApiOperation({summary: "Elimina un archivo de un tratamiento"})
   @HttpCode(HttpStatus.OK)
-  @ApiParam({ name: 'id', required: true, description:"Inserte el Id del arhivo"})
   async removeFile (@Param("id", ParseUUIDPipe) id:string): Promise<string> {
     return await this.fileTreatmentService.removeFile(id)  
   }
