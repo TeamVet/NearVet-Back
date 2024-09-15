@@ -21,15 +21,6 @@ export class ClinicalExaminationController {
     return await this.clinicalExaminationService.getExaminations(+page, +limit);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Obtener un examen clínico por ID' })
-  @ApiParam({ name: 'id', type: String, description: 'ID del examen clínico' })
-  async getExaminationById (
-    @Param('id', ParseUUIDPipe) id: string
-  ): Promise<ClinicalExamination> {
-    return await this.clinicalExaminationService.getExaminationById(id);
-  }
-
   @Get('pet/:petId')
   @ApiOperation({ summary: 'Obtener todos los exámenes clínicos para una mascota específica con paginación' })
   @ApiParam({ name: 'petId', type: String, description: 'ID de la mascota' })
@@ -54,6 +45,15 @@ export class ClinicalExaminationController {
     @Query('limit') limit: number = 5
   ): Promise<ClinicalExamination[]> {
     return await this.clinicalExaminationService.getExaminationByVeterinarianId(veterinarianId, page, limit);
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Obtener un examen clínico por ID' })
+  @ApiParam({ name: 'id', type: String, description: 'ID del examen clínico' })
+  async getExaminationById (
+    @Param('id', ParseUUIDPipe) id: string
+  ): Promise<ClinicalExamination> {
+    return await this.clinicalExaminationService.getExaminationById(id);
   }
 
   @Post()

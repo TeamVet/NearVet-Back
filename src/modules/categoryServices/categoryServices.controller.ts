@@ -17,18 +17,18 @@ export class CategoryServicesController {
     return await this.categoryServicesService.getCategoryServices();
   }
 
-  @Get(':id')
-  @ApiOperation({summary: 'Retorna todos los datos de la categoria de servicio requerida por ID'})
-  @HttpCode(200)
-  async getCategoryServiceById(@Param('id', ParseUUIDPipe) id: string): Promise<CategoryService> {
-    return await this.categoryServicesService.getCategoryServiceById(id);
-  }
-
   @Get('category/:cat')
   @ApiOperation({summary: 'Retorna todos los datos de la categoria de servicio requerida por categoria'})
   @HttpCode(200)
   async getCategoryServiceByCategory(@Param('cat') cat: string): Promise<CategoryService> {
     return await this.categoryServicesService.getCategoryServiceByCategory(cat);
+  }
+
+  @Get(':id')
+  @ApiOperation({summary: 'Retorna todos los datos de la categoria de servicio requerida por ID'})
+  @HttpCode(200)
+  async getCategoryServiceById(@Param('id', ParseUUIDPipe) id: string): Promise<CategoryService> {
+    return await this.categoryServicesService.getCategoryServiceById(id);
   }
   
   @Post()

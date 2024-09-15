@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  Put,
 } from '@nestjs/common';
 import { VetsService } from './vets.service';
 import { CreateVetDto } from './dto/create-vet.dto';
@@ -57,7 +58,7 @@ export class VetsController {
     return this.vetsService.createVeterinaryService(createVetDto);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @ApiOperation({
     summary: 'Actualiza una veterinaria existente',
     description: 'Actualiza una veterinaria existente con los datos proporcionados por ID',

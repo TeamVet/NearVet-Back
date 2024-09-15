@@ -35,13 +35,8 @@ export class PetsController {
   constructor(private readonly petsService: PetsService) {}
 
   @Get()
-  @ApiOperation({ 
-    summary: 'Devuelve todas las mascotas',
-    description: `Devuelve un array con todas las mascotas registradas en la veterinaria`,
-  })
-  @ApiNotFoundResponse({ description: 'Por el momento no hay mascotas registradas' })
+  @ApiOperation({summary: 'Devuelve todas las mascotas'})
   @ApiResponse({ status: 200, description: 'Retorna un array de mascotas', type: [Pet] })
-  @ApiBearerAuth()
   @HttpCode(200)
   getPets(): Promise<Pet[]> {
     return this.petsService.getPetsService();
@@ -81,17 +76,6 @@ export class PetsController {
     return this.petsService.getPetsSexService();
   }
 
-  @Get(':id')
-  @ApiBearerAuth()
-  @Roles(Role.AdminVet, Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
-  @ApiOperation({ summary: 'Obtener una mascota por ID' })
-  @ApiParam({ name: 'id', description: 'ID de la mascota', type: 'string', format: 'uuid' })
-  @ApiResponse({ status: 200, description: 'Retorna la mascota', type: Pet })
-  getPetById(@Param('id', ParseUUIDPipe) id: string) {
-    return this.petsService.getPetByIdService(id);
-  }
-
   @Get('user/:id')
   @ApiBearerAuth()
   @Roles(Role.AdminVet, Role.User, Role.Veterinarian)
@@ -103,6 +87,17 @@ export class PetsController {
     return this.petsService.getPetsByUserService(id);
   }
 
+  @Get(':id')
+  @ApiBearerAuth()
+  @Roles(Role.AdminVet, Role.User)
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Obtener una mascota por ID' })
+  @ApiParam({ name: 'id', description: 'ID de la mascota', type: 'string', format: 'uuid' })
+  @ApiResponse({ status: 200, description: 'Retorna la mascota', type: Pet })
+  getPetById(@Param('id', ParseUUIDPipe) id: string) {
+    return this.petsService.getPetByIdService(id);
+  }
+
   @Post()
   @ApiBearerAuth()
   @Roles(Role.AdminVet, Role.User)
@@ -112,21 +107,6 @@ export class PetsController {
   @ApiResponse({ status: 201, description: 'Mascota creada exitosamente', type: Pet })
   createPet(@Body() createPetDto: CreatePetDto) {
     return this.petsService.createPetService(createPetDto);
-  }
-
-  @Put(':id')
-  @ApiBearerAuth()
-  @Roles(Role.AdminVet, Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
-  @ApiOperation({ summary: 'Actualizar una mascota' })
-  @ApiParam({ name: 'id', description: 'ID de la mascota', type: 'string', format: 'uuid' })
-  @ApiBody({ type: UpdatePetDto, description: 'Datos a actualizar de la mascota' })
-  @ApiResponse({ status: 200, description: 'Mascota actualizada exitosamente', type: Pet })
-  updatePet(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updatePetDto: UpdatePetDto,
-  ) {
-    return this.petsService.updatePetService(id, updatePetDto);
   }
 
   @Delete(':id')
@@ -180,4 +160,20 @@ export class PetsController {
   ) {
     return await this.petsService.uploadImgProfileService(id, file);
   }
+
+  @Put(':id')
+  @ApiBearerAuth()
+  @Roles(Role.AdminVet, Role.User)
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Actualizar una mascota' })
+  @ApiParam({ name: 'id', description: 'ID de la mascota', type: 'string', format: 'uuid' })
+  @ApiBody({ type: UpdatePetDto, description: 'Datos a actualizar de la mascota' })
+  @ApiResponse({ status: 200, description: 'Mascota actualizada exitosamente', type: Pet })
+  updatePet(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updatePetDto: UpdatePetDto,
+  ) {
+    return this.petsService.updatePetService(id, updatePetDto);
+  }
+  
 }

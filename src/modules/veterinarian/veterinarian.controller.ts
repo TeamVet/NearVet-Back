@@ -32,17 +32,6 @@ export class VeterinarianController {
     return await this.veterinarianService.getVeteriarian();
   }
 
-  @Get(':id')
-  @ApiOperation({
-    summary: 'Retorna todos los datos del veterinario requerido por ID',
-    description: `Este endpoint devuelve un objeto con todos los datos del Veterinario 
-                  que este relacionado al ID pasado por parametro`})
-  @HttpCode(200)
-  @ApiNotFoundResponse({description: "El Veterinario buscado no existe"})
-  async getVeterinarianById(@Param('id', ParseUUIDPipe) id: string): Promise<Veterinarian> {
-    return await this.veterinarianService.getVeterinarianById(id);
-  }
-
   @Get('licence/:lic')
   @ApiOperation({
     summary: 'Retorna todos los datos del veterinario requerido por Licencia',
@@ -52,6 +41,17 @@ export class VeterinarianController {
   @ApiNotFoundResponse({description: "El Veterinario buscado no existe"})
   async getVeterinarianByLicence(@Param('lic', ParseIntPipe) lic: number): Promise<Veterinarian> {
     return await this.veterinarianService.getVeterinarianByLicence(+lic);
+  }
+
+  @Get(':id')
+  @ApiOperation({
+    summary: 'Retorna todos los datos del veterinario requerido por ID',
+    description: `Este endpoint devuelve un objeto con todos los datos del Veterinario 
+                  que este relacionado al ID pasado por parametro`})
+  @HttpCode(200)
+  @ApiNotFoundResponse({description: "El Veterinario buscado no existe"})
+  async getVeterinarianById(@Param('id', ParseUUIDPipe) id: string): Promise<Veterinarian> {
+    return await this.veterinarianService.getVeterinarianById(id);
   }
   
   @Post()

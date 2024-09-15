@@ -48,11 +48,6 @@ export class SalesController {
     return await this.salesService.createSale(sale); 
   }
 
-  @Put(":id")
-  async updateSale (@Param("id", ParseUUIDPipe) id:string, @Body() sale:UpdateSaleDto): Promise<string> {
-    return await this.salesService.updateSale(id, sale);
-  }
-
   @Put("finishedSale/:id")
   async finishedSale (@Param("id", ParseUUIDPipe) id:string): Promise<string> {
     return await this.salesService.finishedSale(id);
@@ -61,6 +56,11 @@ export class SalesController {
   @Put("sendClinicalSale/:id")
   async sendClinicalSale (@Param("id", ParseUUIDPipe) id:string): Promise<string> {
     return await this.salesService.sendClinicalSale(id)
+  }
+
+  @Put(":id")
+  async updateSale (@Param("id", ParseUUIDPipe) id:string, @Body() sale:UpdateSaleDto): Promise<string> {
+    return await this.salesService.updateSale(id, sale);
   }
 
   @Delete(":id")

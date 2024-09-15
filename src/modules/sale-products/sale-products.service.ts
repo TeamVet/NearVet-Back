@@ -11,6 +11,10 @@ export class SaleProductsService {
     private readonly saleRepository: SalesRepository
   ) {}
 
+  async getSalesProducts (): Promise<SaleProduct[]> {
+    return await this.saleProductRepository.getSalesProducts()
+  }
+
   async getSalesProductBySaleId (saleId:string): Promise<SaleProduct[]> {
     return await this.saleProductRepository.getSalesProductBySaleId(saleId)
   }

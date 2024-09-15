@@ -33,17 +33,6 @@ export class ServicesController {
     return await this.servicesService.getServices();
   }
 
-  @Get(':id')
-  @ApiOperation({
-    summary: 'Retorna todos los datos del servicio requerido por ID',
-    description: `Este endpoint devuelve un objeto con todos los datos del servicio 
-                  que este relacionado al ID pasado por parametro`})
-  @HttpCode(200)
-  @ApiNotFoundResponse({description: "El servicio buscada no existe"})
-  async getServiceById(@Param('id', ParseUUIDPipe) id: string): Promise<Service> {
-    return await this.servicesService.getServiceById(id);
-  }
-
   @Get('category/:cat')
   @ApiOperation({
     summary: 'Retorna un array con todos los datos de los servicios contenidos por la categoria',
@@ -64,6 +53,17 @@ export class ServicesController {
   @ApiNotFoundResponse({description: "el Veterinario no tiene servicios asociados"})
   async getServiceByVeterinarian(@Param('vet') veterinarianId: string): Promise<Service[]> {
     return await this.servicesService.getServiceByVeterinairan(veterinarianId);
+  }
+
+  @Get(':id')
+  @ApiOperation({
+    summary: 'Retorna todos los datos del servicio requerido por ID',
+    description: `Este endpoint devuelve un objeto con todos los datos del servicio 
+                  que este relacionado al ID pasado por parametro`})
+  @HttpCode(200)
+  @ApiNotFoundResponse({description: "El servicio buscada no existe"})
+  async getServiceById(@Param('id', ParseUUIDPipe) id: string): Promise<Service> {
+    return await this.servicesService.getServiceById(id);
   }
   
   @Post()
