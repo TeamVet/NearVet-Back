@@ -8,14 +8,12 @@ export class SalesService {
 
   constructor (private readonly saleRepository: SalesRepository) {}
 
-  async getSales (): Promise<Sale[]> {
-    return await this.saleRepository.getSales ();
+  async getSalesByDates (page:number, limit:number, start:Date, end:Date) {
+    return await this.saleRepository.getSalesByDates (page, limit, start, end);
   }
 
-  async getSalesByDates (page:number, limit:number, start:Date, end:Date): Promise<Sale[]> {
-    const sales: Sale[] = await this.saleRepository.getSalesByDates (page, limit, start, end);
-    if (sales.length === 0 ) throw new NotFoundException("No se encontraron ventas en el periodo")
-    return sales;
+  async getSales (): Promise<Sale[]> {
+    return await this.saleRepository.getSales ();
   }
 
   async getSaleById (id:string): Promise<Sale> {
@@ -24,16 +22,12 @@ export class SalesService {
     return sale;
   }
 
-  async getSalesByUserId (page:number, limit:number, userId:string, start:Date, end:Date): Promise<Sale[]> {
-    const sales: Sale[] = await this.saleRepository.getSalesByUserId (page, limit, userId, start, end);
-    if (sales.length === 0 ) throw new NotFoundException("No se encontraron ventas del cliente en el periodo")
-    return sales;
+  async getSalesByUserId (page:number, limit:number, userId:string, start:Date, end:Date) {
+    return await this.saleRepository.getSalesByUserId (page, limit, userId, start, end);
   }
 
-  async getSalesSendClinical (): Promise<Sale[]> {
-    const sales: Sale[] = await this.saleRepository.getSalesSendClinical ();
-    if (sales.length === 0 ) throw new NotFoundException("No se encontraron ventas activas enviadas desde la clinica")
-    return sales; 
+  async getSalesSendClinical () {
+    return await this.saleRepository.getSalesSendClinical ();
   }
 
   async createSale (sale:Partial<Sale>): Promise<Sale> {

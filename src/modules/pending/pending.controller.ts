@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe, HttpCode } from '@nestjs/common';
 import { PendingService } from './pending.service';
-import { ApiInternalServerErrorResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreatePendingDto } from './dto/create-pending.dto';
 import { UpdatePendingDto } from './dto/update-pending.dto';
 
@@ -13,12 +13,6 @@ export class PendingController {
   @ApiOperation({summary: "Obtiene todas las pendientes"})
   getAllPendings() {
     return this.pendingService.getAllPendings();
-  }
-
-  @Get(':id')
-  @ApiOperation({summary: "Obtiene una pendiente por ID"})
-  getPendingById(@Param('id', ParseUUIDPipe) id: string) {
-    return this.pendingService.getPendingById(id);
   }
 
   @Get('/user/:userId')
@@ -37,6 +31,12 @@ export class PendingController {
   @ApiOperation({summary: "Obtiene pendientes por servicio"})
   getPendingByService(@Param('serviceId', ParseUUIDPipe) serviceId: string) {
     return this.pendingService.getPendingByService(serviceId);
+  }
+
+  @Get(':id')
+  @ApiOperation({summary: "Obtiene una pendiente por ID"})
+  getPendingById(@Param('id', ParseUUIDPipe) id: string) {
+    return this.pendingService.getPendingById(id);
   }
 
   @Get('/active')

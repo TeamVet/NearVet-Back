@@ -2,7 +2,6 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { ApplicationProduct } from './entities/applicationProduct.entity';
 import { ApplicationProductRepository } from './application-product.repository';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { SaleProduct } from '../sale-products/entities/sale-product.entity';
 import { SaleProductsRepository } from '../sale-products/sale-products.repository';
 import { TreatmentRepository } from '../treatment/treatment.repository';
  
@@ -16,7 +15,6 @@ export class ApplicationProductService {
 
   async getApplicationProductByTreatmentId(treatmentId:string): Promise<ApplicationProduct[]> {
     const appProduct: ApplicationProduct[] = await this.AppProductRepository.getApplicationProductByTreatmentId(treatmentId);
-    if (appProduct.length ===0) throw new NotFoundException ("No se encontraron productos asignados al tratamiento")
     return appProduct;
   }
 

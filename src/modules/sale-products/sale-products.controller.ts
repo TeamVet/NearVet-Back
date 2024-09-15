@@ -10,6 +10,11 @@ import { ApiTags } from '@nestjs/swagger';
 export class SaleProductsController {
   constructor(private readonly saleProductsService: SaleProductsService) {}
 
+  @Get()
+  async getSalesProducts (): Promise<SaleProduct[]> {
+    return await this.saleProductsService.getSalesProducts()
+  }
+  
   @Get(":saleId")
   async getSalesProductBySaleId (@Param("saleId", ParseUUIDPipe) saleId:string): Promise<SaleProduct[]> {
     return await this.saleProductsService.getSalesProductBySaleId(saleId)

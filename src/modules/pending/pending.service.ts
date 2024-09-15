@@ -9,45 +9,31 @@ export class PendingService {
   constructor(private readonly pendingRepository: PendingRepository) {}
 
   async getAllPendings() {
-    const pendings = await this.pendingRepository.getAllPendingsRepository();
-    return pendings;
+    return await this.pendingRepository.getAllPendingsRepository();
   }
 
   async getPendingById(id: string) {
-    const pending = await this.pendingRepository.getPendingByIdRepository(id);
-    if (!pending) {
-      throw new NotFoundException(`Pendiente con el ID ${id} no encontrada`);
-    }
-    return pending;
+    return await this.pendingRepository.getPendingByIdRepository(id);
   }
 
   async getAllUsersPending(userId: string) {
-    const pendings = await this.pendingRepository.getAllUsersPendingRepository(userId);
-    return pendings;
+    return await this.pendingRepository.getAllUsersPendingRepository(userId);
   }
 
   async getPendingByPet(petId: string) {
-    const pendings = await this.pendingRepository.getPendingByPetRepository(petId);
-    return pendings
-
+    return await this.pendingRepository.getPendingByPetRepository(petId);
   }
 
   async getPendingByService(serviceId: string) {
-    const pendings = await this.pendingRepository.getPendingByServiceRepository(serviceId);
-    
-    return pendings;
+    return await this.pendingRepository.getPendingByServiceRepository(serviceId);
   }
 
   async getActivePending() {
-    const pendings = await this.pendingRepository.getActivePendingRepository();
-   
-    return pendings;
+    return await this.pendingRepository.getActivePendingRepository();
   }
 
   async getPendingByVeterinarian(veterinarianId: string) {
-    const pendings = await this.pendingRepository.getPendingByVeterinarianRepository(veterinarianId);
-   
-    return pendings;
+    return await this.pendingRepository.getPendingByVeterinarianRepository(veterinarianId);
   }
 
   async createPending(createPendingDto: CreatePendingDto): Promise<Pending> {
@@ -55,18 +41,11 @@ export class PendingService {
   }
 
   async updatePending(id: string, updatePendingDto: UpdatePendingDto) {
-    const pending = await this.pendingRepository.updatePendingRepository(id, updatePendingDto);
-    if (!pending) {
-      throw new NotFoundException(`Pendiente para modificar con el ID ${id} no encontrada`);
-    }
-    return pending;
+    return await this.pendingRepository.updatePendingRepository(id, updatePendingDto);
   }
 
   async deletePending(id: string) {
     const pending = await this.pendingRepository.getPendingByIdRepository(id);
-    if (!pending) {
-      throw new NotFoundException(`Pendiente para eliminar con el ID ${id} no encontrada`);
-    }
     await this.pendingRepository.deletePendingRepository(id);
     return pending;
   }

@@ -15,9 +15,7 @@ export class VeterinarianService {
   ) {}
 
   async getVeteriarian(): Promise<Veterinarian[]> {
-    const veterinarians: Veterinarian[] = await this.veterinarianRepository.getVeteriarian();
-    if (veterinarians.length == 0) throw new NotFoundException('No hay ningun Veterinario cargado');
-    return veterinarians;
+    return await this.veterinarianRepository.getVeteriarian();
   }
 
   async getVeterinarianById(id: string): Promise<Veterinarian> {
