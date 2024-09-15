@@ -11,29 +11,19 @@ export class PrescriptionService {
   ) {}
 
   async getAllPrescriptions() {
-    const prescriptions = await this.prescriptionRepository.getAllPrescriptionsRepository();
-    return prescriptions;
+    return await this.prescriptionRepository.getAllPrescriptionsRepository();
   }
 
   async getPrescriptionById(id: string) {
-    const prescription = await this.prescriptionRepository.getPrescriptionByIdRepository(id);
-    if (!prescription) {
-      throw new NotFoundException(`Prescripción con el ID ${id} no encontrada`);
-    }
-    return prescription;
+    return await this.prescriptionRepository.getPrescriptionByIdRepository(id);
   }
 
   async getAllPrescriptionsByPet(petId: string) {
-    const prescription = await this.prescriptionRepository.getAllPrescriptionsByPetRepository(petId);
-    if (!prescription) {
-      throw new NotFoundException(`No se encontraron recetas para la mascota con ID ${petId}`);
-    }
-    return prescription;
+    return await this.prescriptionRepository.getAllPrescriptionsByPetRepository(petId);
   }
 
   async getAllPrescriptionsByClinicalExamination(clinicalExaminationId: string) {
-    const prescriptions = await this.prescriptionRepository.getAllPrescriptionsByClinicalExaminationRepository(clinicalExaminationId);
-    return prescriptions;
+    return await this.prescriptionRepository.getAllPrescriptionsByClinicalExaminationRepository(clinicalExaminationId);
   }
 
   async createPrescription(createPrescription: Partial<Prescription>): Promise<Prescription> {
@@ -45,11 +35,7 @@ export class PrescriptionService {
   }
 
   async updatePrescription(id: string, updatePrescriptionDto: UpdatePrescriptionDto) {
-    const prescription = await this.prescriptionRepository.updatePrescriptionRepository(id, updatePrescriptionDto);
-    if (!prescription) {
-      throw new NotFoundException(`Prescripción para modificar con el ID ${id} no encontrada`);
-    }
-    return prescription;
+    return await this.prescriptionRepository.updatePrescriptionRepository(id, updatePrescriptionDto);
   }
 
   async deletePrescription(id: string) {

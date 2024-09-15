@@ -11,9 +11,7 @@ export class TreatmentService {
   ){}
 
   async getTreatments (): Promise<Treatment[]>  {
-    const treatments: Treatment[] = await this.treatmentRepository.getTreatments();
-    if (treatments.length === 0) throw new NotFoundException("No se encontraron tratamientos")
-    return treatments;
+    return await this.treatmentRepository.getTreatments();
 }
 
 async getTreatmentById (id:string): Promise<Treatment>  {
@@ -23,9 +21,7 @@ async getTreatmentById (id:string): Promise<Treatment>  {
 }
 
 async getTreatmentsByService (serviceId: string): Promise<Treatment[]>  {
-  const treatments: Treatment[] = await this.treatmentRepository.getTreatmentsByService(serviceId);
-  if (treatments.length === 0) throw new NotFoundException("No se encontraron tratamientos en el servicio especificado")
-  return treatments;
+  return await this.treatmentRepository.getTreatmentsByService(serviceId);
 }
 
 // async getTreatmentsByTypeService (typeServiceId: string): Promise<Treatment[]>  {

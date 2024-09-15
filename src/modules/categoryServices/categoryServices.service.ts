@@ -10,7 +10,6 @@ export class CategoryServicesService {
   
   async getCategoryServices(): Promise<CategoryService[]> {
     const catServs: CategoryService[] = await this.categoryServiceRepository.getCategoryServices();
-    if (catServs.length==0) throw new NotFoundException("No hay ninguna categoria de servicio cargada");
     return catServs;
   }
 

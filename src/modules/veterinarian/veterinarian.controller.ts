@@ -27,7 +27,6 @@ export class VeterinarianController {
     description: `Este endpoint devuelve un array con cada uno de los veterinarios que tiene la veterinaria.
                   En Caso de no haber ningun veterinario retorna un error informandolo`})
   @HttpCode(200)
-  @ApiNotFoundResponse({description: "No hay ningun Veterinario cargado"})
   async getVeteriarian(): Promise<Veterinarian[]> {
     return await this.veterinarianService.getVeteriarian();
   }
@@ -38,7 +37,6 @@ export class VeterinarianController {
     description: `Este endpoint devuelve un objeto con todos los datos del Veterinario 
                   que este relacionado al numero de licencia pasado por parametro`})
   @HttpCode(200)
-  @ApiNotFoundResponse({description: "El Veterinario buscado no existe"})
   async getVeterinarianByLicence(@Param('lic', ParseIntPipe) lic: number): Promise<Veterinarian> {
     return await this.veterinarianService.getVeterinarianByLicence(+lic);
   }
@@ -61,7 +59,6 @@ export class VeterinarianController {
                   que son particulares de un veterinario`})
   @ApiBody({ description: 'Ingesar los datos particulares del veterinario', type: CreateVeterinarianDto })
   @HttpCode(201)
-  @ApiInternalServerErrorResponse({description: "La creacione del veterinario no pudo concretarse"})
   create(@Body() createVeterinarian: CreateVeterinarianDto):Promise<Veterinarian> {
     return this.veterinarianService.create(createVeterinarian);
   }
@@ -72,7 +69,6 @@ export class VeterinarianController {
     description: `Este endpoint toma los datos pasados por body y los usa para actualizar 
                   la informacion de un Veterinario especifico pasado por el parametro ID `})
   @HttpCode(200)
-  @ApiNotFoundResponse({description: "El Veterinario que intenta actualizar no existe"})
   update(@Param('id', ParseUUIDPipe) id: string, @Body() updateVeterinarian: UpdateVeterinarianDto,): Promise<string> {
     return this.veterinarianService.update(id, updateVeterinarian);
   }
@@ -83,7 +79,6 @@ export class VeterinarianController {
     description: `Este endpoint elimina al veterinario pasado por el parametro ID, si tiene relaciones 
                   activas en la empresa solo le dara de baja`})
   @HttpCode(200)
-  @ApiNotFoundResponse({description: "El Veterinario que intenta eliminar no existe"})
   remove(@Param('id') id: string) {
     return this.veterinarianService.remove(id);
   }

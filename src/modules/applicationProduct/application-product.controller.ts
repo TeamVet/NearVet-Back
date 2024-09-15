@@ -14,7 +14,6 @@ export class ApplicationProductController {
   @Get(":treatmentId")
   @ApiOperation({summary: 'Productos aplicados a un tratamiento'})
   @HttpCode(HttpStatus.FOUND)
-  @ApiParam({name:"treatmentId", required:true, description:"Ingrese el Id del tratamiento"})
   async getApplicationProductByTreatmentId(@Param("treatmentId") treatmentId:string): Promise<ApplicationProduct[]> {
     return await this.applicationProductService.getApplicationProductByTreatmentId(treatmentId);
   }
@@ -22,7 +21,6 @@ export class ApplicationProductController {
   @Post()
   @ApiOperation({summary: "Ingresa un nuevo producto aplicado a un tratamiento"})
   @HttpCode(HttpStatus.CREATED)
-  @ApiBody({ description:"Ingrese los datos requeridos", type:CreateApplicationProductDto})
   async createApplicationProduct(@Body() AppProd: CreateApplicationProductDto): Promise<ApplicationProduct> {
       return await this.applicationProductService.createApplicationProduct(AppProd);
   }
@@ -30,9 +28,6 @@ export class ApplicationProductController {
   @Put()
   @ApiOperation({summary: "Actualiza cantidad o precio de un producto agregado a un tratamiento"})
   @HttpCode(HttpStatus.OK)
-  @ApiQuery({ name: 'treatmentId', required: true, description:"Inserte el Id del tratamiento"})
-  @ApiQuery({ name: 'productId', required: true, description:"Inserte el Id del producto"})
-  @ApiBody({ description:"Ingrese los datos a actualizar", type: UpdateApplicationProductDto})
   async updateApplicationProduct(@Query("treatmentId") treatmentId: string, @Query("productId") productId: string, @Body() AppProd: UpdateApplicationProductDto): Promise<Object> {
       return await this.applicationProductService.updateApplicationProduct(treatmentId, productId, AppProd)
   } 
@@ -40,8 +35,6 @@ export class ApplicationProductController {
   @Delete()
   @ApiOperation({summary: "Elimina un producto de un tratamiento"})
   @HttpCode(HttpStatus.OK)
-  @ApiQuery({ name: 'treatmentId', required: true, description:"Inserte el Id del tratamiento"})
-  @ApiQuery({ name: 'productId', required: true, description:"Inserte el Id del producto"})
   async removeApplicationProduct(@Query("treatmentId") treatmentId: string, @Query("productId")  productId: string): Promise<Object> {
       return await this.applicationProductService.removeApplicationProduct(treatmentId, productId)
   }
@@ -49,7 +42,6 @@ export class ApplicationProductController {
   @Delete(":treatmentId")
   @ApiOperation({summary: "Elimina todos los productos relacionados a un tratamiento"})
   @HttpCode(HttpStatus.OK)
-  @ApiParam({ name: 'treatmentId', required: true, description:"Inserte el Id del tratamiento"})
   async removeApplicationProductByTreatment(@Param("treatmentId") treatmentId: string): Promise<string> {
       return await this.applicationProductService.removeApplicationProductByTreatment(treatmentId)
   }
