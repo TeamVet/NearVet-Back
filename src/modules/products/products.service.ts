@@ -8,10 +8,8 @@ export class ProductsService {
   
   constructor (private readonly productService: ProductsRepository){}
 
-    async getProducts (page:number, limit:number): Promise<Product[]> {
-      const productFind: Product[] = await this.productService.getProducts(page, limit);
-      //if (productFind.length===0) throw new NotFoundException("No se encontraron Productos")
-      return productFind
+    async getProducts (page:number, limit:number) {
+      return await this.productService.getProducts(page, limit);
     }
 
     async getProductById (id:string): Promise<Product> {

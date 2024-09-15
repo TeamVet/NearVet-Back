@@ -29,8 +29,6 @@ export class UsersController {
 
   @Get()
   @ApiOperation({ summary: 'Obtener lista de usuarios' })
-  @ApiQuery({ name: 'page', required: false, description: 'Número de página para la paginación', type: Number })
-  @ApiQuery({ name: 'limit', required: false, description: 'Número de resultados por página', type: Number })
   getUsers(@Query('page') page: number = 1, @Query('limit') limit: number = 5) {
     return this.usersService.getUsersService(Number(page), Number(limit));
   }
@@ -43,14 +41,12 @@ export class UsersController {
 
   @Get('userRoles/:role')
   @ApiOperation({ summary: 'Obtener Rol de usuario por el nombre del rol' })
-  @ApiParam({ name: 'role', description: 'Rol del usuario', enum: Role })
   getRolesUsersByRole(@Param('role') role: Role) {
     return this.usersService.getRolesUsersByRoleService(role);
   }
 
   @Get('roles/:role')
   @ApiOperation({ summary: 'Obtener usuarios por rol específico' })
-  @ApiParam({ name: 'role', description: 'Rol del usuario', enum: Role })
   async getUsersByRoleRepository(role: Role) {
     return await this.usersService.getUsersByRoleRepository(role);
   }
@@ -59,8 +55,6 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Buscar usuarios por email' })
-  @ApiQuery({ name: 'email', required: true, description: 'Email del usuario a buscar', type: String })
-  @ApiResponse({ status: 200, description: 'Retorna el usuario sin la contraseña' })
   getUsersByEmail(@Query('email') email: string): Promise<Omit<User, 'password'>> {
     return this.usersService.getUsersByEmailService(email);
   }
@@ -69,8 +63,6 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Buscar usuarios por DNI' })
-  @ApiQuery({ name: 'dni', required: true, description: 'DNI del usuario a buscar', type: Number })
-  @ApiResponse({ status: 200, description: 'Retorna el usuario sin la contraseña' })
   getUsersByDni(@Query('dni') dni: number): Promise<Omit<User, 'password'>> {
     return this.usersService.getUsersByDniService(dni);
   }
@@ -79,8 +71,6 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Obtener usuario por ID' })
-  @ApiParam({ name: 'id', description: 'ID del usuario', type: 'string', format: 'uuid' })
-  @ApiResponse({ status: 200, description: 'Retorna el usuario' })
   getUsersById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.getUsersByIdService(id);
   }
@@ -89,9 +79,6 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Actualizar un usuario' })
-  @ApiParam({ name: 'id', description: 'ID del usuario', type: 'string', format: 'uuid' })
-  @ApiBody({ type: UpdateUserDto, description: 'Datos a actualizar del usuario' })
-  @ApiResponse({ status: 200, description: 'Usuario actualizado exitosamente' })
   updateUser(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -103,8 +90,6 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Eliminar un usuario' })
-  @ApiParam({ name: 'id', description: 'ID del usuario', type: 'string', format: 'uuid' })
-  @ApiResponse({ status: 200, description: 'Usuario eliminado exitosamente' })
   removeUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.removeUserService(id);
   }
