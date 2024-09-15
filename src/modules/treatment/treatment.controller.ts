@@ -17,14 +17,6 @@ export class TreatmentController {
     return await this.treatmentService.getTreatments();
   }
 
-  @Get(":id")
-  @ApiOperation({summary: "Devuelve un tratamiento por ID",
-                description: "Esta ruta devuleve un objeto conlos datos del tratamiento pasado por ID"})
-  @HttpCode(200)
-  async getTreatmentById (@Param("id") id:string): Promise<Treatment>  {
-    return await this.treatmentService.getTreatmentById(id);
-  }
-
   @Get("service/:serviceId")
   @ApiOperation({summary: "Devuelve los tratamientos relacionados con el servicio",
                 description: "Esta ruta devulve un array con los tratamiento pasado por ID"})
@@ -58,8 +50,16 @@ export class TreatmentController {
   @ApiOperation({summary: "Devuelve los tratamientos relacionados con la mascota",
                 description: "Esta ruta devulve un array con los tratamiento relacionados con la mascota pasada por ID"})
   @HttpCode(200)
-  async getTreatmentsByPet (petId: string): Promise<Treatment[]>  {
+  async getTreatmentsByPet (@Param("petId") petId: string): Promise<Treatment[]>  {
     return await this.treatmentService.getTreatmentsByPet(petId)
+  }
+
+  @Get(":id")
+  @ApiOperation({summary: "Devuelve un tratamiento por ID",
+                description: "Esta ruta devuleve un objeto conlos datos del tratamiento pasado por ID"})
+  @HttpCode(200)
+  async getTreatmentById (@Param("id") id:string): Promise<Treatment>  {
+    return await this.treatmentService.getTreatmentById(id);
   }
 
   @Post()

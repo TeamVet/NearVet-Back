@@ -22,7 +22,18 @@ export class FileTreatmentController {
   @ApiBody({description: `Debe subir el Archivo de Imagen`,
             schema: { type: 'object', properties: { file: {type: 'string',format: 'binary'}}}})
           
-  async addFile (@Param("clinicalExaminationId", ParseUUIDPipe) clinicalExaminationId: string, @UploadedFile(new ParseFilePipe())
+  async addFile (@Param("clinicalExaminationId", ParseUUIDPipe) clinicalExaminationId: string, 
+                @UploadedFile(new ParseFilePipe({
+                  validators: [
+                    new MaxFileSizeValidator({
+                      maxSize: 300000000,
+                      message: 'El Archivo debe ser menor a 300Mb',
+                    }),
+                    new FileTypeValidator({
+                      fileType: /.*/,
+                    }),
+                  ],
+                }))
   file: Express.Multer.File): Promise<FileTreatment> {
     return await this.fileTreatmentService.addFile(clinicalExaminationId, file)
   }
