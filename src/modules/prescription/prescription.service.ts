@@ -31,7 +31,7 @@ export class PrescriptionService {
     if (!prescription) throw new InternalServerErrorException ("No se puedo crear la Receta Medica")
     const prescriptionSale = await this.prescriptionRepository.getPrescriptionByIdRepository(prescription.id);
     await this.saleProductRepository.createSalesProduct({saleId: prescriptionSale.clinicalExamination.saleId, productId: prescription.productId, price: prescriptionSale.product.price, acount: 1});
-    return prescription;
+    return prescriptionSale;
   }
 
   async updatePrescription(id: string, updatePrescriptionDto: UpdatePrescriptionDto) {
