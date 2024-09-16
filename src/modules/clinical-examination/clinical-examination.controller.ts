@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseUUIDPipe, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query, ParseUUIDPipe, Put } from '@nestjs/common';
 import { ClinicalExaminationService } from './clinical-examination.service';
 import { CreateClinicalExaminationDto } from './dto/create-clinical-examination.dto';
 import { UpdateClinicalExaminationDto } from './dto/update-clinical-examination.dto';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ClinicalExamination } from './entities/clinicalExamination.entity';
 
 @ApiTags("clinical-examination")
@@ -12,15 +12,12 @@ export class ClinicalExaminationController {
 
   @Get()
   @ApiOperation({ summary: 'Obtener todos los exámenes clínicos con paginación' })
-  async getExaminations (
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 5
-  ): Promise<ClinicalExamination[]> {
+  async getExaminations (@Query('page') page: number, @Query('limit') limit: number): Promise<ClinicalExamination[]> {
     return await this.clinicalExaminationService.getExaminations(+page, +limit);
   }
 
   @Get('pet/:petId')
-  @ApiOperation({ summary: 'Obtener todos los exámenes clínicos para una mascota específica con paginación' })
+  @ApiOperation({ summary: 'Exámenes clínicos por mascota' })
   async getExaminationByPetId (
     @Param('petId', ParseUUIDPipe) petId: string,
     @Query('page') page: number = 1,
@@ -30,7 +27,7 @@ export class ClinicalExaminationController {
   }
 
   @Get('veterinarian/:veterinarianId')
-  @ApiOperation({ summary: 'Obtener todos los exámenes clínicos para un veterinario específico con paginación' })
+  @ApiOperation({ summary: 'Exámenes clínicos por veterinario' })
   async getExaminationByVeterinarianId (
     @Param('veterinarianId', ParseUUIDPipe) veterinarianId: string,
     @Query('page') page: number = 1,
@@ -41,7 +38,6 @@ export class ClinicalExaminationController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Obtener un examen clínico por ID' })
-  @ApiParam({ name: 'id', type: String, description: 'ID del examen clínico' })
   async getExaminationById (
     @Param('id', ParseUUIDPipe) id: string
   ): Promise<ClinicalExamination> {

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe, Query } from '@nestjs/common';
 import { MethodPayService } from './method-pay.service';
 import { CreateMethodPayDto } from './dto/create-method-pay.dto';
 import { UpdateMethodPayDto } from './dto/update-method-pay.dto';
@@ -11,8 +11,8 @@ export class MethodPayController {
 
   @Get()
   @ApiOperation({summary: "Obtiene todos los métodos de pago"})
-  getAllMethodPays() {
-    return this.methodPayService.getAllMethodPays();
+  getAllMethodPays(@Query("page") page:number, @Query("limit") limit:number) {
+    return this.methodPayService.getAllMethodPays(+page, +limit);
   }
 
   @Get(':id')

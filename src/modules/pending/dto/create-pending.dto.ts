@@ -1,14 +1,14 @@
 import { IsBoolean, IsDateString, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreatePendingDto {
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Descripción de la pendiente',
     example: 'Revisión médica para la mascota',
   })
   @IsString()
-  @IsNotEmpty()
-  description: string;
+  @IsOptional()
+  description?: string;
 
   @ApiProperty({
     description: 'Fecha de la pendiente',
@@ -22,9 +22,9 @@ export class CreatePendingDto {
     example: '2024-09-10T16:00:00.000Z',
     required: false,
   })
-  @IsOptional()
+  @IsNotEmpty()
   @IsDateString()
-  endPending?: Date;
+  endPending: Date;
 
   @ApiProperty({
     description: 'Indica si hay una notificación',

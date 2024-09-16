@@ -13,12 +13,12 @@ import {
   MaxFileSizeValidator,
   FileTypeValidator,
   UseGuards,
-  HttpCode,
+  Query,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiNotFoundResponse, ApiOperation, ApiTags, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '../authGlobal/guards/Auth.guard';
 import { RolesGuard } from '../users/roles/roles.guard';
@@ -36,18 +36,12 @@ export class PetsController {
 
   @Get()
   @ApiOperation({summary: 'Devuelve todas las mascotas'})
-  @ApiResponse({ status: 200, description: 'Retorna un array de mascotas', type: [Pet] })
-  @HttpCode(200)
-  getPets(): Promise<Pet[]> {
-    return this.petsService.getPetsService();
+  getPets(@Query("page") page:number, @Query("limit") limit:number): Promise<Pet[]> {
+    return this.petsService.getPetsService(+page, +limit);
   }
 
   @Get('SpecieAndRaces')
-  @ApiOperation({ 
-    summary: 'Devuelve todas las Especies con las razas asociadas',
-    description: `Este endpoint retorna un array de objetos tipo Specie con id, specie, y races. Donde races es un array con todas las razas asociadas a esa especie conteniendo id y race por cada raza.`,
-  })
-  @HttpCode(200)
+  @ApiOperation({ summary: 'Devuelve todas las Especies con las razas asociadas'})
   getPetSpeciesandRaces(): Promise<Specie[]> {
     return this.petsService.getPetSpeciesandRacesService();
   }
@@ -84,8 +78,6 @@ export class PetsController {
   @Roles(Role.AdminVet, Role.User)
   @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Obtener una mascota por ID' })
-  @ApiParam({ name: 'id', description: 'ID de la mascota', type: 'string', format: 'uuid' })
-  @ApiResponse({ status: 200, description: 'Retorna la mascota', type: Pet })
   getPetById(@Param('id', ParseUUIDPipe) id: string) {
     return this.petsService.getPetByIdService(id);
   }
@@ -154,9 +146,7 @@ export class PetsController {
   @Roles(Role.AdminVet, Role.User)
   @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Actualizar una mascota' })
-  @ApiParam({ name: 'id', description: 'ID de la mascota', type: 'string', format: 'uuid' })
   @ApiBody({ type: UpdatePetDto, description: 'Datos a actualizar de la mascota' })
-  @ApiResponse({ status: 200, description: 'Mascota actualizada exitosamente', type: Pet })
   updatePet(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updatePetDto: UpdatePetDto,

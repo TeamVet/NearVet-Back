@@ -16,8 +16,8 @@ export class PetsService {
     private readonly emailService: EmailService,
   ) {}
 
-  async getPetsService() {
-    return await this.petsRepository.getPetsRepository();
+  async getPetsService(page: number, limit: number) {
+    return await this.petsRepository.getPetsRepository(page, limit);
   }
 
   async getPetByIdService(id: string) {

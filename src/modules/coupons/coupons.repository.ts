@@ -10,8 +10,8 @@ export class CouponsRepository {
     private couponRepository: Repository<Coupon>,
   ) {}
 
-  async getAllCouponsRepository() {
-    return await this.couponRepository.find();
+  async getAllCouponsRepository(page:number, limit:number) {
+    return await this.couponRepository.find({skip: (page-1)*limit, take: limit});
   }
 
   async getCouponByIdRepository(id: string) {

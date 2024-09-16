@@ -14,6 +14,7 @@ export class AppointmentRepository {
   ) {}
 
   async getAppointments(page: number, limit: number) {
+    console.log(page, "   ",limit)
     return this.appointmentRepository.find({ take: limit, skip: (page - 1) * limit, relations: { pet: true, state: true } });
   }
 
@@ -22,6 +23,24 @@ export class AppointmentRepository {
       where: { id: idAppointment },
       relations: { pet: {race:true, specie:true, sex:true, repCondition:true}, state: true, service: true },
     })
+  }
+
+  async getAppointmentsByUserId(userId: string, page:number=1, limit:number=5) {
+    return await this.appointmentRepository.find({
+      skip: (page-1)*limit,
+      take: limit,
+      where: { pet: { userId } },
+      relations: { pet: true, service: true, state: true,}
+    });
+  }
+
+  async getAppointmentsByPetId(petId: string, page:number=1, limit:number=5) {
+    return await this.appointmentRepository.find({
+      skip: (page-1)*limit,
+      take: limit,
+      where: { petId },
+      relations: { pet: true, service: true, state: true,}
+    });
   }
 
   async getAppointmentsByVeterinarianAndDate (userId:string, startDate: Date, endDate: Date): Promise<Appointment[]> {
@@ -39,17 +58,6 @@ export class AppointmentRepository {
        where: {date: Between(startDate, endDate)},
        relations: {service: true , pet: {user:true}, state:true}
      })
-  }
-
-  async getAppointmentsByUserId(userId: string) {
-    return await this.appointmentRepository.find({
-      where: { pet: { userId } },
-      relations: {
-        pet: true,
-        service: true,
-        state: true,
-      },
-    });
   }
 
   async getAppointmentsActive(): Promise<Appointment[]> {
