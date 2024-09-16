@@ -2,12 +2,12 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { UpdatePrescriptionDto } from './dto/update-prescription.dto';
 import { PrescriptionRepository } from './prescription.repository';
 import { Prescription } from './entities/prescription.entity';
-import { SaleProductsRepository } from '../sale-products/sale-products.repository';
+import { SaleProductsService } from '../sale-products/sale-products.service';
 
 @Injectable()
 export class PrescriptionService {
   constructor(private readonly prescriptionRepository: PrescriptionRepository,
-    private readonly saleProductRepository: SaleProductsRepository
+    private readonly saleProductService: SaleProductsService
   ) {}
 
   async getAllPrescriptions() {
@@ -30,7 +30,7 @@ export class PrescriptionService {
     const prescription = await this.prescriptionRepository.createPrescriptionRepository(createPrescription)
     if (!prescription) throw new InternalServerErrorException ("No se puedo crear la Receta Medica")
     const prescriptionSale = await this.prescriptionRepository.getPrescriptionByIdRepository(prescription.id);
-    await this.saleProductRepository.createSalesProduct({saleId: prescriptionSale.clinicalExamination.saleId, productId: prescription.productId, price: prescriptionSale.product.price, acount: 1});
+    await this.saleProductService.createSalesProduct({saleId: prescriptionSale.clinicalExamination.saleId, productId: prescription.productId, price: prescriptionSale.product.price, acount: 1});
     return prescriptionSale;
   }
 

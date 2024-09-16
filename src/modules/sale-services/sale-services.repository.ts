@@ -22,7 +22,7 @@ export class SaleServicesRepository {
     async getSalesServiceByIds (saleId:string, serviceId:string): Promise<SaleService> {
         return await this.saleServiceRepository.findOne({
             where: {saleId, serviceId},
-            relations: {service:true}
+            relations: {service:true, sale:true}
         })
     }
 
