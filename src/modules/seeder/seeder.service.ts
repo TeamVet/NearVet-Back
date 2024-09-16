@@ -17,6 +17,7 @@ import preloadAppointment from '../../seeds/appointments.json';
 import preloadExamination from '../../seeds/examination.json';
 import preloadTreatment from '../../seeds/treatment.json';
 import preloadPrescription from '../../seeds/prescription.json';
+import preloadMethodPay from '../../seeds/methodPay.json';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { UserRole } from '../users/entities/userRole.entity';
@@ -41,6 +42,7 @@ import { Prescription } from '../prescription/entities/prescription.entity';
 import { ClinicalExaminationService } from '../clinical-examination/clinical-examination.service';
 import { PrescriptionService } from '../prescription/prescription.service';
 import { TreatmentService } from '../treatment/treatment.service';
+import { MethodPay } from '../method-pay/entities/method-pay.entity';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -84,7 +86,9 @@ export class SeederService implements OnModuleInit {
     private readonly treatmentService: TreatmentService,
     @InjectRepository(Prescription)
     private readonly prescriptionRepository: Repository<Prescription>, 
-    private readonly prescriptionService: PrescriptionService
+    private readonly prescriptionService: PrescriptionService,
+    @InjectRepository(MethodPay)
+    private readonly methodPayRepository: Repository<MethodPay>, 
   ) {}
 
   petsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'pets.json');
@@ -430,6 +434,16 @@ export class SeederService implements OnModuleInit {
     console.log('Recetas medicas Cargados Con Exito');
   }
 
+  async loadMethodPay() {
+    for (const method of preloadMethodPay) {
+      const methodFind: MethodPay = await this.methodPayRepository.findOneBy({ method: method.method});
+      if (!methodFind) {
+             await this.methodPayRepository.save(method);
+          }
+        }
+    console.log('Methodos de Pago Cargados Con Exito');
+  }
+
   async preloadInitial() {
     await this.loadRolesData();
     await this.loadSexData();
@@ -449,7 +463,8 @@ export class SeederService implements OnModuleInit {
     await this.loadAppointment();
     await this.loadExamination();
     await this.loadTreatment();
-    await this.loadPrescription()
+    await this.loadPrescription();
+    await this.loadMethodPay();
   }
 
   async onModuleInit() {
