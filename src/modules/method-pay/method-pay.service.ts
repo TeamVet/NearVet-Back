@@ -8,8 +8,8 @@ import { MethodPay } from './entities/method-pay.entity';
 export class MethodPayService {
   constructor(private readonly methodPayRepository: MethodPayRepository) {}
 
-  async getAllMethodPays() {
-    return await this.methodPayRepository.getAllMethodPaysRepository();
+  async getAllMethodPays(page:number, limit:number) {
+    return await this.methodPayRepository.getAllMethodPaysRepository(page, limit);
   }
 
   async getMethodPayById(id: string) {

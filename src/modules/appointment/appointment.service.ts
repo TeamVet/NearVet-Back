@@ -22,6 +22,14 @@ export class AppointmentService {
     return appointment;
   }
 
+  async getAppointmentsByUserIdService(userId: string, page: number, limit : number) {
+    return await this.appointmentRepository.getAppointmentsByUserId(userId, page, limit);
+  }
+
+  async getAppointmentsByPetIdService(petId: string, page: number, limit : number) {
+    return await this.appointmentRepository.getAppointmentsByUserId(petId, page, limit);
+  }
+
    async getAppointmentsByIdAndDate (id:string, admin: Boolean, startDate: Date, endDate:Date): Promise<AppResponseCalendarDayDto[]> {
      const appointments: Appointment[] =
       admin ? await this.appointmentRepository.getAppointmentsByAdminAndDate(startDate, endDate) : await this.appointmentRepository.getAppointmentsByVeterinarianAndDate(id, startDate, endDate);
@@ -53,10 +61,6 @@ export class AppointmentService {
      } 
      return responseAppointments;
    }
-
-  async getAppointmentsByUserIdService(idUser: string) {
-    return await this.appointmentRepository.getAppointmentsByUserId(idUser);
-  }
 
   async createAppointmentService(createAppointment: Partial<Appointment>) {
     const newAppointment = await this.appointmentRepository.createAppointment(createAppointment);

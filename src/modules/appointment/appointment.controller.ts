@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param, Put, Get, Query, HttpCode, HttpStatus, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Post, Body, Param, Put, Get, Query, HttpCode, HttpStatus, ParseUUIDPipe, ParseIntPipe } from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { CreateAppointmentDto, EditAppointmentDto } from './dto/appointment.dto';
 import { ApiBadRequestResponse, ApiBody, ApiInternalServerErrorResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
@@ -12,22 +12,31 @@ export class AppointmentController {
   constructor(private readonly appointmentService: AppointmentService) {}
 
   @Get()
-  @ApiOperation({summary: 'Muestra todos los turnos'})
-  @ApiQuery({ name: 'page', required: false, example: 1 })
-  @ApiQuery({ name: 'limit', required: false, example: 5 })
-  getAppoinment(@Query('page') page: number = 1, @Query('limit') limit: number = 5) {
-    return this.appointmentService.getAppointmentsService(Number(page), Number(limit));
+  @ApiOperation({ summary: 'Muestra todos los turnos' })
+  getAppoinment(@Query('page') page: number, 
+                @Query('limit') limit: number ) {
+        return this.appointmentService.getAppointmentsService(+page, +limit);
   }
 
-  @Get('/user/:idUser')
+  @Get('/user/:userId')
   @ApiOperation({summary: 'Muestra turnos creados por el usuario'})
-  getAppoinmentsByUserId(@Param('idUser') idUser: string) {
-    return this.appointmentService.getAppointmentsByUserIdService(idUser);
+  getAppoinmentsByUserId(@Param('userId', ParseUUIDPipe) userId: string, 
+                         @Query('page') page: number,  
+                         @Query('limit') limit: number ) {
+    return this.appointmentService.getAppointmentsByUserIdService(userId, +page, +limit);
+  }
+
+  @Get('/pet/:petId')
+  @ApiOperation({summary: 'Muestra turnos creados por el usuario'})
+  getAppoinmentsByPetId(@Param('petId', ParseUUIDPipe) petId: string, 
+                         @Query('page') page: number,  
+                         @Query('limit') limit: number ) {
+    return this.appointmentService.getAppointmentsByPetIdService(petId, +page, +limit);
   }
 
   @Get(':id')
   @ApiOperation({summary: 'Muestra un turno por ID'})
-  getAppoinmentById(@Param('id') id: string): Promise<Appointment> {
+  getAppoinmentById(@Param('id', ParseUUIDPipe) id: string): Promise<Appointment> {
     return this.appointmentService.getAppointmentByIdService(id);
   }
 
@@ -57,19 +66,19 @@ export class AppointmentController {
     description: 'Ingrese los datos para editar el turno',
     type: EditAppointmentDto,
   })
-  editAppointment(@Param('idAppointment') idAppointment: string, @Body() editAppointmentDto: EditAppointmentDto) {
+  editAppointment(@Param('idAppointment', ParseUUIDPipe) idAppointment: string, @Body() editAppointmentDto: EditAppointmentDto) {
     return this.appointmentService.editAppointmentService(idAppointment, editAppointmentDto);
   }
 
   @Put('finish/:idAppointment')
   @ApiOperation({summary: 'Finaliza turno'})
-  finishAppointment(@Param('idAppointment') idAppointment: string) {
+  finishAppointment(@Param('idAppointment', ParseUUIDPipe) idAppointment: string) {
     return this.appointmentService.finishAppointmentService(idAppointment);
   }
 
   @Put('cancel/:idAppointment')
   @ApiOperation({summary: 'Cancela turno'})
-  cancelAppointment(@Param('idAppointment') idAppointment: string) {
+  cancelAppointment(@Param('idAppointment', ParseUUIDPipe) idAppointment: string) {
     return this.appointmentService.cancelAppointmentService(idAppointment);
   }
 }
