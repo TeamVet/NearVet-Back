@@ -19,7 +19,7 @@ export class SaleProduct {
     @PrimaryColumn("uuid")
     saleId: string;
 
-    @Column()
+    @Column({type:"float"})
     price: number;
 
     @Column()

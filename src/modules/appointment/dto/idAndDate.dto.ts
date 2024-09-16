@@ -11,6 +11,11 @@ export class IdAndDateDto {
     @IsDateString()
     @IsNotEmpty()
     @ApiProperty({example: new Date("2024-09-11")})
-    date: Date; 
+    startDate: Date; 
+
+    @IsDateString()
+    @IsNotEmpty()
+    @ApiProperty({example: new Date("2024-09-11")})
+    endDate: Date; 
 
 }

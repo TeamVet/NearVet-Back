@@ -1,17 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAppointmentDto, EditAppointmentDto } from './dto/appointment.dto';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { AppointmentRepository } from './appointment.repository';
-import { PetsRepository } from '../pets/pets.repository';
-import { UsersService } from '../users/users.service';
 import { Appointment } from './entities/appointment.entity';
 import { AppResponseCalendarDayDto } from './dto/AppResponseCalendar.dto';
 import { EmailService } from '../email/email.service';
+import { StatesAppointment } from './entities/statesAppointment.entity';
 
 @Injectable()
 export class AppointmentService {
   constructor(
     private readonly appointmentRepository: AppointmentRepository,
-    private readonly petsRepository: PetsRepository,
     private readonly emailService: EmailService,
   ) {}
 
@@ -20,11 +17,22 @@ export class AppointmentService {
   }
 
   async getAppointmentByIdService(idAppointment: string): Promise<Appointment> {
-    return await this.appointmentRepository.getAppointmentById(idAppointment);
+    const appointment: Appointment = await this.appointmentRepository.getAppointmentById(idAppointment)
+    if (!appointment) throw new NotFoundException('Turno no encontrado');
+    return appointment;
   }
 
-   async getAppointmentsByIdAndDate (id:string, date: Date, admin: Boolean): Promise<AppResponseCalendarDayDto[]> {
-     const appointments: Appointment[] = admin ? await this.appointmentRepository.getAppointmentsByAdminAndDate(date) : await this.appointmentRepository.getAppointmentsByVeterinarianAndDate(id, date);
+  async getAppointmentsByUserIdService(userId: string, page: number, limit : number) {
+    return await this.appointmentRepository.getAppointmentsByUserId(userId, page, limit);
+  }
+
+  async getAppointmentsByPetIdService(petId: string, page: number, limit : number) {
+    return await this.appointmentRepository.getAppointmentsByUserId(petId, page, limit);
+  }
+
+   async getAppointmentsByIdAndDate (id:string, admin: Boolean, startDate: Date, endDate:Date): Promise<AppResponseCalendarDayDto[]> {
+     const appointments: Appointment[] =
+      admin ? await this.appointmentRepository.getAppointmentsByAdminAndDate(startDate, endDate) : await this.appointmentRepository.getAppointmentsByVeterinarianAndDate(id, startDate, endDate);
      const responseAppointments: AppResponseCalendarDayDto[] = []
      if (appointments.length>0) {
        appointments.forEach ((appointment) => {
@@ -45,6 +53,8 @@ export class AppointmentService {
                StartTime: new Date(dateApp.getFullYear(), dateApp.getMonth(), dateApp.getDate(), +appointment.time.split(":")[0], +appointment.time.split(":")[1]), // new Date(2024, 8, 9, 9, 0), ///anio, -mes, dia, hora, minutos Horario de comienzo
                EndTime: new Date(dateApp.getFullYear(), dateApp.getMonth(), dateApp.getDate(), endHour, endMin), //new Date(2024, 8, 9, 10, 0), Horario fin
                isAllDay: false, //false, siempre en false
+               petId: appointment.pet.id,
+               stateAppointment: appointment.state.state,
              }
              responseAppointments.push(responseAppointment);
        })  
@@ -52,29 +62,28 @@ export class AppointmentService {
      return responseAppointments;
    }
 
-  async getAppointmentsByUserIdService(idUser: string) {
-    return await this.appointmentRepository.getAppointmentsByUserId(idUser);
-  }
-
-  async createAppointmentService(createAppointmentDto: CreateAppointmentDto) {
-    await this.petsRepository.getPetByIdRepository(String(createAppointmentDto.pet_id));
-    const newAppointment = await this.appointmentRepository.createAppointment(createAppointmentDto);
+  async createAppointmentService(createAppointment: Partial<Appointment>) {
+    const newAppointment = await this.appointmentRepository.createAppointment(createAppointment);
+    if (!newAppointment) throw new InternalServerErrorException("No se pudo crear el turno")
     await this.emailService.appointmentNotification(newAppointment.id)
     return newAppointment;
   }
 
-  async editAppointmentService(editAppointment: EditAppointmentDto, idAppointment: string) {
-    const appointment = await this.getAppointmentByIdService(idAppointment);
-    return await this.appointmentRepository.editAppointment(editAppointment, appointment);
+  async editAppointmentService(id: string, editAppointment: Partial<Appointment>) {
+    const appointment = await this.appointmentRepository.editAppointment(id, editAppointment);
+    if (appointment.affected === 0 ) throw new NotFoundException("No se encontro el Aturno a actualizar")
+    return id;
   }
 
   async finishAppointmentService(idAppointment: string) {
-    await this.getAppointmentByIdService(idAppointment);
-    return await this.appointmentRepository.finishAppointment(idAppointment);
+    const finishedApp = await this.appointmentRepository.finishAppointment(idAppointment)
+    if (finishedApp.affected===0) throw new NotFoundException("El turno a finalizar no fue encontrado");
+    return await this.appointmentRepository.getAppointmentById(idAppointment);
   }
 
   async cancelAppointmentService(idAppointment: string) {
-    await this.appointmentRepository.getAppointmentById(idAppointment);
-    return await this.appointmentRepository.cancelAppointment(idAppointment);
+    const canceledApp = await this.appointmentRepository.cancelAppointment(idAppointment)
+    if (canceledApp.affected===0) throw new NotFoundException("El turno a Cancelar no fue encontrado");
+    return await this.appointmentRepository.getAppointmentById(idAppointment);
   }
 }

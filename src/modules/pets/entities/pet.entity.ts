@@ -7,6 +7,7 @@ import { Appointment } from 'src/modules/appointment/entities/appointment.entity
 import { Specie } from 'src/modules/species/entities/specie.entity';
 import { ClinicalExamination } from 'src/modules/clinical-examination/entities/clinicalExamination.entity';
 import { Pending } from 'src/modules/pending/entities/pending.entity';
+import { Prescription } from 'src/modules/prescription/entities/prescription.entity';
 
 @Entity({
   name: 'pets',
@@ -94,4 +95,5 @@ export class Pet {
   /* RELACION UNO-A-MUCHOS CON pending */
   @OneToMany(() => Pending, (pending) => pending.pet)
   pendings: Pending[];
+  
 }

@@ -31,9 +31,10 @@ import { AvailabilityServiceModule } from './modules/availabilityService/availab
 import { PaymentsModule } from './modules/payments/payments.module';
 import { PendingModule } from './modules/pending/pending.module';
 import { SaleProductsModule } from './modules/sale-products/sale-products.module';
-import { PdfModule } from './modules/pdf/pdf.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SaleServicesModule } from './modules/sale-services/sale-services.module';
+import { Prescription } from './modules/prescription/entities/prescription.entity';
+import { PrescriptionModule } from './modules/prescription/prescription.module';
 
 @Module({
   imports: [
@@ -77,7 +78,7 @@ import { SaleServicesModule } from './modules/sale-services/sale-services.module
     SaleServicesModule,
     PendingModule,
     SaleProductsModule,
-    PdfModule,
+    PrescriptionModule,
     PaymentsModule,
   ],
 

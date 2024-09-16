@@ -8,10 +8,8 @@ export class ServicesService {
   constructor (private readonly serviceRepository: ServiceRepository,
   ){}
   
-  async getServices(): Promise<Service[]> {
-    const services: Service[] = await this.serviceRepository.getServices();
-    if (services.length==0) throw new NotFoundException("No hay ninguna servicio cargado");
-    return services;
+  async getServices() {
+    return await this.serviceRepository.getServices();
   }
 
   async getServiceById(id: string): Promise<Service> {
@@ -21,15 +19,11 @@ export class ServicesService {
   }
 
   async getServiceByCategory(category: string): Promise<Service[]> {
-    const services: Service[] = await this.serviceRepository.getServicesByCategory(category);
-    if (services.length==0) {throw new NotFoundException(`La categoria de saervicio no tiene servicios asociados`)}
-    return services;
+    return await this.serviceRepository.getServicesByCategory(category);
   }
   
   async getServiceByVeterinairan(veterinarianId: string): Promise<Service[]> {
-    const services: Service[] = await this.serviceRepository.getServicesByVeterinarian(veterinarianId);
-    if (services.length==0) {throw new NotFoundException(`el Veterinario no tiene servicios asociados`)}
-    return services;
+    return await this.serviceRepository.getServicesByVeterinarian(veterinarianId);
   }
 
   async createService(createService: Partial<Service>): Promise<Service> {
@@ -49,5 +43,4 @@ export class ServicesService {
     if (serviceRemove.affected !== 1) throw new NotFoundException(`El servicio que intenta eliminar no existe`)
     return id;
   }
-
 }

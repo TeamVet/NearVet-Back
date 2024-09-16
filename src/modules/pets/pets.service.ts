@@ -16,14 +16,12 @@ export class PetsService {
     private readonly emailService: EmailService,
   ) {}
 
-  async getPetsService(): Promise<Pet[]> {
-    const pets: Pet[] = await this.petsRepository.getPetsRepository();
-    if (pets.length === 0) throw new NotFoundException(`Por el momento no hay mascotas registradas`);
-    return pets;
+  async getPetsService(page: number, limit: number) {
+    return await this.petsRepository.getPetsRepository(page, limit);
   }
 
   async getPetByIdService(id: string) {
-    return this.petsRepository.getPetByIdRepository(id);
+    return await this.petsRepository.getPetByIdRepository(id);
   }
 
   async getPetsByUserService(id: string): Promise<Pet[]> {
@@ -53,11 +51,11 @@ export class PetsService {
   }
 
   async updatePetService(id: string, updatePetDto: Partial<Pet>) {
-    return this.petsRepository.updatePetRepository(id, updatePetDto);
+    return await this.petsRepository.updatePetRepository(id, updatePetDto);
   }
 
   async removePetService(id: string) {
-    return this.petsRepository.removePetRepository(id);
+    return await this.petsRepository.removePetRepository(id);
   }
 
   async uploadImgProfileService(id: string, file: Express.Multer.File) {

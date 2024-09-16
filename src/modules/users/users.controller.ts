@@ -16,12 +16,11 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/updateUser.dto';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags, ApiParam, ApiQuery, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Role } from './roles/roles.enum';
 import { AuthGuard } from '../authGlobal/guards/Auth.guard';
-import { RolesGuard } from './roles/roles.guard';
 
 @ApiTags('Users')
 @Controller('users')
@@ -29,32 +28,41 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Obtener lista de usuarios' })
   getUsers(@Query('page') page: number = 1, @Query('limit') limit: number = 5) {
     return this.usersService.getUsersService(Number(page), Number(limit));
   }
 
-  @Get("userRoles")
+  @Get('userRoles')
+  @ApiOperation({ summary: 'Obtener todos los roles de usuarios' })
   getRolesUsers() {
     return this.usersService.getRolesUsersService();
   }
 
-  @Get("userRoles/:role")
-  getRolesUsersByRole(@Param("role") role:Role) {
+  @Get('userRoles/:role')
+  @ApiOperation({ summary: 'Obtener Rol de usuario por el nombre del rol' })
+  getRolesUsersByRole(@Param('role') role: Role) {
     return this.usersService.getRolesUsersByRoleService(role);
+  }
+
+  @Get('roles/:role')
+  @ApiOperation({ summary: 'Obtener usuarios por rol específico' })
+  async getUsersByRoleRepository(role: Role) {
+    return await this.usersService.getUsersByRoleRepository(role);
   }
 
   @Get('search-by-email')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
-  getUsersByEmail(
-    @Query('email') email: string,
-  ): Promise<Omit<User, 'password'>> {
+  @ApiOperation({ summary: 'Buscar usuarios por email' })
+  getUsersByEmail(@Query('email') email: string): Promise<Omit<User, 'password'>> {
     return this.usersService.getUsersByEmailService(email);
   }
 
   @Get('search-by-dni')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Buscar usuarios por DNI' })
   getUsersByDni(@Query('dni') dni: number): Promise<Omit<User, 'password'>> {
     return this.usersService.getUsersByDniService(dni);
   }
@@ -62,32 +70,15 @@ export class UsersController {
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Obtener usuario por ID' })
   getUsersById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.getUsersByIdService(id);
   }
 
-  @Put(':id')
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
-  updateUser(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    return this.usersService.updateUserService(id, updateUserDto);
-  }
-
-  /*
-    // CREAR DAR DE BAJA (AGREGAR FECHA DE BAJA EN endDate)
-    @Put('unsubscribe/:id')
-    unsubscribeUser(@Param('id', ParseUUIDPipe) id: string){
-      return this.usersService.unsubscribeUserService(id)
-    }
-    */
-
-  // CREAR DELETE (borrar de bd)
   @Delete(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Eliminar un usuario' })
   removeUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.removeUserService(id);
   }
@@ -97,6 +88,8 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Subir imagen de perfil de usuario' })
+  @ApiParam({ name: 'id', description: 'ID del usuario', type: 'string', format: 'uuid' })
   @ApiBody({
     description: `Debe subir el Archivo de Imagen`,
     schema: {
@@ -109,6 +102,7 @@ export class UsersController {
       },
     },
   })
+  @ApiResponse({ status: 200, description: 'Imagen de perfil subida exitosamente' })
   async uploadImgProfile(
     @Param('id', ParseUUIDPipe) id: string,
     @UploadedFile(
@@ -129,4 +123,19 @@ export class UsersController {
     console.log('File', file);
     return await this.usersService.uploadImgProfileService(id, file);
   }
+
+  @Put(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Actualizar un usuario' })
+  @ApiParam({ name: 'id', description: 'ID del usuario', type: 'string', format: 'uuid' })
+  @ApiBody({ type: UpdateUserDto, description: 'Datos a actualizar del usuario' })
+  @ApiResponse({ status: 200, description: 'Usuario actualizado exitosamente' })
+  updateUser(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.usersService.updateUserService(id, updateUserDto);
+  }
+  
 }

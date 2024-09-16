@@ -12,6 +12,10 @@ export class SalesRepository {
         return await this.saleRepository.find({where: {date: Between(start,end)}, take: limit, skip:page*limit});
     }
 
+    async getSales (): Promise<Sale[]> {
+        return await this.saleRepository.find();
+    }
+
     async getSaleById (id:string): Promise<Sale> {
         return await this.saleRepository.findOneBy({id});
     }
@@ -25,7 +29,7 @@ export class SalesRepository {
     }
  
     async createSale (sale:Partial<Sale>): Promise<Sale> {
-        return await this.saleRepository.create(sale);
+        return await this.saleRepository.save(sale);
     }
 
     async updateSale (id:string, sale:Partial<Sale>): Promise<UpdateResult> {

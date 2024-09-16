@@ -8,15 +8,8 @@ import { MethodPay } from './entities/method-pay.entity';
 export class MethodPayService {
   constructor(private readonly methodPayRepository: MethodPayRepository) {}
 
-  async getAllMethodPays() {
-    const methodPay = await this.methodPayRepository.getAllMethodPaysRepository();
-    if (methodPay.length === 0) {
-      throw new NotFoundException('Hasta el momento no hay métodos de pago registrados ...');
-    }
-    return {
-      message: "Listado de métodos de pago registrados",
-      methodPay
-    }
+  async getAllMethodPays(page:number, limit:number) {
+    return await this.methodPayRepository.getAllMethodPaysRepository(page, limit);
   }
 
   async getMethodPayById(id: string) {
@@ -24,10 +17,7 @@ export class MethodPayService {
     if (!methodPay) {
       throw new NotFoundException(`Metodo de pago con el ID ${id} no encontrado`);
     }
-    return {
-      message: `Metodo de pago con el ID ${id} encontrado exitosamente`,
-      methodPay
-    };
+    return methodPay;
   }
 
   async createMethodPay(createMethodPayDto: CreateMethodPayDto): Promise<MethodPay> {
@@ -39,10 +29,7 @@ export class MethodPayService {
     if (!methodPay) {
       throw new NotFoundException(`Metodo de pago para modificar con el ID ${id} no encontrado`);
     }
-    return {
-      message: `Metodo de pago con el ID ${id} modificado exitosamente`,
-      methodPay
-    };
+    return methodPay;
   }
 
   async deleteMethodPay(id: string) {
@@ -51,9 +38,6 @@ export class MethodPayService {
       throw new NotFoundException(`Metodo de pago para eliminar con el ID ${id} no encontrado`);
     }
     await this.methodPayRepository.deleteMethodPayRepository(id);
-    return {
-      message: `Metodo de pago con el ID ${id} eliminado exitosamente`,
-      methodPay
-    };
+    return methodPay;
   }
 }

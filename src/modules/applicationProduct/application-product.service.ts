@@ -2,21 +2,28 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { ApplicationProduct } from './entities/applicationProduct.entity';
 import { ApplicationProductRepository } from './application-product.repository';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { SaleProductsRepository } from '../sale-products/sale-products.repository';
+import { TreatmentRepository } from '../treatment/treatment.repository';
+import { SaleProductsService } from '../sale-products/sale-products.service';
  
 @Injectable()
 export class ApplicationProductService {
   
-  constructor (private readonly AppProductRepository: ApplicationProductRepository){}
+  constructor (private readonly AppProductRepository: ApplicationProductRepository,
+               private readonly saleProductService: SaleProductsService,
+               private readonly treatmentRepository: TreatmentRepository
+  ){}
 
   async getApplicationProductByTreatmentId(treatmentId:string): Promise<ApplicationProduct[]> {
     const appProduct: ApplicationProduct[] = await this.AppProductRepository.getApplicationProductByTreatmentId(treatmentId);
-    if (appProduct.length ===0) throw new NotFoundException ("No se encontraron productos asignados al tratamiento")
     return appProduct;
   }
 
-  async createApplicationProduct(AppProd: Partial<ApplicationProduct>): Promise<ApplicationProduct> {
-    const appProduct: ApplicationProduct = await this.AppProductRepository.createApplicationProduct(AppProd)
+  async createApplicationProduct(appProd: Partial<ApplicationProduct>): Promise<ApplicationProduct> {
+    const appProduct: ApplicationProduct = await this.AppProductRepository.createApplicationProduct(appProd)
     if (!appProduct) throw new InternalServerErrorException ("No se pudo asignar el producto al tratamiento")
+    const saleId: string = await this.treatmentRepository.getSaleIdByTreatmentId(appProd.treatmentId);
+    await this.saleProductService.createSalesProduct({saleId, productId: appProd.productId, price: appProd.price, acount: appProd.acount});
     return appProduct;
   }
     

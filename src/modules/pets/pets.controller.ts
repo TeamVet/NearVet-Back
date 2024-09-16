@@ -13,12 +13,12 @@ import {
   MaxFileSizeValidator,
   FileTypeValidator,
   UseGuards,
-  HttpCode,
+  Query,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '../authGlobal/guards/Auth.guard';
 import { RolesGuard } from '../users/roles/roles.guard';
@@ -35,82 +35,67 @@ export class PetsController {
   constructor(private readonly petsService: PetsService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Devuelve todas las mascotas',
-                  description: `Devuelve un array con todas las mascotas registradas en la veterinaria`,})
-  @ApiNotFoundResponse({ description:"Por el momento no hay mascotas registradas"})
-  @HttpCode(200)
-  @ApiBearerAuth()
-  // @Roles(Role.AdminVet, Role.User)
-  // @UseGuards(AuthGuard, RolesGuard)
-  getPets(): Promise<Pet[]> {
-    return this.petsService.getPetsService();
+  @ApiOperation({summary: 'Devuelve todas las mascotas'})
+  getPets(@Query("page") page:number, @Query("limit") limit:number): Promise<Pet[]> {
+    return this.petsService.getPetsService(+page, +limit);
   }
 
-  @Get("SpecieAndRaces")
-  @ApiOperation({ summary: 'Devuelve todas las Especies con las razas asociadas',
-                  description: `Este endpiont retorna una array de objetos tipo Specie con id, Specie, y Races.
-                                Donde Races es un array con todas las razas asociadas a esa especie
-                                conteniendo id y race por cada raza`,})
-  @ApiNotFoundResponse({ description:"Por el momento no hay mascotas registradas"})
-  @HttpCode(200)
-  getPetSpeciesandRaces(): Promise <Specie[]> {
+  @Get('SpecieAndRaces')
+  @ApiOperation({ summary: 'Devuelve todas las Especies con las razas asociadas'})
+  getPetSpeciesandRaces(): Promise<Specie[]> {
     return this.petsService.getPetSpeciesandRacesService();
   }
 
-  @Get("Species")
-  getPetSpecies(): Promise <Specie[]> {
+  @Get('Species')
+  @ApiOperation({ summary: 'Devuelve todas las especies de mascotas' })
+  getPetSpecies(): Promise<Specie[]> {
     return this.petsService.getPetSpeciesService();
   }
 
-  @Get("Races/:Specie")
-  getPetRaces(@Param("Specie") specie: string): Promise <Race[]> {
+  @Get('Races/:Specie')
+  @ApiOperation({ summary: 'Devuelve todas las razas de una especie' })
+  getPetRaces(@Param('Specie') specie: string): Promise<Race[]> {
     return this.petsService.getPetRacesService(specie);
   }
 
-  @Get("Sex")
-  getPetSex(): Promise <Sex[]> {
+  @Get('Sex')
+  @ApiOperation({ summary: 'Devuelve todos los sexos de las mascotas' })
+  getPetSex(): Promise<Sex[]> {
     return this.petsService.getPetsSexService();
-  }
-
-  @Get(':id')
-  @ApiBearerAuth()
-  @Roles(Role.AdminVet, Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
-  getPetById(@Param('id', ParseUUIDPipe) id: string) {
-    return this.petsService.getPetByIdService(id);
   }
 
   @Get('user/:id')
   @ApiBearerAuth()
   @Roles(Role.AdminVet, Role.User, Role.Veterinarian)
   @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Obtener todas las mascotas de un usuario' })
   getPetsByUser(@Param('id', ParseUUIDPipe) id: string): Promise<Pet[]> {
     return this.petsService.getPetsByUserService(id);
+  }
+
+  @Get(':id')
+  @ApiBearerAuth()
+  @Roles(Role.AdminVet, Role.User)
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Obtener una mascota por ID' })
+  getPetById(@Param('id', ParseUUIDPipe) id: string) {
+    return this.petsService.getPetByIdService(id);
   }
 
   @Post()
   @ApiBearerAuth()
   @Roles(Role.AdminVet, Role.User)
   @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Crear una nueva mascota' })
   createPet(@Body() createPetDto: CreatePetDto) {
     return this.petsService.createPetService(createPetDto);
-  }
-
-  @Put(':id')
-  @ApiBearerAuth()
-  @Roles(Role.AdminVet, Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
-  updatePet(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updatePetDto: UpdatePetDto,
-  ) {
-    return this.petsService.updatePetService(id, updatePetDto);
   }
 
   @Delete(':id')
   @ApiBearerAuth()
   @Roles(Role.AdminVet, Role.User)
   @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Eliminar una mascota' })
   removePet(@Param('id', ParseUUIDPipe) id: string) {
     return this.petsService.removePetService(id);
   }
@@ -121,8 +106,10 @@ export class PetsController {
   @UseGuards(AuthGuard, RolesGuard)
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Subir imagen de perfil de la mascota' })
+  @ApiParam({ name: 'id', description: 'ID de la mascota', type: 'string', format: 'uuid' })
   @ApiBody({
-    description: `Debe subir el Archivo de Imagen`,
+    description: `Debe subir el archivo de imagen`,
     schema: {
       type: 'object',
       properties: {
@@ -133,6 +120,7 @@ export class PetsController {
       },
     },
   })
+  @ApiResponse({ status: 200, description: 'Imagen de perfil subida exitosamente' })
   async uploadImgProfile(
     @Param('id', ParseUUIDPipe) id: string,
     @UploadedFile(
@@ -152,4 +140,18 @@ export class PetsController {
   ) {
     return await this.petsService.uploadImgProfileService(id, file);
   }
+
+  @Put(':id')
+  @ApiBearerAuth()
+  @Roles(Role.AdminVet, Role.User)
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Actualizar una mascota' })
+  @ApiBody({ type: UpdatePetDto, description: 'Datos a actualizar de la mascota' })
+  updatePet(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updatePetDto: UpdatePetDto,
+  ) {
+    return this.petsService.updatePetService(id, updatePetDto);
+  }
+  
 }

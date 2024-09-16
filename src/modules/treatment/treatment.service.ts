@@ -1,16 +1,17 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { TreatmentRepository } from './treatment.repository';
 import { Treatment } from './entities/treatment.entity';
+import { SaleServicesService } from '../sale-services/sale-services.service';
 
 @Injectable()
 export class TreatmentService {
   
-  constructor (private readonly treatmentRepository: TreatmentRepository){}
+  constructor (private readonly treatmentRepository: TreatmentRepository,
+    private readonly saleServiceService: SaleServicesService
+  ){}
 
   async getTreatments (): Promise<Treatment[]>  {
-    const treatments: Treatment[] = await this.treatmentRepository.getTreatments();
-    if (treatments.length === 0) throw new NotFoundException("No se encontraron tratamientos")
-    return treatments;
+    return await this.treatmentRepository.getTreatments();
 }
 
 async getTreatmentById (id:string): Promise<Treatment>  {
@@ -20,9 +21,7 @@ async getTreatmentById (id:string): Promise<Treatment>  {
 }
 
 async getTreatmentsByService (serviceId: string): Promise<Treatment[]>  {
-  const treatments: Treatment[] = await this.treatmentRepository.getTreatmentsByService(serviceId);
-  if (treatments.length === 0) throw new NotFoundException("No se encontraron tratamientos en el servicio especificado")
-  return treatments;
+  return await this.treatmentRepository.getTreatmentsByService(serviceId);
 }
 
 // async getTreatmentsByTypeService (typeServiceId: string): Promise<Treatment[]>  {
@@ -38,14 +37,14 @@ async getTreatmentsByService (serviceId: string): Promise<Treatment[]>  {
 // }
 
 async getTreatmentsByPet (petId: string): Promise<Treatment[]>  {
-  const treatments: Treatment[] = await this.treatmentRepository.getTreatmentsByPet(petId);
-  if (treatments.length === 0) throw new NotFoundException("No se encontraron tratamientos para la mascota especificada")
-  return treatments;
+  return await this.treatmentRepository.getTreatmentsByPet(petId);
 }
 
 async createTreatment (treatment: Partial<Treatment>): Promise<Treatment> {
   const treatmentCreated: Treatment = await this.treatmentRepository.createTreatment(treatment);
   if (!treatmentCreated) throw new InternalServerErrorException("No se pudo crear el nuevo tratamiento")
+  const treatmentSale = await this.treatmentRepository.getTreatmentById(treatment.id);
+  await this.saleServiceService.createSalesService({saleId: treatmentSale.clinicalExamination.saleId, serviceId: treatmentSale.serviceId, price: treatmentSale.service.price, acount: 1});
   return treatmentCreated;
 }
 

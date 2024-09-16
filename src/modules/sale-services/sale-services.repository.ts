@@ -8,10 +8,21 @@ export class SaleServicesRepository {
 
     constructor (@InjectRepository(SaleService) private saleServiceRepository: Repository<SaleService>) {}
 
+    async getSalesServices (): Promise<SaleService[]> {
+        return await this.saleServiceRepository.find()
+      }
+
     async getSalesServiceBySaleId (saleId:string): Promise<SaleService[]> {
         return await this.saleServiceRepository.find({
             where: {saleId},
             relations: {service:true}
+        })
+    }
+
+    async getSalesServiceByIds (saleId:string, serviceId:string): Promise<SaleService> {
+        return await this.saleServiceRepository.findOne({
+            where: {saleId, serviceId},
+            relations: {service:true, sale:true}
         })
     }
 

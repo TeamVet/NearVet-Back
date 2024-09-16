@@ -19,9 +19,6 @@ import { Coupon } from '../coupons/entities/coupon.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Appointment, StatesAppointment, Pet, Service, Vet, Pending, Coupon]), // Registra la entidad Appointment
-    PetsModule, // Importa PetsModule para que PetsRepository esté disponible
-    UsersModule, // Importa UsersModule para que UsersService esté disponible
-    ServicesModule,
   ],
   controllers: [AppointmentController],
   providers: [AppointmentService, AppointmentRepository, EmailService, EmailProvider],

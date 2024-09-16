@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { LessThanOrEqual, Repository } from 'typeorm';
 import { Pending } from './entities/pending.entity';
 
 @Injectable()
@@ -9,48 +9,51 @@ export class PendingRepository {
     @InjectRepository(Pending) private pendingRepository: Repository<Pending>,
   ) {}
 
-  async getAllPendingsRepository(): Promise<Pending[]> {
-    return await this.pendingRepository.find();
+  async getAllPendingsRepository(page: number, limit: number): Promise<Pending[]> {
+    return await this.pendingRepository.find({skip: (page-1)*limit, take:limit, relations: {service:true, pet:true}});
   }
 
   async getPendingByIdRepository(id: string): Promise<Pending> {
-    return await this.pendingRepository.findOneBy({ id });
+    return await this.pendingRepository.findOne({where:{ id }, relations: {service:true}});
   }
 
   async getAllUsersPendingRepository(userId: string): Promise<Pending[]> {
+    const today = new Date();
     return await this.pendingRepository.find({
-      where: {
-        user: { id: userId },  
-      },
-      relations: ['user'], 
+      where: {pet: { userId }, endPending: LessThanOrEqual(today)},
+      relations: {service:true, pet:true}, 
     });
   }
 
   async getPendingByPetRepository(petId: string) {
+    const today = new Date();
     return await this.pendingRepository.find({
-      where: { pet: { id: petId } },
-      relations: ['pet'], 
+      where: { pet: { id: petId }, endPending: LessThanOrEqual(today)},
+      relations: {service:true}, 
     });
   }
 
   async getPendingByServiceRepository(serviceId: string) {
+    const today = new Date(); 
     return await this.pendingRepository.find({
-      where: { service: { id: serviceId } },
-      relations: ['service'], 
+      where: { service: { id: serviceId }, endPending: LessThanOrEqual(today)},
+      relations: {service:true, pet:true}, 
     });
   }
 
   async getActivePendingRepository() {
+    const today = new Date();
     return await this.pendingRepository.find({
-      where: { endPending: null },  
-      relations: ['service', 'pet', 'user'],  
+      where: { endPending: LessThanOrEqual(today) },  
+      relations: {service:true, pet: {user:true}},  
     });
   }
 
   async getPendingByVeterinarianRepository(veterinarianId: string) {
+    const today = new Date();
     return await this.pendingRepository.find({
-      where: { user: { id: veterinarianId } },  
-      relations: ['user'],  
+      where: { service: {veterinarian: {userId: veterinarianId}}, endPending: LessThanOrEqual(today) },  
+      relations: {service: {veterinarian:true}, pet: true},  
     });
   }
 

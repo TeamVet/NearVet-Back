@@ -21,11 +21,15 @@ export class TreatmentRepository {
     async getTreatmentById (id:string): Promise<Treatment>  {
         return await this.treatmentRepository.findOne({
             where: {id}, 
-            relations: {service: true, clinicalExamination: true},
-            select: {service: {id:true, service:true},
-                    clinicalExamination: {id:true, anamnesis:true, veterinarian: 
-                                        {id:true, licence:true, user: 
-                                            {id:true, name:true, lastName:true}}}} });
+            relations: {service: true, clinicalExamination: {veterinarian: {user:true}}},
+           });
+    }
+
+    async getSaleIdByTreatmentId (id:string): Promise<string>  {
+        const sale = await this.treatmentRepository.findOne({
+            where: {id}, 
+            relations: {clinicalExamination: true} });
+        return sale.clinicalExamination.saleId
     }
 
     async getTreatmentsByService (serviceId: string): Promise<Treatment[]>  {
@@ -63,12 +67,8 @@ export class TreatmentRepository {
     async getTreatmentsByPet (petId: string): Promise<Treatment[]>  {
         return await this.treatmentRepository.find({
             where: {clinicalExamination: {petId}}, 
-            relations: ["service", "clinicalExamination"],
-            select: {service: {id:true, service:true},
-                    // typeService: {id:true, typeService:true},
-                    clinicalExamination: {id:true, anamnesis:true, veterinarian: 
-                                        {id:true, licence:true, user: 
-                                            {id:true, name:true, lastName:true}}}}});
+            relations: {service:true, clinicalExamination: {veterinarian: {user:true}}, applicationProducts: {product:true}},
+            });
     }
 
     async createTreatment (treatment: Partial<Treatment>): Promise<Treatment> {

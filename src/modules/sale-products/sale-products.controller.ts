@@ -3,13 +3,19 @@ import { SaleProductsService } from './sale-products.service';
 import { SaleProduct } from './entities/sale-product.entity';
 import { CreateSaleProductDto } from './dto/create-sale-product.dto';
 import { UpdateSaleProductDto } from './dto/update-sale-product.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("Sales Products")
 @Controller('sale-Products')
 export class SaleProductsController {
   constructor(private readonly saleProductsService: SaleProductsService) {}
 
+  @Get()
+  @ApiOperation({summary: 'Todos los productos en todas las ventas'})
+  async getSalesProducts (): Promise<SaleProduct[]> {
+    return await this.saleProductsService.getSalesProducts()
+  }
+  
   @Get(":saleId")
   async getSalesProductBySaleId (@Param("saleId", ParseUUIDPipe) saleId:string): Promise<SaleProduct[]> {
     return await this.saleProductsService.getSalesProductBySaleId(saleId)

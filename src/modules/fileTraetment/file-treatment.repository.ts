@@ -8,8 +8,12 @@ export class FileTraetmentRepository {
 
     constructor (@InjectRepository(FileTreatment) private fileTreatmentRepository: Repository<FileTreatment>) {}
 
-    async getFileByTreatmentId (treatmentId:string): Promise<FileTreatment[]> {
-        return await this.fileTreatmentRepository.find({where: {treatmentId}})
+    async getFiles (page:number, limit:number): Promise<FileTreatment[]> {
+        return await this.fileTreatmentRepository.find({skip: (page-1)*limit, take: limit})
+    }
+
+    async getFileByTreatmentId (clinicalExaminationId:string): Promise<FileTreatment[]> {
+        return await this.fileTreatmentRepository.find({where: {clinicalExaminationId}})
     }
 
     async addFile (file: Partial<FileTreatment>): Promise<FileTreatment> {

@@ -54,6 +54,7 @@ export class AuthGlobalService {
     }
 
     // quito el password y el role del userSave y lo guardo en sendUser para retornarlo
+    
     const { password, role, ...sendUser } = userSave;
     return sendUser;
   }
