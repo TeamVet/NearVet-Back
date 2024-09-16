@@ -17,7 +17,7 @@ export class SalesRepository {
     }
 
     async getSaleById (id:string): Promise<Sale> {
-        return await this.saleRepository.findOneBy({id});
+        return await this.saleRepository.findOne({where: {id}, relations: {saleProducts: {product:true}, saleServices: {service:true}}});
     }
 
     async getSalesByUserId (page:number, limit:number, userId:string, start:Date, end:Date): Promise<Sale[]> {

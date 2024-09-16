@@ -19,7 +19,7 @@ export class MethodPay {
     @Column({
     nullable: true
     })
-    discount: number;
+    interest: number;
 
     // Relacion con Sales uno a muchos
     @OneToMany(() => Sale, (sale) => sale.methodPay)
