@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe, HttpCode, Query } from '@nestjs/common';
 import { PendingService } from './pending.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreatePendingDto } from './dto/create-pending.dto';
@@ -11,8 +11,8 @@ export class PendingController {
 
   @Get()
   @ApiOperation({summary: "Obtiene todas las pendientes"})
-  getAllPendings() {
-    return this.pendingService.getAllPendings();
+  getAllPendings(@Query("page") page:number, @Query("limit") limit:number) {
+    return this.pendingService.getAllPendings(page, limit);
   }
 
   @Get('/user/:userId')
@@ -33,12 +33,6 @@ export class PendingController {
     return this.pendingService.getPendingByService(serviceId);
   }
 
-  @Get(':id')
-  @ApiOperation({summary: "Obtiene una pendiente por ID"})
-  getPendingById(@Param('id', ParseUUIDPipe) id: string) {
-    return this.pendingService.getPendingById(id);
-  }
-
   @Get('/active')
   @ApiOperation({summary: "Obtiene pendientes activas"})
   getActivePending() {
@@ -51,6 +45,12 @@ export class PendingController {
     return this.pendingService.getPendingByVeterinarian(veterinarianId);
   }
 
+  @Get(':id')
+  @ApiOperation({summary: "Obtiene una pendiente por ID"})
+  getPendingById(@Param('id', ParseUUIDPipe) id: string) {
+    return this.pendingService.getPendingById(id);
+  }
+  
   @Post()
   @ApiOperation({summary: "Crea una nueva pendiente"})
   createPending(@Body() createPendingDto: CreatePendingDto) {

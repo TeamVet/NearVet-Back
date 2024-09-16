@@ -8,20 +8,25 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @Controller('file-traetment')
 export class FileTreatmentController {
   constructor(private readonly fileTreatmentService: FileTreatmentService) {}
-
+ 
+  @Get()
+  @ApiOperation({summary: 'devuleve todos los archivos'})
+  async getFiles (@Query("page") page:number, @Query("limit") limit:number): Promise<FileTreatment[]> {
+    return await this.fileTreatmentService.getFiles(+page, +limit)
+  }
+  
   @Get(":clinicalExaminationId")
-  @ApiOperation({summary: 'devuleve los archivos de un tratamiento'})
+  @ApiOperation({summary: 'devuleve los archivos de una Examinacion Clinica'})
   async getFileByTreatmentId (@Param("clinicalExaminationId") clinicalExaminationId:string): Promise<FileTreatment[]> {
     return await this.fileTreatmentService.getFileByTreatmentId(clinicalExaminationId)
   }
 
   @Post(":clinicalExaminationId")
-  @ApiOperation({summary: "Agrega un nuevo archivo al Tratamiento"})
+  @ApiOperation({summary: "Agrega un nuevo archivo la examinación"})
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({description: `Debe subir el Archivo de Imagen`,
             schema: { type: 'object', properties: { file: {type: 'string',format: 'binary'}}}})
-          
   async addFile (@Param("clinicalExaminationId", ParseUUIDPipe) clinicalExaminationId: string, 
                 @UploadedFile(new ParseFilePipe({
                   validators: [
@@ -39,8 +44,7 @@ export class FileTreatmentController {
   }
 
   @Delete(":id")
-  @ApiOperation({summary: "Elimina un archivo de un tratamiento"})
-  @HttpCode(HttpStatus.OK)
+  @ApiOperation({summary: "Elimina un archivo de una examinación"})
   async removeFile (@Param("id", ParseUUIDPipe) id:string): Promise<string> {
     return await this.fileTreatmentService.removeFile(id)  
   }

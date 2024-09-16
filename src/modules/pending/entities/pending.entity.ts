@@ -1,6 +1,5 @@
 import { Pet } from 'src/modules/pets/entities/pet.entity';
 import { Service } from 'src/modules/services/entities/service.entity';
-import { User } from 'src/modules/users/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 @Entity('pendings')
 export class Pending {
@@ -10,6 +9,7 @@ export class Pending {
   @Column({
     type: 'varchar',
     length: 255,
+    nullable: true,
   })
   description: string;
 
@@ -20,7 +20,6 @@ export class Pending {
 
   @Column({
     type: 'timestamp',
-    nullable: true,
   })
   endPending: Date;
 
@@ -34,14 +33,14 @@ export class Pending {
   @ManyToOne(() => Service, (service) => service.pendings)
   @JoinColumn({name: "serviceId"})
   service: Service;
-  @Column({ type:"uuid", nullable:true})
+  @Column({ type:"uuid"})
   serviceId:string;
 
   /* RELACION MUCHOS-A-UNO CON pets */
   @ManyToOne(() => Pet, (pet) => pet.pendings)
   @JoinColumn({name: "petId"})
   pet: Pet;
-  @Column({ type:"uuid", nullable:true})
+  @Column({ type:"uuid"})
   petId: string;
 
 }

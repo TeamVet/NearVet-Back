@@ -11,8 +11,8 @@ export class CouponsService {
     private readonly emailService: EmailService,
   ) {}
 
-  async getAllCouponsService() {
-    return await this.couponRepository.getAllCouponsRepository();
+  async getAllCouponsService(page: number, limit:number) {
+    return await this.couponRepository.getAllCouponsRepository(page, limit);
   }
 
   async getCouponByIdService(id: string) {

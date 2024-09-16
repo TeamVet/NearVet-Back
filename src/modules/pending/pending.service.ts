@@ -8,8 +8,8 @@ import { UpdatePendingDto } from './dto/update-pending.dto';
 export class PendingService {
   constructor(private readonly pendingRepository: PendingRepository) {}
 
-  async getAllPendings() {
-    return await this.pendingRepository.getAllPendingsRepository();
+  async getAllPendings(page:number, limit:number) {
+    return await this.pendingRepository.getAllPendingsRepository( page, limit);
   }
 
   async getPendingById(id: string) {
