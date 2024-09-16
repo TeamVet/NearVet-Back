@@ -25,7 +25,8 @@ export class SalesRepository {
     }
 
     async getSalesSendClinical (): Promise<Sale[]> {
-        return await this.saleRepository.find({where: {sendClinical:true, finished:false}});
+        return await this.saleRepository.find({where: {sendClinical:true, finished:false},
+                                               relations: {user:true}});
     }
  
     async createSale (sale:Partial<Sale>): Promise<Sale> {
