@@ -10,9 +10,9 @@
         "address": "Las Camelias 2345",
         "city": "Barrio El Jaguel",
         "startDate": "02-02-2020",
-        "imgProfile": "https://w1.pngwing.com/pngs/111/365/png-transparent-patient-veterinarian-pet-palliative-care-hospice-american-veterinary-medical-association-veterinary-medicine-american-animal-hospital-association-thumbnail.png",
-        "imgBanner": "https://img.freepik.com/vector-gratis/plantilla-portada-redes-sociales-clinica-veterinaria_23-2149713978.jpg",
-        "imgLogo": "https://w1.pngwing.com/pngs/111/365/png-transparent-patient-veterinarian-pet-palliative-care-hospice-american-veterinary-medical-association-veterinary-medicine-american-animal-hospital-association-thumbnail.png",
+        "imgProfile": "https://res.cloudinary.com/dtkhxygef/image/upload/v1726504925/gbfudupw82tvewi0qmty.png",
+        "imgBanner": "https://res.cloudinary.com/dtkhxygef/image/upload/v1726504925/gbfudupw82tvewi0qmty.png",
+        "imgLogo": "https://res.cloudinary.com/dtkhxygef/image/upload/v1726504925/gbfudupw82tvewi0qmty.png",
         "user": "lfernandez@example.com"
     }
 ]

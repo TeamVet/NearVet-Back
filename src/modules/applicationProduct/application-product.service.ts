@@ -4,12 +4,13 @@ import { ApplicationProductRepository } from './application-product.repository';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { SaleProductsRepository } from '../sale-products/sale-products.repository';
 import { TreatmentRepository } from '../treatment/treatment.repository';
+import { SaleProductsService } from '../sale-products/sale-products.service';
  
 @Injectable()
 export class ApplicationProductService {
   
   constructor (private readonly AppProductRepository: ApplicationProductRepository,
-               private readonly saleProductRepository: SaleProductsRepository,
+               private readonly saleProductService: SaleProductsService,
                private readonly treatmentRepository: TreatmentRepository
   ){}
 
@@ -21,8 +22,8 @@ export class ApplicationProductService {
   async createApplicationProduct(appProd: Partial<ApplicationProduct>): Promise<ApplicationProduct> {
     const appProduct: ApplicationProduct = await this.AppProductRepository.createApplicationProduct(appProd)
     if (!appProduct) throw new InternalServerErrorException ("No se pudo asignar el producto al tratamiento")
-    const saleId = await this.treatmentRepository.getSaleIdByTreatmentId(appProd.treatmentId);
-    await this.saleProductRepository.createSalesProduct({saleId, productId: appProd.productId, price: appProd.price, acount: appProd.acount});
+    const saleId: string = await this.treatmentRepository.getSaleIdByTreatmentId(appProd.treatmentId);
+    await this.saleProductService.createSalesProduct({saleId, productId: appProd.productId, price: appProd.price, acount: appProd.acount});
     return appProduct;
   }
     
