@@ -40,6 +40,7 @@ import { Treatment } from '../treatment/entities/treatment.entity';
 import { Prescription } from '../prescription/entities/prescription.entity';
 import { ClinicalExaminationService } from '../clinical-examination/clinical-examination.service';
 import { PrescriptionService } from '../prescription/prescription.service';
+import { TreatmentService } from '../treatment/treatment.service';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -80,6 +81,7 @@ export class SeederService implements OnModuleInit {
     private readonly examinationService: ClinicalExaminationService, 
     @InjectRepository(Treatment)
     private readonly treatmentRepository: Repository<Treatment>, 
+    private readonly treatmentService: TreatmentService,
     @InjectRepository(Prescription)
     private readonly prescriptionRepository: Repository<Prescription>, 
     private readonly prescriptionService: PrescriptionService
@@ -407,7 +409,7 @@ export class SeederService implements OnModuleInit {
           const examination = await this.examinationRepository.findOneBy({tllc: treatment.clinicalExamination})
           if (ser && examination) {
             const {clinicalExamination, service , ...treatmentCreate} = treatment
-            await this.treatmentRepository.save({ ...treatmentCreate, clinicalExaminationId: examination.id, serviceId: ser.id });
+            await this.treatmentService.createTreatment({ ...treatmentCreate, clinicalExaminationId: examination.id, serviceId: ser.id });
           }
         }
       }

@@ -31,14 +31,21 @@ import { PrescriptionService } from '../prescription/prescription.service';
 import { PrescriptionRepository } from '../prescription/prescription.repository';
 import { SaleProduct } from '../sale-products/entities/sale-product.entity';
 import { SaleProductsRepository } from '../sale-products/sale-products.repository';
+import { SaleProductsService } from '../sale-products/sale-products.service';
+import { TreatmentService } from '../treatment/treatment.service';
+import { TreatmentRepository } from '../treatment/treatment.repository';
+import { SaleServicesService } from '../sale-services/sale-services.service';
+import { SaleServicesRepository } from '../sale-services/sale-services.repository';
+import { SaleService } from '../sale-services/entities/sale-service.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Pet, UserRole, Sex, Race, Specie, StatesAppointment, Veterinarian,
                                       CategoryService, Service, AvailabilityService, RepCondition, Product, 
                                       Vet, Pending, Appointment, ClinicalExamination, Treatment, Prescription,
-                                      Sale, SaleProduct])],
+                                      Sale, SaleProduct, SaleService])],
   controllers: [SeederController],
   providers: [SeederService, ClinicalExaminationService, ClinicalExaminationRepository, SalesService, 
-    SalesRepository, PrescriptionService, PrescriptionRepository, SaleProductsRepository],
+    SalesRepository, PrescriptionService, PrescriptionRepository, SaleProductsRepository, SaleProductsService,
+    TreatmentService, TreatmentRepository, SaleServicesService, SaleServicesRepository],
 })
 export class SeederModule {}
