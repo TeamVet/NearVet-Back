@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 //import { MercadopagoService } from './mercado-pago/mercado-pago.service';
 //import { MercadoPagoDTO } from './mercado-pago/mercado-pago.dto';
@@ -29,7 +29,7 @@ export class PaymentsController {
       throw error;
     }
   } */
-  @Get('/stripe/products')
+  /* @Get('/stripe/products')
   async getProducts() {
     return await this.stripeService.getProducts();
   }
@@ -45,16 +45,15 @@ export class PaymentsController {
     return {
       clientSecret: paymentIntent.client_secret,
     };
-  }
+  } */
   @Post('/stripe/create-checkout-session')
   @ApiBody({
     description: 'Solo se ingresa el ID del producto cargado en el dashboard/products de stripe',
+    //'price_1PxepLG7LObgRzJ9FJDUYGxW'
     required: true,
   })
-  async createCheckoutSession(@Body('priceId') priceId: string) {
-    const session = await this.stripeService.createCheckoutSession(priceId);
-    return {
-      url: session.url, // Devuelve la URL de la sesión para redirigir al usuario
-    };
+  async callStripeMicroservice(@Body('priceId') priceId: string) {
+    const response = await this.stripeService.callStripeMicroservice(priceId);
+    return response;
   }
 }
