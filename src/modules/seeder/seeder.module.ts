@@ -37,15 +37,17 @@ import { TreatmentRepository } from '../treatment/treatment.repository';
 import { SaleServicesService } from '../sale-services/sale-services.service';
 import { SaleServicesRepository } from '../sale-services/sale-services.repository';
 import { SaleService } from '../sale-services/entities/sale-service.entity';
+import { MethodPayRepository } from '../method-pay/method-pay.repository';
+import { MethodPay } from '../method-pay/entities/method-pay.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Pet, UserRole, Sex, Race, Specie, StatesAppointment, Veterinarian,
                                       CategoryService, Service, AvailabilityService, RepCondition, Product, 
                                       Vet, Pending, Appointment, ClinicalExamination, Treatment, Prescription,
-                                      Sale, SaleProduct, SaleService])],
+                                      Sale, SaleProduct, SaleService, MethodPay])],
   controllers: [SeederController],
   providers: [SeederService, ClinicalExaminationService, ClinicalExaminationRepository, SalesService, 
     SalesRepository, PrescriptionService, PrescriptionRepository, SaleProductsRepository, SaleProductsService,
-    TreatmentService, TreatmentRepository, SaleServicesService, SaleServicesRepository],
+    TreatmentService, TreatmentRepository, SaleServicesService, SaleServicesRepository, MethodPayRepository],
 })
 export class SeederModule {}
