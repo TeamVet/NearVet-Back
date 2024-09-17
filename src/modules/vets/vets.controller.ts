@@ -28,11 +28,14 @@ export class VetsController {
     return this.vetsService.getAllVeterinaryService();
   }
 
+  @Get('logo')
+  @ApiOperation({summary: 'Obtiene la URL del logo de la empresa'})
+  getVeterinaryLogo() {
+    return this.vetsService.getVeterinaryLogo();
+  }
+
   @Get(':id')
-  @ApiOperation({
-    summary: 'Obtiene una veterinaria por su ID',
-    description: 'Obtiene la información de una veterinaria específica por su ID',
-  })
+  @ApiOperation({summary: 'Obtiene una veterinaria por su ID'})
   getVeterinaryById(@Param('id', ParseUUIDPipe) id: string) {
     return this.vetsService.getVeterinaryByIdService(id);
   }
