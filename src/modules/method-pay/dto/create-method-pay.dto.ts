@@ -7,7 +7,7 @@ export class CreateMethodPayDto {
   @IsNotEmpty()
   method: string;
 
-  @ApiProperty({ description: 'Descuento' })
+  @ApiProperty({ description: 'Interes' })
   @IsNotEmpty()
-  discount: number;
+  interest: number;
 }

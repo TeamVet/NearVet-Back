@@ -28,7 +28,7 @@ export const header = (logo:string) => {
                       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                   }
                   .header {
-                      background-color: #4CAF50;
+                      background-color: #8A2BE2;
                       padding: 20px;
                       text-align: center;
                       color: #ffffff;
@@ -51,13 +51,13 @@ export const header = (logo:string) => {
                       display: inline-block;
                       margin-top: 20px;
                       padding: 10px 20px;
-                      background-color: #4CAF50;
+                      background-color: #8A2BE2;
                       color: #ffffff;
                       text-decoration: none;
                       border-radius: 5px;
                   }
                   .footer {
-                      background-color: #f4f4f4;
+                      background-color: #8A2BE2;
                       padding: 10px;
                       text-align: center;
                       color: #888888;
@@ -192,7 +192,7 @@ export const welcomeCHATGPT = ({nombre, email, passwordDefault, logo, byGoogle})
                       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                   }
                   .header {
-                      background-color: #4CAF50;
+                      background-color: #c8a1e9;
                       padding: 20px;
                       text-align: center;
                       color: #ffffff;
@@ -215,13 +215,13 @@ export const welcomeCHATGPT = ({nombre, email, passwordDefault, logo, byGoogle})
                       display: inline-block;
                       margin-top: 20px;
                       padding: 10px 20px;
-                      background-color: #4CAF50;
+                      background-color: #c8a1e9;
                       color: #ffffff;
                       text-decoration: none;
                       border-radius: 5px;
                   }
                   .footer {
-                      background-color: #f4f4f4;
+                      background-color: #c8a1e9;
                       padding: 10px;
                       text-align: center;
                       color: #888888;

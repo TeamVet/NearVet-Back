@@ -18,6 +18,11 @@ export class VetsRepository {
         return await this.vetsRepository.findOne({ where: { id } });
     }
 
+    async getVeterinaryLogo(): Promise<string>{
+        const vet = await this.vetsRepository.find();
+        return vet[0].imgLogo;
+    }
+
     async createVeterinaryRepository(veterinary: CreateVetDto): Promise<Vet>{
         return await this.vetsRepository.save(veterinary);
     }
