@@ -19,7 +19,8 @@ export class VetsRepository {
     }
 
     async getVeterinaryLogo(): Promise<string>{
-        return await this.vetsRepository.find()[0];
+        const vet = await this.vetsRepository.find();
+        return vet[0].imgLogo;
     }
 
     async createVeterinaryRepository(veterinary: CreateVetDto): Promise<Vet>{
