@@ -45,7 +45,6 @@ export class AppointmentService {
                endMin -= 60
              }
              const dateApp = new Date(appointment.date)
-             dateApp.setDate(dateApp.getDate()+1)
              const responseAppointment: AppResponseCalendarDayDto = {
                id: appointment.id,
                Subject: `${appointment.service.service} - ${appointment.pet.user.name} ${appointment.pet.user.lastName}`, //"Rayos X - Javier", servicio - nombre del cliente
