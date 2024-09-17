@@ -49,7 +49,7 @@ export class PaymentsController {
   @Post('/stripe/create-checkout-session')
   @ApiBody({
     description: 'Solo se ingresa el ID del producto cargado en el dashboard/products de stripe',
-    //'price_1PxepLG7LObgRzJ9FJDUYGxW'
+    //{"priceId":"price_1PxepLG7LObgRzJ9FJDUYGxW"}
     required: true,
   })
   async callStripeMicroservice(@Body('priceId') priceId: string) {

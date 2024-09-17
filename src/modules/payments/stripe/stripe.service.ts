@@ -8,7 +8,7 @@ export class StripeService {
   constructor() {
     this.client = ClientProxyFactory.create({
       transport: Transport.TCP,
-      options: { host: 'localhost', port: 3001 },
+      options: { host: 'https://nearvet-latest.onrender.com', port: 3002 },
     });
   }
 
