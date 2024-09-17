@@ -47,7 +47,7 @@ export class UsersController {
 
   @Get('roles/:role')
   @ApiOperation({ summary: 'Obtener usuarios por rol específico' })
-  async getUsersByRoleRepository(role: Role) {
+  async getUsersByRoleRepository(@Param("role") role: Role) {
     return await this.usersService.getUsersByRoleRepository(role);
   }
 
