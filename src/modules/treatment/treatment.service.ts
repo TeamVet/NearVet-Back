@@ -10,8 +10,8 @@ export class TreatmentService {
     private readonly saleServiceService: SaleServicesService
   ){}
 
-  async getTreatments (): Promise<Treatment[]>  {
-    return await this.treatmentRepository.getTreatments();
+  async getTreatments (page: number, limit: number) {
+    return await this.treatmentRepository.getTreatments(page, limit);
 }
 
 async getTreatmentById (id:string): Promise<Treatment>  {
@@ -20,8 +20,8 @@ async getTreatmentById (id:string): Promise<Treatment>  {
   return treatment;
 }
 
-async getTreatmentsByService (serviceId: string): Promise<Treatment[]>  {
-  return await this.treatmentRepository.getTreatmentsByService(serviceId);
+async getTreatmentsByService(serviceId: string, page: number, limit: number): Promise<Treatment[]> {
+  return await this.treatmentRepository.getTreatmentsByService(serviceId, page, limit);
 }
 
 // async getTreatmentsByTypeService (typeServiceId: string): Promise<Treatment[]>  {
@@ -36,8 +36,8 @@ async getTreatmentsByService (serviceId: string): Promise<Treatment[]>  {
 //   return treatments;
 // }
 
-async getTreatmentsByPet (petId: string): Promise<Treatment[]>  {
-  return await this.treatmentRepository.getTreatmentsByPet(petId);
+async getTreatmentsByPet(petId: string, page: number, limit: number): Promise<Treatment[]> {
+  return await this.treatmentRepository.getTreatmentsByPet(petId, page, limit);
 }
 
 async createTreatment (treatment: Partial<Treatment>): Promise<Treatment> {
