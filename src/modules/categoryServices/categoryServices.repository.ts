@@ -7,8 +7,11 @@ import { DeleteResult, Repository, UpdateResult } from "typeorm";
 export class CategoryServiceRepository {
     constructor (@InjectRepository(CategoryService) private categoryServiceRepository: Repository<CategoryService>) {}
 
-    async getCategoryServices(): Promise<CategoryService[]> {
-        return await this.categoryServiceRepository.find();
+    async getCategoryServices(page: number, limit: number): Promise<CategoryService[]> {
+        return await this.categoryServiceRepository.find({
+          skip: (page - 1) * limit,
+          take: limit,
+        });
     }
 
     async getCategoryServiceById(id: string): Promise<CategoryService> {

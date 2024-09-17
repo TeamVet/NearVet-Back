@@ -20,8 +20,6 @@ export class UsersService {
 
   async getUsersService(page: number, limit: number) {
     const users = await this.usersRepository.getUsersRepository(page, limit);
-    if (users.length === 0)
-      throw new NotFoundException(`Por el momento no hay usuarios registrados`);
     return users.map(({ password, role, ...userNoPassword }) => userNoPassword);
   }
 
