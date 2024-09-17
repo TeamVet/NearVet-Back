@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LessThanOrEqual, Repository } from 'typeorm';
+import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { Pending } from './entities/pending.entity';
 
 @Injectable()
@@ -44,7 +44,7 @@ export class PendingRepository {
   async getActivePendingRepository() {
     const today = new Date();
     return await this.pendingRepository.find({
-      where: { endPending: LessThanOrEqual(today) },  
+      where: { endPending: MoreThanOrEqual(today) },  
       relations: {service:true, pet: {user:true}},  
     });
   }
