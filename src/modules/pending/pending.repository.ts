@@ -53,7 +53,7 @@ export class PendingRepository {
 
   async getActivePendingRepository(page: number, limit: number) {
     const today = new Date();
-    return await this.pendingRepository.findAndCount({
+    return await this.pendingRepository.find({
       where: { endPending: MoreThanOrEqual(today) },
       relations: { service: true, pet: { user: true } },
       skip: (page - 1) * limit,
@@ -63,7 +63,7 @@ export class PendingRepository {
 
   async getPendingByVeterinarianRepository(veterinarianId: string, page: number, limit: number) {
     const today = new Date();
-    return await this.pendingRepository.findAndCount({
+    return await this.pendingRepository.find({
       where: { service: { veterinarian: { userId: veterinarianId } }, endPending: LessThanOrEqual(today) },  
       relations: { service: { veterinarian: true }, pet: true },  
       skip: (page - 1) * limit,
