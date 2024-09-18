@@ -6,11 +6,6 @@ export class CreateCouponDto {
   @IsString()
   code: string;
 
-  @ApiProperty({ example: 5000 })
-  @IsNotEmpty()
-  @IsNumber()
-  valorPesos: number;
-
   @ApiProperty({ example: 15.5 })
   @IsNotEmpty()
   @IsNumber()

@@ -13,9 +13,6 @@ export class Coupon {
   })
   code: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  valorPesos: number;
-
   @Column({ type: 'decimal', precision: 5, scale: 2 })
   valorPorc: number;
 
