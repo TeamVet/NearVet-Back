@@ -11,8 +11,8 @@ export class FileTreatmentController {
  
   @Get()
   @ApiOperation({summary: 'devuleve todos los archivos'})
-  async getFiles (@Query("page") page:number, @Query("limit") limit:number): Promise<FileTreatment[]> {
-    return await this.fileTreatmentService.getFiles(+page, +limit)
+  async getFiles (): Promise<FileTreatment[]> {
+    return await this.fileTreatmentService.getFiles()
   }
   
   @Get(":clinicalExaminationId")

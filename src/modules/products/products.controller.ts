@@ -13,8 +13,8 @@ export class ProductsController {
  
   @Get()
   @ApiOperation({summary: "Devuelve todos los productos paginados"})
-  async getProducts (@Query("page") page:number, @Query("limit") limit:number): Promise<Product[]> {
-    return await this.productsService.getProducts(+page, +limit) 
+  async getProducts (): Promise<Product[]> {
+    return await this.productsService.getProducts() 
   }
 
   @Get("name/:name")

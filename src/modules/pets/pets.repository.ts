@@ -38,8 +38,8 @@ export class PetsRepository {
     return specieDB.races;
   }
 
-  async getPetsRepository(page:number, limit: number): Promise<Pet[]> {
-    return await this.petsRepository.find({ skip: (page-1) * limit, take: limit, 
+  async getPetsRepository(): Promise<Pet[]> {
+    return await this.petsRepository.find({ 
           relations: { race: true, specie: true, sex: true, repCondition: true } });
   }
 

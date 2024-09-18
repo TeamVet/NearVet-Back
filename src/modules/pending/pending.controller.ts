@@ -12,57 +12,34 @@ export class PendingController {
   @Get()
   @ApiOperation({summary: "Obtiene todas las pendientes"})
   getAllPendings(
-    @Query("page") page:number = 1, 
-    @Query("limit") limit:number = 5
   ) {
-    return this.pendingService.getAllPendings(page, limit);
+    return this.pendingService.getAllPendings();
   }
 
   @Get('/user/:userId')
   @ApiOperation({summary: "Obtiene todas las pendientes de un usuario"})
   getAllUsersPending(
-    @Param('userId', ParseUUIDPipe) userId: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 5,
+    @Param('userId', ParseUUIDPipe) userId: string
   ) {
-    return this.pendingService.getAllUsersPending(userId, page, limit);
+    return this.pendingService.getAllUsersPending(userId);
   }
 
   @Get('/pet/:petId')
   @ApiOperation({summary: "Obtiene pendientes por mascota"})
-  getPendingByPet(
-    @Param('petId', ParseUUIDPipe) petId: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 5,
-  ) {
-    return this.pendingService.getPendingByPet(petId, page, limit);
-  }
-
-  @Get('/service/:serviceId')
-  @ApiOperation({summary: "Obtiene pendientes por servicio"})
-  getPendingByService(
-    @Param('serviceId', ParseUUIDPipe) serviceId: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 5,
-  ) {
-    return this.pendingService.getPendingByService(serviceId, page, limit);
+  getPendingByPet(@Param('petId', ParseUUIDPipe) petId: string) {
+    return this.pendingService.getPendingByPet(petId);
   }
 
   @Get('/active')
   @ApiOperation({summary: "Obtiene pendientes activas"})
-  getActivePending(
-    @Query('page') page: number = 1, 
-    @Query('limit') limit: number = 5
-  ) {
-    return this.pendingService.getActivePending(page, limit);
+  getActivePending() {
+    return this.pendingService.getActivePending();
   }
 
   getPendingByVeterinarian(
-    @Param('veterinarianId', ParseUUIDPipe) veterinarianId: string,
-    @Query('page') page: number = 1, 
-    @Query('limit') limit: number = 10
+    @Param('veterinarianId', ParseUUIDPipe) veterinarianId: string
   ) {
-    return this.pendingService.getPendingByVeterinarian(veterinarianId, page, limit);
+    return this.pendingService.getPendingByVeterinarian(veterinarianId);
   }
 
   @Get(':id')

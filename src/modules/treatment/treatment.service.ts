@@ -10,8 +10,8 @@ export class TreatmentService {
     private readonly saleServiceService: SaleServicesService
   ){}
 
-  async getTreatments (page: number, limit: number) {
-    return await this.treatmentRepository.getTreatments(page, limit);
+  async getTreatments () {
+    return await this.treatmentRepository.getTreatments();
 }
 
 async getTreatmentById (id:string): Promise<Treatment>  {
@@ -20,24 +20,12 @@ async getTreatmentById (id:string): Promise<Treatment>  {
   return treatment;
 }
 
-async getTreatmentsByService(serviceId: string, page: number, limit: number): Promise<Treatment[]> {
-  return await this.treatmentRepository.getTreatmentsByService(serviceId, page, limit);
+async getTreatmentsByService(serviceId: string): Promise<Treatment[]> {
+  return await this.treatmentRepository.getTreatmentsByService(serviceId);
 }
 
-// async getTreatmentsByTypeService (typeServiceId: string): Promise<Treatment[]>  {
-//   const treatments: Treatment[] = await this.treatmentRepository.getTreatmentsByTypeService(typeServiceId);
-//   if (treatments.length === 0) throw new NotFoundException("No se encontraron tratamientos en el tipo de servicio especificado")
-//   return treatments;
-// }
-
-// async getTreatmentsByDates (startDate: Date, endDate: Date): Promise<Treatment[]>  {
-//   const treatments: Treatment[] = await this.treatmentRepository.getTreatmentsByDates(startDate, endDate);
-//   if (treatments.length === 0) throw new NotFoundException("No se encontraron tratamientos en el periodo especificado")
-//   return treatments;
-// }
-
-async getTreatmentsByPet(petId: string, page: number, limit: number): Promise<Treatment[]> {
-  return await this.treatmentRepository.getTreatmentsByPet(petId, page, limit);
+async getTreatmentsByPet(petId: string): Promise<Treatment[]> {
+  return await this.treatmentRepository.getTreatmentsByPet(petId);
 }
 
 async createTreatment (treatment: Partial<Treatment>): Promise<Treatment> {
