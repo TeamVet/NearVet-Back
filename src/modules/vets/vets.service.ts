@@ -11,14 +11,11 @@ export class VetsService {
   ) {}
 
   async getAllVeterinaryService() {
-    const vets = await this.vetsRepository.getAllVeterinariesRepository();
-    return vets;
+    return await this.vetsRepository.getAllVeterinariesRepository();
   }
 
   async getVeterinaryByIdService(id: string) {
-    const vet = await this.vetsRepository.getVeterinaryByIdRepository(id);
-    if (!vet) throw new NotFoundException(`No se encontró la veterinaria con ID ${id}`);
-    return vet 
+    return await this.vetsRepository.getVeterinaryByIdRepository(id);
   }
 
   async getVeterinaryLogo(): Promise<string> {
@@ -30,21 +27,10 @@ export class VetsService {
   }
 
   async updateVeterinaryService(id: string, updateVetDto: UpdateVetDto) {
-    const vet = await this.getVeterinaryByIdService(id);
-    if (!vet) {
-      throw new NotFoundException(`No se encontró la veterinaria con ID ${id}`);
-    }
-    await this.vetsRepository.updateVeterinaryRepository(id, updateVetDto);
-    return id;
+    return await this.vetsRepository.updateVeterinaryRepository(id, updateVetDto);
   }
 
   async removeVeterinaryService(id: string) {
-    const vet = await this.getVeterinaryByIdService(id);
-    if (!vet) {
-      throw new NotFoundException(`No se encontró la veterinaria con ID ${id}`);
-    }
-
-    await this.vetsRepository.removeVeterinaryRepository(id);
-    return { message: `Veterinaria con ID ${id} eliminada exitosamente` };
+    return await this.vetsRepository.removeVeterinaryRepository(id);
   }
 }
