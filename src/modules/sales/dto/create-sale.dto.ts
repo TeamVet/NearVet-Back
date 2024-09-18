@@ -1,8 +1,9 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsUUID } from "class-validator"
+import { IsBoolean, IsDateString, IsNotEmpty, IsNumber, IsOptional, IsUUID } from "class-validator"
 
 export class CreateSaleDto {
 
+    
     @IsNumber()
     @IsOptional()
     @ApiPropertyOptional()
@@ -26,10 +27,25 @@ export class CreateSaleDto {
     @IsDateString()
     @IsOptional()
     @ApiPropertyOptional()
-    advancedPay: number
+    advancedPay?: number
 
     @IsUUID()
     @IsNotEmpty()
     @ApiProperty()
     userId: string
+
+    @IsUUID()
+    @IsOptional()
+    @ApiPropertyOptional()
+    methodPayId?: string
+
+    @IsBoolean()
+    @IsOptional()
+    @ApiPropertyOptional()
+    finished?: boolean
+
+    @IsBoolean()
+    @IsOptional()
+    @ApiPropertyOptional()
+    sendClinical?: boolean
 }
