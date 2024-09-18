@@ -11,8 +11,8 @@ export class FileTreatmentService {
     private readonly cloudinaryService:CloudinaryService,
   ){}
   
-  async getFiles (page:number, limit:number): Promise<FileTreatment[]> {
-    return await this.fileTreatmentRepository.getFiles(page, limit)
+  async getFiles (): Promise<FileTreatment[]> {
+    return await this.fileTreatmentRepository.getFiles()
   }
 
   async getFileByTreatmentId (clinicalExaminationId:string): Promise<FileTreatment[]> {

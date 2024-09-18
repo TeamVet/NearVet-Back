@@ -8,8 +8,8 @@ export class ProductsService {
   
   constructor (private readonly productService: ProductsRepository){}
 
-    async getProducts (page:number, limit:number) {
-      return await this.productService.getProducts(page, limit);
+    async getProducts () {
+      return await this.productService.getProducts();
     }
 
     async getProductById (id:string): Promise<Product> {

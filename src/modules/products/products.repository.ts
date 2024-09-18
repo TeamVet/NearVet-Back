@@ -8,8 +8,8 @@ export class ProductsRepository {
   
   constructor (@InjectRepository(Product) private productRepository: Repository<Product>){}
 
-    async getProducts (page:number, limit:number): Promise<Product[]> {
-        return await this.productRepository.find({skip: (page-1)*limit, take: limit})
+    async getProducts (): Promise<Product[]> {
+        return await this.productRepository.find()
     }
 
     async getProductById (id:string): Promise<Product> {

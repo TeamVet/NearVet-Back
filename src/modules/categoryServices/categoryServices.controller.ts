@@ -13,11 +13,8 @@ export class CategoryServicesController {
   @Get()
   @ApiOperation({summary: 'Retorna todos los datos de todas las categorias de servicios'})
   @HttpCode(200)
-  async getCategoryServices(
-    @Query('page') page: number,
-    @Query('limit') limit: number,
-  ): Promise<CategoryService[]> {
-    return await this.categoryServicesService.getCategoryServices(page, limit);
+  async getCategoryServices(): Promise<CategoryService[]> {
+    return await this.categoryServicesService.getCategoryServices();
   }
 
   @Get('category/:cat')

@@ -36,8 +36,8 @@ export class PetsController {
 
   @Get()
   @ApiOperation({summary: 'Devuelve todas las mascotas'})
-  getPets(@Query("page") page:number, @Query("limit") limit:number): Promise<Pet[]> {
-    return this.petsService.getPetsService(+page, +limit);
+  getPets(): Promise<Pet[]> {
+    return this.petsService.getPetsService();
   }
 
   @Get('SpecieAndRaces')

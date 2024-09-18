@@ -11,8 +11,8 @@ export class MethodPayController {
 
   @Get()
   @ApiOperation({summary: "Obtiene todos los métodos de pago"})
-  getAllMethodPays(@Query("page") page:number, @Query("limit") limit:number) {
-    return this.methodPayService.getAllMethodPays(+page, +limit);
+  getAllMethodPays() {
+    return this.methodPayService.getAllMethodPays();
   }
 
   @Get(':id')

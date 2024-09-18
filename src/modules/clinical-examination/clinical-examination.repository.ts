@@ -8,10 +8,8 @@ export class ClinicalExaminationRepository {
   
     constructor (@InjectRepository(ClinicalExamination) private  examinationRepository: Repository<ClinicalExamination>) {}
 
-    async getExaminations (page:number, limit:number): Promise<ClinicalExamination[]> {
+    async getExaminations (): Promise<ClinicalExamination[]> {
         return await this.examinationRepository.find({
-            skip: (page-1)*limit, 
-            take: limit, 
             relations: {pet:true, veterinarian:true, treatments:true}})
     }
 
@@ -21,19 +19,15 @@ export class ClinicalExaminationRepository {
             relations: {pet:true, veterinarian:true, treatments:true}})
     }
 
-    async getExaminationByPetId (petId:string, page:number, limit:number): Promise<ClinicalExamination[]> {
+    async getExaminationByPetId (petId:string): Promise<ClinicalExamination[]> {
         return await this.examinationRepository.find({
             where: {petId},
-            skip: page*limit, 
-            take: limit, 
             relations: {veterinarian:true, treatments:true}})
     }
 
-    async getExaminationByVeterinarianId (veterinarianId:string, page:number, limit:number): Promise<ClinicalExamination[]> {
+    async getExaminationByVeterinarianId (veterinarianId:string): Promise<ClinicalExamination[]> {
         return await this.examinationRepository.find({
             where: {veterinarianId},
-            skip: page*limit, 
-            take: limit, 
             relations: {pet:true, treatments:true}})
     }
 

@@ -13,11 +13,8 @@ import { SpeciesService } from './species.service';
 import { CreateSpeciesDto } from './dto/createSpecie.dto';
 import { UpdateSpeciesDto } from './dto/updateSpecie.dto';
 import {
-  ApiInternalServerErrorResponse,
   ApiOperation,
   ApiTags,
-  ApiParam,
-  ApiBody,
 } from '@nestjs/swagger';
 
 @ApiTags('Species')
@@ -26,38 +23,26 @@ export class SpeciesController {
   constructor(private readonly speciesService: SpeciesService) {}
 
   @Get()
-  @ApiOperation({
-    summary: 'Obtiene todas las especies',
-    description: 'Obtiene todas las especies registradas hasta el momento',
-  })
+  @ApiOperation({summary: 'Obtiene todas las especies'})
   @HttpCode(200)
   getAllSpecies() {
     return this.speciesService.getAllSpeciesService();
   }
 
   @Get(':id')
-  @ApiOperation({
-    summary: 'Obtiene una especie por ID',
-    description: 'Obtiene una especie específica utilizando su ID único',
-  })
+  @ApiOperation({summary: 'Obtiene una especie por ID'})
   getSpeciesById(@Param('id', ParseUUIDPipe) id: string) {
     return this.speciesService.getSpecieByIdService(id);
   }
 
   @Post()
-  @ApiOperation({
-    summary: 'Crea una nueva especie',
-    description: 'Crea una nueva especie en el sistema',
-  })
+  @ApiOperation({summary: 'Crea una nueva especie'})
   createSpecies(@Body() createSpeciesDto: CreateSpeciesDto) {
     return this.speciesService.createSpecieService(createSpeciesDto);
   }
 
   @Put(':id')
-  @ApiOperation({
-    summary: 'Actualiza una especie existente',
-    description: 'Actualiza los datos de una especie utilizando su ID',
-  })
+  @ApiOperation({summary: 'Actualiza una especie existente'})
   updateSpecies(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateSpeciesDto: UpdateSpeciesDto,
@@ -66,10 +51,7 @@ export class SpeciesController {
   }
 
   @Delete(':id')
-  @ApiOperation({
-    summary: 'Elimina una especie',
-    description: 'Elimina una especie específica del sistema utilizando su ID',
-  })
+  @ApiOperation({summary: 'Elimina una especie'})
   deleteSpecies(@Param('id', ParseUUIDPipe) id: string) {
     return this.speciesService.deleteSpecieService(id);
   }

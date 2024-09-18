@@ -9,8 +9,8 @@ export class PendingRepository {
     @InjectRepository(Pending) private pendingRepository: Repository<Pending>,
   ) {}
 
-  async getAllPendingsRepository(page: number, limit: number): Promise<Pending[]> {
-    return await this.pendingRepository.find({skip: (page-1)*limit, take:limit, relations: {service:true, pet:true}});
+  async getAllPendingsRepository(): Promise<Pending[]> {
+    return await this.pendingRepository.find({relations: {service:true, pet:true}});
   }
 
   async getPendingByIdRepository(id: string): Promise<Pending> {
@@ -19,55 +19,35 @@ export class PendingRepository {
 
   async getAllUsersPendingRepository(
     userId: string,
-    page: number,
-    limit: number,
   ): Promise<Pending[]> {
     const today = new Date();
     return await this.pendingRepository.find({
       where: { pet: { userId }, endPending: LessThanOrEqual(today) },
-      relations: { service: true, pet: true },
-      skip: (page - 1) * limit,
-      take: limit,
+      relations: { service: true, pet: true }
     });
   }
 
-  async getPendingByPetRepository(petId: string, page: number, limit: number) {
+  async getPendingByPetRepository(petId: string) {
     const today = new Date();
     return await this.pendingRepository.find({
       where: { pet: { id: petId }, endPending: LessThanOrEqual(today) },
-      relations: { service: true },
-      skip: (page - 1) * limit,
-      take: limit,
+      relations: { service: true }
     });
   }
 
-  async getPendingByServiceRepository(serviceId: string, page: number, limit: number) {
-    const today = new Date();
-    return await this.pendingRepository.find({
-      where: { service: { id: serviceId }, endPending: LessThanOrEqual(today) },
-      relations: { service: true, pet: true },
-      skip: (page - 1) * limit,
-      take: limit,
-    });
-  }
-
-  async getActivePendingRepository(page: number, limit: number) {
+  async getActivePendingRepository() {
     const today = new Date();
     return await this.pendingRepository.find({
       where: { endPending: MoreThanOrEqual(today) },
-      relations: { service: true, pet: { user: true } },
-      skip: (page - 1) * limit,
-      take: limit,
+      relations: { service: true, pet: { user: true } }
     });
   }
 
-  async getPendingByVeterinarianRepository(veterinarianId: string, page: number, limit: number) {
+  async getPendingByVeterinarianRepository(veterinarianId: string) {
     const today = new Date();
     return await this.pendingRepository.find({
       where: { service: { veterinarian: { userId: veterinarianId } }, endPending: LessThanOrEqual(today) },  
-      relations: { service: { veterinarian: true }, pet: true },  
-      skip: (page - 1) * limit,
-      take: limit,
+      relations: { service: { veterinarian: true }, pet: true }
     });
   }
 

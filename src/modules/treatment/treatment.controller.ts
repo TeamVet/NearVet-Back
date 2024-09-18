@@ -12,24 +12,17 @@ export class TreatmentController {
 
   @Get()
   @ApiOperation({summary: "Devuelve todos los Tratamientos"})
-  @HttpCode(200)
   async getTreatments (
-    @Query('page') page: number = 1, 
-    @Query('limit') limit: number = 10,
   ): Promise<Treatment[]>  {
-    return await this.treatmentService.getTreatments(page, limit);
+    return await this.treatmentService.getTreatments();
   }
 
   @Get("service/:serviceId")
-  @ApiOperation({summary: "Devuelve los tratamientos relacionados con el servicio",
-                description: "Esta ruta devulve un array con los tratamiento pasado por ID"})
-  @HttpCode(200)
+  @ApiOperation({summary: "Devuelve los tratamientos relacionados con el servicio"})
   async getTreatmentsByService(
-    @Param('serviceId') serviceId: string,
-    @Query('page') page: number,
-    @Query('limit') limit: number,
+    @Param('serviceId') serviceId: string
   ): Promise<Treatment[]> {
-    return await this.treatmentService.getTreatmentsByService(serviceId, page, limit);
+    return await this.treatmentService.getTreatmentsByService(serviceId);
   }
 
   // @Get("typeService/:typeServiceId")
@@ -54,44 +47,33 @@ export class TreatmentController {
   // }
 
   @Get("pet/:petId")
-  @ApiOperation({summary: "Devuelve los tratamientos relacionados con la mascota",
-                description: "Esta ruta devulve un array con los tratamiento relacionados con la mascota pasada por ID"})
-  @HttpCode(200)
+  @ApiOperation({summary: "Devuelve los tratamientos relacionados con la mascota"})
   async getTreatmentsByPet(
-    @Param('petId') petId: string,
-    @Query('page') page: number,
-    @Query('limit') limit: number,
+    @Param('petId') petId: string
   ): Promise<Treatment[]> {
-    return await this.treatmentService.getTreatmentsByPet(petId, page, limit);
+    return await this.treatmentService.getTreatmentsByPet(petId);
   }
 
   @Get(":id")
-  @ApiOperation({summary: "Devuelve un tratamiento por ID",
-                description: "Esta ruta devuleve un objeto conlos datos del tratamiento pasado por ID"})
-  @HttpCode(200)
+  @ApiOperation({summary: "Devuelve un tratamiento por ID"})
   async getTreatmentById (@Param("id") id:string): Promise<Treatment>  {
     return await this.treatmentService.getTreatmentById(id);
   }
 
   @Post()
   @ApiOperation({summary: "Crea un nuevo tratamiento"})
-  @HttpCode(201)
   async createTreatment (@Body() treatment: CreateTreatmentDto): Promise<Treatment> {
     return await this.treatmentService.createTreatment(treatment)
   }
 
   @Put("id")
-  @ApiOperation({summary: "Actualiza los datos de un tratamiento",
-    description: "Esta ruta actualiza un tratamiento pasado por ID con los datos pasados por el body"})
-  @HttpCode(201)
+  @ApiOperation({summary: "Actualiza los datos de un tratamiento"})
   async updateTreatment (@Param("id") id: string , @Body() treatment: UpdateTreatmentDto): Promise<string> {
     return await this.treatmentService.updateTreatment(id, treatment)
   } 
 
   @Delete("id")
-  @ApiOperation({summary: "Elimina un tratamiento",
-    description: "Esta ruta elimina un tratamiento pasado por ID"})
-  @HttpCode(201)
+  @ApiOperation({summary: "Elimina un tratamiento"})
   async removeTreatment (@Param("id") id: string): Promise<string> {
     return await this.treatmentService.removeTreatment(id)
   } 
