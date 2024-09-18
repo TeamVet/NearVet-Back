@@ -10,8 +10,8 @@ export class MethodPayRepository {
     private readonly methodPayRepository: Repository<MethodPay>,
   ) {}
 
-  async getAllMethodPaysRepository(page: number, limit: number) {
-    return await this.methodPayRepository.find({skip: (page-1)*limit, take:limit });
+  async getAllMethodPaysRepository() {
+    return await this.methodPayRepository.find();
   }
 
   async getMethodPayByIdRepository(id: string) {

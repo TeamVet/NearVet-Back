@@ -12,28 +12,24 @@ export class ClinicalExaminationController {
 
   @Get()
   @ApiOperation({ summary: 'Obtener todos los exámenes clínicos con paginación' })
-  async getExaminations (@Query('page') page: number, @Query('limit') limit: number): Promise<ClinicalExamination[]> {
-    return await this.clinicalExaminationService.getExaminations(+page, +limit);
+  async getExaminations (): Promise<ClinicalExamination[]> {
+    return await this.clinicalExaminationService.getExaminations();
   }
 
   @Get('pet/:petId')
   @ApiOperation({ summary: 'Exámenes clínicos por mascota' })
   async getExaminationByPetId (
     @Param('petId', ParseUUIDPipe) petId: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 5
   ): Promise<ClinicalExamination[]> {
-    return await this.clinicalExaminationService.getExaminationByPetId(petId, page, limit);
+    return await this.clinicalExaminationService.getExaminationByPetId(petId);
   }
 
   @Get('veterinarian/:veterinarianId')
   @ApiOperation({ summary: 'Exámenes clínicos por veterinario' })
   async getExaminationByVeterinarianId (
     @Param('veterinarianId', ParseUUIDPipe) veterinarianId: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 5
   ): Promise<ClinicalExamination[]> {
-    return await this.clinicalExaminationService.getExaminationByVeterinarianId(veterinarianId, page, limit);
+    return await this.clinicalExaminationService.getExaminationByVeterinarianId(veterinarianId);
   }
 
   @Get(':id')

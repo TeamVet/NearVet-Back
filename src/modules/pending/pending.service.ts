@@ -8,32 +8,28 @@ import { UpdatePendingDto } from './dto/update-pending.dto';
 export class PendingService {
   constructor(private readonly pendingRepository: PendingRepository) {}
 
-  async getAllPendings(page:number, limit:number) {
-    return await this.pendingRepository.getAllPendingsRepository( page, limit);
+  async getAllPendings() {
+    return await this.pendingRepository.getAllPendingsRepository();
   }
 
   async getPendingById(id: string) {
     return await this.pendingRepository.getPendingByIdRepository(id);
   }
 
-  async getAllUsersPending(userId: string, page: number, limit: number): Promise<Pending[]> {
-    return await this.pendingRepository.getAllUsersPendingRepository(userId, page, limit);
+  async getAllUsersPending(userId: string): Promise<Pending[]> {
+    return await this.pendingRepository.getAllUsersPendingRepository(userId);
   }
 
-  async getPendingByPet(petId: string, page: number, limit: number) {
-    return await this.pendingRepository.getPendingByPetRepository(petId, page, limit);
+  async getPendingByPet(petId: string) {
+    return await this.pendingRepository.getPendingByPetRepository(petId);
   }
 
-  async getPendingByService(serviceId: string, page: number, limit: number) {
-    return await this.pendingRepository.getPendingByServiceRepository(serviceId, page, limit);
+  async getActivePending() {
+    return await this.pendingRepository.getActivePendingRepository();
   }
 
-  async getActivePending(page: number, limit: number) {
-    return await this.pendingRepository.getActivePendingRepository(page, limit);
-  }
-
-  async getPendingByVeterinarian(veterinarianId: string, page: number, limit: number) {
-    return await this.pendingRepository.getPendingByVeterinarianRepository(veterinarianId, page, limit);
+  async getPendingByVeterinarian(veterinarianId: string) {
+    return await this.pendingRepository.getPendingByVeterinarianRepository(veterinarianId);
   }
 
   async createPending(createPendingDto: CreatePendingDto): Promise<Pending> {

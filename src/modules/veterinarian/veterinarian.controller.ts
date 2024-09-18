@@ -14,7 +14,7 @@ import { VeterinarianService } from './veterinarian.service';
 import { CreateVeterinarianDto } from './dto/create-veterinarian.dto';
 import { UpdateVeterinarianDto } from './dto/update-veterinarian.dto';
 import { Veterinarian } from './entities/veterinarian.entity';
-import { ApiBody, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("Veterinarian")
 @Controller('veterinarian')
@@ -23,62 +23,38 @@ export class VeterinarianController {
 
   @Get()
   @ApiOperation({
-    summary: 'Retorna todos los datos de todos los veterinarios',
-    description: `Este endpoint devuelve un array con cada uno de los veterinarios que tiene la veterinaria.
-                  En Caso de no haber ningun veterinario retorna un error informandolo`})
-  @HttpCode(200)
+    summary: 'Retorna todos los datos de todos los veterinarios'})
   async getVeteriarian(): Promise<Veterinarian[]> {
     return await this.veterinarianService.getVeteriarian();
   }
 
   @Get('licence/:lic')
-  @ApiOperation({
-    summary: 'Retorna todos los datos del veterinario requerido por Licencia',
-    description: `Este endpoint devuelve un objeto con todos los datos del Veterinario 
-                  que este relacionado al numero de licencia pasado por parametro`})
-  @HttpCode(200)
+  @ApiOperation({summary: 'Retorna todos los datos del veterinario requerido por Licencia'})
   async getVeterinarianByLicence(@Param('lic', ParseIntPipe) lic: number): Promise<Veterinarian> {
     return await this.veterinarianService.getVeterinarianByLicence(+lic);
   }
 
   @Get(':id')
-  @ApiOperation({
-    summary: 'Retorna todos los datos del veterinario requerido por ID',
-    description: `Este endpoint devuelve un objeto con todos los datos del Veterinario 
-                  que este relacionado al ID pasado por parametro`})
-  @HttpCode(200)
-  @ApiNotFoundResponse({description: "El Veterinario buscado no existe"})
+  @ApiOperation({summary: 'Retorna todos los datos del veterinario requerido por ID'})
   async getVeterinarianById(@Param('id', ParseUUIDPipe) id: string): Promise<Veterinarian> {
     return await this.veterinarianService.getVeterinarianById(id);
   }
   
   @Post()
-  @ApiOperation({
-    summary: 'Registra datos especificos de un Veterinario',
-    description: `Cuando se crea un usuario con rol de veterinario aqui se incluyen los datos adicionales 
-                  que son particulares de un veterinario`})
+  @ApiOperation({summary: 'Registra datos especificos de un Veterinario'})
   @ApiBody({ description: 'Ingesar los datos particulares del veterinario', type: CreateVeterinarianDto })
-  @HttpCode(201)
   create(@Body() createVeterinarian: CreateVeterinarianDto):Promise<Veterinarian> {
     return this.veterinarianService.create(createVeterinarian);
   }
 
   @Put(':id')
-  @ApiOperation({
-    summary: 'Actualiza Datos de un Veterinario especifico',
-    description: `Este endpoint toma los datos pasados por body y los usa para actualizar 
-                  la informacion de un Veterinario especifico pasado por el parametro ID `})
-  @HttpCode(200)
+  @ApiOperation({summary: 'Actualiza Datos de un Veterinario especifico'})
   update(@Param('id', ParseUUIDPipe) id: string, @Body() updateVeterinarian: UpdateVeterinarianDto,): Promise<string> {
     return this.veterinarianService.update(id, updateVeterinarian);
   }
 
   @Delete(':id')
-  @ApiOperation({
-    summary: 'Elimina un veterinario pasado por ID',
-    description: `Este endpoint elimina al veterinario pasado por el parametro ID, si tiene relaciones 
-                  activas en la empresa solo le dara de baja`})
-  @HttpCode(200)
+  @ApiOperation({summary: 'Elimina un veterinario pasado por ID'})
   remove(@Param('id') id: string) {
     return this.veterinarianService.remove(id);
   }

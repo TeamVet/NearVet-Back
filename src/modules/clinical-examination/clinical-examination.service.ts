@@ -15,8 +15,8 @@ export class ClinicalExaminationService {
     private readonly saleService: SalesService,
   ) {}
 
-  async getExaminations (page:number, limit:number): Promise<ClinicalExamination[]> {
-    return await this.examinationRepository.getExaminations(page,limit)
+  async getExaminations (): Promise<ClinicalExamination[]> {
+    return await this.examinationRepository.getExaminations()
   }
 
   async getExaminationById (id:string): Promise<ClinicalExamination> {
@@ -25,12 +25,12 @@ export class ClinicalExaminationService {
     return examination
   }
 
-  async getExaminationByPetId (petId:string, page:number, limit:number): Promise<ClinicalExamination[]> {
-      return await this.examinationRepository.getExaminationByPetId(petId, page,limit)
+  async getExaminationByPetId (petId:string): Promise<ClinicalExamination[]> {
+      return await this.examinationRepository.getExaminationByPetId(petId)
   }
 
-  async getExaminationByVeterinarianId (veterinarianId:string, page:number, limit:number): Promise<ClinicalExamination[]> {
-    return await this.examinationRepository.getExaminationByPetId(veterinarianId, page,limit)
+  async getExaminationByVeterinarianId (veterinarianId:string): Promise<ClinicalExamination[]> {
+    return await this.examinationRepository.getExaminationByPetId(veterinarianId)
   }
 
   async createExamination (examination:Partial<ClinicalExamination>): Promise<ClinicalExamination> {
