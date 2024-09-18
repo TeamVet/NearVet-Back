@@ -323,7 +323,7 @@ export const notificationRegisterPetEmail = (pet: Pet, vet:Vet) => {
 export const notificationCouponUserEmail = (coupon: Coupon, vet:Vet) => {
   return `  ${header(vet.imgLogo)}
   <div class="content">
-      <h1>¡Hola ${coupon.user.name}! - TENES UN DESCUENTO DEL ${coupon.porcentageValue}%</h1>
+      <h1>¡Hola ${coupon.user.name}! - TENES UN DESCUENTO DEL ${coupon.valorPorc}%</h1>
       
       <h2>Usalo para los turnos</h2>
       <h3>Tu clave es: ${coupon.code}</h3>

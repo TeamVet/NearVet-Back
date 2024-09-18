@@ -26,8 +26,7 @@ export class VetsService {
   }
 
   async createVeterinaryService(createVetDto: CreateVetDto) {
-    const newVet = await this.vetsRepository.createVeterinaryRepository(createVetDto);
-    return newVet
+    return await this.vetsRepository.createVeterinaryRepository(createVetDto);
   }
 
   async updateVeterinaryService(id: string, updateVetDto: UpdateVetDto) {
