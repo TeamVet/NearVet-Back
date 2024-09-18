@@ -8,9 +8,8 @@ export class CategoryServicesService {
   constructor (private readonly categoryServiceRepository: CategoryServiceRepository) {}
  
   
-  async getCategoryServices(): Promise<CategoryService[]> {
-    const catServs: CategoryService[] = await this.categoryServiceRepository.getCategoryServices();
-    return catServs;
+  async getCategoryServices(page: number, limit: number): Promise<CategoryService[]> {
+    return await this.categoryServiceRepository.getCategoryServices(page, limit);
   }
 
   async getCategoryServiceById(id: string): Promise<CategoryService> {

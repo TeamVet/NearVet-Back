@@ -1,3 +1,4 @@
+import { Appointment } from 'src/modules/appointment/entities/appointment.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -8,33 +9,27 @@ export class Coupon {
 
   @Column({
     type: 'varchar',
-    length: 50,
+    length: 255,
   })
   code: string;
 
-  @Column({
-    type: 'decimal',
-    precision: 5,
-    scale: 2,
-  })
-  porcentageValue: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  valorPesos: number;
 
-  @Column({
-    type: 'date',
-  })
-  expirationDate: Date;
+  @Column({ type: 'decimal', precision: 5, scale: 2 })
+  valorPorc: number;
 
-  @Column({
-    type: 'boolean',
-    default: true,
-  })
-  isActive: boolean;
+  @Column({ default: false })
+  used: boolean;
+
+  @ManyToOne(() => Appointment, (appointment) => appointment.coupons)
+  appointment: Appointment;
 
   // relacion muchos-a-uno con User
-@ManyToOne(() => User, (user) => user.coupons)
-@JoinColumn({name:"userId"})
-user: User;
-@Column("uuid")
-userId:string
+  @ManyToOne(() => User, (user) => user.coupons)
+  @JoinColumn({name:"userId"})
+  user: User;
+  @Column("uuid")
+  userId:string
 
 }

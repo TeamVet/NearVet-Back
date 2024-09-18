@@ -1,7 +1,8 @@
 import { Pet } from 'src/modules/pets/entities/pet.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { StatesAppointment } from './statesAppointment.entity';
 import { Service } from 'src/modules/services/entities/service.entity';
+import { Coupon } from 'src/modules/coupons/entities/coupon.entity';
 //import { Service } from 'src/modules/services/entities/service.entity';
 
 @Entity({
@@ -43,4 +44,8 @@ export class Appointment {
   service: Service;
   @Column({type:"uuid", nullable:true})
   serviceId:string
+
+  // RELACION UNO-A-MUCHOS con coupons
+  @OneToMany(() => Coupon, (coupon) => coupon.appointment)
+  coupons: Coupon[];
 }

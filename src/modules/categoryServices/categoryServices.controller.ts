@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, HttpCode, ParseUUIDPipe, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, HttpCode, ParseUUIDPipe, Put, Query } from '@nestjs/common';
 import { CategoryServicesService } from './categoryServices.service';
 import { CreateCategoryServiceDto } from './dto/createCategoryService.dto';
 import { UpdateCategoryServiceDto } from './dto/updateCategoryService.dto';
@@ -13,8 +13,11 @@ export class CategoryServicesController {
   @Get()
   @ApiOperation({summary: 'Retorna todos los datos de todas las categorias de servicios'})
   @HttpCode(200)
-  async getCategoryServices(): Promise<CategoryService[]> {
-    return await this.categoryServicesService.getCategoryServices();
+  async getCategoryServices(
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ): Promise<CategoryService[]> {
+    return await this.categoryServicesService.getCategoryServices(page, limit);
   }
 
   @Get('category/:cat')
