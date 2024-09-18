@@ -5,8 +5,10 @@ import { Module } from '@nestjs/common';
 //import { MercadopagoService } from './mercado-pago/mercado-pago.service';
 import { PaymentsController } from './payments.controller';
 import { StripeService } from './stripe/stripe.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
+  imports: [HttpModule],
   controllers: [PaymentsController],
   providers: [StripeService],
 })
