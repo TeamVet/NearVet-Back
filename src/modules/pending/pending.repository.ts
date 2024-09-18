@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LessThanOrEqual, Repository } from 'typeorm';
+import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { Pending } from './entities/pending.entity';
 
 @Injectable()
@@ -17,43 +17,57 @@ export class PendingRepository {
     return await this.pendingRepository.findOne({where:{ id }, relations: {service:true}});
   }
 
-  async getAllUsersPendingRepository(userId: string): Promise<Pending[]> {
+  async getAllUsersPendingRepository(
+    userId: string,
+    page: number,
+    limit: number,
+  ): Promise<Pending[]> {
     const today = new Date();
     return await this.pendingRepository.find({
-      where: {pet: { userId }, endPending: LessThanOrEqual(today)},
-      relations: {service:true, pet:true}, 
+      where: { pet: { userId }, endPending: LessThanOrEqual(today) },
+      relations: { service: true, pet: true },
+      skip: (page - 1) * limit,
+      take: limit,
     });
   }
 
-  async getPendingByPetRepository(petId: string) {
+  async getPendingByPetRepository(petId: string, page: number, limit: number) {
     const today = new Date();
     return await this.pendingRepository.find({
-      where: { pet: { id: petId }, endPending: LessThanOrEqual(today)},
-      relations: {service:true}, 
+      where: { pet: { id: petId }, endPending: LessThanOrEqual(today) },
+      relations: { service: true },
+      skip: (page - 1) * limit,
+      take: limit,
     });
   }
 
-  async getPendingByServiceRepository(serviceId: string) {
-    const today = new Date(); 
+  async getPendingByServiceRepository(serviceId: string, page: number, limit: number) {
+    const today = new Date();
     return await this.pendingRepository.find({
-      where: { service: { id: serviceId }, endPending: LessThanOrEqual(today)},
-      relations: {service:true, pet:true}, 
+      where: { service: { id: serviceId }, endPending: LessThanOrEqual(today) },
+      relations: { service: true, pet: true },
+      skip: (page - 1) * limit,
+      take: limit,
     });
   }
 
-  async getActivePendingRepository() {
+  async getActivePendingRepository(page: number, limit: number) {
     const today = new Date();
-    return await this.pendingRepository.find({
-      where: { endPending: LessThanOrEqual(today) },  
-      relations: {service:true, pet: {user:true}},  
+    return await this.pendingRepository.findAndCount({
+      where: { endPending: MoreThanOrEqual(today) },
+      relations: { service: true, pet: { user: true } },
+      skip: (page - 1) * limit,
+      take: limit,
     });
   }
 
-  async getPendingByVeterinarianRepository(veterinarianId: string) {
+  async getPendingByVeterinarianRepository(veterinarianId: string, page: number, limit: number) {
     const today = new Date();
-    return await this.pendingRepository.find({
-      where: { service: {veterinarian: {userId: veterinarianId}}, endPending: LessThanOrEqual(today) },  
-      relations: {service: {veterinarian:true}, pet: true},  
+    return await this.pendingRepository.findAndCount({
+      where: { service: { veterinarian: { userId: veterinarianId } }, endPending: LessThanOrEqual(today) },  
+      relations: { service: { veterinarian: true }, pet: true },  
+      skip: (page - 1) * limit,
+      take: limit,
     });
   }
 
