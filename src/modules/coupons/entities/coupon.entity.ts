@@ -13,17 +13,17 @@ export class Coupon {
   })
   code: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  valorPesos: number;
-
   @Column({ type: 'decimal', precision: 5, scale: 2 })
   valorPorc: number;
 
-  @Column({ default: false })
+  @Column({ default: false})
   used: boolean;
 
   @ManyToOne(() => Appointment, (appointment) => appointment.coupons)
+  @JoinColumn({name:"appointmentId"})
   appointment: Appointment;
+  @Column({type: "uuid", nullable: true})
+  appointmentId:string
 
   // relacion muchos-a-uno con User
   @ManyToOne(() => User, (user) => user.coupons)
