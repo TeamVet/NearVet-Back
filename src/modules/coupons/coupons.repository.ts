@@ -18,6 +18,10 @@ export class CouponsRepository {
     return await this.couponRepository.findOneBy({ id });
   }
 
+  async getCouponByCodeRepository(code: string) {
+    return await this.couponRepository.findOneBy({ code });
+  }
+
   async createCouponRepository(createCoupon: Partial<Coupon>) {
     const coupon: Coupon = await this.couponRepository.create(createCoupon);
     return await this.couponRepository.save(coupon);
