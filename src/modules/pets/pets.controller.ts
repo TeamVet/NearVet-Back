@@ -24,6 +24,7 @@ import { Sex } from './entities/sex.entity';
 import { Race } from '../races/entitites/race.entity';
 import { Pet } from './entities/pet.entity';
 import { Specie } from '../species/entities/specie.entity';
+import { RepCondition } from './entities/repCondition.entity';
 
 @ApiTags('Pets')
 @Controller('pets')
@@ -46,6 +47,12 @@ export class PetsController {
   @ApiOperation({ summary: 'Devuelve todas las especies de mascotas' })
   getPetSpecies(): Promise<Specie[]> {
     return this.petsService.getPetSpeciesService();
+  }
+
+  @Get('repCondition')
+  @ApiOperation({ summary: 'Devuelve todas las condiciones Reproductivas' })
+  getPetRepCondition(): Promise<RepCondition[]> {
+    return this.petsService.getPetRepConditionService();
   }
 
   @Get('Races/:Specie')

@@ -3,11 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pet } from './entities/pet.entity';
 import { User } from '../users/entities/user.entity';
-import { CreatePetDto } from './dto/create-pet.dto';
 import { Sex } from './entities/sex.entity';
 import { Race } from '../races/entitites/race.entity';
 import { UsersRepository } from '../users/users.repository';
 import { Specie } from '../species/entities/specie.entity';
+import { RepCondition } from './entities/repCondition.entity';
 
 @Injectable()
 export class PetsRepository {
@@ -16,6 +16,7 @@ export class PetsRepository {
     @InjectRepository(Sex) private readonly sexRepository: Repository<Sex>,
     @InjectRepository(Specie) private readonly specieRepository: Repository<Specie>,
     @InjectRepository(Race) private readonly raceRepository: Repository<Race>,
+    @InjectRepository(RepCondition) private readonly repConditionRepository: Repository<RepCondition>,
     private readonly usersRepository: UsersRepository,
   ) {}
 
@@ -28,6 +29,10 @@ export class PetsRepository {
 
   async getPetSpeciesRepository(): Promise<Specie[]> {
     return await this.specieRepository.find();
+  }
+
+  async getPetRepConditionRepository(): Promise<RepCondition[]> {
+    return await this.repConditionRepository.find();
   }
 
   async getPetRacesRepository(specie: string): Promise<Race[]> {

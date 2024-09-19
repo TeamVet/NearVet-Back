@@ -7,6 +7,7 @@ import { Pet } from './entities/pet.entity';
 import { Specie } from '../species/entities/specie.entity';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { EmailService } from '../email/email.service';
+import { RepCondition } from './entities/repCondition.entity';
 
 @Injectable()
 export class PetsService {
@@ -34,6 +35,10 @@ export class PetsService {
 
   async getPetSpeciesService(): Promise<Specie[]> {
     return await this.petsRepository.getPetSpeciesRepository();
+  }
+
+  async getPetRepConditionService(): Promise<RepCondition[]> {
+    return await this.petsRepository.getPetRepConditionRepository();
   }
 
   async getPetSpeciesandRacesService(): Promise<Specie[]> {
