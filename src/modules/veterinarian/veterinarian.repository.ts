@@ -28,7 +28,8 @@ export class VeterinarianRepository {
       }
     
     async updateVeterinarian(id: string, vet: Partial<Veterinarian>): Promise<UpdateResult> {
-      return await this.veterinarianRepository.update(id, vet)
+      const vetFind: Veterinarian= await this.veterinarianRepository.findOneBy({userId:id});
+      return await this.veterinarianRepository.update(vetFind.id, vet)
     }
 
     async removeVeterinarian(id: string): Promise<DeleteResult> {
