@@ -15,6 +15,12 @@ export class CouponsController {
     return this.couponsService.getAllCouponsService(+page, +limit);
   }
 
+  @Get('code/:code')
+  @ApiOperation({summary: "Obtiene un cupón por su Codigo"})
+  getCouponByCode(@Param('code') code: string) {
+    return this.couponsService.getCouponByCodeService(code);
+  }
+  
   @Get(':id')
   @ApiOperation({summary: "Obtiene un cupón por su ID"})
   getCouponById(@Param('id', ParseUUIDPipe) id: string) {

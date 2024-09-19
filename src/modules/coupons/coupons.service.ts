@@ -15,6 +15,10 @@ export class CouponsService {
     return await this.couponRepository.getAllCouponsRepository(page, limit);
   }
 
+  async getCouponByCodeService(code: string) {
+    return await this.couponRepository.getCouponByCodeRepository(code);
+  }
+
   async getCouponByIdService(id: string) {
     return await this.couponRepository.getCouponByIdRepository(id);
   }
