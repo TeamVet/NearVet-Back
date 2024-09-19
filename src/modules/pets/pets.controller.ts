@@ -13,7 +13,6 @@ import {
   MaxFileSizeValidator,
   FileTypeValidator,
   UseGuards,
-  Query,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
@@ -21,9 +20,6 @@ import { UpdatePetDto } from './dto/update-pet.dto';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '../authGlobal/guards/Auth.guard';
-import { RolesGuard } from '../users/roles/roles.guard';
-import { Roles } from '../users/roles/roles.decorator';
-import { Role } from '../users/roles/roles.enum';
 import { Sex } from './entities/sex.entity';
 import { Race } from '../races/entitites/race.entity';
 import { Pet } from './entities/pet.entity';
@@ -66,8 +62,7 @@ export class PetsController {
 
   @Get('user/:id')
   @ApiBearerAuth()
-  @Roles(Role.AdminVet, Role.User, Role.Veterinarian)
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Obtener todas las mascotas de un usuario' })
   getPetsByUser(@Param('id', ParseUUIDPipe) id: string): Promise<Pet[]> {
     return this.petsService.getPetsByUserService(id);
@@ -75,8 +70,7 @@ export class PetsController {
 
   @Get(':id')
   @ApiBearerAuth()
-  @Roles(Role.AdminVet, Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Obtener una mascota por ID' })
   getPetById(@Param('id', ParseUUIDPipe) id: string) {
     return this.petsService.getPetByIdService(id);
@@ -84,8 +78,7 @@ export class PetsController {
 
   @Post()
   @ApiBearerAuth()
-  @Roles(Role.AdminVet, Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Crear una nueva mascota' })
   createPet(@Body() createPetDto: CreatePetDto) {
     return this.petsService.createPetService(createPetDto);
@@ -93,8 +86,7 @@ export class PetsController {
 
   @Delete(':id')
   @ApiBearerAuth()
-  @Roles(Role.AdminVet, Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Eliminar una mascota' })
   removePet(@Param('id', ParseUUIDPipe) id: string) {
     return this.petsService.removePetService(id);
@@ -102,8 +94,7 @@ export class PetsController {
 
   @Put('imgProfile/:id')
   @ApiBearerAuth()
-  @Roles(Role.AdminVet, Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Subir imagen de perfil de la mascota' })
@@ -143,8 +134,7 @@ export class PetsController {
 
   @Put(':id')
   @ApiBearerAuth()
-  @Roles(Role.AdminVet, Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Actualizar una mascota' })
   @ApiBody({ type: UpdatePetDto, description: 'Datos a actualizar de la mascota' })
   updatePet(

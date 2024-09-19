@@ -30,7 +30,7 @@ export class PendingRepository {
   async getPendingByPetRepository(petId: string) {
     const today = new Date();
     return await this.pendingRepository.find({
-      where: { pet: { id: petId }, endPending: LessThanOrEqual(today) },
+      where: { petId, endPending: MoreThanOrEqual(today) },
       relations: { service: true }
     });
   }
