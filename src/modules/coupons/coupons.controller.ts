@@ -33,6 +33,12 @@ export class CouponsController {
     return this.couponsService.createCouponService(createCouponDto);
   }
 
+  @Put('couponLess/:id')
+  @ApiOperation({summary: "Da de baja un cupon de descuento por ID"})
+  updateCouponLess(@Param('id', ParseUUIDPipe) id: string) {
+    return this.couponsService.updateCouponLess(id);
+  }
+
   @Put(':id')
   @ApiOperation({summary: "Actualiza un cupón existente"})
   updateCoupon(@Param('id', ParseUUIDPipe) id: string, @Body() updateCouponDto: UpdateCouponDto) {

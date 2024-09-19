@@ -31,6 +31,10 @@ export class CouponsService {
     return createCoupon;
   }
 
+  async updateCouponLess(id: string) {
+    return await this.couponRepository.updateCouponLess(id);
+  }
+
   async updateCouponService(id: string, updateCouponDto: UpdateCouponDto) {
     const coupon = await this.couponRepository.updateCouponRepository(id, updateCouponDto);
     if (!coupon) {
