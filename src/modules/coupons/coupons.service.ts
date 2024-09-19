@@ -16,6 +16,8 @@ export class CouponsService {
   }
 
   async getCouponByCodeService(code: string) {
+    const coupon = await this.couponRepository.getCouponByCodeRepository(code)
+    if (!coupon) return {message: "No existe el coupon"}
     return await this.couponRepository.getCouponByCodeRepository(code);
   }
 
