@@ -1,4 +1,3 @@
-import { Appointment } from 'src/modules/appointment/entities/appointment.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
