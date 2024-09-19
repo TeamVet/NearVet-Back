@@ -15,7 +15,7 @@ export class VeterinarianRepository {
     }
 
     async getVeterinarianById(id: string): Promise<Veterinarian> {
-      return await this.veterinarianRepository.findOne({where: {id}, relations: {user:true}})
+      return await this.veterinarianRepository.findOne({where: [{id}, {userId: id}], relations: {user:true}})
     }
     
     async getVeterinarianByLicence(licence: number): Promise<Veterinarian> {

@@ -51,7 +51,7 @@ export class PaymentsController {
     description: 'Solo se ingresa el ID del producto cargado en el dashboard/products de stripe',
     //{"priceId":"price_1PxepLG7LObgRzJ9FJDUYGxW"}
     required: true,
-  })
+})
   async callStripeMicroservice(@Body('priceId') priceId: string) {
     const response = await this.stripeService.callStripeMicroservice(priceId);
     return response;
