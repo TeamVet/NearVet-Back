@@ -44,14 +44,6 @@ export class SalesRepository {
         return await this.saleRepository.update(id, sale);
     }
 
-    async finishedSale (id:string): Promise<UpdateResult> {
-        return await this.saleRepository.update(id, {finished:true});
-    }
-
-    async sendClinicalSale (id:string): Promise<UpdateResult> {
-        return await this.saleRepository.update(id, {sendClinical:true});
-    }
-
     async deleteSale (id:string): Promise<DeleteResult> {
         return await this.saleRepository.delete(id);
     }

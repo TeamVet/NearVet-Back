@@ -1,41 +1,21 @@
-import { ApiPropertyOptional } from "@nestjs/swagger"
-import { IsBoolean, IsDateString, IsNumber, IsOptional, IsUUID } from "class-validator"
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
+import { IsBoolean, IsDateString, IsNotEmpty, IsNumber, IsOptional, IsUUID } from "class-validator"
 
 export class UpdateSaleDto {
 
     @IsNumber()
-    @IsOptional()
-    @ApiPropertyOptional()
-    discount?: number
+    @IsNotEmpty()
+    @ApiProperty()
+    discount: number
 
     @IsNumber()
-    @IsOptional()
-    @ApiPropertyOptional()
-    total?: number
-
-    @IsDateString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    date?: Date
-
-    @IsDateString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    advancedPay?: number
+    @IsNotEmpty()
+    @ApiProperty()
+    total: number
 
     @IsUUID()
-    @IsOptional()
-    @ApiPropertyOptional()
-    userId?: string
-
-    @IsUUID()
-    @IsOptional()
-    @ApiPropertyOptional()
-    methodPayId?: string
-
-    @IsBoolean()
-    @IsOptional()
-    @ApiPropertyOptional()
-    finished?: boolean
+    @IsNotEmpty()
+    @ApiProperty()
+    methodPayId: string
 }
  
