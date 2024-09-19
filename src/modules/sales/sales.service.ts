@@ -36,22 +36,10 @@ export class SalesService {
     return saleCreated; 
   }
 
-  async updateSale (id:string, sale:Partial<Sale>): Promise<string> {
-    const saleUpdate: UpdateResult = await this.saleRepository.updateSale(id, sale);  
+  async updateSale (id:string, sale:Partial<Sale>): Promise<Sale> {
+    const saleUpdate: UpdateResult = await this.saleRepository.updateSale(id, {...sale, finished:true});  
     if (saleUpdate.affected === 0) throw new NotFoundException("No se encontro la venta a actualizar")
-    return id
-  }
-
-  async finishedSale (id:string): Promise<string> {
-    const saleUpdate: UpdateResult = await this.saleRepository.finishedSale(id);  
-    if (saleUpdate.affected === 0) throw new NotFoundException("No se encontro la venta")
-    return id
-  }
-
-  async sendClinicalSale (id:string): Promise<string> {
-    const saleUpdate: UpdateResult = await this.saleRepository.sendClinicalSale(id)   
-    if (saleUpdate.affected === 0) throw new NotFoundException("No se encontro la venta")
-    return id
+    return await this.getSaleById(id);
   }
 
   async deleteSale (id:string): Promise<string> {
