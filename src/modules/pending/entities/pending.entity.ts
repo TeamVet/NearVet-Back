@@ -37,7 +37,7 @@ export class Pending {
   serviceId:string;
 
   /* RELACION MUCHOS-A-UNO CON pets */
-  @ManyToOne(() => Pet, (pet) => pet.pendings)
+  @ManyToOne(() => Pet, (pet) => pet.pendings, { onDelete: "CASCADE"})
   @JoinColumn({name: "petId"})
   pet: Pet;
   @Column({ type:"uuid"})

@@ -16,7 +16,7 @@ export class ClinicalExaminationRepository {
     async getExaminationById (id:string): Promise<ClinicalExamination> {
         return await this.examinationRepository.findOne({
             where: {id},
-            relations: {pet:true, veterinarian:true, treatments:true}})
+            relations: {pet:true, veterinarian:{user:true}, treatments:{ service: true, applicationProducts: {product:true}}}})
     }
 
     async getExaminationByPetId (petId:string): Promise<ClinicalExamination[]> {

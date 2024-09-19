@@ -1,17 +1,12 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { CreateVeterinarianDto } from './dto/create-veterinarian.dto';
-import { UpdateVeterinarianDto } from './dto/update-veterinarian.dto';
 import { VeterinarianRepository } from './veterinarian.repository';
-import preloadVeterinarian from '../../seeds/veterinarian.json';
 import { Veterinarian } from './entities/veterinarian.entity';
-import { User } from '../users/entities/user.entity';
 import { UsersRepository } from '../users/users.repository';
 
 @Injectable()
 export class VeterinarianService {
   constructor(
     private readonly veterinarianRepository: VeterinarianRepository,
-    private readonly userRepository: UsersRepository,
   ) {}
 
   async getVeteriarian(): Promise<Veterinarian[]> {

@@ -55,7 +55,7 @@ export class PetsRepository {
   }
 
   async getPetsByUserRepository(id: string): Promise<Pet[]> {
-    const pets = await this.petsRepository.find({ where: { userId: id }, relations: { sex: true, race: true, specie: true, repCondition: true } });
+    const pets = await this.petsRepository.find({ where: { userId: id , endDate: null}, relations: { sex: true, race: true, specie: true, repCondition: true } });
     return pets;
   }
 
@@ -99,9 +99,12 @@ export class PetsRepository {
   }
 
   async removePetRepository(id: string) {
-    const pet = await this.petsRepository.findOneBy({ id });
+    const pet = await this.petsRepository.findOne({ where: {id}, relations: {clinicalExaminations:true, appointments:true} });
     if (!pet) throw new NotFoundException(`Mascota para eliminar con el ID ${id} no encontrada`);
-    const result = await this.petsRepository.delete(id);
+    let result
+    if (pet.clinicalExaminations.length>0 || pet.appointments.length>0) {
+      result = await this.petsRepository.update(id, {endDate: new Date()})
+    } else {result = await this.petsRepository.delete(id);}
     return result;
   }
 }
