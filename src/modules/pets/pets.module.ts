@@ -15,9 +15,10 @@ import { Vet } from '../vets/entities/vet.entity';
 import { Appointment } from '../appointment/entities/appointment.entity';
 import { Coupon } from '../coupons/entities/coupon.entity';
 import { Pending } from '../pending/entities/pending.entity';
+import { RepCondition } from './entities/repCondition.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Pet, Sex, Specie, Race, Vet, Appointment, Coupon, Pending]), UsersModule],
+  imports: [TypeOrmModule.forFeature([Pet, Sex, Specie, Race, Vet, Appointment, Coupon, Pending, RepCondition]), UsersModule],
   controllers: [PetsController],
   providers: [PetsService, PetsRepository, CloudinaryService, EmailService, EmailProvider],
   exports: [PetsRepository],
