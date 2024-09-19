@@ -41,7 +41,7 @@ export class PetsRepository {
       relations: { races: true },
     });
     return specieDB.races;
-  }
+  } 
 
   async getPetsRepository(): Promise<Pet[]> {
     return await this.petsRepository.find({ 
@@ -50,13 +50,14 @@ export class PetsRepository {
 
   async getPetByIdRepository(id: string) {
     const pet = await this.petsRepository.findOne({
-      where: { id: id },
-      relations: { specie: true, race: true, sex: true },
+      where: { id },
+      relations: { specie: true, race: true, sex: true, repCondition:true },
     });
-    if (!pet || id === undefined) {
+    if (!pet) {
       throw new NotFoundException(`Mascota con el ID ${id} no encontrada`);
     }
-    return pet;
+    const {repCondition, ...petSend} = pet
+    return {...petSend, rep: repCondition.repCondition};
   }
 
   async getPetsByUserRepository(id: string): Promise<Pet[]> {

@@ -22,7 +22,9 @@ export class PetsService {
   }
 
   async getPetByIdService(id: string) {
-    return await this.petsRepository.getPetByIdRepository(id);
+    const pet=await this.petsRepository.getPetByIdRepository(id);
+    const {rep, ...petSend} = pet
+    return {...petSend, repCondition:rep}
   }
 
   async getPetsByUserService(id: string): Promise<Pet[]> {
@@ -40,7 +42,7 @@ export class PetsService {
   async getPetRepConditionService(): Promise<RepCondition[]> {
     return await this.petsRepository.getPetRepConditionRepository();
   }
-
+ 
   async getPetSpeciesandRacesService(): Promise<Specie[]> {
     return await this.petsRepository.getPetSpeciesandRacesRepository();
   }
