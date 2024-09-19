@@ -45,7 +45,4 @@ export class Appointment {
   @Column({type:"uuid", nullable:true})
   serviceId:string
 
-  // RELACION UNO-A-MUCHOS con coupons
-  @OneToMany(() => Coupon, (coupon) => coupon.appointment)
-  coupons: Coupon[];
 }
