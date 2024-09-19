@@ -18,6 +18,7 @@ import preloadExamination from '../../seeds/examination.json';
 import preloadTreatment from '../../seeds/treatment.json';
 import preloadPrescription from '../../seeds/prescription.json';
 import preloadMethodPay from '../../seeds/methodPay.json';
+import preloadCoupons from '../../seeds/coupones.json';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { UserRole } from '../users/entities/userRole.entity';
@@ -43,6 +44,7 @@ import { ClinicalExaminationService } from '../clinical-examination/clinical-exa
 import { PrescriptionService } from '../prescription/prescription.service';
 import { TreatmentService } from '../treatment/treatment.service';
 import { MethodPay } from '../method-pay/entities/method-pay.entity';
+import { Coupon } from '../coupons/entities/coupon.entity';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
@@ -89,6 +91,8 @@ export class SeederService implements OnModuleInit {
     private readonly prescriptionService: PrescriptionService,
     @InjectRepository(MethodPay)
     private readonly methodPayRepository: Repository<MethodPay>, 
+    @InjectRepository(Coupon)
+    private readonly couponRepository: Repository<Coupon>, 
   ) {}
 
   petsPath = path.join(__dirname, '..', '..', '..', 'src', 'seeds', 'pets.json');
@@ -444,6 +448,20 @@ export class SeederService implements OnModuleInit {
     console.log('Methodos de Pago Cargados Con Exito');
   }
 
+  async loadCoupon() {
+    for (const coupon of preloadCoupons) {
+      const couponFind: Coupon = await this.couponRepository.findOneBy({ code: coupon.code});
+      if (!couponFind) {
+          const userFind = await this.userRepository.findOneBy({email: coupon.user})
+          if (userFind) {
+            const {user, ...couponCreate} = coupon
+            await this.couponRepository.save({...couponCreate, userId: userFind.id});
+          }
+        }
+        }
+    console.log('Cupones de descuento Cargados Con Exito');
+  }
+
   async preloadInitial() {
     await this.loadRolesData();
     await this.loadSexData();
@@ -465,6 +483,7 @@ export class SeederService implements OnModuleInit {
     await this.loadTreatment();
     await this.loadPrescription();
     await this.loadMethodPay();
+    await this.loadCoupon();
   }
 
   async onModuleInit() {

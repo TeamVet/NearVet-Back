@@ -22,8 +22,4 @@ export class CreateCouponDto {
   @IsUUID()
   userId: string;
 
-  @ApiPropertyOptional()
-  @IsString()
-  @IsOptional()
-  appointmentId?: string;
 }

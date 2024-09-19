@@ -18,7 +18,7 @@ export class CouponsRepository {
     return await this.couponRepository.findOneBy({ id });
   }
 
-  async getCouponByCodeRepository(code: string) {
+  async getCouponByCodeRepository(code: string): Promise<Coupon> {
     return await this.couponRepository.findOneBy({ code });
   }
 
