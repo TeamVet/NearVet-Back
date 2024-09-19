@@ -48,38 +48,13 @@ export class UpdateUserDto {
   @Length(1, 50)
   email: string;
 
-  // @ApiProperty({
-  //   description:
-  //     'La contraseña debe tener almenos 6 caracteres, una mayuscula, una minuscula y un caracter especial',
-  //   example: 'pruEba123&%',
-  // })
-  // @IsNotEmpty()
-  // @IsString()
-  // @Length(8, 15)
-  // @IsStrongPassword({
-  //   minLowercase: 1,
-  //   minUppercase: 1,
-  //   minNumbers: 1,
-  //   minSymbols: 1,
-  // })
-  // password: string;
-
-  // @ApiProperty({
-  //   description:
-  //     'La confirmacion del password es Obligatoria. Debe coincidir con password.',
-  //   example: 'pruEba123&%',
-  // })
-  // @IsNotEmpty()
-  // @Validate(passwordCompare, ['password'])
-  // passwordConfirm: string;
-
   @ApiPropertyOptional({
     description: 'La fecha de nacimiento es opcional',
     example: new Date('1/2/2024'),
   })
   @IsOptional()
   @IsDateString()
-  birthdate?: Date;
+  birthDate?: Date;
 
   @ApiPropertyOptional({
     description: 'El numero de telefono es opcional, Ingresar solo numeros',

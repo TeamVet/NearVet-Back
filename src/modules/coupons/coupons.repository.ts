@@ -19,12 +19,16 @@ export class CouponsRepository {
   }
 
   async getCouponByCodeRepository(code: string): Promise<Coupon> {
-    return await this.couponRepository.findOneBy({ code });
+    return await this.couponRepository.findOne({ where: {code, used:false} });
   }
 
   async createCouponRepository(createCoupon: Partial<Coupon>) {
     const coupon: Coupon = await this.couponRepository.create(createCoupon);
     return await this.couponRepository.save(coupon);
+  }
+
+  async updateCouponLess(id: string) {
+    return await this.couponRepository.update(id, {used:true});
   }
 
   async updateCouponRepository(id: string, updateCouponDto) {
