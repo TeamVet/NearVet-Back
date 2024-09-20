@@ -13,6 +13,7 @@ import {
   MaxFileSizeValidator,
   FileTypeValidator,
   UseGuards,
+  Post,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/updateUser.dto';
@@ -21,6 +22,7 @@ import { User } from './entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Role } from './roles/roles.enum';
 import { AuthGuard } from '../authGlobal/guards/Auth.guard';
+import { CreateUserWebDto } from './dto/createUserWeb.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -75,6 +77,14 @@ export class UsersController {
     return this.usersService.getUsersByIdService(id);
   }
 
+  @Post("createUserVeterinarian")
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Crea un nuevo medico veterinario' })
+  createUserVeterinarian(@Body() user: CreateUserWebDto) {
+    return this.usersService.createUserVeterinarian(user);
+  }
+
   @Delete(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
@@ -109,8 +119,8 @@ export class UsersController {
       new ParseFilePipe({
         validators: [
           new MaxFileSizeValidator({
-            maxSize: 200000,
-            message: 'El Archivo debe ser menor a 200Kb',
+            maxSize: 10000000,
+            message: 'El Archivo debe ser menor a 10Mb',
           }),
           new FileTypeValidator({
             fileType: /(.jpg|.jpeg|.png|.webp)$/,

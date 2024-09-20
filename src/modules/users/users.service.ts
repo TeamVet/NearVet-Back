@@ -70,6 +70,14 @@ export class UsersService {
     return newUser;
   }
 
+  async createUserVeterinarian(
+    user: Partial<User>,
+  ): Promise<Omit<User, 'password'>> {
+    const roleVet = await this.getRolesUsersByRoleService(Role.Veterinarian)
+    const newUser = await this.usersRepository.createUserRepository({...user, roleId: roleVet.id});
+    return newUser;
+  }
+
   async updateUserService(id: string, updateUserDto: UpdateUserDto) {
     const updatedUser = await this.usersRepository.updateUserRepository(
       id,
