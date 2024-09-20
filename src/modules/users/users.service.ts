@@ -7,8 +7,10 @@ import {
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { UsersRepository } from './users.repository';
 import { User } from './entities/user.entity';
+import * as bcrypt from 'bcrypt';
 import { CloudinaryService } from '../../cloudinary/cloudinary.service';
 import { Role } from './roles/roles.enum';
+import { CreateUserWebDto } from './dto/createUserWeb.dto';
 
 @Injectable()
 export class UsersService {
@@ -71,10 +73,20 @@ export class UsersService {
   }
 
   async createUserVeterinarian(
-    user: Partial<User>,
+    user: CreateUserWebDto,
   ): Promise<Omit<User, 'password'>> {
+    // Si tiene email, Compruebo que el email de usuario no este ya creado, sino devuelve un error   
+    let userDB: User = await this.usersRepository.getUserByEmailRepository(user.email);
+    if (userDB) throw new BadRequestException(`El usuario con el email ${userDB.email} ya existe`);
+
+    // Comprobar que el DNI del usuario no este ya creado, sino devuelve un error
+    userDB = await this.usersRepository.getUserByDniRepository(user.dni);
+    if (userDB) throw new BadRequestException( `El usuario con el DNI ${userDB.dni} ya existe` );
+    
     const roleVet = await this.getRolesUsersByRoleService(Role.Veterinarian)
-    const newUser = await this.usersRepository.createUserRepository({...user, roleId: roleVet.id});
+    const passwordHash = await bcrypt.hash(user.password, 10);
+    const {passwordConfirm, ...createUser} = user
+    const newUser = await this.usersRepository.createUserRepository({...createUser, roleId: roleVet.id, password: passwordHash});
     return newUser;
   }
 
