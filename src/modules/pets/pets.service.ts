@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable} from '@nestjs/common';
 import { PetsRepository } from './pets.repository';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Sex } from './entities/sex.entity';
@@ -7,7 +7,6 @@ import { Pet } from './entities/pet.entity';
 import { Specie } from '../species/entities/specie.entity';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { EmailService } from '../email/email.service';
-import { RepCondition } from './entities/repCondition.entity';
 
 @Injectable()
 export class PetsService {
@@ -22,9 +21,8 @@ export class PetsService {
   }
 
   async getPetByIdService(id: string) {
-    const pet=await this.petsRepository.getPetByIdRepository(id);
-    const {rep, ...petSend} = pet
-    return {...petSend, repCondition:rep}
+    return await this.petsRepository.getPetByIdRepository(id);
+    
   }
 
   async getPetsByUserService(id: string): Promise<Pet[]> {
@@ -37,10 +35,6 @@ export class PetsService {
 
   async getPetSpeciesService(): Promise<Specie[]> {
     return await this.petsRepository.getPetSpeciesRepository();
-  }
-
-  async getPetRepConditionService(): Promise<RepCondition[]> {
-    return await this.petsRepository.getPetRepConditionRepository();
   }
  
   async getPetSpeciesandRacesService(): Promise<Specie[]> {

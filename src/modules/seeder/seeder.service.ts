@@ -32,7 +32,6 @@ import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
 import { Service } from '../services/entities/service.entity';
 import { CategoryService } from '../categoryServices/entities/categoryService.entity';
 import { AvailabilityService } from '../availabilityService/entities/availability-service.entity';
-import { RepCondition } from '../pets/entities/repCondition.entity';
 import { Product } from '../products/entities/product.entity';
 import { Vet } from '../vets/entities/vet.entity';
 import { Pending } from '../pending/entities/pending.entity';
@@ -66,8 +65,6 @@ export class SeederService implements OnModuleInit {
     private readonly veterinarianRepository: Repository<Veterinarian>,
     @InjectRepository(Service)
     private readonly serviceRepository: Repository<Service>,
-    @InjectRepository(RepCondition)
-    private readonly repConditionRepository: Repository<RepCondition>,
     @InjectRepository(CategoryService)
     private readonly categoryServiceRepository: Repository<CategoryService>,
     @InjectRepository(AvailabilityService)
@@ -199,7 +196,6 @@ export class SeederService implements OnModuleInit {
         const sexDB = await this.sexRepository.findOneBy({ sex });
         const specieDB: Specie = await this.specieRepository.findOneBy({ specie });
         const raceDB: Race = await this.raceRepository.findOneBy({ race });
-        const repConditionDB: RepCondition = await this.repConditionRepository.findOneBy({ repCondition });
 
         const date = new Date().toISOString();
         await this.petsRepository.save({
@@ -210,7 +206,6 @@ export class SeederService implements OnModuleInit {
           specieId: specieDB.id,
           raceId: raceDB.id,
           sexId: sexDB.id,
-          repConditionId: repConditionDB.id,
         });
       }
     }
@@ -230,19 +225,6 @@ export class SeederService implements OnModuleInit {
     }
     console.log("Seeder sexos agregados")
     return { message: 'Seeder sexos agregados' };
-  }
-
-  async loadRepConditionData() {
-    for (const item of preloadRepCondition) {
-      let repCondition = await this.repConditionRepository.findOne({
-        where: { repCondition: item.repCondition },
-      });
-      if (!repCondition) {
-          await this.repConditionRepository.save({repCondition: item.repCondition});
-      }
-    }
-    console.log("Seeder condicion reproductiva agregados")
-    return { message: 'Seeder condicion reproductiva agregados' };
   }
 
   async loadSpecieData() {
@@ -466,7 +448,6 @@ export class SeederService implements OnModuleInit {
     await this.loadRolesData();
     await this.loadSexData();
     await this.loadUsersData();
-    await this.loadRepConditionData();
     await this.loadSpecieData()
     await this.loadRaceData()
     await this.loadPetsData();
