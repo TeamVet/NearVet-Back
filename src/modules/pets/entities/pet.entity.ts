@@ -2,7 +2,6 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { Race } from '../../races/entitites/race.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { Sex } from './sex.entity';
-import { RepCondition } from './repCondition.entity';
 import { Appointment } from 'src/modules/appointment/entities/appointment.entity';
 import { Specie } from 'src/modules/species/entities/specie.entity';
 import { ClinicalExamination } from 'src/modules/clinical-examination/entities/clinicalExamination.entity';
@@ -76,13 +75,6 @@ export class Pet {
   sex: Sex;
   @Column({nullable:true})
   sexId: string;
-
-  /* RELACION MUCHOS-A-UNO CON Condicion Reproductiva */
-  @ManyToOne(() => RepCondition, (repCondition) => repCondition.pets)
-  @JoinColumn({name:"repConditionId"})
-  repCondition: RepCondition;
-  @Column({nullable:true})
-  repConditionId: string;
 
   // RELACION UNO-A-MUCHOS con appointments
   @OneToMany(() => Appointment, (appointment) => appointment.pet)
