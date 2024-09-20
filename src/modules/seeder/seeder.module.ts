@@ -9,12 +9,10 @@ import { Sex } from '../pets/entities/sex.entity';
 import { Race } from '../races/entitites/race.entity';
 import { StatesAppointment } from '../appointment/entities/statesAppointment.entity';
 import { Specie } from '../species/entities/specie.entity';
-import { VeterinarianRepository } from '../veterinarian/veterinarian.repository';
 import { Veterinarian } from '../veterinarian/entities/veterinarian.entity';
 import { CategoryService } from '../categoryServices/entities/categoryService.entity';
 import { Service } from '../services/entities/service.entity';
 import { AvailabilityService } from '../availabilityService/entities/availability-service.entity';
-import { RepCondition } from '../pets/entities/repCondition.entity';
 import { Product } from '../products/entities/product.entity';
 import { Vet } from '../vets/entities/vet.entity';
 import { Pending } from '../pending/entities/pending.entity';
@@ -44,7 +42,7 @@ import { Coupon } from '../coupons/entities/coupon.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Pet, UserRole, Sex, Race, Specie, StatesAppointment, Veterinarian,
-                                      CategoryService, Service, AvailabilityService, RepCondition, Product, 
+                                      CategoryService, Service, AvailabilityService, Product, 
                                       Vet, Pending, Appointment, ClinicalExamination, Treatment, Prescription,
                                       Sale, SaleProduct, SaleService, MethodPay, Coupon])],
   controllers: [SeederController],

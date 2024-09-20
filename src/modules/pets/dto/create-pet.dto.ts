@@ -97,9 +97,4 @@ export class CreatePetDto {
   @IsOptional()
   @IsString()
   sexId?: string;
-
-  @ApiHideProperty()
-  @IsOptional()
-  @IsUUID()
-  repConditionId?: string;
 }
